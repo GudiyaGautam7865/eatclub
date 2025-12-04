@@ -1,124 +1,477 @@
-/* Placeholder: Header styles */
-:root{
-	--ec-teal: #00b8b8;
-	--ec-gray: #f2f2f2;
-	--ec-border: #e6e6e6;
-	--ec-text: #111;
+
+
+
+/* General Header Reset and Layout */
+.ec-header {
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+    padding: 0 10%; /* Adjust padding to match the image's layout */
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensure the header is always on top */
 }
 
-*{box-sizing:border-box}
-.ec-header{
-	width:100%;
-	background:#fff;
-	box-shadow: 0 1px 0 rgba(0,0,0,0.06);
-	position:sticky;
-	top:0;
-	z-index:50;
-}
-.ec-header-inner{
-	max-width:1200px;
-	margin:0 auto;
-	display:flex;
-	align-items:center;
-	justify-content:space-between;
-	padding:12px 16px;
-	gap:16px;
-}
-.ec-left{display:flex;align-items:center;gap:12px}
-.ec-logo{
-	display:flex;
-	gap:6px;
-	align-items:baseline;
-	text-decoration:none;
-	color:var(--ec-text);
-	font-weight:700;
-	font-size:18px;
-}
-.ec-logo-mark{background:#000;color:#fff;padding:4px 6px;border-radius:2px;font-size:12px}
-.ec-logo-text{font-size:16px}
-
-.ec-address-pill{
-	display:flex;
-	align-items:center;
-	gap:10px;
-	background:#fff;
-	border:1px solid var(--ec-border);
-	padding:8px 12px;
-	border-radius:24px;
-	cursor:pointer;
-	position:relative;
-}
-.ec-address-pill:hover{box-shadow:0 2px 6px rgba(0,0,0,0.04)}
-.ec-mode{font-weight:700;font-size:12px;color:#444}
-.ec-address-text{font-size:13px;color:#666}
-.ec-caret{font-size:12px;color:#666}
-.ec-address-dropdown{
-	position:absolute;
-	left:0;
-	top:calc(100% + 8px);
-	background:#fff;
-	border:1px solid var(--ec-border);
-	box-shadow:0 6px 18px rgba(0,0,0,0.08);
-	padding:12px;
-	border-radius:8px;
-	min-width:220px;
+.ec-header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px; /* Standard header height */
 }
 
-.ec-nav{display:flex;align-items:center;gap:12px}
-.ec-nav-item{position:relative}
-.ec-nav-item a, .ec-nav-item button{background:transparent;border:0;color:var(--ec-text);padding:8px 10px;border-radius:6px;font-size:14px;text-decoration:none}
-.ec-nav-item a:hover, .ec-nav-item button:hover{background:var(--ec-gray)}
-
-.ec-deals-menu{
-	position:absolute;top:calc(100% + 8px);left:0;background:#fff;border:1px solid var(--ec-border);box-shadow:0 6px 18px rgba(0,0,0,0.08);padding:8px;border-radius:8px;min-width:160px;display:flex;flex-direction:column;gap:6px;
-}
-.ec-deals-item{padding:8px 12px;color:#222;text-decoration:none}
-.ec-deals-item:hover{background:var(--ec-gray)}
-
-.ec-cart-button{display:flex;align-items:center;gap:8px;border-radius:8px;padding:8px 10px;background:transparent;border:0;cursor:pointer}
-.ec-cart-icon{font-size:18px}
-.ec-cart-badge{background:var(--ec-teal);color:#fff;padding:2px 6px;border-radius:12px;font-size:12px;margin-left:4px}
-
-.ec-cart-dropdown{
-	position:absolute;right:0;top:calc(100% + 10px);width:360px;background:#fff;border:1px solid var(--ec-border);box-shadow:0 10px 30px rgba(0,0,0,0.12);border-radius:12px;overflow:hidden;display:flex;flex-direction:column;max-height:480px;
-}
-.ec-cart-membership{display:flex;justify-content:space-between;padding:14px;border-bottom:1px solid var(--ec-border);align-items:center}
-.ec-membership-left{display:flex;gap:12px;align-items:center}
-.ec-membership-logo{background:#000;color:#fff;padding:6px;border-radius:4px;font-weight:700}
-.ec-membership-title{font-weight:700}
-.ec-membership-sub{font-size:12px;color:#666}
-.ec-membership-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
-.ec-membership-old{text-decoration:line-through;color:#999;font-size:13px}
-.ec-membership-price{font-weight:700;color:var(--ec-teal)}
-.ec-change-plan{font-size:12px;color:#0a84ff;text-decoration:underline}
-.ec-remove{background:transparent;border:0;color:var(--ec-teal);font-weight:700}
-
-.ec-cart-items{overflow:auto;padding:10px;display:flex;flex-direction:column;gap:10px}
-.ec-cart-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;background:#fafafa}
-.ec-item-left{max-width:60%}
-.ec-item-brand{font-weight:700;font-size:13px}
-.ec-item-name{font-size:13px;color:#666}
-.ec-item-price{display:flex;flex-direction:column;align-items:flex-end}
-.ec-old{text-decoration:line-through;color:#999;font-size:12px}
-.ec-new{font-weight:700;color:var(--ec-text)}
-.ec-qty{display:flex;align-items:center;gap:8px;margin-top:6px}
-.ec-qty button{width:28px;height:28px;border-radius:6px;border:1px solid var(--ec-border);background:#fff}
-
-.ec-cart-footer{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-top:1px solid var(--ec-border);background:#fff}
-.ec-subtotal{font-weight:700}
-.ec-cta{background:var(--ec-text);color:#fff;padding:10px 14px;border-radius:8px;text-decoration:none}
-
-.ec-get-app-button{border:1px solid var(--ec-teal);color:var(--ec-teal);background:transparent;padding:8px 12px;border-radius:20px}
-
-.ec-profile-button{display:flex;align-items:center;gap:8px;padding:8px;border-radius:8px;background:transparent;border:0}
-.ec-profile-menu{position:absolute;right:0;top:calc(100% + 8px);background:#fff;border:1px solid var(--ec-border);box-shadow:0 6px 18px rgba(0,0,0,0.08);border-radius:8px;min-width:160px;display:flex;flex-direction:column;padding:6px}
-.ec-profile-item{padding:10px;color:#222;text-decoration:none;background:transparent;border:0;text-align:left}
-.ec-profile-item:hover{background:var(--ec-gray)}
-.ec-profile-divider{height:1px;background:var(--ec-border);margin:6px 0}
-
-@media (max-width:900px){
-	.ec-header-inner{padding:10px}
-	.ec-address-text{display:none}
+/* Left Section: Logo and Address */
+.ec-left {
+    display: flex;
+    align-items: center;
+    gap: 25px;
 }
 
+.ec-logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 700;
+}
 
+.ec-logo-mark {
+    color: #333; /* Dark text for 'EAT' */
+    margin-right: 2px;
+}
+
+.ec-logo-text {
+    color: #00d0e3; /* Cyan text for 'CLUB' */
+}
+
+/* Address Pill/Dropdown */
+.ec-address-pill {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+.ec-address-pill:hover {
+    background-color: #eee;
+}
+
+.ec-mode {
+    color: #00d0e3;
+    font-weight: 700;
+    margin-right: 8px;
+    padding-right: 8px;
+    border-right: 1px solid #ccc;
+}
+
+.ec-address-text {
+    color: #333;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 5px;
+    font-weight: 500;
+}
+
+.ec-caret {
+    font-size: 12px;
+    color: #333;
+}
+
+.ec-address-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 10px;
+    background-color: white;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 4px;
+    min-width: 200px;
+}
+
+/* Navigation (Right Section) */
+.ec-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.ec-nav-item {
+    position: relative;
+    font-size: 14px;
+}
+
+.ec-nav-item a {
+    text-decoration: none;
+    color: #333;
+    padding: 5px 0;
+    transition: color 0.2s;
+}
+
+.ec-nav-item a:hover {
+    color: #00d0e3;
+}
+
+/* Deals Dropdown */
+.ec-deals-button {
+    background: none;
+    border: none;
+    color: #333;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+}
+
+.ec-deals-button:hover {
+    color: #00d0e3;
+}
+
+.ec-deals-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    background-color: white;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    border-radius: 4px;
+    min-width: 150px;
+}
+
+.ec-deals-item {
+    display: block;
+    padding: 8px 15px;
+    color: #333;
+    text-decoration: none;
+}
+
+.ec-deals-item:hover {
+    background-color: #f5f5f5;
+    color: #00d0e3;
+}
+
+/* Cart Button */
+.ec-cart-button {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 0;
+    color: #333;
+}
+
+.ec-cart-badge {
+    background-color: #00d0e3;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+/* Get The App Button */
+.ec-get-app-button {
+    background-color: transparent;
+    border: 1px solid #00d0e3;
+    color: #00d0e3;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.ec-get-app-button:hover {
+    background-color: #e0f7fa;
+}
+
+/* Sign Up Button */
+.ec-signup-button {
+    background-color: #00d0e3;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.ec-signup-button:hover {
+    background-color: #00b8c7;
+}
+
+/* Profile Dropdown */
+.ec-profile-button {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px 0;
+    color: #333;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.ec-profile-icon {
+    margin-right: 5px;
+}
+
+.ec-profile-menu {
+    /* Same styling as deals menu */
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    background-color: white;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    border-radius: 4px;
+    min-width: 180px;
+}
+
+.ec-profile-item {
+    display: block;
+    padding: 8px 15px;
+    color: #333;
+    text-decoration: none;
+}
+
+.ec-profile-item:hover {
+    background-color: #f5f5f5;
+    color: #00d0e3;
+}
+
+.ec-profile-divider {
+    height: 1px;
+    background-color: #eee;
+    margin: 5px 0;
+}
+
+/* Signup Modal Styles */
+.ec-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.ec-signup-modal {
+    background: rgb(246, 255, 254);
+    border-radius: 12px;
+    width: 400px;
+    max-width: 90vw;
+    position: relative;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.ec-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ec-modal-close:hover {
+    color: #333;
+}
+
+.ec-modal-content {
+    padding: 40px 32px 32px;
+}
+
+.ec-modal-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin: 0 0 32px 0;
+    text-align: left;
+}
+
+.ec-phone-section {
+    margin-bottom: 24px;
+}
+
+.ec-phone-label {
+    display: block;
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.ec-phone-input {
+    width: 100%;
+    padding: 12px 0;
+    border: none;
+    border-bottom: 2px solid #ddd;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+    background: transparent;
+}
+
+.ec-phone-input:focus {
+    border-bottom-color: #00d0e3;
+}
+
+.ec-continue-btn {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 24px;
+    transition: background-color 0.3s;
+}
+
+.ec-continue-btn:hover:not(:disabled) {
+    background-color: #555;
+}
+
+.ec-continue-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.ec-divider {
+    text-align: center;
+    margin: 24px 0;
+    position: relative;
+}
+
+.ec-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: #eee;
+}
+
+.ec-divider span {
+    background: white;
+    padding: 0 16px;
+    color: #666;
+    font-size: 14px;
+}
+
+.ec-google-btn {
+    width: 100%;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 12px 16px;
+    cursor: pointer;
+    margin-bottom: 24px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.ec-google-btn:hover {
+    border-color: #00d0e3;
+    box-shadow: 0 2px 8px rgba(0, 208, 227, 0.1);
+}
+
+.ec-google-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ec-google-avatar {
+    width: 32px;
+    height: 32px;
+    background: #4285f4;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.ec-google-text {
+    text-align: left;
+    flex: 1;
+}
+
+.ec-google-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 2px;
+}
+
+.ec-google-email {
+    font-size: 12px;
+    color: #666;
+}
+
+.ec-terms {
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.ec-terms a {
+    color: #00d0e3;
+    text-decoration: none;
+}
+
+.ec-terms a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .ec-signup-modal {
+        width: 95vw;
+        margin: 20px;
+    }
+    
+    .ec-modal-content {
+        padding: 32px 24px 24px;
+    }
+}
