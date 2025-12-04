@@ -1,1 +1,105 @@
+/* Styles for Top Offers strip - match screenshot */
+.top-offers-section {
+  padding: 30px 5%;
+  background: transparent;
+}
+
+.top-offers-section h2 {
+  font-size: 22px;
+  margin: 0 0 20px 20px;
+  font-weight: 700;
+  color: #111;
+}
+
+.offers-strip {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  padding: 10px 20px 20px 20px;
+  align-items: flex-start;
+  -webkit-overflow-scrolling: touch;
+}
+
+.offer-card {
+  min-width: 140px;
+  max-width: 140px;
+  background: #fff;
+  border-radius: 18px;
+  padding: 12px;
+  border: 2px solid #e6e6e9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.offer-card-image {
+  width: 100%;
+  height: 110px;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+}
+
+.offer-img {
+  width: 80%;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.offer-card-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: #222;
+  text-align: center;
+}
+
+.offer-card-price {
+  font-size: 14px;
+  color: #00bfbf;
+  font-weight: 700;
+}
+
+/* Special 99 card styling */
+.offer-card.special-99 {
+  background-color: #00d4d4;
+  border: none;
+  color: #fff;
+}
+.offer-card.special-99 .offer-img {
+  width: 60%;
+}
+.offer-card.special-99 .offer-card-text {
+  color: #fff;
+}
+.offer-card.special-99 .offer-card-price {
+  color: #fff;
+}
+
+/* Rounded large pill look on special card */
+.offer-card.special-99 {
+  border-radius: 22px;
+}
+
+/* small screen tweaks */
+@media (max-width: 768px) {
+  .top-offers-section h2 { margin-left: 10px; }
+  .offers-strip { padding-left: 10px; gap: 12px; }
+  .offer-card { min-width: 120px; max-width: 120px; padding: 10px; }
+  .offer-card-image { height: 90px; }
+  .offer-img { width: 70%; }
+}
+
+@media (max-width: 480px) {
+  .offer-card { min-width: 100px; max-width: 100px; }
+  .offer-card-image { height: 72px; }
+  .offer-img { width: 65%; }
+}
 /* Placeholder: OffersPage styles */

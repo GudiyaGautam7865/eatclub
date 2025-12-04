@@ -1,0 +1,239 @@
+/* Offers Section */
+.offers-section {
+  padding: 40px 20px;
+  background: #ffffff;
+}
+
+.offers-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 24px 0;
+}
+
+.offers-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.offers-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 8px 50px;
+  scroll-behavior: smooth;
+}
+
+.offers-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.offers-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Offer Cards */
+.offer-card {
+  min-width: 160px;
+  height: 200px;
+  background: #ffffff;
+  border: 2px solid #e8e8e8;
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.offer-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.offer-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.offer-text-section {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.offer-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.offer-subtitle {
+  font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+.offer-price {
+  font-size: 16px;
+  font-weight: 800;
+  color: #00d4aa;
+  margin: 4px 0 0 0;
+}
+
+.offer-image-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.offer-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.image-placeholder {
+  width: 80px;
+  height: 80px;
+  background: #f5f5f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+/* Special Card Types */
+.offer-card.happy-hours {
+  background: #ffffff;
+}
+
+.offer-card.special-99 {
+  background: #00d4aa;
+  color: white;
+  border-color: #00d4aa;
+}
+
+.offer-card.special-99 .offer-title {
+  color: white;
+  font-size: 24px;
+  font-weight: 900;
+}
+
+.offer-card.protein {
+  background: #ffffff;
+}
+
+.offer-card.protein .offer-title {
+  color: #00d4aa;
+  font-weight: 700;
+}
+
+.offer-card.whats-new {
+  background: #ffffff;
+}
+
+.offer-card.whats-new .offer-title {
+  color: #00d4aa;
+}
+
+.offer-card.bogo {
+  background: #f0f0f0;
+}
+
+/* Footer for Happy Hours */
+.offer-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #00d4aa;
+  padding: 8px;
+  text-align: center;
+  border-bottom-left-radius: 14px;
+  border-bottom-right-radius: 14px;
+}
+
+.footer-text {
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+/* Scroll Buttons */
+.scroll-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #f5f5f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 20px;
+  color: #333;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.scroll-btn:hover {
+  background: #e0e0e0;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.scroll-left {
+  left: 10px;
+}
+
+.scroll-right {
+  right: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .offers-section {
+    padding: 32px 16px;
+  }
+  
+  .offers-scroll {
+    padding: 8px 44px;
+    gap: 12px;
+  }
+  
+  .offer-card {
+    min-width: 140px;
+    height: 180px;
+  }
+  
+  .scroll-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .offers-scroll {
+    padding: 8px 40px;
+  }
+  
+  .offer-card {
+    min-width: 120px;
+    height: 160px;
+  }
+}
+
