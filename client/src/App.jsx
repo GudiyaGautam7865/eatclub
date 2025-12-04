@@ -16,3 +16,6 @@ function App() {
     </UiProvider>
   );
 }
+
+export default App;
+

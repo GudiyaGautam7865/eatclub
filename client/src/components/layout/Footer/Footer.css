@@ -1,1 +1,147 @@
-/* Placeholder: Footer styles */
+:root{
+	--ec-teal: #00b8b8;
+	--ec-dark: #06080b;
+	--ec-muted: #bfc7cc;
+}
+
+.ec-footer{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
+
+/* Download strip */
+.ec-footer-download{
+	background:#fafafa;
+	border-top:1px solid #eee;
+	border-bottom:1px solid #eee;
+}
+.ec-footer-download-content{
+	max-width:1200px;
+	margin:0 auto;
+	display:flex;
+	align-items:center;
+	gap:16px;
+	padding:18px 16px;
+}
+.ec-download-text{flex:1}
+.ec-download-line{font-size:14px;color:#333}
+.ec-download-off{font-size:28px;color:var(--ec-teal);font-weight:800}
+.ec-off-unit{font-size:16px;font-weight:700;margin-left:6px}
+.ec-download-sub{font-size:13px;color:#666}
+
+.ec-footer-download-code{display:flex;align-items:center}
+.ec-code-card{background:#0b0b0b;color:#fff;padding:10px 14px;border-radius:8px;font-weight:700}
+
+.ec-footer-download-qr{margin-left:12px}
+.ec-qr-placeholder{width:72px;height:72px;background:#fff;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;border-radius:6px;color:#666}
+
+/* Main dark footer */
+.ec-footer-main{background:var(--ec-dark);color:#fff;padding:36px 0}
+.ec-container{max-width:1200px;margin:0 auto;padding:0 16px}
+.ec-footer-columns{display:flex;gap:32px;align-items:flex-start}
+.ec-footer-column{flex:1;min-width:160px}
+.ec-footer-heading{color:#fff;margin:0 0 8px 0}
+.ec-footer-link{color:var(--ec-muted);text-decoration:none}
+.ec-footer-link:hover{color:#fff}
+.ec-footer-column p{color:var(--ec-muted);line-height:1.5}
+
+.ec-footer-bottom{margin-top:28px;color:var(--ec-muted);font-size:13px}
+
+@media (max-width:900px){
+	.ec-footer-download-content{flex-direction:column;align-items:flex-start}
+	.ec-footer-columns{flex-direction:column;gap:18px}
+	.ec-qr-placeholder{width:90px;height:90px}
+}
+
+
+
+
+
+
+
+
+.ec-footer{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
+
+/* Download Banner */
+.ec-footer-download {
+	padding: 40px 20px;
+	background: #f8f9fa;
+}
+
+.download-banner-container {
+	max-width: 1200px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.download-banner-container a {
+	display: inline-block;
+	transition: transform 0.3s ease;
+}
+
+.download-banner-container a:hover {
+	transform: scale(1.02);
+}
+
+.download-banner-image {
+	width: 100%;
+	height: auto;
+	border-radius: 12px;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+	transition: box-shadow 0.3s ease;
+}
+
+.download-banner-image:hover {
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+.ec-footer-download-content{
+	max-width:1200px;
+	margin:0 auto;
+	display:flex;
+	align-items:center;
+	gap:16px;
+	padding:18px 16px;
+}
+.ec-download-text{flex:1}
+.ec-download-line{font-size:14px;color:#333}
+.ec-download-off{font-size:28px;color:var(--ec-teal);font-weight:800}
+.ec-off-unit{font-size:16px;font-weight:700;margin-left:6px}
+.ec-download-sub{font-size:13px;color:#666}
+
+.ec-footer-download-code{display:flex;align-items:center}
+.ec-code-card{background:#0b0b0b;color:#fff;padding:10px 14px;border-radius:8px;font-weight:700}
+
+.ec-footer-download-qr{margin-left:12px}
+.ec-qr-placeholder{width:72px;height:72px;background:#fff;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;border-radius:6px;color:#666}
+
+/* Main dark footer */
+.ec-footer-main{background:var(--ec-dark);color:#fff;padding:36px 0}
+.ec-container{max-width:1200px;margin:0 auto;padding:0 16px}
+.ec-footer-columns{display:flex;gap:32px;align-items:flex-start}
+.ec-footer-column{flex:1;min-width:160px}
+.ec-footer-heading{color:#fff;margin:0 0 8px 0}
+.ec-footer-link{color:var(--ec-muted);text-decoration:none}
+.ec-footer-link:hover{color:#fff}
+.ec-footer-column p{color:var(--ec-muted);line-height:1.5}
+
+.ec-footer-bottom{margin-top:28px;color:var(--ec-muted);font-size:13px}
+
+@media (max-width: 768px) {
+	.ec-footer-download {
+		padding: 30px 15px;
+	}
+	
+	.download-banner-image {
+		border-radius: 8px;
+	}
+}
+
+@media (max-width: 480px) {
+	.ec-footer-download {
+		padding: 20px 10px;
+	}
+}
+
+@media (max-width:900px){
+	.ec-footer-download-content{flex-direction:column;align-items:flex-start}
+	.ec-footer-columns{flex-direction:column;gap:18px}
+	.ec-qr-placeholder{width:90px;height:90px}
+}
+

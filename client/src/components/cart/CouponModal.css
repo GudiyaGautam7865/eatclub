@@ -1,0 +1,14 @@
+.cm-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;z-index:1400}
+.cm-modal{width:640px;background:#fff;border-radius:10px;padding:20px;box-shadow:0 6px 24px rgba(0,0,0,0.15)}
+.cm-close{position:absolute;right:18px;top:14px;border:none;background:transparent;font-size:20px}
+.cm-enter{display:flex;gap:12px;margin:8px 0}
+.cm-enter input{flex:1;padding:10px;border:1px solid #e0e0e0;border-radius:6px}
+.cm-apply{background:transparent;border:none;color:#18a085;font-weight:700}
+.cm-list{margin-top:12px}
+.cm-card{display:flex;justify-content:space-between;padding:14px;border:1px solid #f0f0f0;border-radius:6px;margin-bottom:10px;background:#fafafa}
+.cm-left{display:flex;gap:12px}
+.cm-logo{width:56px;height:36px;border:1px dashed #ccc;display:flex;align-items:center;justify-content:center;font-weight:700}
+.cm-title{font-weight:700;margin-bottom:6px}
+.cm-note{color:#888;font-size:13px}
+.cm-save{color:#18a085;font-size:13px;margin-top:6px}
+.cm-apply-btn{background:transparent;border:none;color:#18a085;font-weight:700}
