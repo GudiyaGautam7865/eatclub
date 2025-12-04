@@ -1,0 +1,43 @@
+{
+  "productId": "behrouz",
+  "categories": [
+    { "id": "royal-biryanis", "name": "Royal Biryanis" },
+    { "id": "kebabs", "name": "Kebabs & Starters" },
+    { "id": "curries", "name": "Royal Curries" },
+    { "id": "desserts", "name": "Desserts" },
+    { "id": "beverages", "name": "Beverages" }
+  ],
+  "items": [
+    {
+      "id": "bb1",
+      "name": "Chicken Dum Biryani",
+      "description": "Aromatic basmati rice layered with tender chicken and royal spices.",
+      "price": 349,
+      "membershipPrice": 249,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "royal-biryanis",
+      "isBestseller": true
+    },
+    {
+      "id": "bb2",
+      "name": "Mutton Dum Biryani",
+      "description": "Premium mutton pieces slow-cooked with fragrant basmati rice.",
+      "price": 449,
+      "membershipPrice": 319,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "royal-biryanis"
+    },
+    {
+      "id": "bb3",
+      "name": "Paneer Biryani",
+      "description": "Royal paneer biryani with saffron-infused basmati rice.",
+      "price": 299,
+      "membershipPrice": 209,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "royal-biryanis"
+    }
+  ]
+}

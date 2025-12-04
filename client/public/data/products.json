@@ -1,0 +1,102 @@
+{
+  "products": [
+    {
+      "id": "box8",
+      "name": "Box8",
+      "logo": "/images/logos/box8.png",
+      "description": "Desi meals & combos",
+      "color": "#ff6b35"
+    },
+    {
+      "id": "faasos",
+      "name": "Faasos",
+      "logo": "/images/logos/faasos.png", 
+      "description": "Wraps & rolls",
+      "color": "#e74c3c"
+    },
+    {
+      "id": "behrouz",
+      "name": "Behrouz Biryani",
+      "logo": "/images/logos/behrouz.png",
+      "description": "Royal biryanis",
+      "color": "#8b4513"
+    },
+    {
+      "id": "ovenstory",
+      "name": "Oven Story Pizza",
+      "logo": "/images/logos/ovenstory.png",
+      "description": "Artisan pizzas",
+      "color": "#ff4757"
+    },
+    {
+      "id": "mandarin-oak",
+      "name": "Mandarin Oak",
+      "logo": "/images/logos/mandarin.png",
+      "description": "Asian cuisine",
+      "color": "#2ed573"
+    },
+    {
+      "id": "lunchbox",
+      "name": "LunchBox",
+      "logo": "/images/logos/lunchbox.png",
+      "description": "Homestyle meals",
+      "color": "#ffa502"
+    },
+    {
+      "id": "sweet-truth",
+      "name": "Sweet Truth",
+      "logo": "/images/logos/sweettruth.png",
+      "description": "Desserts & cakes",
+      "color": "#ff6348"
+    },
+    {
+      "id": "firangi-bake",
+      "name": "Firangi Bake",
+      "logo": "/images/logos/firangi.png",
+      "description": "Baked pasta & lasagna",
+      "color": "#ff7675"
+    },
+    {
+      "id": "the-good-bowl",
+      "name": "The Good Bowl",
+      "logo": "/images/logos/goodbowl.png",
+      "description": "Healthy bowls",
+      "color": "#00b894"
+    },
+    {
+      "id": "kettle-curry",
+      "name": "Kettle & Curry",
+      "logo": "/images/logos/kettle.png",
+      "description": "Curries & rice",
+      "color": "#fdcb6e"
+    },
+    {
+      "id": "wow-momo",
+      "name": "Wow! Momo",
+      "logo": "/images/logos/wowmomo.png",
+      "description": "Momos & more",
+      "color": "#e17055"
+    },
+    {
+      "id": "wow-china",
+      "name": "Wow! China",
+      "logo": "/images/logos/wowchina.png",
+      "description": "Chinese cuisine",
+      "color": "#d63031"
+    },
+    {
+      "id": "biryani-blues",
+      "name": "Biryani Blues",
+      "logo": "/images/logos/biryaniblues.png",
+      "description": "Authentic biryanis",
+      "color": "#6c5ce7"
+    },
+    {
+      "id": "fresh-menu",
+      "name": "FreshMenu",
+      "logo": "/images/logos/freshmenu.png",
+      "description": "Fresh gourmet meals",
+      "color": "#00cec9"
+    }
+  ]
+}

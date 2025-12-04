@@ -1,1 +1,260 @@
-/* Placeholder: MenuPage styles */
+/* MenuPage Styles */
+
+.menu-container {
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+.menu-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+}
+
+.menu-mobile-selector {
+  display: none;
+  padding: 12px 16px;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+@media (max-width: 767px) {
+  .menu-wrapper {
+    flex-direction: column;
+  }
+  
+  .menu-mobile-selector {
+    display: block;
+  }
+}
+
+.menu-sidebar {
+  background-color: #fff;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 768px) {
+  .menu-sidebar {
+    width: 280px;
+    height: calc(100vh - 72px);
+    position: sticky;
+    top: 72px;
+  }
+}
+
+.menu-main {
+  flex: 1;
+  min-height: 100vh;
+  background-color: #fff;
+  padding: 24px 16px;
+}
+
+@media (min-width: 768px) {
+  .menu-main {
+    padding: 24px 32px;
+  }
+}
+
+.menu-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 32px;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .menu-filters {
+    justify-content: space-between;
+  }
+}
+
+.filter-group {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.filter-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+  background-color: #fff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.filter-item:hover {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filter-checkbox-box {
+  width: 16px;
+  height: 16px;
+  border: 2px solid;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.filter-checkbox-box.green {
+  border-color: #22c55e;
+}
+
+.filter-checkbox-box.red {
+  border-color: #ef4444;
+}
+
+.filter-checkbox-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.filter-checkbox-indicator.green {
+  background-color: #22c55e;
+}
+
+.filter-checkbox-indicator.red {
+  background-color: #ef4444;
+}
+
+.search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .search-wrapper {
+    width: 256px;
+  }
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 16px 8px 32px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  transition: border-color 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: #999;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #666;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #999;
+  pointer-events: none;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .menu-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.category-section {
+  margin-bottom: 32px;
+}
+
+.category-title {
+  font-size: 18px;
+  font-weight: 600;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #000;
+}
+
+.loading-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .loading-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .loading-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.loading-skeleton {
+  height: 400px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.scroll-to-top-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+  background-color: #1a1a1a;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-to-top-btn:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
+
+.scroll-to-top-btn.visible {
+  display: flex;
+}
