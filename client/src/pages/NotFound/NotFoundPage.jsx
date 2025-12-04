@@ -1,3 +1,5 @@
+import React from "react";
+
 function NotFoundPage() {
   return (
     <div style={{ padding: "2rem" }}>
@@ -8,7 +10,3 @@ function NotFoundPage() {
 }
 
 export default NotFoundPage;
-// Placeholder: NotFoundPage
-export default function NotFoundPage() {
-  return null;
-}

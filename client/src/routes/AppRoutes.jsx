@@ -4,6 +4,7 @@ import MainLayout from "../layouts/MainLayout";
 import ProfileLayout from "../layouts/ProfileLayout";
 
 // Pages
+import React from "react"; // or: import * as React from "react";
 import HomePage from "../pages/Home/HomePage";
 import MembershipPage from "../pages/Membership/MembershipPage";
 import ReferPage from "../pages/Refer/ReferPage";

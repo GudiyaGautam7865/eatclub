@@ -1,3 +1,4 @@
+import React from "react";
 import "./HomePage.css";
 
 function HomePage() {
@@ -11,7 +12,3 @@ function HomePage() {
 }
 
 export default HomePage;
-// Placeholder: Home page
-export default function HomePage() {
-  return null;
-}

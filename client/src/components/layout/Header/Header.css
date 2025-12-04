@@ -1,3 +1,4 @@
+/* Placeholder: Header styles */
 :root{
 	--ec-teal: #00b8b8;
 	--ec-gray: #f2f2f2;
@@ -119,4 +120,5 @@
 	.ec-header-inner{padding:10px}
 	.ec-address-text{display:none}
 }
+
 

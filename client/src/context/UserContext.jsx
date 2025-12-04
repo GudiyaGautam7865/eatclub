@@ -1,4 +1,5 @@
 // UserContext for managing user state
+import React from "react";
 import { createContext, useContext, useState } from "react";
 
 const UserContext = createContext(null);
