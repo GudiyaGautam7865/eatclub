@@ -1,4 +1,19 @@
-// Placeholder: App root component
-export default function App() {
-  return null;
+import React from "react";
+import AppRoutes from "./routes/AppRoutes";
+import { CartProvider } from "./context/CartContext";
+import { UserProvider } from "./context/UserContext";
+import { UiProvider } from "./context/UiContext";
+
+function App() {
+  return (
+    <UiProvider>
+      <UserProvider>
+        <CartProvider>
+          <AppRoutes />
+        </CartProvider>
+      </UserProvider>
+    </UiProvider>
+  );
 }
+
+export default App;
