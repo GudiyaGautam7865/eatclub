@@ -1,0 +1,104 @@
+{
+  "productId": "wow-china",
+  "categories": [
+    { "id": "fried-rice", "name": "Fried Rice" },
+    { "id": "noodles", "name": "Noodles" },
+    { "id": "starters", "name": "Starters" },
+    { "id": "main-course", "name": "Main Course" },
+    { "id": "beverages", "name": "Beverages" }
+  ],
+  "items": [
+    {
+      "id": "wc1",
+      "name": "Chicken Fried Rice",
+      "description": "Wok-tossed rice with chicken, vegetables, and soy sauce.",
+      "price": 229,
+      "membershipPrice": 169,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "fried-rice",
+      "isBestseller": true
+    },
+    {
+      "id": "wc2",
+      "name": "Veg Fried Rice",
+      "description": "Mixed vegetable fried rice with garlic and spring onions.",
+      "price": 199,
+      "membershipPrice": 149,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "fried-rice"
+    },
+    {
+      "id": "wc3",
+      "name": "Schezwan Fried Rice",
+      "description": "Spicy schezwan sauce fried rice with mixed vegetables.",
+      "price": 219,
+      "membershipPrice": 159,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "fried-rice"
+    },
+    {
+      "id": "wc4",
+      "name": "Chicken Hakka Noodles",
+      "description": "Stir-fried noodles with chicken and Chinese vegetables.",
+      "price": 249,
+      "membershipPrice": 189,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "noodles"
+    },
+    {
+      "id": "wc5",
+      "name": "Veg Hakka Noodles",
+      "description": "Classic hakka noodles with fresh vegetables and sauces.",
+      "price": 219,
+      "membershipPrice": 159,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "noodles"
+    },
+    {
+      "id": "wc6",
+      "name": "Schezwan Noodles",
+      "description": "Spicy schezwan noodles with bell peppers and cabbage.",
+      "price": 239,
+      "membershipPrice": 179,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "noodles"
+    },
+    {
+      "id": "wc7",
+      "name": "Chicken Manchurian",
+      "description": "Crispy chicken balls in tangy manchurian sauce.",
+      "price": 269,
+      "membershipPrice": 199,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "starters",
+      "isBestseller": true
+    },
+    {
+      "id": "wc8",
+      "name": "Veg Manchurian",
+      "description": "Mixed vegetable balls in spicy manchurian gravy.",
+      "price": 229,
+      "membershipPrice": 169,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "starters"
+    },
+    {
+      "id": "wc9",
+      "name": "Honey Chilli Potato",
+      "description": "Crispy potato strips tossed in honey chilli sauce.",
+      "price": 199,
+      "membershipPrice": 149,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "starters"
+    }
+  ]
+}

@@ -2,5 +2,21 @@
   "name": "eatclub-client",
   "version": "0.0.1",
   "private": true,
-  "description": "Placeholder package.json for Eatclub React client"
+  "type": "module",
+  "description": "Eatclub React client (placeholder)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "lucide-react": "^0.555.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^7.10.0"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  }
 }
