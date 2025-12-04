@@ -1,4 +1,6 @@
 // Placeholder: PageContainer layout utility
-export default function PageContainer({ children }) {
-  return children || null;
+function PageContainer({ children }) {
+  return <div className="page-container">{children}</div>;
 }
+
+export default PageContainer;

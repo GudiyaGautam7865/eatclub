@@ -1,11 +1,18 @@
-import React from 'react';
+import AppRoutes from "./routes/AppRoutes";
+import { CartProvider } from "./context/CartContext";
+import { UserProvider } from "./context/UserContext";
+import { UiProvider } from "./context/UiContext";
 
-// App root component (placeholder)
-export default function App() {
+function App() {
   return (
-    <div>
-      <h1>Eatclub (placeholder)</h1>
-      <p>Frontend scaffold is running.</p>
-    </div>
+    <UiProvider>
+      <UserProvider>
+        <CartProvider>
+          <AppRoutes />
+        </CartProvider>
+      </UserProvider>
+    </UiProvider>
   );
 }
+
+export default App;
