@@ -6,37 +6,11 @@
 
 .ec-footer{font-family:system-ui,Segoe UI,Roboto,Arial,sans-serif}
 
-/* Download Banner */
-.ec-footer-download {
-	padding: 40px 20px;
-	background: #f8f9fa;
-}
-
-.download-banner-container {
-	max-width: 1200px;
-	margin: 0 auto;
-	text-align: center;
-}
-
-.download-banner-container a {
-	display: inline-block;
-	transition: transform 0.3s ease;
-}
-
-.download-banner-container a:hover {
-	transform: scale(1.02);
-}
-
-.download-banner-image {
-	width: 100%;
-	height: auto;
-	border-radius: 12px;
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-	transition: box-shadow 0.3s ease;
-}
-
-.download-banner-image:hover {
-	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+/* Download strip */
+.ec-footer-download{
+	background:#fafafa;
+	border-top:1px solid #eee;
+	border-bottom:1px solid #eee;
 }
 .ec-footer-download-content{
 	max-width:1200px;
@@ -69,22 +43,6 @@
 .ec-footer-column p{color:var(--ec-muted);line-height:1.5}
 
 .ec-footer-bottom{margin-top:28px;color:var(--ec-muted);font-size:13px}
-
-@media (max-width: 768px) {
-	.ec-footer-download {
-		padding: 30px 15px;
-	}
-	
-	.download-banner-image {
-		border-radius: 8px;
-	}
-}
-
-@media (max-width: 480px) {
-	.ec-footer-download {
-		padding: 20px 10px;
-	}
-}
 
 @media (max-width:900px){
 	.ec-footer-download-content{flex-direction:column;align-items:flex-start}
