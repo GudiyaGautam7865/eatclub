@@ -5,22 +5,16 @@ import "./Footer.css";
 export default function Footer() {
   return (
     <footer className="ec-footer" id="footer">
-      {/* Download strip */}
+      {/* Download Banner */}
       <div className="ec-footer-download">
-        <div className="ec-footer-download-content">
-          <div className="ec-download-text">
-            <div className="ec-download-line">Download the app & get</div>
-            <div className="ec-download-off">200 <span className="ec-off-unit">OFF</span></div>
-            <div className="ec-download-sub">on first 3 app order</div>
-          </div>
-
-          <div className="ec-footer-download-code">
-            <div className="ec-code-card">Use Code: <strong>FIRST3</strong></div>
-          </div>
-
-          <div className="ec-footer-download-qr">
-            <div className="ec-qr-placeholder">QR</div>
-          </div>
+        <div className="download-banner-container">
+          <a href="https://eatclub.in/assets/images/eatclub-download-banner.webp" target="_blank" rel="noopener noreferrer">
+            <img 
+              src="https://eatclub.in/assets/images/eatclub-download-banner.webp" 
+              alt="EatClub Download Banner" 
+              className="download-banner-image"
+            />
+          </a>
         </div>
       </div>
 

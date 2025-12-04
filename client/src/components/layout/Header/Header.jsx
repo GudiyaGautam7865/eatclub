@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
-import { useCartContext } from "../../../../context/CartContext";
 import { useCartContext } from "../../../context/CartContext";
 
 function Header() {
@@ -20,6 +19,8 @@ function Header() {
   const [dealsOpen, setDealsOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
+  const [signupOpen, setSignupOpen] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const [cartItems, setCartItems] = useState([
     {
@@ -44,6 +45,7 @@ function Header() {
   const dealsRef = useRef(null);
   const cartRef = useRef(null);
   const profileRef = useRef(null);
+  const signupRef = useRef(null);
 
   useEffect(() => {
     function onDocClick(e) {
@@ -59,6 +61,9 @@ function Header() {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
         setProfileOpen(false);
       }
+      if (signupOpen && signupRef.current && !signupRef.current.contains(e.target)) {
+        setSignupOpen(false);
+      }
     }
     document.addEventListener("click", onDocClick);
     return () => document.removeEventListener("click", onDocClick);
@@ -70,6 +75,29 @@ function Header() {
     setCartOpen(false);
     setProfileOpen(false);
     setter(true);
+  }
+
+  function openSignup() {
+    setSignupOpen(true);
+    setProfileOpen(false);
+  }
+
+  function closeSignup() {
+    setSignupOpen(false);
+    setPhoneNumber("");
+  }
+
+  function handleContinue() {
+    if (phoneNumber.length >= 10) {
+      console.log('Continue with phone:', phoneNumber);
+      // Add your phone verification logic here
+    }
+  }
+
+  function handleGoogleSignup() {
+    console.log('Sign up with Google');
+    // Add your Google signup logic here
+    closeSignup();
   }
 
   function toggleAddress(e) {
@@ -228,14 +256,11 @@ function Header() {
 
           <div className="ec-nav-item ec-profile" ref={profileRef}>
             <button
-              className="ec-profile-button"
-              onClick={toggleProfile}
+              className="ec-signup-button"
+              onClick={openSignup}
               aria-haspopup="true"
-              aria-expanded={profileOpen}
             >
-              <span className="ec-profile-icon">👤</span>
-              <span className="ec-profile-name">Vivek</span>
-              <span className="ec-caret">▾</span>
+              Sign Up
             </button>
 
             {profileOpen && (
@@ -256,8 +281,62 @@ function Header() {
           </div>
         </nav>
       </div>
+
+      {/* Signup Modal */}
+      {signupOpen && (
+        <div className="ec-modal-overlay" onClick={closeSignup}>
+          <div className="ec-signup-modal" ref={signupRef} onClick={(e) => e.stopPropagation()}>
+            <button className="ec-modal-close" onClick={closeSignup}>
+              ×
+            </button>
+            
+            <div className="ec-modal-content">
+              <h2 className="ec-modal-title">SIGN UP</h2>
+              
+              <div className="ec-phone-section">
+                <label className="ec-phone-label">Phone Number*</label>
+                <input
+                  type="tel"
+                  className="ec-phone-input"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  placeholder="Enter your phone number"
+                  maxLength="10"
+                />
+              </div>
+              
+              <button 
+                className="ec-continue-btn"
+                onClick={handleContinue}
+                disabled={phoneNumber.length < 10}
+              >
+                CONTINUE
+              </button>
+              
+              <div className="ec-divider">
+                <span>or</span>
+              </div>
+              
+              <button className="ec-google-btn" onClick={handleGoogleSignup}>
+                <div className="ec-google-content">
+                  <div className="ec-google-avatar">G</div>
+                  <div className="ec-google-text">
+                    <div className="ec-google-title">Sign up with Google Account</div>
+                    <div className="ec-google-email">Create new account</div>
+                  </div>
+                </div>
+              </button>
+              
+              <div className="ec-terms">
+                By signing up, you agree to the <a href="#">Terms and Conditions</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
 
 export default Header;
+
