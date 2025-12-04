@@ -1,3 +1,4 @@
+import React from "react";
 import AppRoutes from "./routes/AppRoutes";
 import { CartProvider } from "./context/CartContext";
 import { UserProvider } from "./context/UserContext";
