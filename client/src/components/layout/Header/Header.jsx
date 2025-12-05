@@ -3,15 +3,39 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 import { useCartContext } from "../../../context/CartContext";
 import { useUserContext } from "../../../context/UserContext";
+import { useAddressContext } from "../../../context/AddressContext";
+import MembershipModal from "../../cart/MembershipModal.jsx";
 import AddressDropdown from "./AddressDropdown";
 
 function Header() {
   const navigate = useNavigate();
-  const { items } = (() => {
+  const {
+    items,
+    addItem,
+    incQty,
+    decQty,
+    removeItem: removeFromCart,
+    itemsCount,
+    itemsTotal,
+    hasMembership,
+    hideMembership,
+    showMembership,
+  } = (() => {
     try {
       return useCartContext();
     } catch (e) {
-      return { items: [] };
+      return {
+        items: [],
+        addItem: () => {},
+        incQty: () => {},
+        decQty: () => {},
+        removeItem: () => {},
+        itemsCount: 0,
+        itemsTotal: 0,
+        hasMembership: false,
+        hideMembership: () => {},
+        showMembership: () => {},
+      };
     }
   })();
 
@@ -23,10 +47,15 @@ function Header() {
     }
   })();
 
-  const [selectedAddress, setSelectedAddress] = useState(
-    user?.defaultAddress?.label || "Enter Delivery Location"
-  );
-  const savedAddresses = isLoggedIn ? user?.addresses || [] : [];
+  const { selectedAddress } = (() => {
+    try {
+      return useAddressContext();
+    } catch (e) {
+      return { selectedAddress: null };
+    }
+  })();
+
+  const displayAddress = selectedAddress?.label || selectedAddress?.address || "Enter Delivery Location";
 
   const [addressOpen, setAddressOpen] = useState(false);
   const [dealsOpen, setDealsOpen] = useState(false);
@@ -34,36 +63,43 @@ function Header() {
   const [profileOpen, setProfileOpen] = useState(false);
   const [signupOpen, setSignupOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
-
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      brand: "BOX8 - Desi Meals",
-      name: "Dilli Rajma Meal",
-      oldPrice: 259,
-      price: 181,
-      qty: 1,
-    },
-    {
-      id: 2,
-      brand: "Mealful Rolls",
-      name: "Any 2 Rolls",
-      oldPrice: 354,
-      price: 252,
-      qty: 1,
-    },
-  ]);
-
-  const cartCount = cartItems?.length ?? 0;
-
-  const [signedUpUser, setSignedUpUser] = useState(null);
-  const [membershipAdded, setMembershipAdded] = useState(true);
+  const [membershipOpen, setMembershipOpen] = useState(false);
 
   const addressRef = useRef(null);
   const dealsRef = useRef(null);
   const cartRef = useRef(null);
   const profileRef = useRef(null);
   const signupRef = useRef(null);
+
+  // Initialize cart with default items if empty
+  useEffect(() => {
+    if (items.length === 0) {
+      // Add default sample items
+      addItem({
+        id: 1,
+        section: "BOX8 - Desi Meals",
+        title: "Dilli Rajma Meal",
+        oldPrice: 259,
+        price: 181,
+        qty: 1,
+      });
+      addItem({
+        id: 2,
+        section: "Mealful Rolls",
+        title: "Any 2 Rolls",
+        oldPrice: 354,
+        price: 252,
+        qty: 1,
+      });
+    }
+  }, []);
+
+  // Filter items with qty > 0
+  const cartItems = items.filter((it) => it.qty > 0);
+  const cartCount = itemsCount;
+  const subtotal = itemsTotal;
+
+  const [signedUpUser, setSignedUpUser] = useState(null);
 
   // Close dropdowns on click outside
   useEffect(() => {
@@ -182,32 +218,30 @@ function Header() {
     openOnly(() => setProfileOpen((s) => !s));
   }
 
-  function handleAddressSelect(addressText) {
-    setSelectedAddress(addressText || "Enter Delivery Location");
-    setAddressOpen(false);
-  }
-
   function changeQty(id, delta) {
-    setCartItems((cur) =>
-      cur
-        .map((it) => (it.id === id ? { ...it, qty: Math.max(0, it.qty + delta) } : it))
-        .filter((it) => it.qty > 0)
-    );
-  }
-
-  function removeItem(id) {
-    setCartItems((cur) => cur.filter((it) => it.id !== id));
+    if (delta > 0) {
+      incQty(id);
+    } else if (delta < 0) {
+      decQty(id);
+    }
   }
 
   function toggleMembership() {
-    setMembershipAdded((prev) => !prev);
+    if (hasMembership) {
+      hideMembership();
+    } else {
+      showMembership();
+    }
   }
-
-  const subtotal = cartItems.reduce((s, it) => s + it.price * it.qty, 0);
 
   function scrollToFooter() {
     document.getElementById("footer")?.scrollIntoView({ behavior: "smooth" });
   }
+
+  const handleProceedToCart = () => {
+    setCartOpen(false);
+    navigate("/cart");
+  };
 
   return (
     <header className="ec-header">
@@ -228,13 +262,10 @@ function Header() {
             onKeyDown={(e) => e.key === "Enter" && toggleAddress(e)}
           >
             <span className="ec-mode">DELIVERY</span>
-            <span className="ec-address-text">{selectedAddress}</span>
+            <span className="ec-address-text">{displayAddress}</span>
             <span className="ec-caret">▾</span>
             {addressOpen && (
               <AddressDropdown
-                isLoggedIn={isLoggedIn}
-                addresses={savedAddresses}
-                onSelect={handleAddressSelect}
                 onClose={() => setAddressOpen(false)}
               />
             )}
@@ -252,8 +283,9 @@ function Header() {
               onClick={toggleDeals}
               aria-haspopup="true"
               aria-expanded={dealsOpen}
+              aria-label="Deals and offers menu"
             >
-              Deals <span className="ec-caret">▾</span>
+              Deals <span className="ec-caret" aria-hidden="true">▾</span>
             </button>
             {dealsOpen && (
               <div className="ec-deals-menu" role="menu">
@@ -276,32 +308,44 @@ function Header() {
               onClick={toggleCart}
               aria-haspopup="true"
               aria-expanded={cartOpen}
+              aria-label={`Shopping cart with ${cartCount} item${cartCount !== 1 ? 's' : ''}`}
+              title={`Open cart (${cartCount} items)`}
             >
-              <span className="ec-cart-icon">🛒</span>
+              <span className="ec-cart-icon" aria-hidden="true">🛒</span>
               <span className="ec-cart-text">Cart</span>
               {cartCount > 0 && (
-                <span className="ec-cart-badge" aria-label={`${cartCount} items`}>{cartCount}</span>
+                <span className="ec-cart-badge" aria-label={`${cartCount} item${cartCount !== 1 ? 's' : ''}`}>{cartCount}</span>
               )}
             </button>
 
             {cartOpen && (
               <div className="ec-cart-dropdown" role="dialog" aria-label="Cart">
-                {membershipAdded && (
+                {hasMembership ? (
                   <div className="ec-cart-membership">
-                  <div className="ec-membership-left">
-                    <div className="ec-membership-logo">EATCLUB</div>
-                    <div className="ec-membership-info">
-                      <div className="ec-membership-title">EATCLUB 12 Months</div>
-                      <div className="ec-membership-sub">Membership</div>
+                    <div className="ec-membership-left">
+                      <div className="ec-membership-logo">EATCLUB</div>
+                      <div className="ec-membership-info">
+                        <div className="ec-membership-title">EATCLUB 12 Months</div>
+                        <div className="ec-membership-sub">Membership</div>
+                      </div>
+                    </div>
+                    <div className="ec-membership-right">
+                      <div className="ec-membership-old">₹199</div>
+                      <div className="ec-membership-price">₹9</div>
+                      <a className="change-plan" href="#" onClick={(e)=>{e.preventDefault(); setMembershipOpen(true);}}>Change Plan</a>
+                      <button className="ec-remove" onClick={toggleMembership}>REMOVE</button>
                     </div>
                   </div>
-                  <div className="ec-membership-right">
-                    <div className="ec-membership-old">₹199</div>
-                    <div className="ec-membership-price">₹9</div>
-                    <a className="ec-change-plan" href="#" onClick={(e) => e.preventDefault()}>Change Plan</a>
-                    <button className="ec-remove" onClick={toggleMembership}>REMOVE</button>
+                ) : (
+                  <div className="ec-cart-membership add-membership-inline">
+                    <button
+                      className="ec-cta"
+                      style={{ backgroundColor: "#fff", color: "#d60036", border: "1px solid #e0e0e0" }}
+                      onClick={()=>setMembershipOpen(true)}
+                    >
+                      Add membership
+                    </button>
                   </div>
-                </div>
                 )}
 
 
@@ -315,22 +359,30 @@ function Header() {
                     cartItems.map((it) => (
                       <div className="ec-cart-item" key={it.id}>
                         <div className="ec-item-left">
-                          <div className="ec-item-brand">{it.brand}</div>
-                          <div className="ec-item-name">{it.name}</div>
+                          <div className="ec-item-brand">{it.section || it.brand || "Food Item"}</div>
+                          <div className="ec-item-name">{it.title || it.name}</div>
                         </div>
                         <div className="ec-item-right">
                           <div className="ec-item-price">
-                            <span className="ec-old">₹{it.oldPrice}</span>
+                            <span className="ec-old">₹{it.oldPrice || it.price}</span>
                             <span className="ec-new">₹{it.price}</span>
                           </div>
                           <div className="ec-qty">
-                            <button onClick={() => changeQty(it.id, -1)} aria-label="decrease">-</button>
+                            <button 
+                              onClick={() => changeQty(it.id, -1)} 
+                              aria-label={`Decrease ${it.title} quantity`}
+                              title="Decrease quantity"
+                            >-</button>
                             <span>{it.qty}</span>
-                            <button onClick={() => changeQty(it.id, 1)} aria-label="increase">+</button>
+                            <button 
+                              onClick={() => changeQty(it.id, 1)}
+                              aria-label={`Increase ${it.title} quantity`}
+                              title="Increase quantity"
+                            >+</button>
                           </div>
                           <button 
                             className="ec-item-remove"
-                            onClick={() => removeItem(it.id)}
+                            onClick={() => removeFromCart(it.id)}
                             aria-label="remove item"
                             title="Remove item"
                           >
@@ -345,8 +397,14 @@ function Header() {
                 <div className="ec-cart-footer">
                   {cartItems.length > 0 ? (
                     <>
-                      <div className="ec-subtotal">Subtotal <span>₹{subtotal}</span></div>
-                      <Link to="/cart" className="ec-cta">Proceed To Cart</Link>
+                      <div className="ec-subtotal">Subtotal <span>₹{Math.round(subtotal)}</span></div>
+                      <button 
+                        className="ec-cta" 
+                        onClick={handleProceedToCart}
+                        style={{ border: 'none', cursor: 'pointer', width: '100%', padding: '10px', backgroundColor: 'inherit' }}
+                      >
+                        Proceed To Cart
+                      </button>
                     </>
                   ) : (
                     <Link to="/menu" className="ec-cta ec-cta-empty">Start Shopping</Link>
@@ -356,7 +414,12 @@ function Header() {
             )}
           </div>
 
-          <button className="ec-get-app-button" onClick={scrollToFooter}>
+          <button 
+            className="ec-get-app-button" 
+            onClick={scrollToFooter}
+            aria-label="Download EatClub mobile app"
+            title="Scroll to download app section"
+          >
             Get the app
           </button>
 
@@ -406,6 +469,15 @@ function Header() {
           </div>
         </nav>
       </div>
+
+      <MembershipModal
+        isOpen={membershipOpen}
+        onClose={() => setMembershipOpen(false)}
+        onApply={() => {
+          showMembership();
+          setMembershipOpen(false);
+        }}
+      />
 
       {/* Signup Modal */}
       {signupOpen && (
@@ -465,4 +537,3 @@ function Header() {
 }
 
 export default Header;
-

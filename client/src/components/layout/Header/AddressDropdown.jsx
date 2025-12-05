@@ -1,36 +1,30 @@
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import "./AddressDropdown.css";
+import { useAddressContext } from "../../../context/AddressContext";
 
-function AddressDropdown({ isLoggedIn, addresses = [], onSelect, onClose }) {
+function AddressDropdown({ onClose }) {
   const [searchInput, setSearchInput] = useState("");
-  const savedAddresses = useMemo(
-    () => (isLoggedIn ? addresses : []),
-    [addresses, isLoggedIn]
-  );
+  const { addresses, selectAddress, addFromGeolocation, createAddress } = useAddressContext();
 
-  const handleUseCurrentLocation = () => {
-    // Get user's current location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          console.log("Current location:", position.coords);
-          onSelect?.("Using current location");
-          onClose();
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-          alert("Unable to get your location. Please enable location permissions.");
-        }
-      );
-    } else {
-      alert("Geolocation is not supported by your browser.");
+  const handleUseCurrentLocation = async () => {
+    try {
+      const { address } = await addFromGeolocation();
+      const newAddr = createAddress({
+        label: 'Current Location',
+        address,
+        type: 'Other',
+      });
+      selectAddress(newAddr.id);
+      onClose();
+    } catch (error) {
+      console.error("Error getting location:", error);
+      alert("Unable to get your location. Please enable location permissions.");
     }
   };
 
   const handleSelectAddress = (address) => {
     if (!address) return;
-    const label = address.label || address.address || address.type || "Selected address";
-    onSelect?.(label);
+    selectAddress(address.id);
     onClose();
   };
 
@@ -70,22 +64,22 @@ function AddressDropdown({ isLoggedIn, addresses = [], onSelect, onClose }) {
         </button>
       </div>
 
-      {/* Saved Addresses - Only if logged in */}
-      {isLoggedIn && savedAddresses.length > 0 && (
+      {/* Saved Addresses */}
+      {addresses.length > 0 && (
         <>
           <div className="ec-saved-addresses-header">SAVED ADDRESS</div>
           <div className="ec-saved-addresses-list">
-            {savedAddresses.map((addr) => (
+            {addresses.map((addr) => (
               <button
                 key={addr.id}
                 className="ec-saved-address-item"
                 onClick={() => handleSelectAddress(addr)}
               >
                 <span className="ec-address-type-icon">
-                  {addr.type === "Home" ? "🏠" : "💼"}
+                  {addr.type === "Home" ? "🏠" : addr.type === "Work" ? "💼" : "📍"}
                 </span>
                 <div className="ec-address-content">
-                  <div className="ec-address-type">{addr.type}</div>
+                  <div className="ec-address-type">{addr.label}</div>
                   <div className="ec-address-detail">{addr.address}</div>
                 </div>
               </button>
