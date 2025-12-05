@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./OffersPage.css";
+import { offerToProductMapping } from "../../services/restaurantMapping";
 
 const offers = [
   { 
@@ -101,6 +103,7 @@ function OfferCard({ offer, onClick }) {
 }
 
 export default function OffersPage() {
+  const navigate = useNavigate();
   const trackRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -127,7 +130,11 @@ export default function OffersPage() {
   };
 
   const handleOfferClick = (offer) => {
-    console.log('Offer clicked:', offer);
+    const productId = offerToProductMapping[offer.title];
+    if (productId) {
+      navigate(`/menu?restaurant=${productId}`);
+      setTimeout(() => window.scrollTo(0, 0), 100);
+    }
   };
 
   React.useEffect(() => {

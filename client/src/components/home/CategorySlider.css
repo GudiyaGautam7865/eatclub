@@ -104,6 +104,82 @@
   .cs-label { font-size: 13px; }
 }
 
+/* Marquee Styles */
+.category-marquee {
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8fdfd 0%, #e8f8f8 100%);
+  border-radius: 20px;
+  padding: 15px 0;
+  box-shadow: 0 4px 20px rgba(0, 184, 184, 0.1);
+  transition: all 0.3s ease;
+}
+
+.category-marquee:hover {
+  box-shadow: 0 8px 30px rgba(0, 184, 184, 0.15);
+  transform: translateY(-2px);
+}
+
+.category-marquee .cs-track {
+  position: relative;
+  height: 140px;
+  overflow: hidden;
+  padding: 0 20px;
+}
+
+.category-marquee .cs-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateX(0);
+  transition: transform 0.4s ease-in-out;
+}
+
+.category-marquee .cs-item.active {
+  z-index: 10;
+  transform: translateX(0) scale(1.1);
+}
+
+.category-marquee .cs-item.active .cs-img {
+  border-color: #00b8b8;
+  box-shadow: 0 8px 25px rgba(0, 184, 184, 0.4);
+}
+
+.category-marquee .cs-item.active .cs-label {
+  color: #00b8b8;
+  font-weight: 700;
+}
+
+.category-marquee .cs-item {
+  transition: transform 0.3s ease;
+}
+
+.category-marquee .cs-item:hover {
+  transform: scale(1.1);
+}
+
+.category-marquee .cs-img {
+  border: 3px solid transparent;
+  background: linear-gradient(white, white) padding-box, 
+              linear-gradient(45deg, #00b8b8, #00d4d4) border-box;
+  transition: all 0.3s ease;
+}
+
+.category-marquee .cs-img:hover {
+  border-color: #00b8b8;
+  box-shadow: 0 8px 25px rgba(0, 184, 184, 0.3);
+}
+
+.category-marquee .cs-label {
+  font-weight: 600;
+  color: #2c3e50;
+  transition: color 0.3s ease;
+}
+
+.category-marquee .cs-item:hover .cs-label {
+  color: #00b8b8;
+}
+
 @media (max-width: 420px) {
   .cs-track { padding: 8px 28px; gap: 16px; }
   .cs-img { width: 64px; height: 64px; }
