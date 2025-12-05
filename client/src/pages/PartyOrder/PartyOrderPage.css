@@ -1,1 +1,162 @@
-/* Placeholder: PartyOrderPage styles */
+.party-order-page {
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.party-hero {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 3rem;
+  align-items: center;
+  min-height: 500px;
+}
+
+.party-left {
+  background: linear-gradient(135deg, #f8fdfd 0%, #e8f8f8 100%);
+  background-image: url('https://via.placeholder.com/600x400/00b8b8/white?text=Party');
+  background-size: cover;
+  background-position: center;
+  background-blend-mode: overlay;
+  padding: 3rem 2rem;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.party-heading {
+  font-size: 3rem;
+  font-weight: 900;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.party-subheading {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #00b8b8;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.party-form-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+}
+
+.party-form-card h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.party-form-card p {
+  font-size: 0.9rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.4;
+}
+
+.party-form-field {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  transition: border-color 0.3s;
+}
+
+.party-form-field:focus {
+  outline: none;
+  border-color: #00b8b8;
+}
+
+.party-radio-group {
+  margin-bottom: 1.5rem;
+}
+
+.party-radio-group > label {
+  display: block;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.8rem;
+}
+
+.party-radio-group > div {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.party-radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+  cursor: pointer;
+}
+
+.party-radio-group input[type="radio"] {
+  margin: 0;
+}
+
+.party-submit-btn {
+  width: 100%;
+  background: #000;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.party-submit-btn:hover {
+  background: #333;
+}
+
+@media (max-width: 768px) {
+  .party-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .party-heading {
+    font-size: 2.5rem;
+  }
+  
+  .party-subheading {
+    font-size: 1.5rem;
+  }
+  
+  .party-left {
+    padding: 2rem 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .party-order-page {
+    padding: 1rem 0.5rem;
+  }
+  
+  .party-heading {
+    font-size: 2rem;
+  }
+  
+  .party-subheading {
+    font-size: 1.2rem;
+  }
+  
+  .party-form-card {
+    padding: 1.5rem;
+  }
+}

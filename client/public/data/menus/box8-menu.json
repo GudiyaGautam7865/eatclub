@@ -45,6 +45,16 @@
       "categoryId": "together-combos"
     },
     {
+      "id": "tc4",
+      "name": "Any 2 Desi Boxes [FREE Coke & Choco Lava Cake]",
+      "description": "Get Choco Lava Cake & Drink worth Rs. 118 FREE. All other offers applicable on this combo.",
+      "price": 399,
+      "membershipPrice": 279,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/5004",
+      "isVeg": true,
+      "categoryId": "together-combos"
+    },
+    {
       "id": "c1",
       "name": "Ghee Toor Dal Khichdi Thali",
       "description": "Toor dal khichdi with a tadka of ghee, hing, jeera, degi mirch & garam masala + Papad + Pickle + Onions.",
@@ -76,6 +86,16 @@
       "isBestseller": true
     },
     {
+      "id": "c4",
+      "name": "Ghee Toor Dal Khichdi Thali",
+      "description": "Toor dal khichdi with a tadka of ghee, hing, jeera, degi mirch & garam masala + Papad + Pickle + Onions.",
+      "price": 199,
+      "membershipPrice": 139,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/12090",
+      "isVeg": true,
+      "categoryId": "comfort"
+    },
+    {
       "id": "a1",
       "name": "Paneer Butter Masala All-In-1-Meal",
       "description": "Rich paneer butter masala + Rice + Dal + Roti + Salad + Pickle. Complete meal in one box.",
@@ -105,6 +125,1552 @@
       "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
       "isVeg": true,
       "categoryId": "all-in-1"
+    },
+    {
+      "id": "a4",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a5",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a6",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a7",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a8",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a9",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a10",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a11",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a12",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a13",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a14",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a15",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a16",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a17",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a18",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a19",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a20",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+    {
+      "id": "a21",
+      "name": "Dal Makhani All-In-1-Meal",
+      "description": "Creamy dal makhani + Rice + Roti + Raita + Salad + Pickle. Comfort food at its best.",
+      "price": 279,
+      "membershipPrice": 195,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "all-in-1"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },{
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "mini"
+    },
+    
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },{
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-box"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "biryani-thali"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "biryani-thali"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "biryani-thali"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "biryani-thali"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "biryani-thali"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "biryani-thali"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "biryani-thali"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "biryani-thali"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "main-course"
+    },
+
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "paratha-rolls"
+    },
+
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desi-sandwiches"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "beverages"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "beverages"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "beverages"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "beverages"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "beverages"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "beverages"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "beverages"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "beverages"
+    },
+
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+
+    {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
+    },
+    
+     {
+      "id": "a2",
+      "name": "Chicken Curry All-In-1-Meal",
+      "description": "Spicy chicken curry + Rice + Dal + Roti + Salad + Pickle. Everything you need in one meal.",
+      "price": 329,
+      "membershipPrice": 230,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "desserts"
     }
   ]
 }

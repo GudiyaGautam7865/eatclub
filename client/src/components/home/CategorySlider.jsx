@@ -3,13 +3,13 @@ import "./CategorySlider.css";
 
 const categories = [
   { name: "Pizza", img: "/src/assets/images/pizza.png" },
-  { name: "Biryani", img: "/src/assets/images/biryani.png" },
+  { name: "Biryani", img: "/src/assets/images/Biryani.png" },
   { name: "Rolls", img: "/src/assets/images/rolls.png" },
-  { name: "Bowl", img: "/src/assets/images/bowl.png" },
+  { name: "Bowl", img: "/src/assets/images/foodbowl.png" },
   { name: "Thali", img: "/src/assets/images/thali.png" },
-  { name: "ThinCrust", img: "/src/assets/images/pizza-thin.png" },
-  { name: "Chicken Wings", img: "/src/assets/images/chicken-wings.png" },
-  { name: "Sandwich", img: "/src/assets/images/sandwich.png" },
+  { name: "ThinCrust", img: "/src/assets/images/thincrust.png" },
+  { name: "Chicken Wings", img: "/src/assets/images/chickenwings.png" },
+  { name: "Sandwich", img: "/src/assets/images/sandwitch.png" },
   { name: "Garlic Bread", img: "/src/assets/images/garlic-bread.png" },
   { name: "Khichdi", img: "/src/assets/images/khichdi.png" },
 ];
