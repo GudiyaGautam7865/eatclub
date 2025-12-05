@@ -92,13 +92,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 0%;
 }
 
 .offer-image {
   width: 80px;
   height: 80px;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 0%;
 }
 
 .image-placeholder {
