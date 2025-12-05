@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Header.css";
 import { useCartContext } from "../../../context/CartContext";
+import { useUserContext } from "../../../context/UserContext";
+import AddressDropdown from "./AddressDropdown";
 
 function Header() {
   const navigate = useNavigate();
@@ -13,7 +15,18 @@ function Header() {
     }
   })();
 
-  const cartCount = items?.length ?? 2; // fallback to 2 if context empty
+  const { user, isLoggedIn } = (() => {
+    try {
+      return useUserContext();
+    } catch (e) {
+      return { user: null, isLoggedIn: false };
+    }
+  })();
+
+  const [selectedAddress, setSelectedAddress] = useState(
+    user?.defaultAddress?.label || "Enter Delivery Location"
+  );
+  const savedAddresses = isLoggedIn ? user?.addresses || [] : [];
 
   const [addressOpen, setAddressOpen] = useState(false);
   const [dealsOpen, setDealsOpen] = useState(false);
@@ -41,12 +54,18 @@ function Header() {
     },
   ]);
 
+  const cartCount = cartItems?.length ?? 0;
+
+  const [signedUpUser, setSignedUpUser] = useState(null);
+  const [membershipAdded, setMembershipAdded] = useState(true);
+
   const addressRef = useRef(null);
   const dealsRef = useRef(null);
   const cartRef = useRef(null);
   const profileRef = useRef(null);
   const signupRef = useRef(null);
 
+  // Close dropdowns on click outside
   useEffect(() => {
     function onDocClick(e) {
       if (addressRef.current && !addressRef.current.contains(e.target)) {
@@ -61,20 +80,44 @@ function Header() {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
         setProfileOpen(false);
       }
-      if (signupOpen && signupRef.current && !signupRef.current.contains(e.target)) {
-        setSignupOpen(false);
-      }
     }
     document.addEventListener("click", onDocClick);
     return () => document.removeEventListener("click", onDocClick);
   }, []);
 
-  function openOnly(setter) {
+  // Close signup modal on click outside
+  useEffect(() => {
+    function onDocClick(e) {
+      if (signupOpen && signupRef.current && !signupRef.current.contains(e.target)) {
+        const overlay = e.target.classList.contains('ec-modal-overlay');
+        if (overlay) setSignupOpen(false);
+      }
+    }
+    document.addEventListener("click", onDocClick);
+    return () => document.removeEventListener("click", onDocClick);
+  }, [signupOpen]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    function handleEscape(e) {
+      if (e.key === 'Escape') {
+        if (signupOpen) setSignupOpen(false);
+        else if (addressOpen) setAddressOpen(false);
+        else if (dealsOpen) setDealsOpen(false);
+        else if (cartOpen) setCartOpen(false);
+        else if (profileOpen) setProfileOpen(false);
+      }
+    }
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [signupOpen, addressOpen, dealsOpen, cartOpen, profileOpen]);
+
+  function openOnly(toggleFn) {
     setAddressOpen(false);
     setDealsOpen(false);
     setCartOpen(false);
     setProfileOpen(false);
-    setter(true);
+    toggleFn();
   }
 
   function openSignup() {
@@ -90,41 +133,74 @@ function Header() {
   function handleContinue() {
     if (phoneNumber.length >= 10) {
       console.log('Continue with phone:', phoneNumber);
-      // Add your phone verification logic here
+      // Simulate user signup with phone
+      const userName = "User";
+      setSignedUpUser({
+        name: userName,
+        phone: phoneNumber,
+        avatar: userName.charAt(0).toUpperCase()
+      });
+      closeSignup();
     }
+  }
+
+  function formatPhoneNumber(value) {
+    const cleaned = value.replace(/\D/g, '');
+    return cleaned.slice(0, 10);
+  }
+
+  function handlePhoneChange(e) {
+    const formatted = formatPhoneNumber(e.target.value);
+    setPhoneNumber(formatted);
   }
 
   function handleGoogleSignup() {
     console.log('Sign up with Google');
-    // Add your Google signup logic here
+    // Simulate user signup - in real app, this would come from backend
+    setSignedUpUser({
+      name: "Vivek",
+      phone: phoneNumber || "+91-XXXXXXXXXX",
+      avatar: "V"
+    });
     closeSignup();
   }
 
   function toggleAddress(e) {
     e.stopPropagation();
-    openOnly(setAddressOpen.bind(null, (v) => !addressOpen));
-    setAddressOpen((s) => !s);
+    openOnly(() => setAddressOpen((s) => !s));
   }
   function toggleDeals(e) {
     e.stopPropagation();
-    openOnly(setDealsOpen.bind(null, (v) => !dealsOpen));
-    setDealsOpen((s) => !s);
+    openOnly(() => setDealsOpen((s) => !s));
   }
   function toggleCart(e) {
     e.stopPropagation();
-    openOnly(setCartOpen.bind(null, (v) => !cartOpen));
-    setCartOpen((s) => !s);
+    openOnly(() => setCartOpen((s) => !s));
   }
   function toggleProfile(e) {
     e.stopPropagation();
-    openOnly(setProfileOpen.bind(null, (v) => !profileOpen));
-    setProfileOpen((s) => !s);
+    openOnly(() => setProfileOpen((s) => !s));
+  }
+
+  function handleAddressSelect(addressText) {
+    setSelectedAddress(addressText || "Enter Delivery Location");
+    setAddressOpen(false);
   }
 
   function changeQty(id, delta) {
     setCartItems((cur) =>
-      cur.map((it) => (it.id === id ? { ...it, qty: Math.max(1, it.qty + delta) } : it))
+      cur
+        .map((it) => (it.id === id ? { ...it, qty: Math.max(0, it.qty + delta) } : it))
+        .filter((it) => it.qty > 0)
     );
+  }
+
+  function removeItem(id) {
+    setCartItems((cur) => cur.filter((it) => it.id !== id));
+  }
+
+  function toggleMembership() {
+    setMembershipAdded((prev) => !prev);
   }
 
   const subtotal = cartItems.reduce((s, it) => s + it.price * it.qty, 0);
@@ -138,8 +214,7 @@ function Header() {
       <div className="ec-header-inner">
         <div className="ec-left">
           <Link to="/" className="ec-logo">
-            <span className="ec-logo-mark">EAT</span>
-            <span className="ec-logo-text">CLUB</span>
+            <img src="https://d203x0tuwp1vfo.cloudfront.net/20251121092634/assets/images/logo.png" alt="EatClub Logo" />
           </Link>
 
           <div
@@ -153,10 +228,15 @@ function Header() {
             onKeyDown={(e) => e.key === "Enter" && toggleAddress(e)}
           >
             <span className="ec-mode">DELIVERY</span>
-            <span className="ec-address-text">Ganesham Phase Building-G2, Sai Nagar</span>
+            <span className="ec-address-text">{selectedAddress}</span>
             <span className="ec-caret">▾</span>
             {addressOpen && (
-              <div className="ec-address-dropdown">Change location (placeholder)</div>
+              <AddressDropdown
+                isLoggedIn={isLoggedIn}
+                addresses={savedAddresses}
+                onSelect={handleAddressSelect}
+                onClose={() => setAddressOpen(false)}
+              />
             )}
           </div>
         </div>
@@ -199,12 +279,15 @@ function Header() {
             >
               <span className="ec-cart-icon">🛒</span>
               <span className="ec-cart-text">Cart</span>
-              <span className="ec-cart-badge" aria-label={`${cartCount} items`}>{cartCount}</span>
+              {cartCount > 0 && (
+                <span className="ec-cart-badge" aria-label={`${cartCount} items`}>{cartCount}</span>
+              )}
             </button>
 
             {cartOpen && (
               <div className="ec-cart-dropdown" role="dialog" aria-label="Cart">
-                <div className="ec-cart-membership">
+                {membershipAdded && (
+                  <div className="ec-cart-membership">
                   <div className="ec-membership-left">
                     <div className="ec-membership-logo">EATCLUB</div>
                     <div className="ec-membership-info">
@@ -215,36 +298,59 @@ function Header() {
                   <div className="ec-membership-right">
                     <div className="ec-membership-old">₹199</div>
                     <div className="ec-membership-price">₹9</div>
-                    <a className="ec-change-plan" href="#">Change Plan</a>
-                    <button className="ec-remove">REMOVE</button>
+                    <a className="ec-change-plan" href="#" onClick={(e) => e.preventDefault()}>Change Plan</a>
+                    <button className="ec-remove" onClick={toggleMembership}>REMOVE</button>
                   </div>
                 </div>
+                )}
+
 
                 <div className="ec-cart-items">
-                  {cartItems.map((it) => (
-                    <div className="ec-cart-item" key={it.id}>
-                      <div className="ec-item-left">
-                        <div className="ec-item-brand">{it.brand}</div>
-                        <div className="ec-item-name">{it.name}</div>
-                      </div>
-                      <div className="ec-item-right">
-                        <div className="ec-item-price">
-                          <span className="ec-old">₹{it.oldPrice}</span>
-                          <span className="ec-new">₹{it.price}</span>
-                        </div>
-                        <div className="ec-qty">
-                          <button onClick={() => changeQty(it.id, -1)} aria-label="decrease">-</button>
-                          <span>{it.qty}</span>
-                          <button onClick={() => changeQty(it.id, 1)} aria-label="increase">+</button>
-                        </div>
-                      </div>
+                  {cartItems.length === 0 ? (
+                    <div className="ec-cart-empty">
+                      <div className="ec-empty-icon">🛒</div>
+                      <div className="ec-empty-text">Your cart is empty</div>
                     </div>
-                  ))}
+                  ) : (
+                    cartItems.map((it) => (
+                      <div className="ec-cart-item" key={it.id}>
+                        <div className="ec-item-left">
+                          <div className="ec-item-brand">{it.brand}</div>
+                          <div className="ec-item-name">{it.name}</div>
+                        </div>
+                        <div className="ec-item-right">
+                          <div className="ec-item-price">
+                            <span className="ec-old">₹{it.oldPrice}</span>
+                            <span className="ec-new">₹{it.price}</span>
+                          </div>
+                          <div className="ec-qty">
+                            <button onClick={() => changeQty(it.id, -1)} aria-label="decrease">-</button>
+                            <span>{it.qty}</span>
+                            <button onClick={() => changeQty(it.id, 1)} aria-label="increase">+</button>
+                          </div>
+                          <button 
+                            className="ec-item-remove"
+                            onClick={() => removeItem(it.id)}
+                            aria-label="remove item"
+                            title="Remove item"
+                          >
+                            ×
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
 
                 <div className="ec-cart-footer">
-                  <div className="ec-subtotal">Subtotal <span>₹{subtotal}</span></div>
-                  <Link to="/cart" className="ec-cta">Proceed To Cart</Link>
+                  {cartItems.length > 0 ? (
+                    <>
+                      <div className="ec-subtotal">Subtotal <span>₹{subtotal}</span></div>
+                      <Link to="/cart" className="ec-cta">Proceed To Cart</Link>
+                    </>
+                  ) : (
+                    <Link to="/menu" className="ec-cta ec-cta-empty">Start Shopping</Link>
+                  )}
                 </div>
               </div>
             )}
@@ -255,28 +361,47 @@ function Header() {
           </button>
 
           <div className="ec-nav-item ec-profile" ref={profileRef}>
-            <button
-              className="ec-signup-button"
-              onClick={openSignup}
-              aria-haspopup="true"
-            >
-              Sign Up
-            </button>
-
-            {profileOpen && (
-              <div className="ec-profile-menu" role="menu">
-                <Link to="/profile" className="ec-profile-item">My Profile</Link>
-                <Link to="/manage_orders" className="ec-profile-item">Manage Orders</Link>
-                <Link to="/refer" className="ec-profile-item">Refer & Earn</Link>
-                <Link to="/profile/credits" className="ec-profile-item">Credits</Link>
-                <div className="ec-profile-divider" />
+            {!signedUpUser ? (
+              <button
+                className="ec-signup-button"
+                onClick={openSignup}
+                aria-haspopup="true"
+              >
+                Sign Up
+              </button>
+            ) : (
+              <>
                 <button
-                  className="ec-profile-item ec-signout"
-                  onClick={() => { console.log('Sign out clicked'); }}
+                  className="ec-profile-button"
+                  onClick={toggleProfile}
+                  aria-haspopup="true"
+                  aria-expanded={profileOpen}
                 >
-                  Sign Out
+                  <div className="ec-profile-avatar">{signedUpUser.avatar}</div>
+                  <span>{signedUpUser.name}</span>
+                  <span className="ec-caret">▾</span>
                 </button>
-              </div>
+
+                {profileOpen && (
+                  <div className="ec-profile-menu" role="menu">
+                    <Link to="/profile" className="ec-profile-item">My Profile</Link>
+                    <Link to="/manage_orders" className="ec-profile-item">Manage Orders</Link>
+                    <Link to="/refer" className="ec-profile-item">Refer & Earn</Link>
+                    <Link to="/profile/credits" className="ec-profile-item">Credits</Link>
+                    <div className="ec-profile-divider" />
+                    <button
+                      className="ec-profile-item ec-signout"
+                      onClick={() => { 
+                        console.log('Sign out clicked');
+                        setSignedUpUser(null);
+                        setProfileOpen(false);
+                      }}
+                    >
+                      Sign Out
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         </nav>
@@ -299,9 +424,10 @@ function Header() {
                   type="tel"
                   className="ec-phone-input"
                   value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  onChange={handlePhoneChange}
                   placeholder="Enter your phone number"
-                  maxLength="10"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
                 />
               </div>
               
