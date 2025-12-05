@@ -4,8 +4,8 @@
 /* General Header Reset and Layout */
 .ec-header {
     background-color: #fff;
-    border-bottom: 1px solid #eee;
-    padding: 0 10%; /* Adjust padding to match the image's layout */
+    border-bottom: 1px solid #e5e7eb;
+    padding: 0 8%;
     position: sticky;
     top: 0;
     z-index: 1000; /* Ensure the header is always on top */
@@ -15,7 +15,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60px; /* Standard header height */
+    height: 72px;
 }
 
 /* Left Section: Logo and Address */
@@ -24,63 +24,63 @@
     align-items: center;
     gap: 25px;
 }
-
 .ec-logo {
     display: flex;
-    align-items: center;
+    align-items: left;
     text-decoration: none;
-    font-size: 20px;
-    font-weight: 700;
 }
 
-.ec-logo-mark {
-    color: #333; /* Dark text for 'EAT' */
-    margin-right: 2px;
+.ec-logo img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
 }
-
-.ec-logo-text {
-    color: #00d0e3; /* Cyan text for 'CLUB' */
-}
-
 /* Address Pill/Dropdown */
 .ec-address-pill {
     display: flex;
     align-items: center;
-    background-color: #f5f5f5;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 14px;
+    gap: 10px;
+    background-color: #ffffff;
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 15px;
     cursor: pointer;
     position: relative;
     user-select: none;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.04);
 }
 
 .ec-address-pill:hover {
-    background-color: #eee;
+    background-color: #f8fbfc;
+    border-color: #00a8c1;
+    box-shadow: 0 10px 24px rgba(0, 168, 193, 0.12);
 }
 
 .ec-mode {
-    color: #00d0e3;
-    font-weight: 700;
+    color: #00a8c1;
+    font-weight: 800;
+    letter-spacing: 0.4px;
     margin-right: 8px;
-    padding-right: 8px;
-    border-right: 1px solid #ccc;
+    padding-right: 10px;
+    border-right: 1px solid #d1d5db;
+    text-transform: uppercase;
 }
 
 .ec-address-text {
-    color: #333;
-    max-width: 250px;
+    color: #1f2937;
+    max-width: 260px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin-right: 5px;
-    font-weight: 500;
+    margin-right: 6px;
+    font-weight: 600;
 }
 
 .ec-caret {
     font-size: 12px;
-    color: #333;
+    color: #4b5563;
 }
 
 .ec-address-dropdown {
@@ -146,6 +146,7 @@
     padding: 10px 0;
     border-radius: 4px;
     min-width: 150px;
+    animation: slideDown 0.2s ease-out;
 }
 
 .ec-deals-item {
@@ -218,21 +219,42 @@
     background-color: #00b8c7;
 }
 
-/* Profile Dropdown */
+/* Profile Button */
 .ec-profile-button {
     display: flex;
     align-items: center;
+    gap: 8px;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 5px 0;
+    padding: 5px 8px;
     color: #333;
     font-size: 14px;
     font-weight: 500;
+    border-radius: 4px;
+    transition: background-color 0.2s;
 }
 
-.ec-profile-icon {
-    margin-right: 5px;
+.ec-profile-button:hover {
+    background-color: #f5f5f5;
+}
+
+.ec-profile-avatar {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.ec-caret {
+    font-size: 12px;
+    color: #4b5563;
 }
 
 .ec-profile-menu {
@@ -247,6 +269,7 @@
     padding: 10px 0;
     border-radius: 4px;
     min-width: 180px;
+    animation: slideDown 0.2s ease-out;
 }
 
 .ec-profile-item {
@@ -464,6 +487,308 @@
     text-decoration: underline;
 }
 
+/* Cart Dropdown Styles */
+.ec-cart-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    width: 450px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    z-index: 1100;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Membership Section - Black Background */
+.ec-cart-membership {
+    background: #1a1a1a;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ec-membership-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ec-membership-logo {
+    background: #0fb1a5;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    letter-spacing: 0.5px;
+}
+
+.ec-membership-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.ec-membership-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.ec-membership-sub {
+    font-size: 13px;
+    color: #aaa;
+}
+
+.ec-membership-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+}
+
+.ec-membership-old {
+    font-size: 14px;
+    text-decoration: line-through;
+    color: #888;
+}
+
+.ec-membership-price {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0fb1a5;
+}
+
+.ec-change-plan {
+    font-size: 12px;
+    color: #0fb1a5;
+    text-decoration: none;
+    margin-top: 4px;
+}
+
+.ec-change-plan:hover {
+    text-decoration: underline;
+}
+
+.ec-remove {
+    background: transparent;
+    border: 1px solid #ff4444;
+    color: #ff4444;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 4px;
+    transition: all 0.2s;
+}
+
+.ec-remove:hover {
+    background: #ff4444;
+    color: #fff;
+}
+
+/* Cart Items Section - White Background */
+.ec-cart-items {
+    background: #fff;
+    padding: 16px 20px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.ec-cart-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.ec-cart-item:last-child {
+    border-bottom: none;
+}
+
+.ec-item-left {
+    flex: 1;
+}
+
+.ec-item-brand {
+    font-size: 12px;
+    color: #888;
+    margin-bottom: 4px;
+    font-weight: 500;
+}
+
+.ec-item-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+.ec-item-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.ec-item-price {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.ec-item-price .ec-old {
+    font-size: 13px;
+    text-decoration: line-through;
+    color: #999;
+}
+
+.ec-item-price .ec-new {
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+}
+
+.ec-qty {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+
+.ec-qty button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0fb1a5;
+    cursor: pointer;
+    padding: 0 4px;
+}
+
+.ec-qty button:hover {
+    color: #0b6e66;
+}
+
+.ec-qty span {
+    font-size: 14px;
+    font-weight: 600;
+    min-width: 20px;
+    text-align: center;
+}
+
+.ec-item-remove {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #ff6b6b;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all 0.2s;
+    margin-left: 8px;
+}
+
+.ec-item-remove:hover {
+    background: #ffe5e5;
+    color: #ff4444;
+}
+
+/* Cart Empty State */
+.ec-cart-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.ec-empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.ec-empty-text {
+    font-size: 16px;
+    color: #999;
+    font-weight: 500;
+}
+
+/* Cart Footer Section - White Background */
+.ec-cart-footer {
+    background: #fff;
+    padding: 16px 20px;
+    border-top: 2px solid #f0f0f0;
+}
+
+.ec-subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 14px;
+}
+
+.ec-subtotal span {
+    color: #0fb1a5;
+    font-size: 18px;
+}
+
+.ec-cta {
+    display: block;
+    width: 100%;
+    background: #0b6e66;
+    color: #fff;
+    text-align: center;
+    padding: 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.ec-cta:hover {
+    background: #095750;
+}
+
+.ec-cta-empty {
+    background: #0fb1a5;
+    margin: 0 auto;
+    width: calc(100% - 40px);
+}
+
+.ec-cta-empty:hover {
+    background: #0d9a92;
+}
+
 /* Responsive */
 @media (max-width: 480px) {
     .ec-signup-modal {
@@ -473,5 +798,10 @@
     
     .ec-modal-content {
         padding: 32px 24px 24px;
+    }
+
+    .ec-cart-dropdown {
+        width: 95vw;
+        right: 2.5vw;
     }
 }
