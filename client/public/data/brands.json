@@ -1,0 +1,94 @@
+{
+  "brands": [
+    {
+      "id": 1,
+      "name": "MoMo Pizza",
+      "backgroundColor": "#FF7A3B",
+      "logo": "https://assets.box8.co.in/icon/web/brand/13"
+    },
+    {
+      "id": 2,
+      "name": "Zaza Mughal Biryani",
+      "backgroundColor": "#D4A574",
+      "logo": "https://assets.box8.co.in/icon/web/brand/22"
+    },
+    {
+      "id": 3,
+      "name": "BOX8",
+      "backgroundColor": "#CC0000",
+      "logo": "https://assets.box8.co.in/icon/web/brand/1"
+    },
+    {
+      "id": 4,
+      "name": "Globo Ice Creams",
+      "backgroundColor": "#E8B4C4",
+      "logo": "https://assets.box8.co.in/icon/web/brand/21"
+    },
+    {
+      "id": 5,
+      "name": "LeanCrust Pizza",
+      "backgroundColor": "#C9A574",
+      "logo": "https://assets.box8.co.in/icon/web/brand/20"
+    },
+    {
+      "id": 6,
+      "name": "NH1 BOWLS",
+      "backgroundColor": "#FFD700",
+      "logo": "https://assets.box8.co.in/icon/web/brand/16"
+    },
+    {
+      "id": 7,
+      "name": "Itminaan Matka Biryani",
+      "backgroundColor": "#C9A574",
+      "logo": "https://assets.box8.co.in/icon/web/brand/14"
+    },
+    {
+      "id": 8,
+      "name": "Mealful Rolls",
+      "backgroundColor": "#FF7A3B",
+      "logo": "https://assets.box8.co.in/icon/web/brand/15"
+    },
+    {
+      "id": 9,
+      "name": "Bhatti Chicken",
+      "backgroundColor": "#F5E6D3",
+      "logo": "https://assets.box8.co.in/icon/web/brand/24"
+    },
+    {
+      "id": 10,
+      "name": "WeFit",
+      "backgroundColor": "#2EA670",
+      "logo": "https://assets.box8.co.in/icon/web/brand/25"
+    },
+    {
+      "id": 11,
+      "name": "Boom Sandwich",
+      "backgroundColor": "#FF5733",
+      "logo": "https://assets.box8.co.in/icon/web/brand/26"
+    },
+    {
+      "id": 12,
+      "name": "Hola Pasta",
+      "backgroundColor": "#3498DB",
+      "logo": "https://assets.box8.co.in/icon/web/brand/27"
+    },
+    {
+      "id": 13,
+      "name": "99 Meals",
+      "backgroundColor": "#00A8C1",
+      "logo": "https://assets.box8.co.in/icon/web/brand/33"
+    },
+    {
+      "id": 14,
+      "name": "Ghee Khichdi Project",
+      "backgroundColor": "#F5E6D3",
+      "logo": "https://assets.box8.co.in/icon/web/brand/37"
+    },
+    {
+      "id": 15,
+      "name": "Daily Kitchen",
+      "backgroundColor": "#FFD700",
+      "logo": "https://assets.box8.co.in/icon/web/brand/31"
+    }
+  ]
+}
