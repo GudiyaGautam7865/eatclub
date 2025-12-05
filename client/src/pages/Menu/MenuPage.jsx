@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Sidebar } from '../../components/menu/Sidebar';
 import { ProductCard } from '../../components/menu/ItemCard/ItemCard';
 import { AIChat } from '../../components/menu/AIChat';
-import { ProductSelector } from '../../components/menu/ProductSelector';
+
 import { getProducts, getMenuData } from '../../services/menuService.js';
 import { Search, ChefHat, Crown, ArrowUp } from 'lucide-react';
 import './MenuPage.css';
 
 const MenuPage = () => {
+  const location = useLocation();
   const [products, setProducts] = useState([]);
   const [currentProduct, setCurrentProduct] = useState('box8');
   const [categories, setCategories] = useState([]);
@@ -21,14 +23,23 @@ const MenuPage = () => {
   const mainContentRef = useRef(null);
   const productGridRef = useRef(null);
 
-  // Load products on mount
+  // Load products on mount and handle restaurant query parameter
   useEffect(() => {
     const loadProducts = async () => {
       const productsData = await getProducts();
       setProducts(productsData);
+      
+      // Check for restaurant query parameter
+      const searchParams = new URLSearchParams(location.search);
+      const restaurantParam = searchParams.get('restaurant');
+      if (restaurantParam && productsData.some(p => p.id === restaurantParam)) {
+        setCurrentProduct(restaurantParam);
+        // Scroll to top when coming from restaurant click
+        window.scrollTo(0, 0);
+      }
     };
     loadProducts();
-  }, []);
+  }, [location.search]);
 
   // Load menu data when product changes
   useEffect(() => {
@@ -58,32 +69,65 @@ const MenuPage = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Intersection Observer for section detection
+  // Scroll-based section detection for smooth tracking
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.3) {
-            setActiveCategory(entry.target.id);
+    let ticking = false;
+    
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const scrollPosition = window.scrollY + 200; // Offset for better detection
+          let currentSection = '';
+          
+          // Find the section that contains the current scroll position
+          categories.forEach(category => {
+            const element = document.getElementById(category.id);
+            if (element) {
+              const rect = element.getBoundingClientRect();
+              const elementTop = window.scrollY + rect.top;
+              const elementBottom = elementTop + rect.height;
+              
+              if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+                currentSection = category.id;
+              }
+            }
+          });
+          
+          // If no section contains the scroll position, find the closest one
+          if (!currentSection && categories.length > 0) {
+            let closestDistance = Infinity;
+            categories.forEach(category => {
+              const element = document.getElementById(category.id);
+              if (element) {
+                const rect = element.getBoundingClientRect();
+                const elementTop = window.scrollY + rect.top;
+                const distance = Math.abs(scrollPosition - elementTop);
+                
+                if (distance < closestDistance) {
+                  closestDistance = distance;
+                  currentSection = category.id;
+                }
+              }
+            });
           }
+          
+          if (currentSection && currentSection !== activeCategory) {
+            setActiveCategory(currentSection);
+          }
+          
+          ticking = false;
         });
-      },
-      {
-        rootMargin: '-100px 0px -50% 0px',
-        threshold: [0.1, 0.3, 0.5]
+        ticking = true;
       }
-    );
+    };
 
-    // Observe all category sections
-    categories.forEach(category => {
-      const element = document.getElementById(category.id);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-
-    return () => observer.disconnect();
-  }, [categories]);
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial call
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [categories, activeCategory]);
 
   // Smooth scroll to top function
   const scrollToTop = () => {
@@ -143,26 +187,8 @@ const MenuPage = () => {
   return (
     <div className="menu-container">
       <div className="menu-wrapper">
-        {/* Product Selector */}
-        <div className="menu-mobile-selector">
-          <ProductSelector 
-            products={products}
-            currentProduct={currentProduct}
-            onProductChange={setCurrentProduct}
-          />
-        </div>
-
         {/* Sidebar Navigation */}
         <div className="menu-sidebar">
-          {/* Desktop Product Selector */}
-          <div id="mobile-selector">
-            <ProductSelector 
-              products={products}
-              currentProduct={currentProduct}
-              onProductChange={setCurrentProduct}
-            />
-          </div>
-          
           <Sidebar 
             categories={categories} 
             activeCategory={activeCategory} 
