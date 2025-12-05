@@ -1,30 +1,35 @@
 import React, { useState } from 'react';
 import './AddressFormModal.css';
+import { useAddressContext } from '../../context/AddressContext';
 
-export default function AddressFormModal({ isOpen, onClose, initialAddress, onSave }) {
+export default function AddressFormModal({ isOpen, onClose, initialAddress }) {
   const [flat, setFlat] = useState('');
   const [floor, setFloor] = useState('');
   const [landmark, setLandmark] = useState('');
   const [tag, setTag] = useState('Other');
   const [customName, setCustomName] = useState('');
+  const { createAddress, selectAddress } = useAddressContext();
 
   if (!isOpen) return null;
 
   const handleSave = () => {
-    // validate: if tag is Other then customName required
     if (tag === 'Other' && !customName.trim()) {
       alert('Please provide a custom name for this address.');
       return;
     }
 
-    const address = {
-      id: Date.now(),
+    const fullAddress = `${flat ? flat + ', ' : ''}${floor ? floor + ', ' : ''}${landmark ? landmark + ', ' : ''}${initialAddress}`;
+    const newAddr = createAddress({
       label: tag === 'Other' ? customName.trim() : tag,
-      title: initialAddress.split(',')[0] || initialAddress,
-      text: `${flat ? flat + ', ' : ''}${floor ? floor + ', ' : ''}${landmark ? landmark + ', ' : ''}${initialAddress}`,
-    };
+      type: tag,
+      address: fullAddress,
+      flat,
+      floor,
+      landmark,
+    });
 
-    onSave(address);
+    selectAddress(newAddr.id);
+    onClose();
   };
 
   return (
