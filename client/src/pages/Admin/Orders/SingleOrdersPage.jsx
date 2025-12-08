@@ -1,10 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import OrdersTable from '../../../components/admin/tables/OrdersTable';
+import { getSingleOrders } from '../../../services/singleOrdersService';
 import './SingleOrdersPage.css';
 
 export default function SingleOrdersPage() {
+  const [orders, setOrders] = useState([]);
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterDate, setFilterDate] = useState('all');
+
+  // Load orders from localStorage on mount
+  useEffect(() => {
+    const loadedOrders = getSingleOrders();
+    setOrders(loadedOrders);
+  }, []);
+
+  // Filter orders based on status
+  const filteredOrders = orders.filter((order) => {
+    if (filterStatus !== 'all' && order.status !== filterStatus) {
+      return false;
+    }
+
+    if (filterDate !== 'all') {
+      const orderDate = new Date(order.date);
+      const today = new Date();
+      const diffTime = today - orderDate;
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if (filterDate === 'today' && diffDays !== 0) return false;
+      if (filterDate === 'week' && diffDays > 7) return false;
+      if (filterDate === 'month' && diffDays > 30) return false;
+    }
+
+    return true;
+  });
+
+  // Calculate statistics
+  const totalOrders = orders.length;
+  const pendingOrders = orders.filter((o) => o.status === 'pending').length;
+  const todayOrders = orders.filter((o) => {
+    const orderDate = new Date(o.date);
+    const today = new Date();
+    return orderDate.toDateString() === today.toDateString();
+  }).length;
+  const todayRevenue = orders
+    .filter((o) => {
+      const orderDate = new Date(o.date);
+      const today = new Date();
+      return orderDate.toDateString() === today.toDateString();
+    })
+    .reduce((sum, o) => sum + (o.totalAmount || 0), 0);
 
   return (
     <div className="single-orders-container">
@@ -17,19 +61,19 @@ export default function SingleOrdersPage() {
       <div className="single-orders-stats">
         <div className="single-orders-stat">
           <div className="single-orders-stat-label">Total Orders</div>
-          <div className="single-orders-stat-value">1,245</div>
+          <div className="single-orders-stat-value">{totalOrders}</div>
         </div>
         <div className="single-orders-stat">
           <div className="single-orders-stat-label">Pending</div>
-          <div className="single-orders-stat-value">23</div>
+          <div className="single-orders-stat-value">{pendingOrders}</div>
         </div>
         <div className="single-orders-stat">
           <div className="single-orders-stat-label">Today's Orders</div>
-          <div className="single-orders-stat-value">84</div>
+          <div className="single-orders-stat-value">{todayOrders}</div>
         </div>
         <div className="single-orders-stat">
           <div className="single-orders-stat-label">Revenue (Today)</div>
-          <div className="single-orders-stat-value">₹24.5K</div>
+          <div className="single-orders-stat-value">₹{todayRevenue.toLocaleString()}</div>
         </div>
       </div>
 
@@ -42,6 +86,7 @@ export default function SingleOrdersPage() {
             onChange={(e) => setFilterStatus(e.target.value)}
           >
             <option value="all">All Orders</option>
+            <option value="Paid">Paid</option>
             <option value="pending">Pending</option>
             <option value="processing">Processing</option>
             <option value="completed">Completed</option>
@@ -61,15 +106,17 @@ export default function SingleOrdersPage() {
             <option value="month">This Month</option>
           </select>
         </div>
-
-        <div className="single-orders-filter-group">
-          <label>Search:</label>
-          <input type="text" placeholder="Search by order ID or customer..." />
-        </div>
       </div>
 
       {/* Table */}
-      <OrdersTable type="single" />
+      <OrdersTable type="single" orders={filteredOrders} />
+
+      {/* Empty State */}
+      {filteredOrders.length === 0 && (
+        <div className="single-orders-empty">
+          <p>No orders found. Orders placed by users will appear here.</p>
+        </div>
+      )}
     </div>
   );
 }

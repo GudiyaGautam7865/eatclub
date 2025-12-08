@@ -48,9 +48,6 @@ const dummyBulkOrders = [
 ];
 
 export default function OrdersTable({ type = 'single', orders = null }) {
-  const defaultOrders = type === 'single' ? dummySingleOrders : dummyBulkOrders;
-  const dataToDisplay = orders || defaultOrders;
-
   const getStatusColor = (status) => {
     switch (status) {
       case 'pending':
@@ -64,48 +61,139 @@ export default function OrdersTable({ type = 'single', orders = null }) {
     }
   };
 
-  return (
-    <div className="admin-table-container">
-      <table className="admin-table">
-        <thead>
-          <tr>
-            <th>Order ID</th>
-            <th>{type === 'single' ? 'Customer' : 'Company'}</th>
-            <th>Items</th>
-            <th>Total</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {dataToDisplay.map((order) => (
-            <tr key={order.id}>
-              <td className="admin-table-id">{order.id}</td>
-              <td>{type === 'single' ? order.customerName : order.companyName}</td>
-              <td>{order.items}</td>
-              <td>₹{order.total}</td>
-              <td>
-                <span
-                  className="admin-status"
-                  style={{
-                    background: `${getStatusColor(order.status)}20`,
-                    color: getStatusColor(order.status),
-                  }}
-                >
-                  ● {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                </span>
-              </td>
-              <td>{order.date}</td>
-              <td>
-                <div className="admin-table-actions">
-                  <button className="admin-table-btn">View</button>
-                </div>
-              </td>
+  // For bulk orders type
+  if (type === 'bulk') {
+    const dataToDisplay = orders || dummyBulkOrders;
+
+    return (
+      <div className="admin-table-container">
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Name</th>
+              <th>Phone</th>
+              <th>People</th>
+              <th>Event Date & Time</th>
+              <th>Brand</th>
+              <th>Budget/Head</th>
+              <th>Created At</th>
+              <th>Status</th>
+              <th>Actions</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+          </thead>
+          <tbody>
+            {dataToDisplay && dataToDisplay.length > 0 ? (
+              dataToDisplay.map((order) => {
+                // Format createdAt date
+                let formattedDate = order.createdAt ? new Date(order.createdAt).toLocaleDateString() : 'N/A';
+                let formattedEventDate = order.eventDateTime ? new Date(order.eventDateTime).toLocaleString() : 'N/A';
+
+                return (
+                  <tr key={order.id}>
+                    <td className="admin-table-id">{order.id}</td>
+                    <td>{order.name || 'N/A'}</td>
+                    <td>{order.phone || 'N/A'}</td>
+                    <td>{order.peopleCount || 'N/A'}</td>
+                    <td>{formattedEventDate}</td>
+                    <td>{order.brandPreference || 'Any'}</td>
+                    <td>₹{order.budgetPerHead || '0'}</td>
+                    <td>{formattedDate}</td>
+                    <td>
+                      <span
+                        className="admin-status"
+                        style={{
+                          background: `${getStatusColor(order.status)}20`,
+                          color: getStatusColor(order.status),
+                        }}
+                      >
+                        ● {(order.status || 'pending').charAt(0).toUpperCase() + (order.status || 'pending').slice(1)}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="admin-table-actions">
+                        <button className="admin-table-btn">View</button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="10" style={{ textAlign: 'center', padding: '20px', color: '#999' }}>
+                  No bulk orders found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
+  // For single orders type (default)
+  if (type === 'single') {
+    const dataToDisplay = orders || dummySingleOrders;
+
+    return (
+      <div className="admin-table-container">
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Total Amount</th>
+              <th>Items Count</th>
+              <th>Payment Method</th>
+              <th>Order Date</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {dataToDisplay && dataToDisplay.length > 0 ? (
+              dataToDisplay.map((order) => {
+                // Format date
+                let formattedDate = order.date ? new Date(order.date).toLocaleDateString() : 'N/A';
+                // Handle items count - could be a number (dummy data) or array (real data)
+                const itemsCount = order.itemsCount || 
+                  (Array.isArray(order.items) ? order.items.reduce((sum, item) => sum + (item.qty || 1), 0) : order.items || 0);
+
+                return (
+                  <tr key={order.id}>
+                    <td className="admin-table-id">{order.id}</td>
+                    <td>₹{order.totalAmount || '0'}</td>
+                    <td>{itemsCount}</td>
+                    <td>{order.paymentMethod || 'COD'}</td>
+                    <td>{formattedDate}</td>
+                    <td>
+                      <span
+                        className="admin-status"
+                        style={{
+                          background: `${getStatusColor(order.status)}20`,
+                          color: getStatusColor(order.status),
+                        }}
+                      >
+                        ● {(order.status || 'pending').charAt(0).toUpperCase() + (order.status || 'pending').slice(1)}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="admin-table-actions">
+                        <button className="admin-table-btn">View</button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <tr>
+                <td colSpan="7" style={{ textAlign: 'center', padding: '20px', color: '#999' }}>
+                  No single orders found
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
 }
