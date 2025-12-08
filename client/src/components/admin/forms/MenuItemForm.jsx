@@ -1,166 +1,158 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { adminMenuService } from '../../../services/adminMenuService';
 import './MenuItemForm.css';
 
-export default function MenuItemForm({ onSubmit, onCancel }) {
+export default function MenuItemForm({ onSubmit }) {
   const [formData, setFormData] = useState({
-    itemName: '',
+    name: '',
     description: '',
+    categoryId: '',
     brand: '',
-    category: '',
     price: '',
     isVeg: true,
-    isActive: true,
+    imageUrl: ''
   });
+  
+  const [categories, setCategories] = useState([]);
+  const [brands] = useState(adminMenuService.getBrands());
+
+  useEffect(() => {
+    if (formData.brand) {
+      loadCategories();
+    }
+  }, [formData.brand]);
+
+  const loadCategories = async () => {
+    try {
+      const cats = await adminMenuService.getCategories(formData.brand);
+      setCategories(cats);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : value
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (onSubmit) onSubmit(formData);
+    onSubmit({
+      ...formData,
+      price: parseFloat(formData.price)
+    });
+    setFormData({
+      name: '',
+      description: '',
+      categoryId: '',
+      brand: '',
+      price: '',
+      isVeg: true,
+      imageUrl: ''
+    });
+    setCategories([]);
   };
 
   return (
-    <form className="admin-form-container" onSubmit={handleSubmit}>
-      {/* Item Name */}
-      <div className="admin-form-group">
-        <label className="admin-form-label required">Item Name</label>
+    <form className="menu-item-form" onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label>Name</label>
         <input
           type="text"
-          name="itemName"
-          className="admin-form-input"
-          value={formData.itemName}
+          name="name"
+          value={formData.name}
           onChange={handleChange}
-          placeholder="e.g., Butter Chicken"
           required
         />
       </div>
 
-      {/* Description */}
-      <div className="admin-form-group">
-        <label className="admin-form-label">Description</label>
+      <div className="form-group">
+        <label>Description</label>
         <textarea
           name="description"
-          className="admin-form-textarea"
           value={formData.description}
           onChange={handleChange}
-          placeholder="Describe this menu item..."
+          required
         />
       </div>
 
-      {/* Brand & Category Row */}
-      <div className="admin-form-row">
-        <div className="admin-form-group">
-          <label className="admin-form-label required">Brand</label>
+      <div className="form-row">
+        <div className="form-group">
+          <label>Brand</label>
           <select
             name="brand"
-            className="admin-form-select"
             value={formData.brand}
             onChange={handleChange}
             required
           >
             <option value="">Select Brand</option>
-            <option value="box8">Box8</option>
-            <option value="faasos">Faasos</option>
-            <option value="behrouz">Behrouz</option>
-            <option value="ovenstory">OvenStory</option>
-            <option value="mandarin-oak">Mandarin Oak</option>
+            {brands.map(brand => (
+              <option key={brand} value={brand}>{brand}</option>
+            ))}
           </select>
         </div>
 
-        <div className="admin-form-group">
-          <label className="admin-form-label required">Category</label>
+        <div className="form-group">
+          <label>Category</label>
           <select
-            name="category"
-            className="admin-form-select"
-            value={formData.category}
+            name="categoryId"
+            value={formData.categoryId}
             onChange={handleChange}
             required
+            disabled={!formData.brand}
           >
             <option value="">Select Category</option>
-            <option value="curries">Curries</option>
-            <option value="rice">Rice</option>
-            <option value="breads">Breads</option>
-            <option value="desserts">Desserts</option>
-            <option value="beverages">Beverages</option>
+            {categories.map(cat => (
+              <option key={cat.id} value={cat.id}>{cat.name}</option>
+            ))}
           </select>
         </div>
       </div>
 
-      {/* Price */}
-      <div className="admin-form-group">
-        <label className="admin-form-label required">Price (₹)</label>
-        <input
-          type="number"
-          name="price"
-          className="admin-form-input"
-          value={formData.price}
-          onChange={handleChange}
-          placeholder="e.g., 299"
-          step="0.01"
-          min="0"
-          required
-        />
-      </div>
+      <div className="form-row">
+        <div className="form-group">
+          <label>Price</label>
+          <input
+            type="number"
+            name="price"
+            value={formData.price}
+            onChange={handleChange}
+            step="1"
+            required
+          />
+        </div>
 
-      {/* Veg / Non-Veg Toggle */}
-      <div className="admin-form-group">
-        <div className="admin-form-toggle">
-          <span>Vegetarian</span>
-          <div className="admin-toggle-switch">
+        <div className="form-group">
+          <label className="checkbox-label">
             <input
               type="checkbox"
               name="isVeg"
-              id="vegToggle"
               checked={formData.isVeg}
               onChange={handleChange}
             />
-            <span className="admin-toggle-slider"></span>
-          </div>
-        </div>
-        <div className="admin-form-help-text">
-          {formData.isVeg ? '🥬 Vegetarian' : '🍗 Non-Vegetarian'}
+            Vegetarian
+          </label>
         </div>
       </div>
 
-      {/* Status Toggle */}
-      <div className="admin-form-group">
-        <div className="admin-form-toggle">
-          <span>Active</span>
-          <div className="admin-toggle-switch">
-            <input
-              type="checkbox"
-              name="isActive"
-              id="statusToggle"
-              checked={formData.isActive}
-              onChange={handleChange}
-            />
-            <span className="admin-toggle-slider"></span>
-          </div>
-        </div>
-        <div className="admin-form-help-text">
-          {formData.isActive ? '✓ Available' : '✗ Unavailable'}
-        </div>
+      <div className="form-group">
+        <label>Image URL (optional)</label>
+        <input
+          type="url"
+          name="imageUrl"
+          value={formData.imageUrl}
+          onChange={handleChange}
+          placeholder="https://example.com/image.jpg"
+        />
       </div>
 
-      {/* Form Buttons */}
-      <div className="admin-form-buttons">
-        <button type="submit" className="admin-btn admin-btn-primary">
-          Save Item
-        </button>
-        <button
-          type="button"
-          className="admin-btn admin-btn-secondary"
-          onClick={onCancel}
-        >
-          Cancel
-        </button>
-      </div>
+      <button type="submit" className="submit-btn">
+        Add Menu Item
+      </button>
     </form>
   );
 }

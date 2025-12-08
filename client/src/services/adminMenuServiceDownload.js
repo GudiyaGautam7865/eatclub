@@ -1,4 +1,4 @@
-// Admin Menu Service - localStorage implementation
+// Admin Menu Service - Download updated JSON files
 const BRAND_FILE_MAP = {
   'BOX8': 'box8-menu.json',
   'Behrouz': 'behrouz-menu.json',
@@ -21,23 +21,10 @@ export const adminMenuService = {
     const fileName = BRAND_FILE_MAP[brand];
     if (!fileName) return { items: [], categories: [] };
     
-    const storageKey = `EC_MENUS_${brand.replace(/\s+/g, '_')}`;
-    
     try {
-      // Check localStorage first
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        const data = JSON.parse(stored);
-        return category ? { items: data.items.filter(item => item.categoryId === category), categories: data.categories } : data;
-      }
-      
-      // Load from JSON file
       const response = await fetch(`/data/menus/${fileName}`);
       if (!response.ok) return { items: [], categories: [] };
       const data = await response.json();
-      
-      // Store in localStorage
-      localStorage.setItem(storageKey, JSON.stringify(data));
       
       return category ? { items: data.items.filter(item => item.categoryId === category), categories: data.categories } : data;
     } catch (error) {
@@ -47,6 +34,9 @@ export const adminMenuService = {
   },
 
   async addMenuItem(brand, category, itemData) {
+    const fileName = BRAND_FILE_MAP[brand];
+    if (!fileName) throw new Error('Brand not found');
+
     try {
       const menuData = await this.loadMenu(brand);
       
@@ -63,11 +53,16 @@ export const adminMenuService = {
       
       menuData.items.push(newItem);
       
-      // Save back to localStorage
-      const storageKey = `EC_MENUS_${brand.replace(/\s+/g, '_')}`;
-      localStorage.setItem(storageKey, JSON.stringify(menuData));
+      // Download updated JSON file
+      const blob = new Blob([JSON.stringify(menuData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      URL.revokeObjectURL(url);
       
-      return { message: 'Menu item added successfully', item: newItem };
+      return { message: 'Menu item added. Please replace the downloaded file in /public/data/menus/', item: newItem };
     } catch (error) {
       console.error('Error adding menu item:', error);
       throw error;
