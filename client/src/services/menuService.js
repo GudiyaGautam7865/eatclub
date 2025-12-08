@@ -12,8 +12,20 @@ export const getProducts = async () => {
 
 export const getMenuData = async (productId = 'box8') => {
   try {
+    // Check localStorage first (for admin-added items)
+    const storageKey = `EC_MENUS_${productId.toUpperCase().replace('-', '_')}`;
+    const stored = localStorage.getItem(storageKey);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+    
+    // Load from JSON file
     const response = await fetch(`/data/menus/${productId}-menu.json`);
     const data = await response.json();
+    
+    // Store in localStorage for future admin updates
+    localStorage.setItem(storageKey, JSON.stringify(data));
+    
     return data;
   } catch (error) {
     console.error(`Error loading menu for ${productId}:`, error);
