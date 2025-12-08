@@ -286,7 +286,7 @@ const MenuPage = () => {
                              key={item.id}
                              style={{ animationDelay: `${(groupIndex * 3 + index) * 50}ms` }}
                            >
-                             <ProductCard item={item} />
+                             <ProductCard item={{...item, categoryName: group.category.name}} />
                            </div>
                          ))
                        ) : (

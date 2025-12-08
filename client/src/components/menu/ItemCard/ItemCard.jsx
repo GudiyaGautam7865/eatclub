@@ -1,8 +1,25 @@
 import React from 'react';
 import './ItemCard.css';
 import { Info } from 'lucide-react';
+import { useCartContext } from '../../../context/CartContext';
 
 export const ProductCard = ({ item }) => {
+  const { addItem } = useCartContext();
+
+  const handleAddToCart = () => {
+    addItem({
+      id: item.id,
+      name: item.name,
+      title: item.name,
+      section: item.categoryName || 'Menu Item',
+      price: item.membershipPrice || item.price || 0,
+      oldPrice: item.price || item.membershipPrice || 0,
+      qty: 1,
+      imageUrl: item.imageUrl,
+      isVeg: item.isVeg
+    });
+  };
+
   return (
     <div className="item-card">
       {/* Image Area */}
@@ -43,7 +60,7 @@ export const ProductCard = ({ item }) => {
               </span>
             </div>
             
-            <button className="add-btn">
+            <button className="add-btn" onClick={handleAddToCart}>
               ADD
             </button>
           </div>
