@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 
 import MainLayout from "../layouts/MainLayout";
 import ProfileLayout from "../layouts/ProfileLayout";
+import AdminLayout from "../layouts/AdminLayout";
 
 // Pages
 import React from "react"; // or: import * as React from "react";
@@ -20,6 +21,18 @@ import AddressesPage from "../pages/Profile/AddressesPage";
 import PromotionSubscriptionsPage from "../pages/Profile/PromotionSubscriptionsPage";
 import FaqPage from "../pages/Profile/FaqPage";
 import NotFoundPage from "../pages/NotFound/NotFoundPage";
+
+// Admin Pages
+import AdminLoginPage from "../pages/Admin/Auth/AdminLoginPage";
+import AdminProfilePage from "../pages/Admin/Profile/AdminProfilePage";
+import AdminDashboardPage from "../pages/Admin/Dashboard/AdminDashboardPage";
+import AddMenuItemPage from "../pages/Admin/Menu/AddMenuItemPage";
+import MenuItemsListPage from "../pages/Admin/Menu/MenuItemsListPage";
+import SingleOrdersPage from "../pages/Admin/Orders/SingleOrdersPage";
+import BulkOrdersPage from "../pages/Admin/Orders/BulkOrdersPage";
+
+// Admin Protected Route
+import AdminProtectedRoute from "../components/admin/AdminProtectedRoute";
 
 function AppRoutes() {
   return (
@@ -47,6 +60,32 @@ function AppRoutes() {
           element={<PromotionSubscriptionsPage />}
         />
         <Route path="faq" element={<FaqPage />} />
+      </Route>
+
+      {/* Admin layout routes */}
+      <Route path="/admin/login" element={<AdminLoginPage />} />
+
+      <Route
+        path="/admin"
+        element={
+          <AdminProtectedRoute>
+            <AdminLayout />
+          </AdminProtectedRoute>
+        }
+      >
+        <Route index element={<AdminDashboardPage />} />
+        <Route path="dashboard" element={<AdminDashboardPage />} />
+        <Route path="profile" element={<AdminProfilePage />} />
+
+        <Route path="menu">
+          <Route path="add" element={<AddMenuItemPage />} />
+          <Route path="list" element={<MenuItemsListPage />} />
+        </Route>
+
+        <Route path="orders">
+          <Route path="single" element={<SingleOrdersPage />} />
+          <Route path="bulk" element={<BulkOrdersPage />} />
+        </Route>
       </Route>
 
       {/* 404 */}
