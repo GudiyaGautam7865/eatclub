@@ -1,8 +1,11 @@
 /* MembershipPlans.css */
 
 .membership-plans-section {
-  background-color: #f7fbfc;
-  padding: 80px 0;
+  background-color: #ffffff;
+  padding: 80px 20px;
+  border: 2px solid #000000;
+  border-radius: 25px;
+  margin: 20px;
 }
 
 .membership-container {

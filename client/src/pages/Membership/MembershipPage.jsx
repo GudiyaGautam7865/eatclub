@@ -1,8 +1,40 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./MembershipPage.css";
 
 export default function MembershipPage() {
   const [selectedPlan, setSelectedPlan] = useState('free');
+  const navigate = useNavigate();
+
+  const brandMapping = {
+    "Mojo Pizza": "mojo-pizza",
+    "ZAZA Mughal Biryani": "zaza-biryani", 
+    "BOX8": "box8",
+    "globo ice creams": "globo-ice-creams",
+    "LeanCrust Pizza": "leancrust-pizza",
+    "NH1 Bowls": "nh1-bowls",
+    "mealful rolls": "mealful-rolls",
+    "Bhatti Chicken": "bhatti-chicken",
+    "Boom Sandwich": "boom-sandwich",
+    "hola pasta": "hola-pasta",
+    "99 Meals": "99-meals",
+    "Daily Kitchen": "daily-kitchen",
+    "The Ghee Khichdi Project": "ghee-khichdi",
+    "wefit": "wefit",
+    "Burger House": "burger-house",
+    "Noodle Bar": "noodle-bar"
+  };
+
+  const handleExploreClick = () => {
+    navigate('/');
+  };
+
+  const handleBrandClick = (brandName) => {
+    const productId = brandMapping[brandName];
+    if (productId) {
+      navigate(`/menu?product=${productId}`);
+    }
+  };
 
   return (
     <main className="membership-page">
@@ -11,7 +43,7 @@ export default function MembershipPage() {
         <div className="why-container">
           <div className="why-header">
             <h1>Welcome to</h1>
-            <div className="logo-placeholder">EATCLUB LOGO</div>
+            <img src="https://d203x0tuwp1vfo.cloudfront.net/20251121092634/assets/images/membership_logo.png" alt="EatClub Logo" className="eatclub-logo" />
             <h2>Why EatClub?</h2>
           </div>
           <ul className="benefits-list">
@@ -81,7 +113,7 @@ export default function MembershipPage() {
           </div>
 
           <p className="users-text">1M+ users are enjoying EatClub. It's your turn now!</p>
-          <button className="explore-btn">Explore Brands</button>
+          <button className="explore-btn" onClick={handleExploreClick}>Explore Brands</button>
         </div>
       </section>
 
@@ -93,22 +125,31 @@ export default function MembershipPage() {
             <p>Enjoy access to offers on these exclusive brands for the next month!</p>
           </div>
           <div className="brands-gallery">
-            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=200&h=200&fit=crop&crop=center" alt="Mojo Pizza" />
-            <img src="https://images.unsplash.com/photo-1563379091339-03246963d51a?w=200&h=200&fit=crop&crop=center" alt="ZAZA Mughal Biryani" />
-            <img src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=200&h=200&fit=crop&crop=center" alt="BOX8" />
-            <img src="https://images.unsplash.com/photo-1551024506-0bccd828d307?w=200&h=200&fit=crop&crop=center" alt="globo ice creams" />
-            <img src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=200&h=200&fit=crop&crop=center" alt="LeanCrust Pizza" />
-            <img src="https://images.unsplash.com/photo-1512058564366-18510be2db19?w=200&h=200&fit=crop&crop=center" alt="NH1 Bowls" />
-            <img src="https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=200&h=200&fit=crop&crop=center" alt="mealful rolls" />
-            <img src="https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=200&h=200&fit=crop&crop=center" alt="Bhatti Chicken" />
-            <img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=200&h=200&fit=crop&crop=center" alt="Boom Sandwich" />
-            <img src="https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=200&h=200&fit=crop&crop=center" alt="hola pasta" />
-            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&h=200&fit=crop&crop=center" alt="99 Meals" />
-            <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=200&h=200&fit=crop&crop=center" alt="Daily Kitchen" />
-            <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=200&h=200&fit=crop&crop=center" alt="The Ghee Khichdi Project" />
-            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=200&h=200&fit=crop&crop=center" alt="wefit" />
-            <img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200&h=200&fit=crop&crop=center" alt="Burger House" />
-            <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=200&h=200&fit=crop&crop=center" alt="Noodle Bar" />
+            {[
+              { name: "Mojo Pizza", img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=200&h=200&fit=crop&crop=center" },
+              { name: "ZAZA Mughal Biryani", img: "https://images.unsplash.com/photo-1563379091339-03246963d51a?w=200&h=200&fit=crop&crop=center" },
+              { name: "BOX8", img: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=200&h=200&fit=crop&crop=center" },
+              { name: "globo ice creams", img: "https://images.unsplash.com/photo-1551024506-0bccd828d307?w=200&h=200&fit=crop&crop=center" },
+              { name: "LeanCrust Pizza", img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=200&h=200&fit=crop&crop=center" },
+              { name: "NH1 Bowls", img: "https://images.unsplash.com/photo-1512058564366-18510be2db19?w=200&h=200&fit=crop&crop=center" },
+              { name: "mealful rolls", img: "https://images.unsplash.com/photo-1529006557810-274b9b2fc783?w=200&h=200&fit=crop&crop=center" },
+              { name: "Bhatti Chicken", img: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=200&h=200&fit=crop&crop=center" },
+              { name: "Boom Sandwich", img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=200&h=200&fit=crop&crop=center" },
+              { name: "hola pasta", img: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=200&h=200&fit=crop&crop=center" },
+              { name: "99 Meals", img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=200&h=200&fit=crop&crop=center" },
+              { name: "Daily Kitchen", img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=200&h=200&fit=crop&crop=center" },
+              { name: "The Ghee Khichdi Project", img: "https://images.unsplash.com/photo-1596797038530-2c107229654b?w=200&h=200&fit=crop&crop=center" },
+              { name: "wefit", img: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=200&h=200&fit=crop&crop=center" },
+              { name: "Burger House", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=200&h=200&fit=crop&crop=center" },
+              { name: "Noodle Bar", img: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=200&h=200&fit=crop&crop=center" }
+            ].map((brand, index) => (
+              <img 
+                key={index}
+                src={brand.img} 
+                alt={brand.name}
+                onClick={() => handleBrandClick(brand.name)}
+              />
+            ))}
           </div>
         </div>
       </section>
