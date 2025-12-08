@@ -1,77 +1,55 @@
 import React from 'react';
 import './MenuItemsTable.css';
 
-const dummyMenuItems = [
-  {
-    id: 1,
-    name: 'Butter Chicken',
-    category: 'Curries',
-    price: 299,
-    status: 'active',
-  },
-  {
-    id: 2,
-    name: 'Paneer Tikka Masala',
-    category: 'Curries',
-    price: 279,
-    status: 'active',
-  },
-  {
-    id: 3,
-    name: 'Chicken Biryani',
-    category: 'Rice',
-    price: 349,
-    status: 'active',
-  },
-  {
-    id: 4,
-    name: 'Dal Makhani',
-    category: 'Curries',
-    price: 229,
-    status: 'inactive',
-  },
-  {
-    id: 5,
-    name: 'Garlic Naan',
-    category: 'Breads',
-    price: 69,
-    status: 'active',
-  },
-];
+export default function MenuItemsTable({ items }) {
+  if (!items || items.length === 0) {
+    return (
+      <div className="empty-state">
+        <p>No menu items found</p>
+      </div>
+    );
+  }
 
-export default function MenuItemsTable({ items = dummyMenuItems }) {
   return (
-    <div className="admin-table-container">
-      <table className="admin-table">
+    <div className="menu-items-table">
+      <table>
         <thead>
           <tr>
-            <th>Item Name</th>
+            <th>ID</th>
+            <th>Name</th>
             <th>Category</th>
+            <th>Brand</th>
             <th>Price</th>
-            <th>Status</th>
-            <th>Actions</th>
+            <th>Membership Price</th>
+            <th>Type</th>
+            <th>Image</th>
           </tr>
         </thead>
         <tbody>
           {items.map((item) => (
             <tr key={item.id}>
-              <td className="admin-table-name">{item.name}</td>
-              <td>{item.category}</td>
+              <td>{item.id}</td>
+              <td>{item.name}</td>
+              <td>{item.categoryId}</td>
+              <td>{item.brand}</td>
               <td>₹{item.price}</td>
+              <td>₹{item.membershipPrice || Math.round(item.price * 0.7)}</td>
               <td>
-                <span
-                  className={`admin-status ${
-                    item.status === 'active' ? 'active' : 'inactive'
-                  }`}
-                >
-                  ● {item.status === 'active' ? 'Active' : 'Inactive'}
+                <span className={`type-badge ${item.isVeg ? 'veg' : 'non-veg'}`}>
+                  {item.isVeg ? 'Veg' : 'Non-Veg'}
                 </span>
               </td>
               <td>
-                <div className="admin-table-actions">
-                  <button className="admin-table-btn">Edit</button>
-                  <button className="admin-table-btn delete">Delete</button>
-                </div>
+                {item.imageUrl && (
+                  <img 
+                    src={item.imageUrl} 
+                    alt={item.name}
+                    className="item-image"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                )}
               </td>
             </tr>
           ))}
