@@ -1,0 +1,76 @@
+/* Menu Items List Page Styles */
+
+.menu-items-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.menu-items-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+}
+
+.menu-items-list-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.menu-items-list-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.menu-items-list-btn {
+  padding: 10px 24px;
+  border-radius: 4px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menu-items-list-btn.primary {
+  background-color: #0066cc;
+  color: #fff;
+}
+
+.menu-items-list-btn.primary:hover {
+  background-color: #0052a3;
+}
+
+.menu-items-list-filters {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.menu-items-list-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-items-list-filter-group label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.menu-items-list-filter-group select,
+.menu-items-list-filter-group input {
+  padding: 8px 12px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.menu-items-list-filter-group input:focus,
+.menu-items-list-filter-group select:focus {
+  outline: none;
+  border-color: #0066cc;
+}

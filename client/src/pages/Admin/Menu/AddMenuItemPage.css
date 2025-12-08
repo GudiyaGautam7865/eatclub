@@ -1,0 +1,27 @@
+/* Add Menu Item Page Styles */
+
+.add-menu-item-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.add-menu-item-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 24px;
+}
+
+.add-menu-item-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 32px;
+  line-height: 1.6;
+}
+
+.add-menu-item-form-wrapper {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+}
