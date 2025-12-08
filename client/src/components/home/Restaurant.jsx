@@ -134,7 +134,7 @@ const restaurants = [
     rating: 4.4
   },
   {
-    id: 13,
+    id: 14,
     name: "Hola Pasta",
     description: "Fresh Gourmet Pasta.",
     deliveryTime: "13 mins",

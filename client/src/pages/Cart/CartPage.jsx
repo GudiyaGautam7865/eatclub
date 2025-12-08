@@ -11,6 +11,7 @@ import MembershipModal from "../../components/cart/MembershipModal.jsx";
 import { useCartContext } from '../../context/CartContext.jsx';
 import { useAddressContext } from '../../context/AddressContext.jsx';
 import { createOrderFromCart } from '../../services/ordersService.js';
+import { createSingleOrder } from '../../services/singleOrdersService.js';
 
 export default function CartPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,7 +52,24 @@ export default function CartPage() {
     if (items.length > 0 && selectedAddress) {
       try {
         const addressShort = selectedAddress.address?.split(',')[0] || selectedAddress.label || 'Delivery Address';
+        
+        // Create order for bulk/in-memory storage
         createOrderFromCart(items, cartTotal, addressShort);
+
+        // Also save to localStorage for single orders admin view
+        const singleOrderData = {
+          items: items,
+          totalAmount: cartTotal,
+          deliveryAddress: addressShort,
+          paymentMethod: selectedPayment || 'COD',
+          date: new Date().toISOString(),
+          status: 'Paid',
+        };
+        
+        createSingleOrder(singleOrderData);
+
+        // Show success message
+        alert('Order placed successfully!');
 
         // Clear the cart by removing all items
         items.forEach(item => {

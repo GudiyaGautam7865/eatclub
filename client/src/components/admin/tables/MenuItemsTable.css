@@ -67,3 +67,89 @@
   object-fit: cover;
   border-radius: 4px;
 }
+
+/* Admin orders table */
+.admin-table-container {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(23, 43, 77, 0.08);
+  overflow: hidden;
+  border: 1px solid #e7ecf3;
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.admin-table thead {
+  background: linear-gradient(90deg, #f5f7fb 0%, #f0f4ff 100%);
+}
+
+.admin-table th,
+.admin-table td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid #e7ecf3;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.admin-table th {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #4b5563;
+}
+
+.admin-table tbody tr:hover {
+  background: #f7f9fc;
+}
+
+.admin-table-id {
+  font-weight: 700;
+  color: #111827;
+}
+
+.admin-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.01em;
+}
+
+.admin-table-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-table-btn {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #d1d9e6;
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-table-btn:hover {
+  background: #0f7bff;
+  border-color: #0f7bff;
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(15, 123, 255, 0.15);
+}
+
+.admin-empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  color: #6b7280;
+  font-weight: 600;
+}
