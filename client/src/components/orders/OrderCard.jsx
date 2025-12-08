@@ -1,96 +1,77 @@
-import React from "react";
-import OrderStatusBadge from "./OrderStatusBadge";
+import React from 'react';
+import OrderStatusBadge from './OrderStatusBadge';
+
+function formatDateTime(isoString) {
+  if (!isoString) return '';
+  const date = new Date(isoString);
+  const options = {
+    day: '2-digit',
+    month: 'short',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  };
+  const formatted = date.toLocaleDateString('en-US', options);
+  return formatted;
+}
 
 export default function OrderCard({ order }) {
-  const formatDate = (dateString, isDelivered = false) => {
-    const date = new Date(dateString);
-    const options = { 
-      day: '2-digit', 
-      month: 'short', 
-      hour: '2-digit', 
-      minute: '2-digit', 
-      hour12: true 
-    };
-    const formatted = date.toLocaleDateString('en-GB', options);
-    const prefix = isDelivered ? "Delivered on" : "Placed on";
-    return `${prefix} ${formatted}`;
-  };
+  const {
+    id,
+    restaurantName,
+    status,
+    totalAmount,
+    itemSummary,
+    placedAt,
+    deliveredAt,
+    addressShort,
+  } = order;
 
-  const handleTrackOrder = () => {
-    console.log("Track order:", order.id);
-  };
+  const isOngoing =
+    status === 'PLACED' || status === 'PREPARING' || status === 'OUT_FOR_DELIVERY';
+  const isDelivered = status === 'DELIVERED';
 
-  const handleCancelOrder = () => {
-    console.log("Cancel order:", order.id);
-  };
-
-  const handleReorder = () => {
-    console.log("Reorder:", order.id);
-  };
-
-  const handleViewInvoice = () => {
-    console.log("View invoice:", order.id);
-  };
-
-  const handleNeedHelp = () => {
-    console.log("Need help:", order.id);
-  };
-
-  const isOngoing = ["PLACED", "PREPARING", "OUT_FOR_DELIVERY"].includes(order.status);
-  const isDelivered = order.status === "DELIVERED";
+  // Determine date/time string
+  const dateTimeString = isDelivered
+    ? `Delivered on ${formatDateTime(deliveredAt)}`
+    : `Placed on ${formatDateTime(placedAt)}`;
 
   return (
     <div className="order-card">
-      <div className="order-card-header">
-        <h3 className="order-restaurant-name">{order.restaurantName}</h3>
-        <div className="order-header-right">
-          <OrderStatusBadge status={order.status} />
-          <span className="order-total">₹{order.totalAmount}</span>
+      {/* Top Row */}
+      <div className="order-card-top">
+        <h3 className="order-card-restaurant">{restaurantName}</h3>
+        <div className="order-card-top-right">
+          <OrderStatusBadge status={status} />
+          <span className="order-card-amount">₹{totalAmount}</span>
         </div>
       </div>
 
-      <div className="order-details">
-        <p className="order-item-summary">{order.itemSummary}</p>
-        <p className="order-id">Order ID: {order.id}</p>
-        <p className="order-date">
-          {formatDate(
-            order.deliveredAt || order.placedAt, 
-            !!order.deliveredAt
-          )}
-        </p>
-        <p className="order-address">{order.addressShort}</p>
+      {/* Body */}
+      <div className="order-card-body">
+        <p className="order-card-items">{itemSummary}</p>
+        <p className="order-card-id">Order ID: {id}</p>
+        <p className="order-card-date">{dateTimeString}</p>
+        <p className="order-card-address">{addressShort}</p>
       </div>
 
-      <div className="order-actions">
+      {/* Actions */}
+      <div className="order-card-actions">
         {isOngoing && (
           <>
-            <button className="order-btn-primary" onClick={handleTrackOrder}>
-              Track Order
-            </button>
-            <button className="order-btn-ghost" onClick={handleCancelOrder}>
-              Cancel Order
-            </button>
+            <button className="order-btn-primary">Track Order</button>
+            <button className="order-btn-secondary">Cancel Order</button>
           </>
         )}
-        
         {isDelivered && (
           <>
-            <button className="order-btn-primary" onClick={handleReorder}>
-              Reorder
-            </button>
-            <button className="order-btn-ghost" onClick={handleViewInvoice}>
-              View Invoice
-            </button>
-            <a href="#" className="order-help-link" onClick={handleNeedHelp}>
-              Need help?
-            </a>
+            <button className="order-btn-primary">Reorder</button>
+            <button className="order-btn-secondary">View Invoice</button>
+            <button className="order-btn-text">Need help?</button>
           </>
         )}
-
-        {order.status === "CANCELLED" && (
-          <button className="order-btn-primary" onClick={handleReorder}>
-            Reorder
-          </button>
+        {status === 'CANCELLED' && (
+          <button className="order-btn-primary">Order Again</button>
         )}
       </div>
     </div>

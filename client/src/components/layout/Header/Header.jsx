@@ -71,29 +71,6 @@ function Header() {
   const profileRef = useRef(null);
   const signupRef = useRef(null);
 
-  // Initialize cart with default items if empty
-  useEffect(() => {
-    if (items.length === 0) {
-      // Add default sample items
-      addItem({
-        id: 1,
-        section: "BOX8 - Desi Meals",
-        title: "Dilli Rajma Meal",
-        oldPrice: 259,
-        price: 181,
-        qty: 1,
-      });
-      addItem({
-        id: 2,
-        section: "Mealful Rolls",
-        title: "Any 2 Rolls",
-        oldPrice: 354,
-        price: 252,
-        qty: 1,
-      });
-    }
-  }, []);
-
   // Filter items with qty > 0
   const cartItems = items.filter((it) => it.qty > 0);
   const cartCount = itemsCount;
@@ -194,7 +171,7 @@ function Header() {
     console.log('Sign up with Google');
     // Simulate user signup - in real app, this would come from backend
     setSignedUpUser({
-      name: "Vivek",
+      name: "username",
       phone: phoneNumber || "+91-XXXXXXXXXX",
       avatar: "V"
     });
@@ -240,6 +217,7 @@ function Header() {
 
   const handleProceedToCart = () => {
     setCartOpen(false);
+    window.scrollTo(0, 0);
     navigate("/cart");
   };
 
@@ -369,20 +347,20 @@ function Header() {
                           </div>
                           <div className="ec-qty">
                             <button 
-                              onClick={() => changeQty(it.id, -1)} 
+                              onClick={(e) => { e.stopPropagation(); changeQty(it.id, -1); }} 
                               aria-label={`Decrease ${it.title} quantity`}
                               title="Decrease quantity"
                             >-</button>
                             <span>{it.qty}</span>
                             <button 
-                              onClick={() => changeQty(it.id, 1)}
+                              onClick={(e) => { e.stopPropagation(); changeQty(it.id, 1); }}
                               aria-label={`Increase ${it.title} quantity`}
                               title="Increase quantity"
                             >+</button>
                           </div>
                           <button 
                             className="ec-item-remove"
-                            onClick={() => removeFromCart(it.id)}
+                            onClick={(e) => { e.stopPropagation(); removeFromCart(it.id); }}
                             aria-label="remove item"
                             title="Remove item"
                           >
@@ -401,7 +379,7 @@ function Header() {
                       <button 
                         className="ec-cta" 
                         onClick={handleProceedToCart}
-                        style={{ border: 'none', cursor: 'pointer', width: '100%', padding: '10px', backgroundColor: 'inherit' }}
+                        style={{ border: 'none', cursor: 'pointer', width: '100%', padding: '10px', backgroundColor: '#d60036', color: '#fff' }}
                       >
                         Proceed To Cart
                       </button>

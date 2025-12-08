@@ -1,8 +1,33 @@
 import React from 'react';
 import './ItemCard.css';
 import { Info } from 'lucide-react';
+import useCart from '../../../hooks/useCart';
 
 export const ProductCard = ({ item }) => {
+  const { getItemQuantity, addToCart, updateItemQuantity } = useCart();
+  const quantity = getItemQuantity(item.id);
+
+  const handleAddToCart = () => {
+    addToCart({
+      id: item.id,
+      name: item.name,
+      title: item.name,
+      section: item.categoryName || 'Menu Item',
+      price: item.membershipPrice || item.price || 0,
+      oldPrice: item.price || item.membershipPrice || 0,
+      imageUrl: item.imageUrl,
+      isVeg: item.isVeg
+    });
+  };
+
+  const handleIncrement = () => {
+    updateItemQuantity(item.id, quantity + 1);
+  };
+
+  const handleDecrement = () => {
+    updateItemQuantity(item.id, quantity - 1);
+  };
+
   return (
     <div className="item-card">
       {/* Image Area */}
@@ -43,9 +68,29 @@ export const ProductCard = ({ item }) => {
               </span>
             </div>
             
-            <button className="add-btn">
-              ADD
-            </button>
+            {quantity === 0 ? (
+              <button className="add-btn" onClick={handleAddToCart}>
+                ADD +
+              </button>
+            ) : (
+              <div className="qty-control">
+                <button 
+                  className="qty-btn qty-btn-minus" 
+                  onClick={handleDecrement}
+                  aria-label="Decrease quantity"
+                >
+                  −
+                </button>
+                <span className="qty-value">{quantity}</span>
+                <button 
+                  className="qty-btn qty-btn-plus" 
+                  onClick={handleIncrement}
+                  aria-label="Increase quantity"
+                >
+                  +
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Membership Price Banner */}
