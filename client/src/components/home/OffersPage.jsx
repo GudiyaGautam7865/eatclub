@@ -1,12 +1,14 @@
 import React, { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./OffersPage.css";
+import { offerToProductMapping } from "../../services/restaurantMapping";
 
 const offers = [
   { 
     id: 1,
     title: "HAPPY HOURS", 
     subtitle: "4-6 PM", 
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&h=200&fit=crop", 
+    image: "https://assets.box8.co.in/horizontal-rectangle/web/banner/2400", 
     type: "happy-hours",
     discount: "50% OFF"
   },
@@ -14,39 +16,39 @@ const offers = [
     id: 2,
     title: "BIRYANI", 
     price: "₹99", 
-    image: "https://images.unsplash.com/photo-1563379091339-03246963d51a?w=300&h=200&fit=crop", 
+    image: "https://assets.box8.co.in/horizontal-rectangle/web/banner/2521", 
     type: "normal"
   },
   { 
     id: 3,
     title: "VALUE FUN PIZZAS", 
     price: "₹99", 
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=200&fit=crop", 
+    image: "https://assets.box8.co.in/horizontal-rectangle/web/banner/2396", 
     type: "normal"
   },
   { 
     id: 4,
     title: "PROTEIN MEALS", 
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&h=200&fit=crop", 
+    image: "https://assets.box8.co.in/horizontal-rectangle/web/banner/2397", 
     type: "protein"
   },
   { 
     id: 5,
     title: "₹99 MEALS", 
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=300&h=200&fit=crop", 
+    image: "https://assets.box8.co.in/horizontal-rectangle/web/banner/2390", 
     type: "special-99"
   },
   { 
     id: 6,
     title: "WHAT'S NEW", 
-    image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=300&h=200&fit=crop", 
+    image: "https://assets.box8.co.in/horizontal-rectangle/web/banner/2483", 
     type: "whats-new"
   },
   { 
     id: 7,
     title: "BUY ONE GET ONE", 
     subtitle: "WEDNESDAY", 
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=300&h=200&fit=crop", 
+    image: "https://assets.box8.co.in/horizontal-rectangle/web/banner/2401", 
     type: "bogo"
   },
 ];
@@ -101,6 +103,7 @@ function OfferCard({ offer, onClick }) {
 }
 
 export default function OffersPage() {
+  const navigate = useNavigate();
   const trackRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -127,7 +130,11 @@ export default function OffersPage() {
   };
 
   const handleOfferClick = (offer) => {
-    console.log('Offer clicked:', offer);
+    const productId = offerToProductMapping[offer.title];
+    if (productId) {
+      navigate(`/menu?restaurant=${productId}`);
+      setTimeout(() => window.scrollTo(0, 0), 100);
+    }
   };
 
   React.useEffect(() => {

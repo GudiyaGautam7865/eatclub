@@ -1,0 +1,423 @@
+/* ========================================
+   Address Dropdown CSS Variables
+   ======================================== */
+:root {
+  --ad-primary: #00d0e3;
+  --ad-primary-dark: #00a8c1;
+  --ad-primary-light: #e0f7fa;
+  --ad-text-dark: #1f2937;
+  --ad-text-base: #333333;
+  --ad-text-muted: #4b5563;
+  --ad-text-light: #6b7280;
+  --ad-bg-white: #ffffff;
+  --ad-bg-light: #f8fbfc;
+  --ad-bg-lighter: #f9fafb;
+  --ad-border: #e5e7eb;
+  --ad-border-light: #f3f4f6;
+  --ad-shadow-md: 0 4px 8px rgba(0, 0, 0, 0.1);
+  --ad-shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.12);
+  --ad-transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   Address Dropdown Modal
+   ======================================== */
+.ec-address-dropdown-modal {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  background-color: var(--ad-bg-white);
+  border: 1px solid var(--ad-border);
+  box-shadow: var(--ad-shadow-lg);
+  border-radius: 12px;
+  min-width: 480px;
+  max-width: 540px;
+  z-index: 1200;
+  overflow: hidden;
+  animation: slideDownSmooth 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes slideDownSmooth {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   Modal Header
+   ======================================== */
+.ec-address-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--ad-border-light);
+}
+
+.ec-address-modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ad-text-dark);
+}
+
+.ec-close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--ad-text-light);
+  padding: 4px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: background-color var(--ad-transition),
+              color var(--ad-transition);
+}
+
+.ec-close-btn:hover {
+  background-color: var(--ad-bg-lighter);
+  color: var(--ad-text-dark);
+}
+
+.ec-close-btn:focus-visible {
+  outline: 2px solid var(--ad-primary);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   Search Box
+   ======================================== */
+.ec-address-search-wrapper {
+  position: relative;
+  padding: 12px 20px 8px;
+}
+
+.ec-address-search {
+  width: 100%;
+  padding: 11px 12px 11px 36px;
+  border: 1px solid var(--ad-border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  font-weight: 500;
+  transition: border-color var(--ad-transition),
+              box-shadow var(--ad-transition);
+  background-color: var(--ad-bg-white);
+  color: var(--ad-text-base);
+}
+
+.ec-address-search:focus {
+  outline: none;
+  border-color: var(--ad-primary);
+  box-shadow: 0 0 0 3px rgba(0, 208, 227, 0.1);
+}
+
+.ec-address-search::placeholder {
+  color: var(--ad-text-light);
+}
+
+.ec-address-search-wrapper .ec-location-icon {
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 15px;
+  pointer-events: none;
+  color: var(--ad-text-light);
+}
+
+/* ========================================
+   Info Text
+   ======================================== */
+.ec-address-info-text {
+  padding: 8px 20px 12px;
+  font-size: 12px;
+  color: var(--ad-text-muted);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.ec-address-info-text p {
+  margin: 0;
+}
+
+/* ========================================
+   Location Option Button
+   ======================================== */
+.ec-location-option {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--ad-border-light);
+}
+
+.ec-location-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--ad-bg-lighter);
+  border: 1px solid var(--ad-border);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ad-text-dark);
+  transition: all var(--ad-transition);
+}
+
+.ec-location-btn:hover {
+  background-color: var(--ad-primary-light);
+  border-color: var(--ad-primary);
+  box-shadow: 0 6px 14px rgba(0, 168, 193, 0.12);
+}
+
+.ec-location-btn:focus-visible {
+  outline: 2px solid var(--ad-primary);
+  outline-offset: 2px;
+}
+
+.ec-location-btn:active {
+  transform: scale(0.98);
+}
+
+.ec-location-icon-lg {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* ========================================
+   Saved Addresses Section
+   ======================================== */
+.ec-saved-addresses-header {
+  padding: 12px 20px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ad-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  background-color: var(--ad-bg-lighter);
+  border-top: 1px solid var(--ad-border-light);
+  border-bottom: 1px solid var(--ad-border-light);
+}
+
+.ec-saved-addresses-list {
+  padding: 12px 20px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.ec-saved-addresses-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ec-saved-addresses-list::-webkit-scrollbar-track {
+  background: var(--ad-bg-lighter);
+}
+
+.ec-saved-addresses-list::-webkit-scrollbar-thumb {
+  background: var(--ad-border);
+  border-radius: 3px;
+}
+
+.ec-saved-addresses-list::-webkit-scrollbar-thumb:hover {
+  background: var(--ad-text-light);
+}
+
+.ec-saved-address-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  background: var(--ad-bg-white);
+  border: 1px solid var(--ad-border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--ad-transition);
+  text-align: left;
+}
+
+.ec-saved-address-item:hover {
+  background-color: var(--ad-primary-light);
+  border-color: var(--ad-primary);
+  box-shadow: 0 8px 18px rgba(0, 168, 193, 0.12);
+}
+
+.ec-saved-address-item:focus-visible {
+  outline: 2px solid var(--ad-primary);
+  outline-offset: 2px;
+}
+
+.ec-saved-address-item:active {
+  transform: scale(0.98);
+}
+
+.ec-address-type-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ec-address-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.ec-address-type {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ad-text-dark);
+  margin-bottom: 4px;
+}
+
+.ec-address-detail {
+  font-size: 12px;
+  color: var(--ad-text-muted);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+@media (max-width: 640px) {
+  .ec-address-dropdown-modal {
+    min-width: auto;
+    max-width: calc(100vw - 32px);
+    width: calc(100vw - 32px);
+    left: 16px !important;
+    right: 16px !important;
+  }
+
+  .ec-address-modal-header h3 {
+    font-size: 15px;
+  }
+
+  .ec-address-search {
+    font-size: 14px;
+    padding: 10px 10px 10px 32px;
+  }
+
+  .ec-address-info-text {
+    font-size: 11px;
+    padding: 8px 16px 12px;
+  }
+
+  .ec-location-btn {
+    padding: 11px 12px;
+    font-size: 13px;
+  }
+
+  .ec-saved-addresses-list {
+    padding: 10px 16px 12px;
+    gap: 8px;
+  }
+
+  .ec-saved-address-item {
+    padding: 10px;
+  }
+
+  .ec-address-type {
+    font-size: 12px;
+  }
+
+  .ec-address-detail {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ec-address-dropdown-modal {
+    width: calc(100vw - 16px);
+    left: 8px !important;
+    right: 8px !important;
+    max-width: calc(100vw - 16px);
+  }
+
+  .ec-address-modal-header {
+    padding: 12px 16px;
+  }
+
+  .ec-address-modal-header h3 {
+    font-size: 14px;
+  }
+
+  .ec-close-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+  }
+
+  .ec-address-search-wrapper {
+    padding: 10px 16px 6px;
+  }
+
+  .ec-address-search {
+    font-size: 13px;
+    padding: 9px 10px 9px 30px;
+  }
+
+  .ec-address-search-wrapper .ec-location-icon {
+    left: 24px;
+    font-size: 14px;
+  }
+
+  .ec-address-info-text {
+    font-size: 11px;
+    padding: 6px 16px 10px;
+  }
+
+  .ec-location-option {
+    padding: 10px 16px;
+  }
+
+  .ec-location-btn {
+    padding: 10px 12px;
+    font-size: 12px;
+    gap: 10px;
+  }
+
+  .ec-location-icon-lg {
+    font-size: 16px;
+  }
+
+  .ec-saved-addresses-header {
+    padding: 10px 16px 8px;
+    font-size: 10px;
+  }
+
+  .ec-saved-addresses-list {
+    padding: 10px 16px 12px;
+    gap: 8px;
+    max-height: 280px;
+  }
+
+  .ec-saved-address-item {
+    padding: 9px 10px;
+    gap: 10px;
+  }
+
+  .ec-address-type-icon {
+    font-size: 18px;
+  }
+
+  .ec-address-type {
+    font-size: 11px;
+  }
+
+  .ec-address-detail {
+    font-size: 10px;
+  }
+}

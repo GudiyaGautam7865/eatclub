@@ -1,20 +1,57 @@
 /* Offers Section */
 .offers-section {
-  padding: 40px 20px;
-  background: #ffffff;
+  padding: 50px 20px;
+  background: linear-gradient(135deg, #f8fdfd 0%, #e8f8f8 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.offers-section::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0, 184, 184, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
 }
 
 .offers-title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #333;
-  margin: 0 0 24px 0;
+  font-size: 32px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #2c3e50 0%, #00b8b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 40px 0;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.offers-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #00b8b8, #00d4d4);
+  border-radius: 2px;
 }
 
 .offers-container {
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  box-shadow: 0 20px 60px rgba(0, 184, 184, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .offers-scroll {
@@ -36,23 +73,43 @@
 
 /* Offer Cards */
 .offer-card {
-  min-width: 160px;
-  height: 200px;
-  background: #ffffff;
-  border: 2px solid #e8e8e8;
-  border-radius: 16px;
-  padding: 16px;
+  min-width: 180px;
+  height: 220px;
+  background: linear-gradient(145deg, #ffffff 0%, #f8fdfd 100%);
+  border: 1px solid rgba(0, 184, 184, 0.2);
+  border-radius: 20px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 184, 184, 0.1);
+}
+
+.offer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #00b8b8, #00d4d4, #00b8b8);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .offer-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(0, 184, 184, 0.2);
+  border-color: rgba(0, 184, 184, 0.4);
 }
 
 .offer-content {
@@ -67,11 +124,19 @@
 }
 
 .offer-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: #333;
-  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #2c3e50, #00b8b8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 6px 0;
   line-height: 1.2;
+  transition: all 0.3s ease;
+}
+
+.offer-card:hover .offer-title {
+  transform: translateY(-2px);
 }
 
 .offer-subtitle {
@@ -92,13 +157,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: 0%;
 }
 
 .offer-image {
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.offer-card:hover .offer-image {
+  transform: scale(1.1) rotate(2deg);
 }
 
 .image-placeholder {
@@ -174,25 +246,31 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
   border: none;
-  background: #f5f5f5;
+  background: linear-gradient(135deg, #00b8b8, #00d4d4);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 20px;
-  color: #333;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  font-size: 22px;
+  color: white;
+  box-shadow: 0 8px 25px rgba(0, 184, 184, 0.3);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 10;
+  backdrop-filter: blur(10px);
 }
 
 .scroll-btn:hover {
-  background: #e0e0e0;
-  transform: translateY(-50%) scale(1.1);
+  background: linear-gradient(135deg, #00d4d4, #00e6e6);
+  transform: translateY(-50%) scale(1.15);
+  box-shadow: 0 12px 35px rgba(0, 184, 184, 0.4);
+}
+
+.scroll-btn:active {
+  transform: translateY(-50%) scale(1.05);
 }
 
 .scroll-left {

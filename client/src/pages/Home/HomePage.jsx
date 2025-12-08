@@ -1,9 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 import OffersPage from "../../components/home/OffersPage";
 import CategorySlider from "../../components/home/CategorySlider";
 import Restaurant from "../../components/home/Restaurant";
 import Footer from "../../components/layout/Footer/Footer";
+import { restaurantToProductMapping } from "../../services/restaurantMapping";
 
 // This is a placeholder component for a single offer card
 const OfferCard = ({ title, price, imageUrl, className = "", label = null }) => (
@@ -21,6 +23,17 @@ const OfferCard = ({ title, price, imageUrl, className = "", label = null }) => 
 );
 
 function HomePage() {
+  const navigate = useNavigate();
+
+  const handleRestaurantClick = (restaurant) => {
+    const productId = restaurantToProductMapping[restaurant.name];
+    if (productId) {
+      navigate(`/menu?restaurant=${productId}`);
+      // Scroll to top after navigation
+      setTimeout(() => window.scrollTo(0, 0), 100);
+    }
+  };
+
   return (
     <div className="home-page">
       {/* Promotional Banner Section */}
@@ -59,7 +72,7 @@ function HomePage() {
       <CategorySlider />
 
       {/* Restaurants section */}
-      <Restaurant />
+      <Restaurant onRestaurantClick={handleRestaurantClick} />
       
       {/* Footer */}
     

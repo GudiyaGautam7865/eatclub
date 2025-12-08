@@ -1,0 +1,157 @@
+/* BrandsOnBoard.css */
+
+.brands-section {
+  background-color: #ffffff;
+  padding: 80px 0;
+  width: 100%;
+}
+
+.brands-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 60px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 80px;
+}
+
+/* Header (Left Side) */
+.brands-header {
+  flex: 0 0 auto;
+  max-width: 400px;
+  text-align: left;
+}
+
+.brands-title {
+  font-size: 48px;
+  font-weight: 800;
+  color: #000000;
+  margin: 0 0 20px 0;
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.brands-subtitle {
+  font-size: 18px;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* Brands Grid (Right Side) */
+.brands-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  max-width: 800px;
+}
+
+.brand-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.2s ease;
+}
+
+.brand-badge:hover {
+  transform: translateY(-5px);
+}
+
+.brand-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0;
+  transition: all 0.3s ease;
+}
+
+.brand-emoji {
+  font-size: 36px;
+  z-index: 2;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+.brand-logo-img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  z-index: 2;
+}
+
+/* Brand names are hidden in the second image reference (text is inside logo), 
+   but since we use emojis, we can either hide them or keep them very small.
+   I will keep them visually consistent with the first image but minimal. */
+.brand-name {
+  display: none; /* Hiding based on the compact grid look in image 2 */
+}
+
+/* If you prefer to show names like Image 1, uncomment this:
+.brand-name {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #374151;
+  text-align: center;
+  max-width: 90px;
+  line-height: 1.2;
+}
+*/
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .brands-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 40px;
+  }
+
+  .brands-header {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .brands-grid {
+    width: 100%;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    justify-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .brands-section {
+    padding: 60px 0;
+  }
+  
+  .brands-container {
+    padding: 0 20px;
+  }
+
+  .brands-title {
+    font-size: 32px;
+  }
+  
+  .brands-grid {
+    grid-template-columns: repeat(3, 1fr); /* Keep 3 columns on mobile too for this specific look */
+    gap: 16px;
+  }
+
+  .brand-circle {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .brand-emoji {
+    font-size: 28px;
+  }
+}

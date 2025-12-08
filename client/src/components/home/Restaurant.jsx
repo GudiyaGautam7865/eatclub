@@ -8,8 +8,8 @@ const restaurants = [
     description: "India's Largest Desi Meals Brand",
     deliveryTime: "15 mins",
     offer: "30% Off + ZERO Extra Fees",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/box8-logo.png",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/1_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/1",
     rating: 4.2
   },
   {
@@ -18,8 +18,8 @@ const restaurants = [
     description: "The Thin Crust Experts",
     deliveryTime: "19 mins",
     offer: "30% Off + ZERO Extra Fees",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/leancrust-logo.png",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/20_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/20",
     rating: 4.5
   },
   {
@@ -28,130 +28,122 @@ const restaurants = [
     description: "India's Most Flavourful Biryani",
     deliveryTime: "15 mins",
     offer: "30% Off + ZERO Extra Fees",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/zaza-logo.png",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/22_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/22",
     rating: 4.3
   },
   {
     id: 4,
-    name: "McDonald's",
-    description: "Burgers, Fries & More",
+    name: "WeFit - Protein Meals",
+    description: "Upto 74 gm Protein in Bowls,Salads & Sandwiches",
     deliveryTime: "12 mins",
-    offer: "25% Off + Free Delivery",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/mcdonalds-logo.png",
+    offer: "30% Off + ZERO Extra Fees",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/25_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/25",
     rating: 4.1
   },
   {
     id: 5,
-    name: "KFC",
-    description: "Finger Lickin' Good",
+    name: "MOJO Pizza- 2X Toppings",
+    description: "India’s Highest Rated Pizza Delivery Chain",
     deliveryTime: "18 mins",
-    offer: "40% Off + ZERO Extra Fees",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/kfc-logo.png",
+    offer: "30% Off + ZERO Extra Fees",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/13_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/13",
     rating: 4.0
   },
   {
     id: 6,
-    name: "Domino's Pizza",
-    description: "Pizza Delivery Experts",
+    name: "NH1 Bowls",
+    description: "Highway to North! Real North-Undian Taste.",
     deliveryTime: "20 mins",
-    offer: "Buy 1 Get 1 Free",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/dominos-logo.png",
+    offer: "30% Off + ZERO Extra Fees",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/16_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/16",
     rating: 4.2
   },
   {
     id: 7,
-    name: "Subway",
-    description: "Eat Fresh Sandwiches",
+    name: "Daily Kitchen-Homely Meals",
+    description: "Mom-Style Homely Meals That You Can Have Daily",
     deliveryTime: "14 mins",
-    offer: "20% Off + Free Cookie",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/subway-logo.png",
+    offer: "30% Off + ZERO Extra Fees",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/31_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/31",
     rating: 4.4
   },
   {
     id: 8,
-    name: "Burger King",
-    description: "Have It Your Way",
+    name: "The Ghee Khichdi Project",
+    description: "Comforting, Wholesome & Made with 100% Pure Ghee",
     deliveryTime: "16 mins",
-    offer: "35% Off + ZERO Extra Fees",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/bk-logo.png",
+    offer: "30% Off + ZERO Extra Fees",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/37_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/37",
     rating: 4.1
+  }, 
+  {
+    id: 10,
+    name: "Mealful Rolls",
+    description: "India's Biggest Rolls",
+    deliveryTime: "25 mins",
+    offer: "30% Off + ZERO Extra Fees",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/26_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/15",
+    rating: 4.0
   },
   {
     id: 9,
-    name: "Taco Bell",
-    description: "Mexican Inspired Food",
+    name: "BOOM Sandwich",
+    description: "Sub Style Sandwiches,Freshly Made",
     deliveryTime: "22 mins",
-    offer: "30% Off + Free Nachos",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/taco-logo.png",
+    offer: "30% Off + ZERO Extra Fees",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/15_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/26",
     rating: 4.3
   },
+ 
   {
-    id: 10,
-    name: "Pizza Hut",
-    description: "No One OutPizzas The Hut",
+    id: 13,
+    name: "Bhatti Chicken",
+    description: "Grilled in a Bhatti,Not Fried",
     deliveryTime: "25 mins",
-    offer: "50% Off + Free Garlic Bread",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/pizzahut-logo.png",
+    offer: "30% Off + ZERO Extra Fees",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/26_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/24",
     rating: 4.0
   },
   {
     id: 11,
-    name: "Starbucks",
-    description: "Coffee & More",
+    name: "Itiminaan Matka Biriyani",
+    description: "Slow,Cooked & Served in an Earthen Matka",
     deliveryTime: "10 mins",
-    offer: "Buy 2 Get 1 Free",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/starbucks-logo.png",
+    offer: "30% Off + ZERO Extra Fees",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/24_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/14",
     rating: 4.6
   },
   {
     id: 12,
-    name: "Haldiram's",
-    description: "Traditional Indian Sweets",
+    name: "Globo Ice Creams",
+    description: "Ice Creams of the World.Taste That Teleports You.",
     deliveryTime: "17 mins",
-    offer: "25% Off + Free Delivery",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/haldirams-logo.png",
+    offer: "30% Off + ZERO Extra Fees",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/14_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/21",
     rating: 4.4
   },
   {
     id: 13,
-    name: "Wow! Momo",
-    description: "Steamed & Fried Momos",
+    name: "Hola Pasta",
+    description: "Fresh Gourmet Pasta.",
     deliveryTime: "13 mins",
-    offer: "40% Off + ZERO Extra Fees",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/wow-logo.png",
+    offer: "30% Off + ZERO Extra Fees",
+    image: "https://assets.box8.co.in/rectangle-19x10/xhdpi/brand/21_disabled",
+    logo: "https://assets.box8.co.in/icon/web/brand/27",
     rating: 4.2
-  },
-  {
-    id: 14,
-    name: "Faasos",
-    description: "Wraps & Rolls Specialist",
-    deliveryTime: "21 mins",
-    offer: "30% Off + Free Drink",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/faasos-logo.png",
-    rating: 4.1
-  },
-  {
-    id: 15,
-    name: "Behrouz Biryani",
-    description: "Royal Biryani Experience",
-    deliveryTime: "24 mins",
-    offer: "45% Off + ZERO Extra Fees",
-    image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=500&h=300&fit=crop",
-    logo: "/src/assets/images/behrouz-logo.png",
-    rating: 4.5
   }
+
 ];
 
 function RestaurantCard({ restaurant, onClick }) {
@@ -200,10 +192,11 @@ function RestaurantCard({ restaurant, onClick }) {
   );
 }
 
-export default function Restaurant() {
+export default function Restaurant({ onRestaurantClick }) {
   const handleRestaurantClick = (restaurant) => {
-    console.log('Restaurant clicked:', restaurant);
-    // Add navigation logic here
+    if (onRestaurantClick) {
+      onRestaurantClick(restaurant);
+    }
   };
 
   return (

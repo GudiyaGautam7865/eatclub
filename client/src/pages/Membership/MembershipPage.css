@@ -1,1 +1,356 @@
-/* Placeholder: MembershipPage styles */
+/* MembershipPage.css */
+
+.membership-page {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background-color: #f8fafa;
+  min-height: 100vh;
+  color: #111;
+}
+
+.membership-page h1, 
+.membership-page h2, 
+.membership-page h3, 
+.membership-page p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Section 1: Why EatClub */
+.why-eatclub {
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.why-container {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.why-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.why-header h1 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.logo-placeholder {
+  background: #00b8b8;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  margin: 15px 0;
+  display: inline-block;
+}
+
+.why-header h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111;
+  margin-top: 15px;
+}
+
+.benefits-list {
+  list-style: none;
+  padding: 0;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 30px;
+}
+
+.benefit-icon {
+  width: 50px;
+  height: 50px;
+  background: #000;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 18px;
+  margin-right: 20px;
+  flex-shrink: 0;
+}
+
+.benefit-content h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 5px;
+}
+
+.benefit-content p {
+  font-size: 14px;
+  color: #6b7280;
+  line-height: 1.4;
+}
+
+/* Section 2: Membership Selection */
+.membership-selection {
+  padding: 40px 20px;
+}
+
+.selection-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.selection-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.selection-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111;
+  line-height: 1.2;
+  margin-bottom: 15px;
+}
+
+.location-notice {
+  font-size: 16px;
+  color: #333;
+}
+
+.not-available {
+  color: #ff6a00;
+  font-weight: 600;
+}
+
+.features-box {
+  background: #f4faf9;
+  border-radius: 12px;
+  padding: 20px;
+  margin: 30px 0;
+}
+
+.features-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.features-box li {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
+  position: relative;
+  padding-left: 20px;
+}
+
+.features-box li:before {
+  content: '•';
+  color: #00b8b8;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+}
+
+.membership-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.membership-card {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.membership-card.selected {
+  border-color: #00b8b8;
+  box-shadow: 0 4px 20px rgba(0, 184, 184, 0.2);
+}
+
+.card-badge {
+  background: #00b8b8;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.card-price {
+  font-size: 36px;
+  font-weight: 800;
+  color: #00b8b8;
+  margin: 20px 0 5px;
+}
+
+.card-old-price {
+  font-size: 18px;
+  color: #6b7280;
+  text-decoration: line-through;
+  margin-bottom: 5px;
+}
+
+.card-duration {
+  font-size: 16px;
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+.card-radio {
+  display: flex;
+  justify-content: center;
+}
+
+.radio-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  position: relative;
+}
+
+.radio-circle.filled {
+  border-color: #00b8b8;
+}
+
+.radio-circle.filled:after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: #00b8b8;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.users-text {
+  text-align: center;
+  font-size: 16px;
+  color: #6b7280;
+  margin: 30px 0 20px;
+}
+
+.explore-btn {
+  background: #000;
+  color: white;
+  border: none;
+  padding: 16px 40px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  transition: background 0.3s ease;
+}
+
+.explore-btn:hover {
+  background: #333;
+}
+
+/* Section 3: Brands On Board */
+.brands-section {
+  background: #f2f8f8;
+  padding: 60px 20px;
+  border-radius: 40px 40px 0 0;
+}
+
+.brands-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.brands-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.brands-header h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 10px;
+}
+
+.brands-header p {
+  font-size: 16px;
+  color: #6b7280;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.brands-gallery {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.brands-gallery img {
+  width: 120px;
+  height: 120px;
+  border-radius: 15px;
+  object-fit: cover;
+  box-shadow: 0 8px 25px rgba(0, 184, 184, 0.15);
+  border: 2px solid rgba(0, 184, 184, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.brands-gallery img:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(0, 184, 184, 0.25);
+  border-color: #00b8b8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .why-container {
+    padding: 30px 20px;
+  }
+  
+  .membership-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .explore-btn {
+    width: 100%;
+  }
+  
+  .brands-gallery {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  
+  .brands-gallery img {
+    width: 100px;
+    height: 100px;
+  }
+}

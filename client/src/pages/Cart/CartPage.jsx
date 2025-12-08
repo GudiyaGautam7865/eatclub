@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./CartPage.css";
 import ScheduleModal from "../../components/cart/ScheduleModal.jsx";
 import AddressMapModal from "../../components/cart/AddressMapModal.jsx";
@@ -9,21 +9,22 @@ import CouponModal from "../../components/cart/CouponModal.jsx";
 import CouponAppliedModal from "../../components/cart/CouponAppliedModal.jsx";
 import MembershipModal from "../../components/cart/MembershipModal.jsx";
 import { useCartContext } from '../../context/CartContext.jsx';
+import { useAddressContext } from '../../context/AddressContext.jsx';
+import { createOrderFromCart } from '../../services/ordersService.js';
 
 export default function CartPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scheduledSlot, setScheduledSlot] = useState("");
   const [activeSection, setActiveSection] = useState("time");
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [addresses, setAddresses] = useState([
-    { id: 1, label: 'Take Away', title: 'Take Away', text: 'PIMPLE SAUDAGAR' }
-  ]);
   const [mapOpen, setMapOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [pendingLocation, setPendingLocation] = useState('');
   const [paymentTab, setPaymentTab] = useState('UPI');
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [showPaymentResult, setShowPaymentResult] = useState(false);
+
+  const navigate = useNavigate();
+  const { addresses, selectedAddress, selectAddress } = useAddressContext();
 
   // use cart context for persistent cart state
   const {
@@ -44,13 +45,38 @@ export default function CartPage() {
 
   const cartCount = itemsCount;
   const cartTotal = total;
+
   const handlePay = () => {
-    // Deselect all sections and clear selections before showing payment result
-    setActiveSection("");
-    setSelectedPayment(null);
-    setSelectedAddress(null);
-    setScheduledSlot("");
-    setShowPaymentResult(true);
+    // Create order from current cart
+    if (items.length > 0 && selectedAddress) {
+      try {
+        const addressShort = selectedAddress.address?.split(',')[0] || selectedAddress.label || 'Delivery Address';
+        createOrderFromCart(items, cartTotal, addressShort);
+
+        // Clear the cart by removing all items
+        items.forEach(item => {
+          if (item.qty > 0) {
+            removeItem(item.id);
+          }
+        });
+
+        // Navigate to manage orders page
+        navigate('/manage_orders');
+      } catch (error) {
+        console.error('Error creating order:', error);
+        // Fallback: still show payment result on error
+        setActiveSection("");
+        setSelectedPayment(null);
+        setScheduledSlot("");
+        setShowPaymentResult(true);
+      }
+    } else {
+      // If no items or no address, just show payment result as before
+      setActiveSection("");
+      setSelectedPayment(null);
+      setScheduledSlot("");
+      setShowPaymentResult(true);
+    }
   };
 
   const addressRef = React.createRef();
@@ -76,17 +102,9 @@ export default function CartPage() {
   };
 
   const handleConfirmLocation = (locationString) => {
-    // locationString is formatted address from map picker
     setPendingLocation(locationString);
     setMapOpen(false);
     setTimeout(() => setFormOpen(true), 80);
-  };
-
-  const handleSaveAddress = (addr) => {
-    setAddresses(prev => [...prev, addr]);
-    setSelectedAddress(addr.id);
-    setFormOpen(false);
-    setActiveSection('address');
   };
 
   // recompute cart count and total when items/membership/appliedSavings change
@@ -146,10 +164,10 @@ export default function CartPage() {
             ) : (
               <div className="card-body address-grid">
                 {addresses.map((a) => (
-                  <div key={a.id} className={`addr-card ${selectedAddress === a.id ? "selected" : ""}`} onClick={() => setSelectedAddress(a.id)}>
+                  <div key={a.id} className={`addr-card ${selectedAddress?.id === a.id ? "selected" : ""}`} onClick={() => selectAddress(a.id)}>
                     <div className="addr-label">{a.label}</div>
-                    <div className="addr-title">{a.title}</div>
-                    <div className="addr-text">{a.text}</div>
+                    <div className="addr-title">{a.address?.split(',')[0] || a.label}</div>
+                    <div className="addr-text">{a.address}</div>
                   </div>
                 ))}
 
@@ -267,7 +285,7 @@ export default function CartPage() {
                   <div className="coupon-banner">Congrats! You've saved <strong>₹{appliedSavings}</strong> with <span className="code">{appliedCoupon.code || appliedCoupon}</span></div>
                 )}
 
-                {hasMembership && (
+                {hasMembership ? (
                   <div className="cart-item membership">
                     <div className="membership-left">EATCLUB {appliedCoupon ? '6 Months' : '12 Months'} Membership</div>
                     <div className="membership-right">{appliedCoupon ? 'FREE' : '₹9'} { !appliedCoupon && <span className="old">₹199</span> }</div>
@@ -277,6 +295,10 @@ export default function CartPage() {
                       hideMembership();
                       removeCoupon();
                     }}>REMOVE</button>
+                  </div>
+                ) : (
+                  <div className="cart-item membership add-membership-inline">
+                    <button className="btn-secondary" onClick={()=>setMembershipOpen(true)}>Add membership</button>
                   </div>
                 )}
                 {/* render food items list */}
@@ -339,7 +361,7 @@ export default function CartPage() {
       </div>
         <ScheduleModal isOpen={isModalOpen} onClose={closeSchedule} onSchedule={handleSchedule} initial={scheduledSlot} />
         <AddressMapModal isOpen={mapOpen} onClose={closeMap} onConfirm={handleConfirmLocation} />
-        <AddressFormModal isOpen={formOpen} onClose={closeForm} initialAddress={pendingLocation} onSave={handleSaveAddress} />
+        <AddressFormModal isOpen={formOpen} onClose={closeForm} initialAddress={pendingLocation} />
         <PaymentResult open={showPaymentResult} onClose={()=>setShowPaymentResult(false)} method={selectedPayment} amount={cartTotal} />
         <CouponModal isOpen={couponOpen} onClose={()=>setCouponOpen(false)} onApply={(c)=>{ applyCoupon(c); setCouponOpen(false); setCouponAppliedOpen(true); }} />
         <CouponAppliedModal open={couponAppliedOpen} onClose={()=>setCouponAppliedOpen(false)} code={appliedCoupon?.code || appliedCoupon} />
