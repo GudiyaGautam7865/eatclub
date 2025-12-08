@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./CartPage.css";
 import ScheduleModal from "../../components/cart/ScheduleModal.jsx";
 import AddressMapModal from "../../components/cart/AddressMapModal.jsx";
@@ -10,6 +10,7 @@ import CouponAppliedModal from "../../components/cart/CouponAppliedModal.jsx";
 import MembershipModal from "../../components/cart/MembershipModal.jsx";
 import { useCartContext } from '../../context/CartContext.jsx';
 import { useAddressContext } from '../../context/AddressContext.jsx';
+import { createOrderFromCart } from '../../services/ordersService.js';
 
 export default function CartPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,6 +23,7 @@ export default function CartPage() {
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [showPaymentResult, setShowPaymentResult] = useState(false);
 
+  const navigate = useNavigate();
   const { addresses, selectedAddress, selectAddress } = useAddressContext();
 
   // use cart context for persistent cart state
@@ -43,11 +45,38 @@ export default function CartPage() {
 
   const cartCount = itemsCount;
   const cartTotal = total;
+
   const handlePay = () => {
-    setActiveSection("");
-    setSelectedPayment(null);
-    setScheduledSlot("");
-    setShowPaymentResult(true);
+    // Create order from current cart
+    if (items.length > 0 && selectedAddress) {
+      try {
+        const addressShort = selectedAddress.address?.split(',')[0] || selectedAddress.label || 'Delivery Address';
+        createOrderFromCart(items, cartTotal, addressShort);
+
+        // Clear the cart by removing all items
+        items.forEach(item => {
+          if (item.qty > 0) {
+            removeItem(item.id);
+          }
+        });
+
+        // Navigate to manage orders page
+        navigate('/manage_orders');
+      } catch (error) {
+        console.error('Error creating order:', error);
+        // Fallback: still show payment result on error
+        setActiveSection("");
+        setSelectedPayment(null);
+        setScheduledSlot("");
+        setShowPaymentResult(true);
+      }
+    } else {
+      // If no items or no address, just show payment result as before
+      setActiveSection("");
+      setSelectedPayment(null);
+      setScheduledSlot("");
+      setShowPaymentResult(true);
+    }
   };
 
   const addressRef = React.createRef();

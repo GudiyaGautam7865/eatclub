@@ -104,7 +104,7 @@ const restaurants = [
   },
  
   {
-    id: 10,
+    id: 13,
     name: "Bhatti Chicken",
     description: "Grilled in a Bhatti,Not Fried",
     deliveryTime: "25 mins",
