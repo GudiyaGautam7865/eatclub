@@ -16,7 +16,7 @@ export default function AdminProfilePage() {
 
   const handleLogout = () => {
     adminAuthService.logout();
-    navigate('/admin/login');
+    navigate('/');
   };
 
   const stats = [

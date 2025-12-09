@@ -23,7 +23,6 @@ import FaqPage from "../pages/Profile/FaqPage";
 import NotFoundPage from "../pages/NotFound/NotFoundPage";
 
 // Admin Pages
-import AdminLoginPage from "../pages/Admin/Auth/AdminLoginPage";
 import AdminProfilePage from "../pages/Admin/Profile/AdminProfilePage";
 import AdminDashboardPage from "../pages/Admin/Dashboard/AdminDashboardPage";
 import AddMenuItemPage from "../pages/Admin/Menu/AddMenuItemPage";
@@ -33,6 +32,7 @@ import BulkOrdersPage from "../pages/Admin/Orders/BulkOrdersPage";
 
 // Admin Protected Route
 import AdminProtectedRoute from "../components/admin/AdminProtectedRoute";
+
 
 function AppRoutes() {
   return (
@@ -63,8 +63,6 @@ function AppRoutes() {
       </Route>
 
       {/* Admin layout routes */}
-      <Route path="/admin/login" element={<AdminLoginPage />} />
-
       <Route
         path="/admin"
         element={
