@@ -1,10 +1,43 @@
-// Bulk Orders Service - localStorage based
-const BULK_ORDERS_KEY = 'EC_BULK_ORDERS';
+import apiClient from './apiClient.js';
 
 /**
- * Get all bulk orders from localStorage
+ * Create a new bulk order and send to API
+ * @param {Object} orderData - Order data from form
+ * @returns {Object} Created order with ID and timestamp
  */
-function getAllBulkOrders() {
+export async function createBulkOrder(orderData) {
+  try {
+    const response = await apiClient('/bulk-orders', {
+      method: 'POST',
+      body: JSON.stringify(orderData),
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Create bulk order error:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get all bulk orders (if needed)
+ * @returns {Array} List of all bulk orders
+ */
+export async function getBulkOrders() {
+  try {
+    const response = await apiClient('/bulk-orders/my', {
+      method: 'GET',
+    });
+    return response.data || [];
+  } catch (error) {
+    console.error('Get bulk orders error:', error);
+    throw error;
+  }
+}
+
+// Legacy localStorage-based functions (for backward compatibility)
+const BULK_ORDERS_KEY = 'EC_BULK_ORDERS';
+
+function getAllBulkOrdersLocal() {
   try {
     const raw = localStorage.getItem(BULK_ORDERS_KEY);
     if (!raw) return [];
@@ -15,49 +48,6 @@ function getAllBulkOrders() {
   }
 }
 
-/**
- * Save bulk orders to localStorage
- */
-function saveBulkOrders(orders) {
-  try {
-    localStorage.setItem(BULK_ORDERS_KEY, JSON.stringify(orders));
-  } catch (error) {
-    console.error('Error saving bulk orders to localStorage:', error);
-  }
-}
-
-/**
- * Create a new bulk order and save it
- * @param {Object} orderData - Order data from form
- * @returns {Object} Created order with ID and timestamp
- */
-export function createBulkOrder(orderData) {
-  const orders = getAllBulkOrders();
-  
-  const newOrder = {
-    id: 'bulk_' + Date.now(),
-    ...orderData,
-    createdAt: new Date().toISOString(),
-    status: 'pending', // Default status
-  };
-  
-  orders.push(newOrder);
-  saveBulkOrders(orders);
-  
-  return newOrder;
-}
-
-/**
- * Get all bulk orders
- * @returns {Array} List of all bulk orders
- */
-export function getBulkOrders() {
-  return getAllBulkOrders();
-}
-
-/**
- * Clear all bulk orders (for testing/reset)
- */
 export function clearBulkOrders() {
   try {
     localStorage.removeItem(BULK_ORDERS_KEY);

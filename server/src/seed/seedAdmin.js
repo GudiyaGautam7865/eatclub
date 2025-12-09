@@ -1,9 +1,16 @@
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import User from '../models/User.js';
-import { connectDB } from '../config/db.js';
+import connectDB from '../config/db.js';
 
-dotenv.config();
+// Get directory path for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+// Load .env from server root
+dotenv.config({ path: join(__dirname, '../../.env') });
 
 const seedAdmin = async () => {
   try {
