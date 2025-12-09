@@ -1,20 +1,6 @@
 import { verifyToken } from '../utils/generateToken.js';
 
-// 🔴 DEVELOPMENT ONLY: Mock user bypass for testing
-// TODO: Re-enable production auth before deployment
-export const authMiddleware = (req, res, next) => {
-  // TEMPORARY: Bypass authentication for local testing
-  // Using valid MongoDB ObjectId format: 24 hex characters
-  req.user = {
-    id: '677777777777777777777777',
-    name: 'Test User',
-    role: 'USER',
-  };
-  return next();
-};
 
-// ORIGINAL PRODUCTION CODE (commented out for testing):
-/*
 export const authMiddleware = (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
@@ -48,4 +34,3 @@ export const authMiddleware = (req, res, next) => {
     });
   }
 };
-*/
