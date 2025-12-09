@@ -64,6 +64,10 @@ function Header() {
   const [signupOpen, setSignupOpen] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [membershipOpen, setMembershipOpen] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [adminUsername, setAdminUsername] = useState("");
+  const [adminPassword, setAdminPassword] = useState("");
+  const [adminError, setAdminError] = useState("");
 
   const addressRef = useRef(null);
   const dealsRef = useRef(null);
@@ -141,6 +145,10 @@ function Header() {
   function closeSignup() {
     setSignupOpen(false);
     setPhoneNumber("");
+    setShowAdminLogin(false);
+    setAdminUsername("");
+    setAdminPassword("");
+    setAdminError("");
   }
 
   function handleContinue() {
@@ -466,46 +474,150 @@ function Header() {
             </button>
             
             <div className="ec-modal-content">
-              <h2 className="ec-modal-title">SIGN UP</h2>
-              
-              <div className="ec-phone-section">
-                <label className="ec-phone-label">Phone Number*</label>
-                <input
-                  type="tel"
-                  className="ec-phone-input"
-                  value={phoneNumber}
-                  onChange={handlePhoneChange}
-                  placeholder="Enter your phone number"
-                  inputMode="numeric"
-                  pattern="[0-9]*"
-                />
-              </div>
-              
-              <button 
-                className="ec-continue-btn"
-                onClick={handleContinue}
-                disabled={phoneNumber.length < 10}
-              >
-                CONTINUE
-              </button>
-              
-              <div className="ec-divider">
-                <span>or</span>
-              </div>
-              
-              <button className="ec-google-btn" onClick={handleGoogleSignup}>
-                <div className="ec-google-content">
-                  <div className="ec-google-avatar">G</div>
-                  <div className="ec-google-text">
-                    <div className="ec-google-title">Sign up with Google Account</div>
-                    <div className="ec-google-email">Create new account</div>
+              {!showAdminLogin ? (
+                <>
+                  <h2 className="ec-modal-title">SIGN UP</h2>
+                  
+                  <div className="ec-phone-section">
+                    <label className="ec-phone-label">Phone Number*</label>
+                    <input
+                      type="tel"
+                      className="ec-phone-input"
+                      value={phoneNumber}
+                      onChange={handlePhoneChange}
+                      placeholder="Enter your phone number"
+                      inputMode="numeric"
+                      pattern="[0-9]*"
+                    />
                   </div>
-                </div>
-              </button>
-              
-              <div className="ec-terms">
-                By signing up, you agree to the <a href="#">Terms and Conditions</a>
-              </div>
+                  
+                  <button 
+                    className="ec-continue-btn"
+                    onClick={handleContinue}
+                    disabled={phoneNumber.length < 10}
+                    style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+                  >
+                    CONTINUE
+                  </button>
+                  
+                  <button className="ec-google-btn" onClick={handleGoogleSignup} style={{ marginTop: '16px' }}>
+                    <div className="ec-google-content">
+                      <div className="ec-google-avatar">G</div>
+                      <div className="ec-google-text">
+                        <div className="ec-google-title">Sign up with Google Account</div>
+                        <div className="ec-google-email">Create new account</div>
+                      </div>
+                    </div>
+                  </button>
+                  
+                  <div style={{ textAlign: 'center', margin: '16px 0', position: 'relative' }}>
+                    <div style={{ borderBottom: '1px solid #e0e0e0', position: 'absolute', width: '100%', top: '50%' }}></div>
+                    <span style={{ fontSize: '14px', color: '#999', background: '#fff', padding: '0 12px', position: 'relative', zIndex: 1 }}>or</span>
+                  </div>
+                  
+                  <div style={{ textAlign: 'center' }}>
+                    <button 
+                      onClick={() => setShowAdminLogin(true)}
+                      style={{ 
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
+                        border: 'none', 
+                        color: '#fff', 
+                        fontSize: '14px', 
+                        fontWeight: '600',
+                        cursor: 'pointer',
+                        padding: '10px 24px',
+                        borderRadius: '6px',
+                        boxShadow: '0 3px 10px rgba(102, 126, 234, 0.3)',
+                        transition: 'transform 0.2s',
+                        display: 'inline-block'
+                      }}
+                      onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
+                      onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+                    >
+                      🔒 Admin Login
+                    </button>
+                  </div>
+                  
+                  <div className="ec-terms" style={{ marginTop: '15px' }}>
+                    By signing up, you agree to the <a href="#">Terms and Conditions</a>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                    <button 
+                      onClick={() => setShowAdminLogin(false)}
+                      style={{ 
+                        background: 'none', 
+                        border: 'none', 
+                        color: '#d60036', 
+                        fontSize: '14px', 
+                        fontWeight: '600',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      ← Back to Sign Up
+                    </button>
+                  </div>
+                  
+                  <h2 className="ec-modal-title" style={{ marginBottom: '20px' }}>Admin Login</h2>
+                  
+                  <div style={{ marginBottom: '15px' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#666', fontWeight: '500' }}>Username</label>
+                    <input
+                      type="text"
+                      className="ec-phone-input"
+                      value={adminUsername}
+                      onChange={(e) => setAdminUsername(e.target.value)}
+                      placeholder="Enter admin username"
+                    />
+                  </div>
+                  
+                  <div style={{ marginBottom: '15px' }}>
+                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#666', fontWeight: '500' }}>Password</label>
+                    <input
+                      type="password"
+                      className="ec-phone-input"
+                      value={adminPassword}
+                      onChange={(e) => setAdminPassword(e.target.value)}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && adminUsername && adminPassword) {
+                          if (adminUsername === 'admin' && adminPassword === '1260') {
+                            localStorage.setItem('isAdminAuthenticated', 'true');
+                            closeSignup();
+                            navigate('/admin/dashboard');
+                          } else {
+                            setAdminError('Invalid username or password');
+                          }
+                        }
+                      }}
+                      placeholder="Enter admin password"
+                    />
+                  </div>
+                  
+                  {adminError && (
+                    <div style={{ padding: '12px', backgroundColor: '#fee', color: '#c00', borderRadius: '6px', marginBottom: '15px', fontSize: '14px' }}>
+                      {adminError}
+                    </div>
+                  )}
+                  
+                  <button 
+                    className="ec-continue-btn"
+                    onClick={() => {
+                      if (adminUsername === 'admin' && adminPassword === '1260') {
+                        localStorage.setItem('isAdminAuthenticated', 'true');
+                        closeSignup();
+                        navigate('/admin/dashboard');
+                      } else {
+                        setAdminError('Invalid username or password');
+                      }
+                    }}
+                    style={{ backgroundColor: '#333', marginTop: '10px' }}
+                  >
+                    LOGIN AS ADMIN
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
