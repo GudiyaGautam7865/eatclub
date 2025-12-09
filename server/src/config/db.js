@@ -8,6 +8,14 @@ const connectDB = async () => {
     });
 
     console.log(`✓ MongoDB Connected: ${conn.connection.host}`);
+    console.log(`✓ Database: ${conn.connection.name}`);
+    
+    // Warn if not using 'eatclub' database
+    if (conn.connection.name !== 'eatclub') {
+      console.warn(`⚠️  WARNING: Using database "${conn.connection.name}" instead of "eatclub"`);
+      console.warn(`⚠️  Please update MONGODB_URI in .env to use /eatclub`);
+    }
+    
     return conn;
   } catch (error) {
     console.error(`✗ MongoDB Connection Error: ${error.message}`);
