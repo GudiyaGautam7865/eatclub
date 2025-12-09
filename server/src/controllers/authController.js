@@ -1,5 +1,7 @@
 import User from '../models/User.js';
 import { generateAccessToken } from '../utils/generateToken.js';
+import { sendVerificationEmail, sendPasswordResetEmail } from '../utils/emailService.js';
+import { generateOTP, generateToken } from '../utils/otpGenerator.js';
 
 export const registerUser = async (req, res) => {
   try {
@@ -20,23 +22,29 @@ export const registerUser = async (req, res) => {
       });
     }
 
+    const emailToken = generateToken();
+    const tokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
     const user = await User.create({
       name,
       email,
       password,
       role: 'USER',
+      emailVerificationToken: emailToken,
+      emailVerificationExpires: tokenExpires,
     });
 
-    const token = generateAccessToken(user._id, user.role);
+    await sendVerificationEmail(email, emailToken);
 
     res.status(201).json({
       success: true,
-      token,
+      message: 'Registration successful. Please check your email to verify your account.',
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
+        isEmailVerified: user.isEmailVerified,
       },
     });
   } catch (error) {
@@ -66,6 +74,13 @@ export const loginUser = async (req, res) => {
       });
     }
 
+    if (!user.isEmailVerified) {
+      return res.status(401).json({
+        success: false,
+        message: 'Please verify your email before logging in',
+      });
+    }
+
     const token = generateAccessToken(user._id, user.role);
 
     res.json({
@@ -76,12 +91,191 @@ export const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        isEmailVerified: user.isEmailVerified,
       },
     });
   } catch (error) {
     res.status(500).json({
       success: false,
       message: 'Server error during login',
+    });
+  }
+};
+
+export const verifyEmail = async (req, res) => {
+  try {
+    const { token } = req.query;
+
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        message: 'Verification token is required',
+      });
+    }
+
+    const user = await User.findOne({
+      emailVerificationToken: token,
+      emailVerificationExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired verification token',
+      });
+    }
+
+    user.isEmailVerified = true;
+    user.emailVerificationToken = undefined;
+    user.emailVerificationExpires = undefined;
+    await user.save();
+
+    const authToken = generateAccessToken(user._id, user.role);
+
+    res.json({
+      success: true,
+      message: 'Email verified successfully',
+      token: authToken,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        isEmailVerified: user.isEmailVerified,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error during email verification',
+    });
+  }
+};
+
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is required',
+      });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found with this email',
+      });
+    }
+
+    const otp = generateOTP();
+    const otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+
+    user.passwordResetToken = otp;
+    user.passwordResetExpires = otpExpires;
+    await user.save();
+
+    await sendPasswordResetEmail(email, otp);
+
+    res.json({
+      success: true,
+      message: 'Password reset OTP sent to your email',
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error during password reset request',
+    });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { email, otp, newPassword } = req.body;
+
+    if (!email || !otp || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email, OTP, and new password are required',
+      });
+    }
+
+    const user = await User.findOne({
+      email,
+      passwordResetToken: otp,
+      passwordResetExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired OTP',
+      });
+    }
+
+    user.password = newPassword;
+    user.passwordResetToken = undefined;
+    user.passwordResetExpires = undefined;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Password reset successfully',
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error during password reset',
+    });
+  }
+};
+
+export const resendVerificationEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is required',
+      });
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found with this email',
+      });
+    }
+
+    if (user.isEmailVerified) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is already verified',
+      });
+    }
+
+    const emailToken = generateToken();
+    const tokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
+    user.emailVerificationToken = emailToken;
+    user.emailVerificationExpires = tokenExpires;
+    await user.save();
+
+    await sendVerificationEmail(email, emailToken);
+
+    res.json({
+      success: true,
+      message: 'Verification email sent successfully',
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Server error during resending verification email',
     });
   }
 };
