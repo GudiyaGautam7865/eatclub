@@ -1,1 +1,98 @@
+import MenuItem from '../../models/MenuItem.js';
 
+/**
+ * Create a new menu item
+ * POST /api/admin/menu/items
+ * @access Private/Admin
+ */
+export const createMenuItem = async (req, res) => {
+  try {
+    const {
+      brandId,
+      brandName,
+      categoryId,
+      categoryName,
+      name,
+      description,
+      price,
+      membershipPrice,
+      isVeg,
+      imageUrl,
+    } = req.body;
+
+    // Validate required fields
+    if (!brandId || !brandName || !categoryId || !categoryName || !name || !price) {
+      return res.status(400).json({
+        success: false,
+        message: 'Required fields: brandId, brandName, categoryId, categoryName, name, price',
+      });
+    }
+
+    // Create menu item
+    const menuItem = await MenuItem.create({
+      brandId,
+      brandName,
+      categoryId,
+      categoryName,
+      name,
+      description,
+      price,
+      membershipPrice,
+      isVeg: isVeg !== undefined ? isVeg : true,
+      imageUrl,
+      isAvailable: true,
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Menu item created',
+      data: menuItem,
+    });
+  } catch (error) {
+    console.error('Create menu item error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to create menu item',
+      error: error.message,
+    });
+  }
+};
+
+/**
+ * Get all menu items (admin)
+ * GET /api/admin/menu/items
+ * @access Private/Admin
+ */
+export const getAdminMenuItems = async (req, res) => {
+  try {
+    const { brandId, categoryId, search } = req.query;
+
+    // Build filter object
+    const filter = {};
+    if (brandId) {
+      filter.brandId = brandId;
+    }
+    if (categoryId) {
+      filter.categoryId = categoryId;
+    }
+    if (search) {
+      filter.name = { $regex: search, $options: 'i' };
+    }
+
+    // Find menu items with filters
+    const items = await MenuItem.find(filter).sort({ createdAt: -1 }).lean();
+
+    res.status(200).json({
+      success: true,
+      count: items.length,
+      data: items,
+    });
+  } catch (error) {
+    console.error('Get admin menu items error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch menu items',
+      error: error.message,
+    });
+  }
+};
