@@ -1,23 +1,12 @@
 
 
-## 📋 Table of Contents
+# EatClub Server - Backend API
 
-- [Setup Instructions](#setup-instructions)
-- [Environment Variables](#environment-variables)
-- [API Routes](#api-routes)
-- [Database Models](#database-models)
-- [Seeding Data](#seeding-data)
+Express.js + MongoDB + Mongoose backend for the EatClub food ordering platform.
 
-## 🚀 Setup Instructions
+## Quick Start
 
-### 1. Install Dependencies
-
-```bash
-cd server
-npm install
-```
-
-### 2. Create `.env` File
+### 1. Setup Environment
 
 Copy `.env.example` to `.env` and update with your configuration:
 
@@ -25,29 +14,113 @@ Copy `.env.example` to `.env` and update with your configuration:
 cp .env.example .env
 ```
 
-### 3. Update `.env` Variables
-
+Edit `.env` with your values:
 ```env
 PORT=5000
 NODE_ENV=development
 MONGODB_URI=mongodb://localhost:27017/eatclub
-JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
-JWT_EXPIRE=7d
-ADMIN_USERNAME=admin
-ADMIN_PASSWORD=your_admin_password_here
+JWT_SECRET=your_secret_key_here
+JWT_EXPIRES_IN=7d
+SEED_ADMIN_EMAIL=admin@eatclub.com
+SEED_ADMIN_PASS=admin123
 CORS_ORIGIN=http://localhost:5173
 LOG_LEVEL=debug
 ```
 
-### 4. Start MongoDB
-
-Make sure MongoDB is running locally or on your Atlas cluster.
+### 2. Install Dependencies
 
 ```bash
-# For local MongoDB
-mongod
+cd server
+npm install
 ```
 
+### 3. Start MongoDB
+
+Make sure MongoDB is running:
+
+```bash
+# Local MongoDB
+mongod
+
+# Or use MongoDB Atlas by setting MONGODB_URI in .env
+```
+
+### 4. Run Development Server
+
+```bash
+npm run dev
+```
+
+Server will start on `http://localhost:5000`
+
+### 5. Seed Initial Data (Optional)
+
+```bash
+# Seed menu data
+npm run seed
+
+# Create admin user
+npm run seed:admin
+```
+
+## Available Scripts
+
+| Command | Purpose |
+|---------|---------|
+| `npm run dev` | Start development server with auto-reload |
+| `npm start` | Start production server |
+| `npm run seed` | Populate menu database with sample data |
+| `npm run seed:admin` | Create admin user from .env credentials |
+
+## Environment Variables
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `PORT` | Server port | `5000` |
+| `NODE_ENV` | Environment mode | `development` \| `production` |
+| `MONGODB_URI` | MongoDB connection string | `mongodb://localhost:27017/eatclub` |
+| `JWT_SECRET` | JWT signing key (change in production!) | `your_secret_key` |
+| `JWT_EXPIRES_IN` | JWT token expiration | `7d` |
+| `SEED_ADMIN_EMAIL` | Admin email for seeding | `admin@eatclub.com` |
+| `SEED_ADMIN_PASS` | Admin password for seeding | `admin123` |
+| `CORS_ORIGIN` | Client origin for CORS | `http://localhost:5173` |
+| `LOG_LEVEL` | Logging verbosity | `debug` \| `info` \| `warn` \| `error` |
+
+## Project Structure
+
+```
+server/
+├── src/
+│   ├── config/           # Configuration (db connection)
+│   ├── middleware/       # Express middleware
+│   ├── routes/           # API route mounting
+│   ├── utils/            # Utility functions
+│   ├── controllers/      # Business logic (coming soon)
+│   ├── models/           # Mongoose schemas (coming soon)
+│   ├── seed/             # Data seeding scripts (coming soon)
+│   └── server.js         # Entry point
+├── .env.example          # Environment template
+├── .gitignore            # Git ignore rules
+├── package.json          # Dependencies
+└── README.md             # This file
+```
+
+## Health Check
+
+```bash
+curl http://localhost:5000/health
+```
+
+Should return:
+```json
+{ "status": "Server is running" }
+```
+
+## Notes
+
+- **Never commit `.env`** - Use `.env.example` instead
+- **Change `JWT_SECRET` in production**
+- **Use MongoDB Atlas for production** - Update `MONGODB_URI` connection string
 ### 5. Run Development Server
 
 ```bash
