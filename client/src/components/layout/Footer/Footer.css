@@ -62,7 +62,7 @@
 /* Download Banner */
 .ec-footer-download {
 	padding: 40px 20px;
-	background: #f8f9fa;
+	background: transparent;
 }
 
 .download-banner-container {
@@ -112,7 +112,7 @@
 .ec-qr-placeholder{width:72px;height:72px;background:#fff;border:1px solid #ddd;display:flex;align-items:center;justify-content:center;border-radius:6px;color:#666}
 
 /* Main dark footer */
-.ec-footer-main{background:var(--ec-dark);color:#fff;padding:36px 0}
+.ec-footer-main{background:rgba(6, 8, 11, 0.8);backdrop-filter:blur(20px);color:#fff;padding:36px 0}
 .ec-container{max-width:1200px;margin:0 auto;padding:0 16px}
 .ec-footer-columns{display:flex;gap:32px;align-items:flex-start}
 .ec-footer-column{flex:1;min-width:160px}

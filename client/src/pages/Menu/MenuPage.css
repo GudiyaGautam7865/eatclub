@@ -3,6 +3,8 @@
 .menu-container {
   min-height: 100vh;
   background-color: #fff;
+  padding-bottom: 60px;
+  margin-bottom: 0;
 }
 
 .menu-wrapper {
@@ -45,9 +47,10 @@
 
 .menu-main {
   flex: 1;
-  min-height: 100vh;
+  min-height: calc(100vh - 72px);
   background-color: #fff;
   padding: 24px 16px;
+  margin-bottom: 40px;
 }
 
 @media (min-width: 768px) {
