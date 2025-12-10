@@ -5,20 +5,20 @@ import { generateOTP, generateToken } from '../utils/otpGenerator.js';
 
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, phone, password } = req.body;
 
-    if (!name || !email || !password) {
+    if (!name || !email || !phone || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Name, email, and password are required',
+        message: 'Name, email, phone, and password are required',
       });
     }
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: 'User already exists with this email',
+        message: 'User already exists with this email or phone number',
       });
     }
 
@@ -28,6 +28,7 @@ export const registerUser = async (req, res) => {
     const user = await User.create({
       name,
       email,
+      phone,
       password,
       role: 'USER',
       emailVerificationToken: emailToken,
@@ -43,6 +44,7 @@ export const registerUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
         role: user.role,
         isEmailVerified: user.isEmailVerified,
       },
@@ -90,6 +92,7 @@ export const loginUser = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
         role: user.role,
         isEmailVerified: user.isEmailVerified,
       },
@@ -140,6 +143,7 @@ export const verifyEmail = async (req, res) => {
         id: user._id,
         name: user.name,
         email: user.email,
+        phone: user.phone,
         role: user.role,
         isEmailVerified: user.isEmailVerified,
       },
