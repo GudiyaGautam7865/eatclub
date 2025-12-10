@@ -44,6 +44,19 @@ input, select, textarea {
   font-size: inherit;
 }
 
+/* Layout for fixed header */
+.app-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding-top: 112px;
+  margin-top: 50px;
+}
+
 /* Hide scrollbar for specific classes */
 .hide-scrollbar {
   -ms-overflow-style: none;
