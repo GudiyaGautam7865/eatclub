@@ -5,54 +5,102 @@ import { generateOTP, generateToken } from '../utils/otpGenerator.js';
 
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, phone, password } = req.body;
+    const { name, email, password, phoneNumber } = req.body;
 
-    if (!name || !email || !phone || !password) {
+    // Validate required fields
+    if (!name || !email || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Name, email, phone, and password are required',
+        message: 'Name, email, and password are required',
       });
     }
 
-    const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
-    if (existingUser) {
+    // Validate password minimum length
+    if (password.length < 6) {
       return res.status(400).json({
         success: false,
-        message: 'User already exists with this email or phone number',
+        message: 'Password must be at least 6 characters long',
+      });
+    }
+
+    // Check if user with this email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        message: 'User already exists with this email',
       });
     }
 
     const emailToken = generateToken();
     const tokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
+    console.log('📝 Creating user with:', { name, email, phoneNumber });
+
     const user = await User.create({
       name,
       email,
-      phone,
+      phoneNumber: phoneNumber || undefined,
       password,
       role: 'USER',
       emailVerificationToken: emailToken,
       emailVerificationExpires: tokenExpires,
     });
 
-    await sendVerificationEmail(email, emailToken);
+    console.log('✓ User created successfully:', user._id);
+
+    // Try to send verification email, but don't fail registration if it fails
+    try {
+      await sendVerificationEmail(email, emailToken);
+    } catch (emailError) {
+      console.error('Email sending failed:', emailError.message);
+      console.warn('⚠️  User created but verification email could not be sent. Check EMAIL_USER and EMAIL_PASS in .env');
+      // Continue with registration even if email fails
+    }
+
+    const authToken = generateAccessToken(user._id, user.role);
 
     res.status(201).json({
       success: true,
       message: 'Registration successful. Please check your email to verify your account.',
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        role: user.role,
-        isEmailVerified: user.isEmailVerified,
+      data: {
+        token: authToken,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+          role: user.role,
+          isEmailVerified: user.isEmailVerified,
+        },
       },
     });
   } catch (error) {
+    console.error('❌ Registration error:', error.message);
+    console.error('Stack trace:', error.stack);
+    
+    // Handle specific validation errors
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors)
+        .map(e => e.message)
+        .join(', ');
+      return res.status(400).json({
+        success: false,
+        message: `Validation error: ${messages}`,
+      });
+    }
+    
+    if (error.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message: 'Email already exists',
+      });
+    }
+    
     res.status(500).json({
       success: false,
       message: 'Server error during registration',
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined,
     });
   }
 };
@@ -61,6 +109,7 @@ export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // Validate inputs
     if (!email || !password) {
       return res.status(400).json({
         success: false,
@@ -68,36 +117,70 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ email }).select('+password');
-    if (!user || !(await user.matchPassword(password))) {
-      return res.status(401).json({
-        success: false,
-        message: 'Invalid email or password',
+    // Attempt to find user by email in users collection
+    let user = await User.findOne({ email }).select('+password');
+    
+    if (user) {
+      // User found - verify password
+      if (!(await user.matchPassword(password))) {
+        return res.status(401).json({
+          success: false,
+          message: 'Invalid email or password',
+        });
+      }
+
+      // Check if email is verified
+      if (!user.isEmailVerified) {
+        return res.status(401).json({
+          success: false,
+          message: 'Please verify your email before logging in',
+        });
+      }
+
+      // Generate token with role
+      const token = generateAccessToken(user._id, user.role);
+
+      return res.json({
+        success: true,
+        data: {
+          token,
+          user: {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            role: user.role,
+            isEmailVerified: user.isEmailVerified,
+          },
+        },
       });
     }
 
-    if (!user.isEmailVerified) {
-      return res.status(401).json({
-        success: false,
-        message: 'Please verify your email before logging in',
+    // User not found - fallback to temporary admin credential check
+    if (email === 'admin@gmail.com' && password === '1260') {
+      // Generate token with admin role (transient admin)
+      const token = generateAccessToken('admin', 'ADMIN');
+
+      return res.json({
+        success: true,
+        data: {
+          token,
+          user: {
+            id: 'admin',
+            email: 'admin@gmail.com',
+            role: 'ADMIN',
+          },
+        },
       });
     }
 
-    const token = generateAccessToken(user._id, user.role);
-
-    res.json({
-      success: true,
-      token,
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-        role: user.role,
-        isEmailVerified: user.isEmailVerified,
-      },
+    // Neither user found nor admin credentials match
+    return res.status(401).json({
+      success: false,
+      message: 'Invalid email or password',
     });
   } catch (error) {
+    console.error('Login error:', error);
     res.status(500).json({
       success: false,
       message: 'Server error during login',
