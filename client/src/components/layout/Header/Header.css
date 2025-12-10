@@ -46,13 +46,13 @@
    General Header Reset and Layout
    ======================================== */
 .ec-header {
-    background-color: var(--ec-bg-white);
-    border-bottom: 1px solid var(--ec-border);
+    background-color: transparent;
+    border-bottom: none;
     padding: 0 2rem;
-    position: sticky;
+    position: absolute;
     top: 0;
+    width: 100%;
     z-index: var(--ec-z-sticky);
-    box-shadow: var(--ec-shadow-sm);
 }
 
 .ec-header-inner {
@@ -103,7 +103,7 @@
     display: flex;
     align-items: center;
     gap: var(--ec-spacing-sm);
-    background-color: var(--ec-bg-white);
+    background-color: transparent;
     padding: var(--ec-spacing-md) var(--ec-spacing-lg);
     border-radius: 8px;
     font-size: 14px;
@@ -114,14 +114,13 @@
     transition: background-color var(--ec-transition-base),
                 box-shadow var(--ec-transition-base),
                 border-color var(--ec-transition-base);
-    border: 1px solid var(--ec-border);
-    box-shadow: var(--ec-shadow-sm);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(10px);
 }
 
 .ec-address-pill:hover {
-    background-color: var(--ec-primary-light);
-    border-color: var(--ec-primary-dark);
-    box-shadow: 0 6px 14px rgba(0, 168, 193, 0.12);
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .ec-address-pill:focus-visible {
@@ -131,23 +130,24 @@
 }
 
 .ec-address-pill[aria-expanded="true"] {
-    background-color: var(--ec-primary-light);
-    border-color: var(--ec-primary);
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 .ec-mode {
-    color: var(--ec-primary);
+    color: white;
     font-weight: 700;
     letter-spacing: 0.4px;
     margin-right: var(--ec-spacing-sm);
     padding-right: var(--ec-spacing-md);
-    border-right: 1px solid var(--ec-border);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
     text-transform: uppercase;
     font-size: 12px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .ec-address-text {
-    color: var(--ec-text-dark);
+    color: white;
     max-width: 220px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -155,12 +155,14 @@
     margin-right: var(--ec-spacing-xs);
     font-weight: 600;
     font-size: 13px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .ec-caret {
     font-size: 11px;
-    color: var(--ec-text-light);
+    color: white;
     transition: transform var(--ec-transition-base);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
 
 .ec-address-pill[aria-expanded="true"] .ec-caret {
@@ -180,6 +182,7 @@
 
 .ec-nav-item {
     position: relative;
+    color: white;
     font-size: 14px;
     font-weight: 500;
     display: flex;
@@ -188,18 +191,20 @@
 
 .ec-nav-item a {
     text-decoration: none;
-    color: var(--ec-text-base);
+    color: white;
     padding: var(--ec-spacing-sm) var(--ec-spacing-md);
     transition: color var(--ec-transition-base),
                 background-color var(--ec-transition-base);
     border-radius: 4px;
     display: inline-flex;
     align-items: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+    font-weight: 600;
 }
 
 .ec-nav-item a:hover {
-    color: var(--ec-primary);
-    background-color: var(--ec-bg-light);
+    color: white;
+    background-color: transparent;
 }
 
 .ec-nav-item a:focus-visible {
@@ -213,22 +218,23 @@
 .ec-deals-button {
     background: none;
     border: none;
-    color: var(--ec-text-base);
+    color: white;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     padding: var(--ec-spacing-sm) var(--ec-spacing-md);
     display: flex;
     align-items: center;
     gap: var(--ec-spacing-xs);
     border-radius: 4px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
     transition: color var(--ec-transition-base),
                 background-color var(--ec-transition-base);
 }
 
 .ec-deals-button:hover {
-    color: var(--ec-primary);
-    background-color: var(--ec-bg-light);
+    color: white;
+    background-color: transparent;
 }
 
 .ec-deals-button:focus-visible {
@@ -237,8 +243,8 @@
 }
 
 .ec-deals-button[aria-expanded="true"] {
-    color: var(--ec-primary);
-    background-color: var(--ec-primary-light);
+    color: white;
+    background-color: transparent;
 }
 
 .ec-deals-button[aria-expanded="true"] .ec-caret {
@@ -292,17 +298,18 @@
     border: none;
     cursor: pointer;
     padding: var(--ec-spacing-sm) var(--ec-spacing-md);
-    color: var(--ec-text-base);
+    color: white;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
     border-radius: 4px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
     transition: color var(--ec-transition-base),
                 background-color var(--ec-transition-base);
 }
 
 .ec-cart-button:hover {
-    color: var(--ec-primary);
-    background-color: var(--ec-bg-light);
+    color: white;
+    background-color: transparent;
 }
 
 .ec-cart-button:focus-visible {
@@ -311,8 +318,8 @@
 }
 
 .ec-cart-button[aria-expanded="true"] {
-    color: var(--ec-primary);
-    background-color: var(--ec-primary-light);
+    color: white;
+    background-color: transparent;
 }
 
 .ec-cart-icon {
@@ -344,21 +351,22 @@
    ======================================== */
 .ec-get-app-button {
     background-color: transparent;
-    border: 1.5px solid var(--ec-primary);
-    color: var(--ec-primary);
+    border: 1.5px solid white;
+    color: white;
     padding: var(--ec-spacing-sm) var(--ec-spacing-lg);
     border-radius: 6px;
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
     transition: background-color var(--ec-transition-base),
                 color var(--ec-transition-base),
                 box-shadow var(--ec-transition-base);
 }
 
 .ec-get-app-button:hover {
-    background-color: var(--ec-primary-light);
-    box-shadow: 0 4px 12px rgba(0, 168, 193, 0.12);
+    background-color: transparent;
+    border-color: rgba(255, 255, 255, 0.8);
 }
 
 .ec-get-app-button:focus-visible {
@@ -370,16 +378,16 @@
    Sign Up Button
    ======================================== */
 .ec-signup-button {
-    background-color: var(--ec-primary);
+    background-color: rgba(0, 208, 227, 0.9);
     color: var(--ec-bg-white);
-    border: none;
+    border: 2px solid rgba(255, 255, 255, 0.3);
     padding: var(--ec-spacing-sm) var(--ec-spacing-lg);
     border-radius: 6px;
     font-weight: 600;
     font-size: 14px;
     cursor: pointer;
-    transition: background-color var(--ec-transition-base),
-                box-shadow var(--ec-transition-base);
+    backdrop-filter: blur(10px);
+    transition: all var(--ec-transition-base);
 }
 
 .ec-signup-button:hover {
@@ -1274,6 +1282,15 @@
         font-size: 12px;
         display: none; /* Hide on very small screens */
     }
+    
+    .ec-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+    }
+    
+    .ec-nav-item a {
+        white-space: nowrap;
+    }
 
     .ec-signup-button {
         padding: var(--ec-spacing-xs) var(--ec-spacing-md);
@@ -1413,6 +1430,12 @@
 
     .ec-address-dropdown-modal {
         width: calc(100vw - 32px);
+    }
+    
+    .ec-header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
     }
 
     .ec-saved-addresses-list {

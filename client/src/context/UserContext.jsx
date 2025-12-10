@@ -5,7 +5,14 @@ import { createContext, useContext, useState } from "react";
 const UserContext = createContext(null);
 
 export function UserProvider({ children }) {
-	const [user, setUser] = useState(null); // later Siddhesh can integrate real data
+	const [user, setUser] = useState(() => {
+		try {
+			const savedUser = localStorage.getItem('ec_user');
+			return savedUser ? JSON.parse(savedUser) : null;
+		} catch {
+			return null;
+		}
+	});
 
 	const value = {
 		user,
