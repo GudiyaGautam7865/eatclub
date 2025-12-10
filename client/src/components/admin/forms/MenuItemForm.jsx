@@ -6,25 +6,38 @@ export default function MenuItemForm({ onSubmit }) {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
-    categoryId: '',
-    brand: '',
+    category: '',
+    restaurantId: '',
     price: '',
     isVeg: true,
     imageUrl: ''
   });
   
   const [categories, setCategories] = useState([]);
-  const [brands] = useState(adminMenuService.getBrands());
+  const [restaurants, setRestaurants] = useState([]);
 
   useEffect(() => {
-    if (formData.brand) {
+    loadRestaurants();
+  }, []);
+
+  useEffect(() => {
+    if (formData.restaurantId) {
       loadCategories();
     }
-  }, [formData.brand]);
+  }, [formData.restaurantId]);
+
+  const loadRestaurants = async () => {
+    try {
+      const rests = await adminMenuService.getRestaurants();
+      setRestaurants(rests);
+    } catch (error) {
+      console.error('Error loading restaurants:', error);
+    }
+  };
 
   const loadCategories = async () => {
     try {
-      const cats = await adminMenuService.getCategories(formData.brand);
+      const cats = await adminMenuService.getCategories(formData.restaurantId);
       setCategories(cats);
     } catch (error) {
       console.error('Error loading categories:', error);
@@ -41,15 +54,33 @@ export default function MenuItemForm({ onSubmit }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({
-      ...formData,
-      price: parseFloat(formData.price)
-    });
+    
+    // Prepare data for submission with names required by backend
+    const selectedRestaurant = restaurants.find(r => r._id === formData.restaurantId);
+    const selectedCategory = categories.find(c => c._id === formData.category);
+
+    const DEFAULT_IMAGE_URL = 'https://assets.box8.co.in/rectangle-19x10/xhdpi/product/default';
+
+    const submitData = {
+      brandId: selectedRestaurant?._id || formData.restaurantId,
+      brandName: selectedRestaurant?.name,
+      categoryId: selectedCategory?._id || formData.category,
+      categoryName: selectedCategory?.name,
+      name: formData.name,
+      description: formData.description,
+      price: parseFloat(formData.price),
+      isVeg: formData.isVeg,
+      imageUrl: formData.imageUrl || DEFAULT_IMAGE_URL
+    };
+
+    onSubmit(submitData);
+    
+    // Reset form
     setFormData({
       name: '',
       description: '',
-      categoryId: '',
-      brand: '',
+      category: '',
+      restaurantId: '',
       price: '',
       isVeg: true,
       imageUrl: ''
@@ -82,16 +113,18 @@ export default function MenuItemForm({ onSubmit }) {
 
       <div className="form-row">
         <div className="form-group">
-          <label>Brand</label>
+          <label>Restaurant</label>
           <select
-            name="brand"
-            value={formData.brand}
+            name="restaurantId"
+            value={formData.restaurantId}
             onChange={handleChange}
             required
           >
-            <option value="">Select Brand</option>
-            {brands.map(brand => (
-              <option key={brand} value={brand}>{brand}</option>
+            <option value="">Select Restaurant</option>
+            {restaurants.map(restaurant => (
+              <option key={restaurant._id} value={restaurant._id}>
+                {restaurant.name}
+              </option>
             ))}
           </select>
         </div>
@@ -99,15 +132,15 @@ export default function MenuItemForm({ onSubmit }) {
         <div className="form-group">
           <label>Category</label>
           <select
-            name="categoryId"
-            value={formData.categoryId}
+            name="category"
+            value={formData.category}
             onChange={handleChange}
             required
-            disabled={!formData.brand}
+            disabled={!formData.restaurantId}
           >
             <option value="">Select Category</option>
             {categories.map(cat => (
-              <option key={cat.id} value={cat.id}>{cat.name}</option>
+              <option key={cat._id} value={cat._id}>{cat.name}</option>
             ))}
           </select>
         </div>
@@ -146,7 +179,7 @@ export default function MenuItemForm({ onSubmit }) {
           name="imageUrl"
           value={formData.imageUrl}
           onChange={handleChange}
-          placeholder="https://example.com/image.jpg"
+          placeholder="https://example.com/image.jpg (defaults if empty)"
         />
       </div>
 

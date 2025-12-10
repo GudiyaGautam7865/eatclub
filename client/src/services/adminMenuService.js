@@ -1,104 +1,160 @@
-// Admin Menu Service - localStorage implementation
-const BRAND_FILE_MAP = {
-  'BOX8': 'box8-menu.json',
-  'Behrouz': 'behrouz-menu.json',
-  'Biryani Blues': 'biryani-blues-menu.json',
-  'Faasos': 'faasos-menu.json',
-  'Firangi Bake': 'firangi-bake-menu.json',
-  'Fresh Menu': 'fresh-menu-menu.json',
-  'Kettle Curry': 'kettle-curry-menu.json',
-  'LunchBox': 'lunchbox-menu.json',
-  'Mandarin Oak': 'mandarin-oak-menu.json',
-  'Ovenstory': 'ovenstory-menu.json',
-  'Sweet Truth': 'sweet-truth-menu.json',
-  'The Good Bowl': 'the-good-bowl-menu.json',
-  'Wow China': 'wow-china-menu.json',
-  'Wow Momo': 'wow-momo-menu.json'
+import axios from 'axios';
+
+const API_URL =  'http://localhost:5000/api';
+
+// Get auth token from localStorage
+const getAuthHeader = () => {
+  const token = localStorage.getItem('adminToken') || localStorage.getItem('token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
-export const adminMenuService = {
-  async loadMenu(brand, category = null) {
-    const fileName = BRAND_FILE_MAP[brand];
-    if (!fileName) return { items: [], categories: [] };
-    
-    const storageKey = `EC_MENUS_${brand.replace(/\s+/g, '_')}`;
-    
-    try {
-      // Check localStorage first
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        const data = JSON.parse(stored);
-        return category ? { items: data.items.filter(item => item.categoryId === category), categories: data.categories } : data;
+class AdminMenuService {
+  // Fetch all restaurants
+  async getRestaurants() {
+    const candidates = [
+      `${API_URL}/admin/restaurants`,
+      `${API_URL}/restaurants`,
+      `${API_URL}/admin/restaurant`,
+      `${API_URL}/restaurant`
+    ];
+    for (const url of candidates) {
+      try {
+        const response = await axios.get(url, { headers: getAuthHeader() });
+        const payload = response.data;
+        if (Array.isArray(payload)) return payload;
+        if (payload?.data && Array.isArray(payload.data)) return payload.data;
+        return [];
+      } catch (error) {
+        if (error.response?.status !== 404) {
+          console.error('Error fetching restaurants:', error);
+          throw error;
+        }
       }
-      
-      // Load from JSON file
-      const response = await fetch(`/data/menus/${fileName}`);
-      if (!response.ok) return { items: [], categories: [] };
-      const data = await response.json();
-      
-      // Store in localStorage
-      localStorage.setItem(storageKey, JSON.stringify(data));
-      
-      return category ? { items: data.items.filter(item => item.categoryId === category), categories: data.categories } : data;
-    } catch (error) {
-      console.error('Error loading menu:', error);
-      return { items: [], categories: [] };
     }
-  },
+    console.warn('Restaurant endpoint not found in tried routes:', candidates);
+    return [];
+  }
 
-  async addMenuItem(brand, category, itemData) {
+  // Fetch categories for a specific restaurant
+  async getCategories(restaurantId) {
+    const candidates = [
+      `${API_URL}/admin/categories?restaurant=${restaurantId}`,
+      `${API_URL}/categories?restaurant=${restaurantId}`,
+      `${API_URL}/admin/category?restaurant=${restaurantId}`,
+      `${API_URL}/category?restaurant=${restaurantId}`
+    ];
+    for (const url of candidates) {
+      try {
+        const response = await axios.get(url, { headers: getAuthHeader() });
+        const payload = response.data;
+        if (Array.isArray(payload)) return payload;
+        if (payload?.data && Array.isArray(payload.data)) return payload.data;
+        return [];
+      } catch (error) {
+        if (error.response?.status !== 404) {
+          console.error('Error fetching categories:', error);
+          throw error;
+        }
+      }
+    }
+    console.warn('Categories endpoint not found in tried routes:', candidates);
+    return [];
+  }
+
+  // Add a new menu item (JSON only, optional image URL)
+  async addMenuItem(itemData = {}) {
     try {
-      const menuData = await this.loadMenu(brand);
-      
-      const newItem = {
-        id: `admin_${Date.now()}`,
+      const payload = {
+        brandId: itemData.brandId,
+        brandName: itemData.brandName,
+        categoryId: itemData.categoryId,
+        categoryName: itemData.categoryName,
         name: itemData.name,
         description: itemData.description,
         price: itemData.price,
-        membershipPrice: Math.round(itemData.price * 0.7),
-        imageUrl: itemData.imageUrl || 'https://assets.box8.co.in/rectangle-19x10/xhdpi/product/default',
         isVeg: itemData.isVeg,
-        categoryId: category
+        imageUrl: itemData.imageUrl
       };
-      
-      menuData.items.push(newItem);
-      
-      // Save back to localStorage
-      const storageKey = `EC_MENUS_${brand.replace(/\s+/g, '_')}`;
-      localStorage.setItem(storageKey, JSON.stringify(menuData));
-      
-      return { message: 'Menu item added successfully', item: newItem };
+
+      const response = await axios.post(
+        `${API_URL}/admin/menu/items`,
+        payload,
+        { headers: getAuthHeader() }
+      );
+      return response.data;
     } catch (error) {
       console.error('Error adding menu item:', error);
       throw error;
     }
-  },
-
-  async getAllMenuItems() {
-    const allItems = [];
-    
-    for (const brand of Object.keys(BRAND_FILE_MAP)) {
-      const menuData = await this.loadMenu(brand);
-      if (menuData.items) {
-        menuData.items.forEach(item => {
-          allItems.push({
-            ...item,
-            brand: brand,
-            category: item.categoryId
-          });
-        });
-      }
-    }
-    
-    return allItems;
-  },
-
-  getBrands() {
-    return Object.keys(BRAND_FILE_MAP);
-  },
-
-  async getCategories(brand) {
-    const menuData = await this.loadMenu(brand);
-    return menuData.categories || [];
   }
-};
+
+  // Fetch all menu items (optionally filtered by restaurant)
+  async getMenuItems(restaurantId = null) {
+    try {
+      const url = restaurantId
+        ? `${API_URL}/admin/menu/items?restaurant=${restaurantId}`
+        : `${API_URL}/admin/menu/items`;
+      
+      const response = await axios.get(url, {
+        headers: getAuthHeader()
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching menu items:', error);
+      throw error;
+    }
+  }
+
+  // Update a menu item
+  async updateMenuItem(itemId, itemData) {
+    try {
+      if (itemData.imageFile) {
+        const formData = new FormData();
+        Object.keys(itemData).forEach(key => {
+          if (key !== 'imageFile') {
+            formData.append(key, itemData[key]);
+          }
+        });
+        formData.append('image', itemData.imageFile);
+
+        const response = await axios.put(
+          `${API_URL}/admin/menu/items/${itemId}`,
+          formData,
+          {
+            headers: {
+              ...getAuthHeader(),
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        );
+        return response.data;
+      } else {
+        const response = await axios.put(
+          `${API_URL}/admin/menu/items/${itemId}`,
+          itemData,
+          { headers: getAuthHeader() }
+        );
+        return response.data;
+      }
+    } catch (error) {
+      console.error('Error updating menu item:', error);
+      throw error;
+    }
+  }
+
+  // Delete a menu item
+  async deleteMenuItem(itemId) {
+    try {
+      const response = await axios.delete(
+        `${API_URL}/admin/menu/items/${itemId}`,
+        { headers: getAuthHeader() }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting menu item:', error);
+      throw error;
+    }
+  }
+}
+
+export const adminMenuService = new AdminMenuService();
