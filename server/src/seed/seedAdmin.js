@@ -38,6 +38,7 @@ const seedAdmin = async () => {
       password: SEED_ADMIN_PASS,
       role: 'ADMIN',
       isActive: true,
+      isEmailVerified: true,
     });
 
     console.log(`✅ Admin user created successfully`);
