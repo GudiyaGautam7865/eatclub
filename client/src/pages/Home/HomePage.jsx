@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 import OffersPage from "../../components/home/OffersPage";
@@ -24,55 +24,54 @@ const OfferCard = ({ title, price, imageUrl, className = "", label = null }) => 
 
 function HomePage() {
   const navigate = useNavigate();
+  const [headerVisible, setHeaderVisible] = useState(false);
 
   const handleRestaurantClick = (restaurant) => {
     const productId = restaurantToProductMapping[restaurant.name];
     if (productId) {
       navigate(`/menu?restaurant=${productId}`);
-      // Scroll to top after navigation
       setTimeout(() => window.scrollTo(0, 0), 100);
     }
   };
 
+  const handleOrderNow = () => {
+    document.getElementById('menu-section')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="home-page">
-      {/* Promotional Banner Section */}
-      <div className="promo-banner">
-        {/* Left Content */}
-        <div className="promo-left">
-          <div className="promo-text">
-            <p className="promo-intro">Get <span className="cyan-text">50% OFF</span> on</p>
-            <h1>FIRST 3 APP ORDERS</h1>
-            <p className="no-fees">+ No extra fees</p>
-            <div className="promo-code">
-              <p>Use Code: <strong>FIRST3</strong></p>
-            </div>
+      {/* Video Banner Section with Header */}
+      <div 
+        className="video-banner"
+        onMouseEnter={() => setHeaderVisible(true)}
+        onMouseLeave={() => setHeaderVisible(false)}
+      >
+        <video className="banner-video" autoPlay muted loop playsInline>
+          <source src="https://b.zmtcdn.com/data/file_assets/2627bbed9d6c068e50d2aadcca11ddbb1743095810.mp4" type="video/mp4" />
+        </video>
 
+        <div className="video-overlay">
+          <div className="banner-content">
+            <h1>Delicious Food Delivered</h1>
+            <p>Order your favorite meals from top restaurants</p>
+            <button className="cta-button" onClick={handleOrderNow}>Order Now</button>
+            <div className="offers-section">
+            <OffersPage />
             </div>
-        </div>
-
-        {/* Vertical Divider */}
-        <div className="vertical-divider"></div>
-
-        {/* Right QR Code */}
-        <div className="promo-right">
-          <div className="qr-container">
-            <div className="qr-code-box">
-              <img src="/src/assets/images/scan.png" alt="Scan to download app QR Code" />
-            </div>
-            <p className="scan-text">Scan to download the app</p>
           </div>
         </div>
       </div>
 
       {/* Top offers section (OffersPage) */}
-      <OffersPage />
+      
 
       {/* Category slider (What's on your mind) */}
       <CategorySlider />
 
       {/* Restaurants section */}
-      <Restaurant onRestaurantClick={handleRestaurantClick} />
+      <div id="menu-section">
+        <Restaurant onRestaurantClick={handleRestaurantClick} />
+      </div>
       
       {/* Footer */}
     

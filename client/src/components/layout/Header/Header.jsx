@@ -4,11 +4,23 @@ import "./Header.css";
 import { useCartContext } from "../../../context/CartContext";
 import { useUserContext } from "../../../context/UserContext";
 import { useAddressContext } from "../../../context/AddressContext";
+import { logout } from "../../../services/authService";
 import MembershipModal from "../../cart/MembershipModal.jsx";
+import LoginModal from "../../Auth/LoginModal";
+import SignupModal from "../../Auth/SignupModal";
 import AddressDropdown from "./AddressDropdown";
 
 function Header() {
   const navigate = useNavigate();
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   const {
     items,
     addItem,
@@ -39,11 +51,11 @@ function Header() {
     }
   })();
 
-  const { user, isLoggedIn } = (() => {
+  const { user, isLoggedIn, setUser } = (() => {
     try {
       return useUserContext();
     } catch (e) {
-      return { user: null, isLoggedIn: false };
+      return { user: null, isLoggedIn: false, setUser: () => {} };
     }
   })();
 
@@ -61,26 +73,21 @@ function Header() {
   const [dealsOpen, setDealsOpen] = useState(false);
   const [cartOpen, setCartOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-  const [signupOpen, setSignupOpen] = useState(false);
-  const [phoneNumber, setPhoneNumber] = useState("");
   const [membershipOpen, setMembershipOpen] = useState(false);
-  const [showAdminLogin, setShowAdminLogin] = useState(false);
-  const [adminUsername, setAdminUsername] = useState("");
-  const [adminPassword, setAdminPassword] = useState("");
-  const [adminError, setAdminError] = useState("");
+  const [loginOpen, setLoginOpen] = useState(false);
+  const [signupOpen, setSignupOpen] = useState(false);
 
   const addressRef = useRef(null);
   const dealsRef = useRef(null);
   const cartRef = useRef(null);
   const profileRef = useRef(null);
-  const signupRef = useRef(null);
 
   // Filter items with qty > 0
   const cartItems = items.filter((it) => it.qty > 0);
   const cartCount = itemsCount;
   const subtotal = itemsTotal;
 
-  const [signedUpUser, setSignedUpUser] = useState(null);
+
 
   // Close dropdowns on click outside
   useEffect(() => {
@@ -102,24 +109,13 @@ function Header() {
     return () => document.removeEventListener("click", onDocClick);
   }, []);
 
-  // Close signup modal on click outside
-  useEffect(() => {
-    function onDocClick(e) {
-      if (signupOpen && signupRef.current && !signupRef.current.contains(e.target)) {
-        const overlay = e.target.classList.contains('ec-modal-overlay');
-        if (overlay) setSignupOpen(false);
-      }
-    }
-    document.addEventListener("click", onDocClick);
-    return () => document.removeEventListener("click", onDocClick);
-  }, [signupOpen]);
+
 
   // Keyboard navigation
   useEffect(() => {
     function handleEscape(e) {
       if (e.key === 'Escape') {
-        if (signupOpen) setSignupOpen(false);
-        else if (addressOpen) setAddressOpen(false);
+        if (addressOpen) setAddressOpen(false);
         else if (dealsOpen) setDealsOpen(false);
         else if (cartOpen) setCartOpen(false);
         else if (profileOpen) setProfileOpen(false);
@@ -127,7 +123,7 @@ function Header() {
     }
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [signupOpen, addressOpen, dealsOpen, cartOpen, profileOpen]);
+  }, [addressOpen, dealsOpen, cartOpen, profileOpen]);
 
   function openOnly(toggleFn) {
     setAddressOpen(false);
@@ -137,53 +133,11 @@ function Header() {
     toggleFn();
   }
 
-  function openSignup() {
-    setSignupOpen(true);
+  function handleSignOut() {
+    logout();
+    setUser(null);
     setProfileOpen(false);
-  }
-
-  function closeSignup() {
-    setSignupOpen(false);
-    setPhoneNumber("");
-    setShowAdminLogin(false);
-    setAdminUsername("");
-    setAdminPassword("");
-    setAdminError("");
-  }
-
-  function handleContinue() {
-    if (phoneNumber.length >= 10) {
-      console.log('Continue with phone:', phoneNumber);
-      // Simulate user signup with phone
-      const userName = "User";
-      setSignedUpUser({
-        name: userName,
-        phone: phoneNumber,
-        avatar: userName.charAt(0).toUpperCase()
-      });
-      closeSignup();
-    }
-  }
-
-  function formatPhoneNumber(value) {
-    const cleaned = value.replace(/\D/g, '');
-    return cleaned.slice(0, 10);
-  }
-
-  function handlePhoneChange(e) {
-    const formatted = formatPhoneNumber(e.target.value);
-    setPhoneNumber(formatted);
-  }
-
-  function handleGoogleSignup() {
-    console.log('Sign up with Google');
-    // Simulate user signup - in real app, this would come from backend
-    setSignedUpUser({
-      name: "username",
-      phone: phoneNumber || "+91-XXXXXXXXXX",
-      avatar: "V"
-    });
-    closeSignup();
+    navigate('/');
   }
 
   function toggleAddress(e) {
@@ -230,7 +184,7 @@ function Header() {
   };
 
   return (
-    <header className="ec-header">
+    <header className={`ec-header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="ec-header-inner">
         <div className="ec-left">
           <Link to="/" className="ec-logo">
@@ -410,13 +364,12 @@ function Header() {
           </button>
 
           <div className="ec-nav-item ec-profile" ref={profileRef}>
-            {!signedUpUser ? (
-              <button
+            {!isLoggedIn ? (
+              <button 
                 className="ec-signup-button"
-                onClick={openSignup}
-                aria-haspopup="true"
+                onClick={() => setLoginOpen(true)}
               >
-                Sign Up
+                Login
               </button>
             ) : (
               <>
@@ -426,8 +379,8 @@ function Header() {
                   aria-haspopup="true"
                   aria-expanded={profileOpen}
                 >
-                  <div className="ec-profile-avatar">{signedUpUser.avatar}</div>
-                  <span>{signedUpUser.name}</span>
+                  <div className="ec-profile-avatar">{user?.name?.charAt(0)?.toUpperCase() || 'U'}</div>
+                  <span>{user?.name || 'User'}</span>
                   <span className="ec-caret">▾</span>
                 </button>
 
@@ -440,11 +393,7 @@ function Header() {
                     <div className="ec-profile-divider" />
                     <button
                       className="ec-profile-item ec-signout"
-                      onClick={() => { 
-                        console.log('Sign out clicked');
-                        setSignedUpUser(null);
-                        setProfileOpen(false);
-                      }}
+                      onClick={handleSignOut}
                     >
                       Sign Out
                     </button>
@@ -465,163 +414,25 @@ function Header() {
         }}
       />
 
-      {/* Signup Modal */}
-      {signupOpen && (
-        <div className="ec-modal-overlay" onClick={closeSignup}>
-          <div className="ec-signup-modal" ref={signupRef} onClick={(e) => e.stopPropagation()}>
-            <button className="ec-modal-close" onClick={closeSignup}>
-              ×
-            </button>
-            
-            <div className="ec-modal-content">
-              {!showAdminLogin ? (
-                <>
-                  <h2 className="ec-modal-title">SIGN UP</h2>
-                  
-                  <div className="ec-phone-section">
-                    <label className="ec-phone-label">Phone Number*</label>
-                    <input
-                      type="tel"
-                      className="ec-phone-input"
-                      value={phoneNumber}
-                      onChange={handlePhoneChange}
-                      placeholder="Enter your phone number"
-                      inputMode="numeric"
-                      pattern="[0-9]*"
-                    />
-                  </div>
-                  
-                  <button 
-                    className="ec-continue-btn"
-                    onClick={handleContinue}
-                    disabled={phoneNumber.length < 10}
-                    style={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
-                  >
-                    CONTINUE
-                  </button>
-                  
-                  <button className="ec-google-btn" onClick={handleGoogleSignup} style={{ marginTop: '16px' }}>
-                    <div className="ec-google-content">
-                      <div className="ec-google-avatar">G</div>
-                      <div className="ec-google-text">
-                        <div className="ec-google-title">Sign up with Google Account</div>
-                        <div className="ec-google-email">Create new account</div>
-                      </div>
-                    </div>
-                  </button>
-                  
-                  <div style={{ textAlign: 'center', margin: '16px 0', position: 'relative' }}>
-                    <div style={{ borderBottom: '1px solid #e0e0e0', position: 'absolute', width: '100%', top: '50%' }}></div>
-                    <span style={{ fontSize: '14px', color: '#999', background: '#fff', padding: '0 12px', position: 'relative', zIndex: 1 }}>or</span>
-                  </div>
-                  
-                  <div style={{ textAlign: 'center' }}>
-                    <button 
-                      onClick={() => setShowAdminLogin(true)}
-                      style={{ 
-                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', 
-                        border: 'none', 
-                        color: '#fff', 
-                        fontSize: '14px', 
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        padding: '10px 24px',
-                        borderRadius: '6px',
-                        boxShadow: '0 3px 10px rgba(102, 126, 234, 0.3)',
-                        transition: 'transform 0.2s',
-                        display: 'inline-block'
-                      }}
-                      onMouseOver={(e) => e.target.style.transform = 'translateY(-2px)'}
-                      onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
-                    >
-                      🔒 Admin Login
-                    </button>
-                  </div>
-                  
-                  <div className="ec-terms" style={{ marginTop: '15px' }}>
-                    By signing up, you agree to the <a href="#">Terms and Conditions</a>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                    <button 
-                      onClick={() => setShowAdminLogin(false)}
-                      style={{ 
-                        background: 'none', 
-                        border: 'none', 
-                        color: '#d60036', 
-                        fontSize: '14px', 
-                        fontWeight: '600',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      ← Back to Sign Up
-                    </button>
-                  </div>
-                  
-                  <h2 className="ec-modal-title" style={{ marginBottom: '20px' }}>Admin Login</h2>
-                  
-                  <div style={{ marginBottom: '15px' }}>
-                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#666', fontWeight: '500' }}>Username</label>
-                    <input
-                      type="text"
-                      className="ec-phone-input"
-                      value={adminUsername}
-                      onChange={(e) => setAdminUsername(e.target.value)}
-                      placeholder="Enter admin username"
-                    />
-                  </div>
-                  
-                  <div style={{ marginBottom: '15px' }}>
-                    <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#666', fontWeight: '500' }}>Password</label>
-                    <input
-                      type="password"
-                      className="ec-phone-input"
-                      value={adminPassword}
-                      onChange={(e) => setAdminPassword(e.target.value)}
-                      onKeyPress={(e) => {
-                        if (e.key === 'Enter' && adminUsername && adminPassword) {
-                          if (adminUsername === 'admin' && adminPassword === '1260') {
-                            localStorage.setItem('isAdminAuthenticated', 'true');
-                            closeSignup();
-                            navigate('/admin/dashboard');
-                          } else {
-                            setAdminError('Invalid username or password');
-                          }
-                        }
-                      }}
-                      placeholder="Enter admin password"
-                    />
-                  </div>
-                  
-                  {adminError && (
-                    <div style={{ padding: '12px', backgroundColor: '#fee', color: '#c00', borderRadius: '6px', marginBottom: '15px', fontSize: '14px' }}>
-                      {adminError}
-                    </div>
-                  )}
-                  
-                  <button 
-                    className="ec-continue-btn"
-                    onClick={() => {
-                      if (adminUsername === 'admin' && adminPassword === '1260') {
-                        localStorage.setItem('isAdminAuthenticated', 'true');
-                        closeSignup();
-                        navigate('/admin/dashboard');
-                      } else {
-                        setAdminError('Invalid username or password');
-                      }
-                    }}
-                    style={{ backgroundColor: '#333', marginTop: '10px' }}
-                  >
-                    LOGIN AS ADMIN
-                  </button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+      <LoginModal
+        isOpen={loginOpen}
+        onClose={() => setLoginOpen(false)}
+        onSwitchToSignup={() => {
+          setLoginOpen(false);
+          setSignupOpen(true);
+        }}
+      />
+
+      <SignupModal
+        isOpen={signupOpen}
+        onClose={() => setSignupOpen(false)}
+        onSwitchToLogin={() => {
+          setSignupOpen(false);
+          setLoginOpen(true);
+        }}
+      />
+
+
     </header>
   );
 }
