@@ -141,7 +141,7 @@ export default function OrderDetailsPage() {
             </div>
           </div>
 
-          {(order.driverId || order.driverName) && (
+          {order.status !== 'cancelled' && (
             <DriverCard driver={{
               name: order.driverName,
               phone: order.driverPhone,
