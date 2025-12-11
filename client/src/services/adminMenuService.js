@@ -1,10 +1,10 @@
-import axios from 'axios';
+import apiClient from './apiClient.js';
 
 const API_URL =  'http://localhost:5000/api';
 
 // Get auth token from localStorage
 const getAuthHeader = () => {
-  const token = localStorage.getItem('adminToken') || localStorage.getItem('token');
+  const token = localStorage.getItem('ec_user_token') || localStorage.getItem('adminToken');
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
