@@ -1,0 +1,110 @@
+[
+  {
+    "id": "ORD-2024-001",
+    "type": "single",
+    "customerId": "CUST-001",
+    "customerName": "Rahul Sharma",
+    "customerPhone": "+919876543210",
+    "customerEmail": "rahul@example.com",
+    "status": "preparing",
+    "items": [
+      { "name": "Margherita Pizza", "qty": 2, "price": 299, "notes": "Extra cheese" },
+      { "name": "Garlic Bread", "qty": 1, "price": 99, "notes": "" }
+    ],
+    "totalAmount": 697,
+    "deliveryAddress": "123 MG Road, Bangalore, 560001",
+    "orderDate": "2024-01-15T10:30:00Z",
+    "deliveryTime": "2024-01-15T11:30:00Z",
+    "driverId": "DRV-001",
+    "driverName": "Amit Kumar",
+    "driverPhone": "+919123456789",
+    "pickupLocation": "Pizza Palace, Koramangala",
+    "deliveryLocation": "123 MG Road, Bangalore"
+  },
+  {
+    "id": "ORD-2024-002",
+    "type": "single",
+    "customerId": "CUST-002",
+    "customerName": "Priya Patel",
+    "customerPhone": "+919876543211",
+    "customerEmail": "priya@example.com",
+    "status": "placed",
+    "items": [
+      { "name": "Chicken Biryani", "qty": 1, "price": 249, "notes": "Medium spicy" }
+    ],
+    "totalAmount": 249,
+    "deliveryAddress": "45 Indiranagar, Bangalore, 560038",
+    "orderDate": "2024-01-15T11:00:00Z",
+    "deliveryTime": "2024-01-15T12:00:00Z",
+    "driverId": "DRV-002",
+    "driverName": "Suresh Reddy",
+    "driverPhone": "+919123456788",
+    "pickupLocation": "Biryani House, HSR Layout",
+    "deliveryLocation": "45 Indiranagar, Bangalore"
+  },
+  {
+    "id": "ORD-2024-003",
+    "type": "bulk",
+    "customerId": "CUST-003",
+    "customerName": "Tech Corp Pvt Ltd",
+    "customerPhone": "+919876543212",
+    "customerEmail": "orders@techcorp.com",
+    "status": "confirmed",
+    "items": [
+      { "name": "Veg Thali", "qty": 50, "price": 150, "notes": "No onion, no garlic" },
+      { "name": "Paneer Tikka", "qty": 30, "price": 180, "notes": "" }
+    ],
+    "totalAmount": 12900,
+    "deliveryAddress": "Tech Park, Whitefield, Bangalore, 560066",
+    "orderDate": "2024-01-14T09:00:00Z",
+    "deliveryTime": "2024-01-14T13:00:00Z",
+    "driverId": "DRV-003",
+    "driverName": "Ravi Singh",
+    "driverPhone": "+919123456787",
+    "pickupLocation": "Catering Central, Electronic City",
+    "deliveryLocation": "Tech Park, Whitefield"
+  },
+  {
+    "id": "ORD-2024-004",
+    "type": "single",
+    "customerId": "CUST-004",
+    "customerName": "Anjali Verma",
+    "customerPhone": "+919876543213",
+    "customerEmail": "anjali@example.com",
+    "status": "completed",
+    "items": [
+      { "name": "Pasta Alfredo", "qty": 1, "price": 320, "notes": "" },
+      { "name": "Caesar Salad", "qty": 1, "price": 180, "notes": "No croutons" }
+    ],
+    "totalAmount": 500,
+    "deliveryAddress": "78 Jayanagar, Bangalore, 560041",
+    "orderDate": "2024-01-14T18:00:00Z",
+    "deliveryTime": "2024-01-14T19:00:00Z",
+    "driverId": "DRV-001",
+    "driverName": "Amit Kumar",
+    "driverPhone": "+919123456789",
+    "pickupLocation": "Italian Bistro, JP Nagar",
+    "deliveryLocation": "78 Jayanagar, Bangalore"
+  },
+  {
+    "id": "ORD-2024-005",
+    "type": "single",
+    "customerId": "CUST-005",
+    "customerName": "Vikram Singh",
+    "customerPhone": "+919876543214",
+    "customerEmail": "vikram@example.com",
+    "status": "cancelled",
+    "items": [
+      { "name": "Burger Combo", "qty": 2, "price": 199, "notes": "" }
+    ],
+    "totalAmount": 398,
+    "deliveryAddress": "12 BTM Layout, Bangalore, 560076",
+    "orderDate": "2024-01-13T14:00:00Z",
+    "deliveryTime": "2024-01-13T15:00:00Z",
+    "driverId": null,
+    "driverName": null,
+    "driverPhone": null,
+    "pickupLocation": "Burger King, Bannerghatta Road",
+    "deliveryLocation": "12 BTM Layout, Bangalore"
+  }
+]

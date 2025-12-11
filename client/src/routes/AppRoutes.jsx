@@ -30,6 +30,9 @@ import AddMenuItemPage from "../pages/Admin/Menu/AddMenuItemPage";
 import MenuItemsListPage from "../pages/Admin/Menu/MenuItemsListPage";
 import SingleOrdersPage from "../pages/Admin/Orders/SingleOrdersPage";
 import BulkOrdersPage from "../pages/Admin/Orders/BulkOrdersPage";
+import OrdersPage from "../pages/Admin/OrdersPage";
+import OrderDetailsPage from "../pages/Admin/OrderDetailsPage";
+import MenuDetailPage from "../pages/Admin/MenuDetailPage";
 
 // Admin Protected Route
 import AdminProtectedRoute from "../components/admin/AdminProtectedRoute";
@@ -79,9 +82,12 @@ function AppRoutes() {
         <Route path="menu">
           <Route path="add" element={<AddMenuItemPage />} />
           <Route path="list" element={<MenuItemsListPage />} />
+          <Route path=":menuItemId" element={<MenuDetailPage />} />
         </Route>
 
         <Route path="orders">
+          <Route index element={<OrdersPage />} />
+          <Route path=":orderId" element={<OrderDetailsPage />} />
           <Route path="single" element={<SingleOrdersPage />} />
           <Route path="bulk" element={<BulkOrdersPage />} />
         </Route>
