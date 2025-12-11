@@ -96,3 +96,48 @@ export const getAdminMenuItems = async (req, res) => {
     });
   }
 };
+
+
+export const deleteMenuItem = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const deleted = await MenuItem.findByIdAndDelete(id);
+
+    if (!deleted) {
+      return res.status(404).json({ message: "Menu item not found" });
+    }
+
+    res.json({ message: "Menu item deleted successfully" });
+
+  } catch (error) {
+    console.error("Error deleting menu item:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
+export const updateMenuItem = async (req, res) => {
+  try {
+    const { id } = req.params;           // mongo objectId
+    const updates = req.body;            // expect updated fields in request body
+
+    // Optional: whitelist fields you allow to update
+    const allowed = ['name','description','price','membershipPrice','isVeg','imageUrl','isAvailable','brandId','categoryId','brandName','categoryName'];
+    const filtered = {};
+    Object.keys(updates).forEach(key => {
+      if (allowed.includes(key)) filtered[key] = updates[key];
+    });
+
+    const updated = await MenuItem.findByIdAndUpdate(id, filtered, { new: true, runValidators: true });
+
+    if (!updated) {
+      return res.status(404).json({ message: 'Menu item not found' });
+    }
+
+    return res.json({ message: 'Menu item updated', item: updated });
+  } catch (err) {
+    console.error('Error updating menu item:', err);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
