@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './ProfilePage.css';
+import { useUserContext } from "../../context/UserContext";
 
 const FaqPage = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const navigate = useNavigate();
+   const { user } = useUserContext();
+  if (!user) {
+  return <div style={{ padding: "20px" }}>Please login to view your profile</div>;
+}
 
   const handleNavigation = (section) => {
     if (section === 'orders') {
@@ -32,9 +37,9 @@ const FaqPage = () => {
         </div>
         <div className="profile-info">
           <div className="profile-details">
-            <p><strong>Name:</strong> Omkar Jagtap</p>
-            <p><strong>Email:</strong> omkarjagtap368@gmail.com</p>
-            <p><strong>Phone:</strong> 7385268443</p>
+            <p><strong>Name:</strong>{user?.name}</p>
+            <p><strong>Email:</strong> {user?.email}</p>
+            <p><strong>Phone:</strong> {user?.phoneNumber || "Not Added"}</p>
           </div>
         </div>
         <button className="edit-btn" onClick={() => setShowEditModal(true)}>EDIT</button>
@@ -99,7 +104,7 @@ const FaqPage = () => {
             <div className="form-field">
               <label>Name*</label>
               <div className="input-container">
-                <input type="text" defaultValue="Omkar Jagtap" />
+                <input type="text" defaultValue={user?.name} />
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
@@ -109,7 +114,7 @@ const FaqPage = () => {
             
             <div className="form-field">
               <label>Phone No.</label>
-              <input type="text" defaultValue="7385268443" />
+              <input type="text" defaultValue={user?.phoneNumber || "Not Added"} />
             </div>
             
             <div className="form-field">
