@@ -155,6 +155,47 @@ class AdminMenuService {
       throw error;
     }
   }
+
+  // Get list of all brands (restaurants) - synchronous method
+  getBrands() {
+    // Return empty array for now - this will be populated by getRestaurants() async call
+    return [];
+  }
+
+  // Load menu items for a specific brand/restaurant
+  async loadMenu(brandId, categoryId = null) {
+    try {
+      // Fetch items filtered by brand (restaurant)
+      const items = await this.getMenuItems(brandId);
+      
+      // Get categories for this brand
+      const categories = await this.getCategories(brandId);
+
+      // Filter by category if specified
+      const filteredItems = categoryId 
+        ? (items?.data || items || []).filter(item => item.categoryId === categoryId)
+        : (items?.data || items || []);
+
+      return {
+        items: Array.isArray(filteredItems) ? filteredItems : [],
+        categories: Array.isArray(categories) ? categories : []
+      };
+    } catch (error) {
+      console.error('Error loading menu:', error);
+      return { items: [], categories: [] };
+    }
+  }
+
+  // Get all menu items across all brands
+  async getAllMenuItems() {
+    try {
+      const items = await this.getMenuItems();
+      return items?.data || items || [];
+    } catch (error) {
+      console.error('Error fetching all menu items:', error);
+      return [];
+    }
+  }
 }
 
 export const adminMenuService = new AdminMenuService();
