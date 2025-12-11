@@ -1,10 +1,18 @@
 import apiClient from './apiClient.js';
+import axios from 'axios';
 
 const API_URL =  'http://localhost:5000/api';
 
-// Get auth token from localStorage
+// Prefer a stored admin token; fall back to env-provided dev token when present
+const DEV_ADMIN_TOKEN = import.meta.env?.VITE_ADMIN_TOKEN || import.meta.env?.VITE_EATCLUB_ADMIN_TOKEN;
+
 const getAuthHeader = () => {
-  const token = localStorage.getItem('ec_user_token') || localStorage.getItem('adminToken');
+  const token =
+    localStorage.getItem('adminToken') ||
+    localStorage.getItem('ec_admin_token') ||
+    localStorage.getItem('token') ||
+    localStorage.getItem('ec_user_token') ||
+    DEV_ADMIN_TOKEN;
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
@@ -199,3 +207,8 @@ class AdminMenuService {
 }
 
 export const adminMenuService = new AdminMenuService();
+
+
+
+
+

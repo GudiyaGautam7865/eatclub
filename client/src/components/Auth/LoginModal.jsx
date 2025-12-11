@@ -56,13 +56,13 @@ if (formData.email === "admin@gmail.com") {
   console.log("ADMIN LOGIN RESULT:", result);
 
   if (result.success) {
-    localStorage.setItem("ec_admin_token", result.data.token);
-    localStorage.setItem("ec_admin", JSON.stringify(result.data.admin));
-
-    navigate("/admin");
-    onClose();
-    return;
-  } else {
+  localStorage.setItem("ec_admin_token", result.data.token);
+  localStorage.setItem("adminToken", result.data.token); // add this
+  localStorage.setItem("ec_admin", JSON.stringify(result.data.admin));
+  navigate("/admin");
+  onClose();
+  return;
+} else {
     setError("Invalid admin credentials");
     return;
   }
