@@ -1,7 +1,7 @@
 import React from 'react';
 import './OrdersGridCard.css';
 
-export default function OrdersGridCard({ order, onClick }) {
+export default function OrdersGridCard({ order = {}, onClick }) {
   const getStatusColor = (status) => {
     const colors = {
       placed: '#3b82f6',
@@ -22,21 +22,21 @@ export default function OrdersGridCard({ order, onClick }) {
       </div>
 
       <div className="order-card-status" style={{ backgroundColor: getStatusColor(order.status) }}>
-        {order.status.toUpperCase()}
+        {(order.status || '').toString().toUpperCase()}
       </div>
 
       <div className="order-card-customer">
-        <div className="customer-name">{order.customerName}</div>
-        <div className="customer-phone">{order.customerPhone}</div>
+        <div className="customer-name">{order.customerName || order.customer?.name || '—'}</div>
+        <div className="customer-phone">{order.customerPhone || order.customer?.phone || '—'}</div>
       </div>
 
       <div className="order-card-items">
-        {order.items.length} item{order.items.length > 1 ? 's' : ''}
+        {Array.isArray(order.items) ? order.items.length : (order.itemCount ?? 0)} item{(Array.isArray(order.items) ? order.items.length : (order.itemCount ?? 0)) > 1 ? 's' : ''}
       </div>
 
       <div className="order-card-footer">
-        <span className="order-amount">₹{order.totalAmount}</span>
-        <span className="order-date">{new Date(order.orderDate).toLocaleDateString()}</span>
+        <span className="order-amount">₹{order.totalAmount ?? order.amount ?? '0'}</span>
+        <span className="order-date">{order.orderDate ? new Date(order.orderDate).toLocaleDateString() : '—'}</span>
       </div>
     </div>
   );
