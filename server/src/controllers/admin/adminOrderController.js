@@ -9,7 +9,8 @@ import BulkOrder from '../../models/BulkOrder.js';
 export const getAllSingleOrders = async (req, res) => {
   try {
     const orders = await Order.find({ isBulk: false })
-      .populate('user', 'name email')
+      .populate('user', 'name email phoneNumber')
+      .populate('driverId', 'name phoneNumber')
       .sort({ createdAt: -1 })
       .lean();
 
@@ -35,6 +36,11 @@ export const getAllSingleOrders = async (req, res) => {
  */
 export const getAllBulkOrders = async (req, res) => {
   try {
+    if (!BulkOrder || typeof BulkOrder.find !== 'function') {
+      console.warn('BulkOrder model not available, returning empty list');
+      return res.status(200).json({ success: true, count: 0, data: [] });
+    }
+
     const bulkOrders = await BulkOrder.find()
       .sort({ createdAt: -1 })
       .lean();
@@ -45,11 +51,12 @@ export const getAllBulkOrders = async (req, res) => {
       data: bulkOrders,
     });
   } catch (error) {
-    console.error('Get all bulk orders error:', error);
+    console.error('Get all bulk orders error:', error.stack || error);
     res.status(500).json({
       success: false,
       message: 'Failed to fetch bulk orders',
       error: error.message,
+      stack: error.stack
     });
   }
 };
@@ -145,5 +152,36 @@ export const updateBulkOrderStatus = async (req, res) => {
       message: 'Failed to update bulk order status',
       error: error.message,
     });
+  }
+};
+
+/**
+ * Get order (single or bulk) by ID
+ * GET /api/admin/orders/:id
+ * @access Private/Admin
+ */
+export const getOrderById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Try single orders first
+    let order = await Order.findById(id)
+      .populate('user', 'name email phoneNumber')
+      .populate('driverId', 'name phoneNumber')
+      .lean();
+    if (order) {
+      return res.status(200).json({ success: true, data: order });
+    }
+
+    // Fallback to bulk orders
+    const bulkOrder = await BulkOrder.findById(id).lean();
+    if (bulkOrder) {
+      return res.status(200).json({ success: true, data: bulkOrder });
+    }
+
+    return res.status(404).json({ success: false, message: 'Order not found' });
+  } catch (error) {
+    console.error('Get order by id error:', error);
+    return res.status(500).json({ success: false, message: 'Failed to fetch order', error: error.message });
   }
 };
