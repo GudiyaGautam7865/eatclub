@@ -59,7 +59,7 @@ export default function MenuItemForm({ onSubmit }) {
     const selectedRestaurant = restaurants.find(r => r._id === formData.restaurantId);
     const selectedCategory = categories.find(c => c._id === formData.category);
 
-    const DEFAULT_IMAGE_URL = 'https://assets.box8.co.in/rectangle-19x10/xhdpi/product/default';
+    const DEFAULT_IMAGE_URL = 'https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810';
 
     const submitData = {
       brandId: selectedRestaurant?._id || formData.restaurantId,

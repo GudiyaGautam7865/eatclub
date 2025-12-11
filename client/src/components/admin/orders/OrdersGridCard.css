@@ -1,0 +1,87 @@
+.order-grid-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.order-grid-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.order-id {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 14px;
+}
+
+.order-type-badge {
+  background: #f3f4f6;
+  color: #6b7280;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.order-card-status {
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.order-card-customer {
+  margin-bottom: 12px;
+}
+
+.customer-name {
+  font-weight: 500;
+  color: #374151;
+  font-size: 14px;
+}
+
+.customer-phone {
+  color: #6b7280;
+  font-size: 13px;
+  margin-top: 2px;
+}
+
+.order-card-items {
+  color: #6b7280;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.order-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.order-amount {
+  font-weight: 600;
+  color: #f97316;
+  font-size: 16px;
+}
+
+.order-date {
+  color: #9ca3af;
+  font-size: 12px;
+}

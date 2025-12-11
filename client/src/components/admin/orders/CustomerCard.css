@@ -1,0 +1,78 @@
+.customer-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.customer-card h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+}
+
+.customer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.info-row {
+  display: flex;
+  gap: 12px;
+}
+
+.info-label {
+  font-weight: 500;
+  color: #6b7280;
+  font-size: 14px;
+  min-width: 80px;
+}
+
+.info-value {
+  color: #374151;
+  font-size: 14px;
+  flex: 1;
+}
+
+.customer-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.action-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.call-btn {
+  background: #10b981;
+  color: white;
+}
+
+.call-btn:hover {
+  background: #059669;
+}
+
+.sms-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.sms-btn:hover {
+  background: #2563eb;
+}

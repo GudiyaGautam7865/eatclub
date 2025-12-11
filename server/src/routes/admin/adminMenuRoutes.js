@@ -1,18 +1,21 @@
 import express from 'express';
-import { createMenuItem, getAdminMenuItems } from '../../controllers/admin/adminMenuController.js';
+import { 
+  createMenuItem, 
+  getAdminMenuItems,
+  deleteMenuItem,
+  updateMenuItem   // <-- add this
+} from '../../controllers/admin/adminMenuController.js';
 import { authMiddleware } from '../../middleware/authMiddleware.js';
 import { adminMiddleware } from '../../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
-// All routes require authentication and admin role
 router.use(authMiddleware);
 router.use(adminMiddleware);
 
-// POST /api/admin/menu/items - Create new menu item
 router.post('/items', createMenuItem);
-
-// GET /api/admin/menu/items - Get all menu items (with filters)
 router.get('/items', getAdminMenuItems);
+router.delete('/items/:id', deleteMenuItem);
+router.put('/items/:id', updateMenuItem); // <-- new route
 
 export default router;
