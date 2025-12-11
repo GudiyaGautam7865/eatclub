@@ -29,41 +29,64 @@ function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
     if (error) setError('');
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!formData.email || !formData.password) {
-      setError('Please fill in all fields');
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!formData.email || !formData.password) {
+    setError('Please fill in all fields');
+    return;
+  }
+
+  setLoading(true);
+  setError('');
+
+  try {
+   // ADMIN LOGIN BY EMAIL
+if (formData.email === "admin@gmail.com") {
+  const res = await fetch("http://localhost:5000/api/admin/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: formData.email,
+      password: formData.password
+    })
+  });
+
+  const result = await res.json();
+  console.log("ADMIN LOGIN RESULT:", result);
+
+  if (result.success) {
+    localStorage.setItem("ec_admin_token", result.data.token);
+    localStorage.setItem("ec_admin", JSON.stringify(result.data.admin));
+
+    navigate("/admin");
+    onClose();
+    return;
+  } else {
+    setError("Invalid admin credentials");
+    return;
+  }
+}
+
+
+    // 🔥 2. NORMAL USER LOGIN
+    const response = await login(formData); // now returns data.token + data.user
+
+    if (response.user) {
+      setUser(response.user);
+      navigate('/');
+      onClose();
       return;
     }
 
-    setLoading(true);
-    setError('');
+    setError("Invalid credentials");
+  } catch (err) {
+    setError(err.message || 'Login failed. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
 
-    try {
-      const response = await login(formData);
-      
-      if (response.user) {
-        setUser(response.user);
-        if (response.user.role === 'ADMIN') {
-          navigate('/admin/dashboard');
-        } else {
-          navigate('/');
-        }
-      } else {
-        if (formData.email === 'admin@gmail.com' && formData.password === '1260') {
-          localStorage.setItem('isAdminAuthenticated', 'true');
-          navigate('/admin/dashboard');
-        } else {
-          navigate('/');
-        }
-      }
-      onClose();
-    } catch (err) {
-      setError(err.message || 'Login failed. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   if (!isOpen) return null;
 

@@ -16,12 +16,12 @@ export const signup = async (userData) => {
     })
   });
 
-  if (response.token && response.user) {
-    localStorage.setItem('ec_user_token', response.token);
-    localStorage.setItem('ec_user', JSON.stringify(response.user));
-  }
+  if (response.data?.token && response.data?.user) {
+  localStorage.setItem('ec_user_token', response.data.token);
+  localStorage.setItem('ec_user', JSON.stringify(response.data.user));
+}
 
-  return response;
+return response.data;
 };
 
 /**
@@ -32,19 +32,17 @@ export const login = async (credentials) => {
   
   const response = await apiClient('/auth/login', {
     method: 'POST',
-    body: JSON.stringify({
-      email,
-      password
-    })
+    body: JSON.stringify({ email, password })
   });
 
-  if (response.token && response.user) {
-    localStorage.setItem('ec_user_token', response.token);
-    localStorage.setItem('ec_user', JSON.stringify(response.user));
+  if (response.data?.token && response.data?.user) {
+    localStorage.setItem('ec_user_token', response.data.token);
+    localStorage.setItem('ec_user', JSON.stringify(response.data.user));
   }
 
-  return response;
+  return response.data; // return only backend data
 };
+
 
 /**
  * User logout

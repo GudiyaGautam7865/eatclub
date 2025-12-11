@@ -1,12 +1,14 @@
 import { Navigate } from 'react-router-dom';
-import { adminAuthService } from '../../services/adminAuthService';
 
 export default function AdminProtectedRoute({ children }) {
-  const isAuthenticated = adminAuthService.isAdminAuthenticated();
+  // Check ONLY admin token
+  const adminToken = localStorage.getItem("ec_admin_token");
 
-  if (!isAuthenticated) {
+  // If no token → block access & redirect
+  if (!adminToken) {
     return <Navigate to="/" replace />;
   }
 
+  // Otherwise → allow admin to enter
   return children;
 }

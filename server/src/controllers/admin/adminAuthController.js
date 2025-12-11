@@ -2,27 +2,33 @@ import { generateAccessToken } from '../../utils/generateToken.js';
 
 export const loginAdmin = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    if (username !== 'admin' || password !== '1260') {
+    // ADMIN LOGIN USING EMAIL
+    if (email !== 'admin@gmail.com' || password !== '1260') {
       return res.status(401).json({
         success: false,
         message: 'Invalid admin credentials',
       });
     }
 
+    // GENERATE TOKEN
     const token = generateAccessToken('admin', 'ADMIN');
 
-    res.json({
+    return res.json({
       success: true,
-      token,
-      admin: {
-        username: 'admin',
-        role: 'ADMIN',
-      },
+      data: {
+        token,
+        admin: {
+          id: 'admin',
+          email: 'admin@gmail.com',
+          role: 'ADMIN'
+        }
+      }
     });
+
   } catch (error) {
-    res.status(500).json({
+    return res.status(500).json({
       success: false,
       message: 'Server error during admin login',
     });

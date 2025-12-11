@@ -79,14 +79,16 @@ function SignupModal({ isOpen, onClose, onSwitchToLogin }) {
         phoneNumber: formData.phoneNumber || undefined
       };
 
-      const response = await signup(signupData);
-      
-      if (response.user) {
-        setUser(response.user);
-      }
-      
-      navigate('/');
-      onClose();
+     const response = await signup(signupData);
+
+       // response = { token, user }
+
+       if (response.user) {
+        setUser(response.user);   // context me set ho jayega
+       }
+
+        navigate('/');
+        onClose();
     } catch (err) {
       setErrors({ submit: err.message || 'Signup failed. Please try again.' });
     } finally {
