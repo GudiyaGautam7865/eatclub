@@ -11,6 +11,7 @@
     "kill-port": "for /f \"tokens=5\" %a in ('netstat -ano ^| findstr :5000') do taskkill /PID %a /F",
     "seed": "node src/seed/seedMenu.js",
     "seed:admin": "node src/seed/seedAdmin.js",
+    "seed:orders": "node src/seed/seedOrders.js",
     "migrate:test-to-eatclub": "node src/seed/migrateTestToEatclub.js"
   },
   "keywords": [

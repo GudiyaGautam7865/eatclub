@@ -53,6 +53,12 @@ const orderSchema = new mongoose.Schema(
       city: String,
       pincode: String,
     },
+    driverId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    driverName: String,
+    driverPhone: String,
     isBulk: {
       type: Boolean,
       default: false,
