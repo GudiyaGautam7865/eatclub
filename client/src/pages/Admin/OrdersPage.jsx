@@ -4,7 +4,6 @@ import OrdersFilterBar from '../../components/admin/orders/OrdersFilterBar';
 import OrdersGridCard from '../../components/admin/orders/OrdersGridCard';
 import OrdersTable from '../../components/admin/orders/OrdersTable';
 import { getAdminSingleOrders, getAdminBulkOrders } from '../../services/adminOrdersService';
-import mockOrders from '../../mock/admin/orders-sample.json';
 import './styles/OrdersPage.css';
 
 export default function OrdersPage() {
@@ -13,7 +12,7 @@ export default function OrdersPage() {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [viewMode, setViewMode] = useState('grid');
   const [loading, setLoading] = useState(true);
-  const [useMock, setUseMock] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     loadOrders();
@@ -25,22 +24,33 @@ export default function OrdersPage() {
         getAdminSingleOrders(),
         getAdminBulkOrders()
       ]);
-      
-      const allOrders = [...singleOrders, ...bulkOrders];
-      
-      if (allOrders.length === 0) {
-        setUseMock(true);
-        setOrders(mockOrders);
-        setFilteredOrders(mockOrders);
-      } else {
-        setOrders(allOrders);
-        setFilteredOrders(allOrders);
-      }
+      // Normalize backend order shape to UI-friendly shape
+      const normalize = (o, isBulkFallback = false) => {
+        const order = o || {};
+        return {
+          id: order._id || order.id || '',
+          type: typeof order.isBulk === 'boolean' ? (order.isBulk ? 'bulk' : 'single') : (isBulkFallback ? 'bulk' : 'single'),
+          customerName: order.address?.name || order.customerName || order.user?.name || '—',
+          customerPhone: order.address?.phone || order.customerPhone || order.user?.phone || '—',
+          orderDate: order.createdAt || order.orderDate || order.date || null,
+          totalAmount: order.total ?? order.amount ?? 0,
+          items: Array.isArray(order.items) ? order.items : (order.itemsList || []),
+          status: (order.status || '').toLowerCase(),
+          raw: order,
+        };
+      };
+
+      const normalizedSingle = (singleOrders || []).map(o => normalize(o, false));
+      const normalizedBulk = (bulkOrders || []).map(o => normalize(o, true));
+
+      const allOrders = [...normalizedSingle, ...normalizedBulk];
+      setOrders(allOrders);
+      setFilteredOrders(allOrders);
     } catch (error) {
-      console.warn('API failed, using mock data:', error);
-      setUseMock(true);
-      setOrders(mockOrders);
-      setFilteredOrders(mockOrders);
+      console.error('Failed to load orders from API:', error);
+      setError('Failed to load orders from server. Check logs or try again later.');
+      setOrders([]);
+      setFilteredOrders([]);
     } finally {
       setLoading(false);
     }
@@ -60,9 +70,9 @@ export default function OrdersPage() {
     if (filters.search) {
       const search = filters.search.toLowerCase();
       filtered = filtered.filter(o =>
-        o.id.toLowerCase().includes(search) ||
-        o.customerName.toLowerCase().includes(search) ||
-        o.customerPhone.includes(search)
+        (o.id || '').toString().toLowerCase().includes(search) ||
+        (o.customerName || '').toString().toLowerCase().includes(search) ||
+        (o.customerPhone || '').toString().includes(search)
       );
     }
 
@@ -94,7 +104,7 @@ export default function OrdersPage() {
     <div className="admin-orders-page">
       <div className="orders-header">
         <h1>Orders Management</h1>
-        {useMock && <span className="mock-badge">Using Mock Data</span>}
+        {error ? <span className="error-badge">{error}</span> : null}
       </div>
 
       <OrdersFilterBar onFilter={handleFilter} />

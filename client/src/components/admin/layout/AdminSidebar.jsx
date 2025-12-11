@@ -72,28 +72,6 @@ export default function AdminSidebar() {
               <span>All Orders</span>
             </NavLink>
           </li>
-          <li className="admin-sidebar-item">
-            <NavLink
-              to="/admin/orders/single"
-              className={({ isActive }) =>
-                `admin-sidebar-link ${isActive ? 'active' : ''}`
-              }
-            >
-              <span className="admin-sidebar-icon">📦</span>
-              <span>Single Orders</span>
-            </NavLink>
-          </li>
-          <li className="admin-sidebar-item">
-            <NavLink
-              to="/admin/orders/bulk"
-              className={({ isActive }) =>
-                `admin-sidebar-link ${isActive ? 'active' : ''}`
-              }
-            >
-              <span className="admin-sidebar-icon">📦📦</span>
-              <span>Bulk Orders</span>
-            </NavLink>
-          </li>
         </ul>
       </div>
     </nav>

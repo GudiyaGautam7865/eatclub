@@ -76,3 +76,13 @@ export default {
   updateOrderStatus,
   updateBulkOrderStatus,
 };
+
+export async function getAdminOrderById(orderId) {
+  try {
+    const response = await apiClient(`/admin/orders/${orderId}`, { method: 'GET' });
+    return response.data || response;
+  } catch (error) {
+    console.error('Get admin order by id error:', error);
+    throw error;
+  }
+}

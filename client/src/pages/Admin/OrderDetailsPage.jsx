@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import OrderTracking from '../../components/admin/orders/OrderTracking';
 import CustomerCard from '../../components/admin/orders/CustomerCard';
 import DriverCard from '../../components/admin/orders/DriverCard';
-import mockOrders from '../../mock/admin/orders-sample.json';
+import { getAdminOrderById } from '../../services/adminOrdersService';
 import './styles/OrderDetailsPage.css';
 
 export default function OrderDetailsPage() {
@@ -12,10 +12,44 @@ export default function OrderDetailsPage() {
   const [order, setOrder] = useState(null);
 
   useEffect(() => {
-    const foundOrder = mockOrders.find(o => o.id === orderId);
-    if (foundOrder) {
-      setOrder(foundOrder);
-    }
+    let mounted = true;
+
+    const load = async () => {
+      try {
+        const res = await getAdminOrderById(orderId);
+        const o = res?.data || res;
+
+        // Extract driver info - handle both populated object and string fields
+        const driverData = typeof o.driverId === 'object' ? o.driverId : null;
+
+        // Normalize to UI shape
+        const normalized = {
+          id: o._id || o.id,
+          type: o.isBulk ? 'bulk' : 'single',
+          customerName: o.address?.name || o.user?.name || '—',
+          customerPhone: o.address?.phone || o.user?.phone || '—',
+          customerEmail: o.user?.email || null,
+          deliveryAddress: o.address || null,
+          items: Array.isArray(o.items) ? o.items : (o.itemsList || []),
+          totalAmount: o.total ?? o.amount ?? 0,
+          status: (o.status || '').toLowerCase(),
+          orderDate: o.createdAt || o.orderDate,
+          pickupLocation: o.pickupLocation || o.pickup || null,
+          deliveryLocation: o.deliveryLocation || o.delivery || null,
+          driverId: driverData?._id || o.driverId,
+          driverName: driverData?.name || o.driverName,
+          driverPhone: driverData?.phoneNumber || o.driverPhone,
+          raw: o,
+        };
+
+        if (mounted) setOrder(normalized);
+      } catch (err) {
+        console.error('Failed to fetch order details:', err);
+      }
+    };
+
+    load();
+    return () => { mounted = false; };
   }, [orderId]);
 
   if (!order) {
@@ -35,7 +69,7 @@ export default function OrderDetailsPage() {
   };
 
   return (
-    <div className="order-details-page">
+      <div className="order-details-page">
       <button className="back-button" onClick={() => navigate('/admin/orders')}>
         ← Back to Orders
       </button>
@@ -76,7 +110,7 @@ export default function OrderDetailsPage() {
             name: order.customerName,
             phone: order.customerPhone,
             email: order.customerEmail,
-            address: order.deliveryAddress
+            address: order.deliveryAddress || {}
           }} />
 
           <OrderTracking status={order.status} orderDate={order.orderDate} />
@@ -107,7 +141,7 @@ export default function OrderDetailsPage() {
             </div>
           </div>
 
-          {order.driverId && (
+          {(order.driverId || order.driverName) && (
             <DriverCard driver={{
               name: order.driverName,
               phone: order.driverPhone,

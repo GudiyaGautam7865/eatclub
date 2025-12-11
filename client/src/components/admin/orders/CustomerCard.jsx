@@ -20,7 +20,11 @@ export default function CustomerCard({ customer }) {
         </div>
         <div className="info-row">
           <span className="info-label">Address:</span>
-          <span className="info-value">{customer.address}</span>
+          <span className="info-value">
+            {typeof customer.address === 'object' && customer.address
+              ? `${customer.address.line1 || ''}, ${customer.address.city || ''} - ${customer.address.pincode || ''}`
+              : customer.address || '—'}
+          </span>
         </div>
       </div>
       <div className="customer-actions">
