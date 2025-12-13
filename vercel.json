@@ -1,0 +1,25 @@
+{
+  "buildCommand": "cd client && npm install && npm run build",
+  "outputDirectory": "client/dist",
+  "installCommand": "npm install",
+  "devCommand": "cd client && npm run dev",
+  "env": {
+    "VITE_API_URL": "@vite_api_url"
+  },
+  "functions": {
+    "server/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/server/server.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/dist/index.html",
+      "methods": ["GET"]
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+.driver-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-top: 24px;
+}
+
+.driver-card h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+}
+
+.driver-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.driver-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #fef3c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.driver-details {
+  flex: 1;
+}
+
+.driver-name {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.driver-id {
+  color: #6b7280;
+  font-size: 12px;
+  margin-bottom: 4px;
+}
+
+.driver-phone {
+  color: #374151;
+  font-size: 14px;
+}
+
+.driver-actions {
+  display: flex;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.driver-actions .action-btn {
+  flex: 1;
+  padding: 10px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.driver-actions .call-btn {
+  background: #10b981;
+  color: white;
+}
+
+.driver-actions .call-btn:hover {
+  background: #059669;
+}
+
+.driver-actions .sms-btn {
+  background: #3b82f6;
+  color: white;
+}
+
+.driver-actions .sms-btn:hover {
+  background: #2563eb;
+}

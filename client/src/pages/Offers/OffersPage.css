@@ -1,0 +1,256 @@
+.offers-page {
+  min-height: 100vh;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  color: white;
+  padding: 80px 20px 60px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="80" cy="20" r="15" fill="rgba(255,255,255,0.1)"/><circle cx="90" cy="60" r="20" fill="rgba(255,255,255,0.05)"/></svg>') no-repeat right center;
+  background-size: contain;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 0;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+}
+
+.offers-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 40px;
+}
+
+.tab {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 25px;
+  background: #f5f5f5;
+  color: #666;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.tab.active {
+  background: #333;
+  color: white;
+}
+
+.tab:hover {
+  background: #e0e0e0;
+}
+
+.tab.active:hover {
+  background: #333;
+}
+
+.offers-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.offers-grid {
+  display: flex;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 35px;
+}
+
+.offer-card {
+  width: 170px;
+  height: 250px;
+  background: linear-gradient(135deg, #f8f4e6 0%, #f0e6d2 100%);
+  border-radius: 12px;
+  padding: 30px;
+  position: relative;
+  border: 1px solid #e8dcc0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.offer-card:hover {
+  transform: translateY(-2px);
+}
+
+.offer-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 165, 0, 0.2);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #ff8c00;
+}
+
+.offer-category {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.offer-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.offer-code {
+  background: rgba(255, 165, 0, 0.8);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-block;
+  letter-spacing: 0.5px;
+}
+
+.payment-section {
+  margin-top: 40px;
+}
+
+.payment-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+.payment-subtitle {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.payment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 15px;
+}
+
+.payment-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.payment-card:hover {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.payment-logo {
+  font-size: 12px;
+  font-weight: bold;
+  color: #666;
+  min-width: 60px;
+}
+
+.payment-content {
+  flex: 1;
+}
+
+.payment-content h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 4px 0;
+}
+
+.payment-content p {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 8px 0;
+}
+
+.validity {
+  font-size: 12px;
+  color: #999;
+  text-transform: uppercase;
+}
+
+.arrow {
+  font-size: 20px;
+  color: #ccc;
+}
+
+.copy-message {
+  background: rgba(255, 165, 0, 0.8);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section h1 {
+    font-size: 2rem;
+    padding-left: 0;
+  }
+  
+  .offers-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .payment-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tabs {
+    flex-wrap: wrap;
+  }
+}

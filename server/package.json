@@ -1,0 +1,38 @@
+{
+  "name": "eatclub-server",
+  "version": "1.0.0",
+  "description": "EatClub backend API - Express + MongoDB",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "dev:safe": "for /f \"tokens=5\" %a in ('netstat -ano ^| findstr :5000') do @taskkill /PID %a /F >nul 2>&1 & npm run dev",
+    "kill-port": "for /f \"tokens=5\" %a in ('netstat -ano ^| findstr :5000') do taskkill /PID %a /F",
+    "seed": "node src/seed/seedMenu.js",
+    "seed:admin": "node src/seed/seedAdmin.js",
+    "seed:orders": "node src/seed/seedOrders.js",
+    "migrate:test-to-eatclub": "node src/seed/migrateTestToEatclub.js"
+  },
+  "keywords": [
+    "eatclub",
+    "food-ordering",
+    "api"
+  ],
+  "author": "EatClub Team",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.0",
+    "nodemailer": "^7.0.11"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}

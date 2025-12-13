@@ -1,0 +1,31 @@
+/* Admin Chart Card Styles */
+
+.admin-chart-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f0f0f0;
+  transition: all 0.3s ease;
+}
+
+.admin-chart-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: #e0e0e0;
+}
+
+.admin-chart-card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.admin-chart-card-content {
+  min-height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

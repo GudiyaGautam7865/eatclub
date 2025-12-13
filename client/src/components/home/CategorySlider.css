@@ -1,0 +1,187 @@
+.category-slider {
+  padding: 26px 4%;
+}
+
+.cs-heading {
+  font-size: 22px;
+  margin: 0 0 18px 8px;
+  font-weight: 700;
+  color: #111;
+}
+
+.cs-wrapper {
+  position: relative;
+}
+
+.cs-track {
+  display: flex;
+  gap: 28px;
+  overflow-x: auto;
+  padding: 10px 48px; /* give space for arrows */
+  scroll-behavior: smooth;
+}
+
+/* hide native scrollbar */
+.cs-track::-webkit-scrollbar {
+  height: 8px;
+}
+.cs-track::-webkit-scrollbar-track {
+  background: transparent;
+}
+.cs-track::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.08);
+  border-radius: 8px;
+}
+/* hide for firefox */
+.cs-track {
+  scrollbar-width: none;
+}
+.cs-track::-webkit-scrollbar { display: none; }
+
+.cs-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 110px;
+}
+
+.cs-img {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+  background: #fff;
+}
+
+.cs-img img {
+  width: 86%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.cs-label {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(230,230,230,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.cs-left { left: 8px; }
+.cs-right { right: 8px; }
+
+/* ensure arrows don't overlap content on small screens */
+@media (max-width: 600px) {
+  .cs-arrow { width: 32px; height: 32px; font-size: 18px; }
+  .cs-track { gap: 20px; padding: 8px 36px; }
+  .cs-img { width: 76px; height: 76px; }
+  .cs-label { font-size: 13px; }
+}
+
+/* Marquee Styles */
+.category-marquee {
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8fdfd 0%, #e8f8f8 100%);
+  border-radius: 20px;
+  padding: 15px 0;
+  box-shadow: 0 4px 20px rgba(0, 184, 184, 0.1);
+  transition: all 0.3s ease;
+}
+
+.category-marquee:hover {
+  box-shadow: 0 8px 30px rgba(0, 184, 184, 0.15);
+  transform: translateY(-2px);
+}
+
+.category-marquee .cs-track {
+  position: relative;
+  height: 140px;
+  overflow: hidden;
+  padding: 0 20px;
+}
+
+.category-marquee .cs-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translateX(0);
+  transition: transform 0.4s ease-in-out;
+}
+
+.category-marquee .cs-item.active {
+  z-index: 10;
+  transform: translateX(0) scale(1.1);
+}
+
+.category-marquee .cs-item.active .cs-img {
+  border-color: #00b8b8;
+  box-shadow: 0 8px 25px rgba(0, 184, 184, 0.4);
+}
+
+.category-marquee .cs-item.active .cs-label {
+  color: #00b8b8;
+  font-weight: 700;
+}
+
+.category-marquee .cs-item {
+  transition: transform 0.3s ease;
+}
+
+.category-marquee .cs-item:hover {
+  transform: scale(1.1);
+}
+
+.category-marquee .cs-img {
+  border: 3px solid transparent;
+  background: linear-gradient(white, white) padding-box, 
+              linear-gradient(45deg, #00b8b8, #00d4d4) border-box;
+  transition: all 0.3s ease;
+}
+
+.category-marquee .cs-img:hover {
+  border-color: #00b8b8;
+  box-shadow: 0 8px 25px rgba(0, 184, 184, 0.3);
+}
+
+.category-marquee .cs-label {
+  font-weight: 600;
+  color: #2c3e50;
+  transition: color 0.3s ease;
+}
+
+.category-marquee .cs-item:hover .cs-label {
+  color: #00b8b8;
+}
+
+@media (max-width: 420px) {
+  .cs-track { padding: 8px 28px; gap: 16px; }
+  .cs-img { width: 64px; height: 64px; }
+  .cs-item { min-width: 86px; }
+}

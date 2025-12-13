@@ -1,0 +1,129 @@
+/*
+ * Updated CSS for HomePage.css to match the second image's promotional banner.
+ * It uses a background image/gradient for the pattern and positions the QR
+ * code on the right side of the banner content.
+ */
+
+.home-page {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.video-banner {
+    position: relative;
+    width: 100%;
+    height: 102vh;
+    overflow: hidden;
+    margin-top: -62px;
+    
+}
+
+.banner-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+.banner-content {
+    text-align: center;
+    margin-top: 100px;
+    color: white;
+    z-index: 3;
+}
+
+.banner-content h1 {
+    font-size: 48px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.banner-content p {
+    font-size: 20px;
+    margin-bottom: 24px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.cta-button {
+    background-color: #00d0e3;
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+    background-color: #00a8c1;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 208, 227, 0.3);
+}
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .video-banner {
+        height: 70vh;
+    }
+    
+    .banner-content h1 {
+        font-size: 36px;
+    }
+    
+    .banner-content p {
+        font-size: 16px;
+    }
+    
+    .cta-button {
+        padding: 10px 24px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-banner {
+        height: 300px;
+        margin: 10px;
+    }
+    
+    .banner-content h1 {
+        font-size: 28px;
+    }
+    
+    .banner-content p {
+        font-size: 14px;
+    }
+    
+    .cta-button {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+}
+
+.offers-section {
+    margin-top: 20px;
+}
+

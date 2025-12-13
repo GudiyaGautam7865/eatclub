@@ -1,0 +1,404 @@
+/* =====================================================
+   Manage Orders Page - Main Styles
+   ===================================================== */
+
+.manage-orders-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+/* Header */
+.mo-header {
+  margin-bottom: 32px;
+}
+
+.mo-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 8px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+.mo-subtitle {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  line-height: 1.5;
+}
+
+/* Tabs */
+.mo-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.mo-tab {
+  padding: 12px 24px;
+  border: none;
+  background-color: transparent;
+  color: #6b7280;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+.mo-tab:hover {
+  color: #000;
+}
+
+.mo-tab--active {
+  color: #000;
+  border-bottom-color: #000;
+  font-weight: 600;
+}
+
+/* Content Area */
+.mo-content {
+  width: 100%;
+}
+
+/* Loading State */
+.mo-loading {
+  text-align: center;
+  padding: 64px 20px;
+  color: #6b7280;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+/* Empty State */
+.mo-empty {
+  text-align: center;
+  padding: 80px 20px;
+  background-color: #fff;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+}
+
+.mo-empty-illustration {
+  font-size: 64px;
+  margin-bottom: 20px;
+}
+
+.mo-empty-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #000;
+  margin: 0 0 12px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+.mo-empty-subtitle {
+  font-size: 15px;
+  color: #6b7280;
+  margin: 0 0 24px 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  line-height: 1.5;
+}
+
+.mo-empty-button {
+  padding: 10px 24px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+.mo-empty-button:hover {
+  background-color: #1a1a1a;
+}
+
+/* Orders List */
+.mo-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* =====================================================
+   Order Card Styles
+   ===================================================== */
+
+.order-card {
+  background-color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  border: 1px solid #e5e7eb;
+  transition: box-shadow 0.3s ease;
+}
+
+.order-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.order-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.order-card-restaurant {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+  margin: 0;
+  flex: 1;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+.order-card-top-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.order-card-amount {
+  font-size: 18px;
+  font-weight: 700;
+  color: #000;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+/* Body */
+.order-card-body {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.order-card-items {
+  font-size: 14px;
+  color: #374151;
+  margin: 0 0 8px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  line-height: 1.5;
+}
+
+.order-card-id {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 0 0 6px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+.order-card-date {
+  font-size: 13px;
+  color: #6b7280;
+  margin: 0 0 8px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+.order-card-address {
+  font-size: 13px;
+  color: #9ca3af;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+/* Actions */
+.order-card-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.order-btn-primary,
+.order-btn-secondary,
+.order-btn-text {
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+  padding: 9px 16px;
+}
+
+.order-btn-primary {
+  background-color: #000;
+  color: #fff;
+}
+
+.order-btn-primary:hover {
+  background-color: #1a1a1a;
+}
+
+.order-btn-primary:active {
+  transform: scale(0.98);
+}
+
+.order-btn-secondary {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #d1d5db;
+}
+
+.order-btn-secondary:hover {
+  background-color: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.order-btn-text {
+  background-color: transparent;
+  color: #6b7280;
+  padding: 8px 0;
+  text-decoration: none;
+}
+
+.order-btn-text:hover {
+  color: #000;
+}
+
+/* =====================================================
+   Order Status Badge Styles
+   ===================================================== */
+
+.order-status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+.order-status-badge--placed {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.order-status-badge--preparing {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.order-status-badge--out-for-delivery {
+  background-color: #fed7aa;
+  color: #92400e;
+}
+
+.order-status-badge--delivered {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.order-status-badge--cancelled {
+  background-color: #f3f4f6;
+  color: #4b5563;
+}
+
+/* =====================================================
+   Responsive Design
+   ===================================================== */
+
+@media (max-width: 768px) {
+  .manage-orders-page {
+    padding: 24px 16px;
+  }
+
+  .mo-title {
+    font-size: 24px;
+  }
+
+  .mo-subtitle {
+    font-size: 14px;
+  }
+
+  .mo-tabs {
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .mo-tab {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .order-card {
+    padding: 16px;
+  }
+
+  .order-card-restaurant {
+    font-size: 15px;
+  }
+
+  .order-card-amount {
+    font-size: 16px;
+  }
+
+  .order-card-actions {
+    gap: 8px;
+  }
+
+  .order-btn-primary,
+  .order-btn-secondary,
+  .order-btn-text {
+    padding: 8px 14px;
+    font-size: 13px;
+    flex: 1;
+  }
+
+  .order-btn-text {
+    flex: initial;
+  }
+
+  .mo-empty {
+    padding: 60px 20px;
+  }
+
+  .mo-empty-illustration {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+
+  .mo-empty-title {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+
+  .mo-empty-subtitle {
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+}

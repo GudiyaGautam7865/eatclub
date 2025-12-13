@@ -1,0 +1,104 @@
+{
+  "productId": "the-good-bowl",
+  "categories": [
+    { "id": "protein-bowls", "name": "Protein Bowls" },
+    { "id": "salad-bowls", "name": "Salad Bowls" },
+    { "id": "grain-bowls", "name": "Grain Bowls" },
+    { "id": "smoothies", "name": "Smoothies" },
+    { "id": "healthy-snacks", "name": "Healthy Snacks" }
+  ],
+  "items": [
+    {
+      "id": "gb1",
+      "name": "Grilled Chicken Power Bowl",
+      "description": "Grilled chicken with quinoa, avocado, and mixed greens.",
+      "price": 329,
+      "membershipPrice": 249,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "protein-bowls",
+      "isBestseller": true
+    },
+    {
+      "id": "gb2",
+      "name": "Paneer Tikka Protein Bowl",
+      "description": "Grilled paneer tikka with brown rice and fresh vegetables.",
+      "price": 299,
+      "membershipPrice": 219,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "protein-bowls"
+    },
+    {
+      "id": "gb3",
+      "name": "Fish Teriyaki Bowl",
+      "description": "Teriyaki glazed fish with steamed broccoli and brown rice.",
+      "price": 349,
+      "membershipPrice": 269,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "protein-bowls"
+    },
+    {
+      "id": "gb4",
+      "name": "Mediterranean Salad Bowl",
+      "description": "Fresh greens with olives, feta cheese, and olive oil dressing.",
+      "price": 249,
+      "membershipPrice": 189,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "salad-bowls"
+    },
+    {
+      "id": "gb5",
+      "name": "Caesar Salad Bowl",
+      "description": "Crisp romaine lettuce with parmesan and caesar dressing.",
+      "price": 229,
+      "membershipPrice": 169,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "salad-bowls"
+    },
+    {
+      "id": "gb6",
+      "name": "Asian Chicken Salad",
+      "description": "Grilled chicken with mixed greens and sesame dressing.",
+      "price": 279,
+      "membershipPrice": 209,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "salad-bowls"
+    },
+    {
+      "id": "gb7",
+      "name": "Quinoa Buddha Bowl",
+      "description": "Quinoa with roasted vegetables, chickpeas, and tahini dressing.",
+      "price": 269,
+      "membershipPrice": 199,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "grain-bowls",
+      "isBestseller": true
+    },
+    {
+      "id": "gb8",
+      "name": "Brown Rice Veggie Bowl",
+      "description": "Brown rice with seasonal vegetables and hummus.",
+      "price": 239,
+      "membershipPrice": 179,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "grain-bowls"
+    },
+    {
+      "id": "gb9",
+      "name": "Millet Power Bowl",
+      "description": "Nutritious millet with grilled vegetables and yogurt dressing.",
+      "price": 249,
+      "membershipPrice": 189,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "grain-bowls"
+    }
+  ]
+}

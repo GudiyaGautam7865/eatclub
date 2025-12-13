@@ -1,0 +1,104 @@
+{
+  "productId": "lunchbox",
+  "categories": [
+    { "id": "homestyle-meals", "name": "Homestyle Meals" },
+    { "id": "rice-bowls", "name": "Rice Bowls" },
+    { "id": "parathas", "name": "Parathas" },
+    { "id": "desserts", "name": "Desserts" },
+    { "id": "beverages", "name": "Beverages" }
+  ],
+  "items": [
+    {
+      "id": "lb1",
+      "name": "Ghar Jaisa Chicken Curry Meal",
+      "description": "Homestyle chicken curry with rice, dal, roti and pickle.",
+      "price": 249,
+      "membershipPrice": 179,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "homestyle-meals",
+      "isBestseller": true
+    },
+    {
+      "id": "lb2",
+      "name": "Maa Ke Haath Ka Rajma Chawal",
+      "description": "Traditional rajma with basmati rice, just like mom makes.",
+      "price": 199,
+      "membershipPrice": 149,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "homestyle-meals"
+    },
+    {
+      "id": "lb3",
+      "name": "Dal Makhani Comfort Bowl",
+      "description": "Creamy dal makhani with butter naan and pickle.",
+      "price": 219,
+      "membershipPrice": 159,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "homestyle-meals"
+    },
+    {
+      "id": "lb4",
+      "name": "Chicken Biryani Bowl",
+      "description": "Fragrant chicken biryani with raita and boiled egg.",
+      "price": 279,
+      "membershipPrice": 199,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": false,
+      "categoryId": "rice-bowls"
+    },
+    {
+      "id": "lb5",
+      "name": "Paneer Fried Rice Bowl",
+      "description": "Indo-Chinese paneer fried rice with manchurian gravy.",
+      "price": 229,
+      "membershipPrice": 169,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "rice-bowls"
+    },
+    {
+      "id": "lb6",
+      "name": "Veg Pulao Bowl",
+      "description": "Aromatic vegetable pulao with raita and papad.",
+      "price": 199,
+      "membershipPrice": 149,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "rice-bowls"
+    },
+    {
+      "id": "lb7",
+      "name": "Aloo Paratha Combo",
+      "description": "Stuffed aloo paratha with curd, pickle and butter.",
+      "price": 149,
+      "membershipPrice": 109,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "parathas",
+      "isBestseller": true
+    },
+    {
+      "id": "lb8",
+      "name": "Paneer Paratha Combo",
+      "description": "Fresh paneer stuffed paratha with mint chutney.",
+      "price": 169,
+      "membershipPrice": 129,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "parathas"
+    },
+    {
+      "id": "lb9",
+      "name": "Gobi Paratha Combo",
+      "description": "Spiced cauliflower paratha with fresh curd and pickle.",
+      "price": 159,
+      "membershipPrice": 119,
+      "imageUrl": "https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810",
+      "isVeg": true,
+      "categoryId": "parathas"
+    }
+  ]
+}

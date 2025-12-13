@@ -1,0 +1,359 @@
+.refer-page {
+  padding: 2rem 1rem 6rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 100px;
+}
+
+.refer-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 4rem;
+  align-items: center;
+}
+
+.refer-left {
+  display: flex;
+  justify-content: center;
+}
+
+.refer-video {
+  width: 100%;
+  max-width: 400px;
+  height: 300px;
+  background: #f0f0f0;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.video-placeholder {
+  text-align: center;
+  color: #666;
+}
+
+.video-placeholder span {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.video-placeholder p {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.refer-right {
+  display: flex;
+  justify-content: center;
+}
+
+.refer-teal-panel {
+  background: #00b8b8;
+  border-radius: 25px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 450px;
+}
+
+.refer-code-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.refer-code-card h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.refer-code-card p {
+  font-size: 0.95rem;
+  color: #666;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.refer-cta {
+  background: #000;
+  color: white;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.refer-cta:hover {
+  background: #333;
+}
+
+.refer-steps {
+  text-align: center;
+  background: linear-gradient(135deg, #f8fdfd 0%, #e8f8f8 100%);
+  padding: 4rem 2rem;
+  margin: 2rem -1rem;
+  border-radius: 30px;
+}
+
+.refer-steps h2 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin-bottom: 4rem;
+  position: relative;
+  display: inline-block;
+  color: #2c3e50;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.refer-steps h2::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 6px;
+  background: linear-gradient(90deg, #00b8b8, #00d4d4);
+  border-radius: 3px;
+  box-shadow: 0 2px 8px rgba(0, 184, 184, 0.3);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.step-card {
+  background: white;
+  border-radius: 20px;
+  padding: 2.5rem 1.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.step-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #00b8b8, #00d4d4);
+}
+
+.step-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.step-icon {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  margin: 0 auto 1.5rem;
+  display: block;
+  padding: 5px;
+  background: linear-gradient(135deg, #00b8b8, #00d4d4);
+  box-shadow: 0 8px 25px rgba(0, 184, 184, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.step-card:hover .step-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.refer-features {
+  padding: 2rem 1rem 1rem;
+  text-align: center;
+}
+
+.features-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  flex: 1;
+}
+
+.feature-item {
+  text-align: center;
+  padding: 0;
+  background: white;
+  border-radius: 0;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+  overflow: hidden;
+  height: 150px;
+}
+
+.feature-item:hover {
+  transform: translateY(-5px);
+}
+
+.feature-icon {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+  margin: 0;
+  display: block;
+  box-shadow: none;
+  transition: transform 0.3s ease;
+  object-fit: cover;
+}
+
+.feature-item:hover .feature-icon {
+  transform: scale(1.05);
+}
+
+.scroll-arrow {
+  background: #00b8b8;
+  color: white;
+  border: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 184, 184, 0.3);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.scroll-arrow:hover {
+  background: #00d4d4;
+  transform: scale(1.1);
+}
+
+.feature-item h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
+}
+
+.feature-item p {
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+.step-label {
+  color: #00b8b8;
+  font-size: 0.9rem;
+  font-weight: 800;
+  margin-bottom: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.step-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  line-height: 1.3;
+}
+
+.step-desc {
+  font-size: 0.95rem;
+  color: #5a6c7d;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .refer-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .refer-video {
+    height: 250px;
+  }
+  
+  .features-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .scroll-arrow {
+    display: none;
+  }
+  
+  .steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .refer-steps h2 {
+    font-size: 2rem;
+  }
+  
+  .refer-steps {
+    padding: 3rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .refer-page {
+    padding: 1rem 0.5rem;
+  }
+  
+  .refer-steps {
+    padding: 2rem 1rem;
+    margin: 1rem -0.5rem;
+  }
+  
+  .steps-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .refer-steps h2 {
+    font-size: 1.8rem;
+  }
+  
+  .step-card {
+    padding: 2rem 1rem;
+  }
+  
+  .refer-teal-panel {
+    padding: 1.5rem;
+  }
+  
+  .refer-code-card {
+    padding: 1.5rem;
+  }
+}
+
+

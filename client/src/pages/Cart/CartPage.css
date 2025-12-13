@@ -1,0 +1,165 @@
+/* Cart page styles */
+.cart-page{padding:24px}
+.cart-grid{display:flex;gap:24px;max-width:1200px;margin:0 auto}
+.cart-left{flex:2;display:flex;flex-direction:column;gap:18px;background-color: #f0e9e9;padding:20px;border-radius:12px;}
+.cart-right{flex:1;gap:18px;background-color: #f0e9e9;padding:20px;border-radius:12px;}
+
+.card{background:#fff;border-radius:12px;padding:18px;border:1px solid #f0f0f0}
+.card.small{padding:12px}
+.card-title{font-weight:700;color:#666;margin-bottom:10px}
+.card-body{color:#333}
+.muted{color:#777}
+
+/* Visual treatment: non-active card title area looks muted; active card has bold black border */
+.card{background:#fff}
+.card:not(.active){opacity:1}
+.card.active{background:#fff}
+.card .card-title{display:flex;justify-content:space-between;align-items:center}
+
+/* ensure the primary CTA looks black-on-white when inside an active card */
+.card.active .btn-primary{background:#0b0b0b;color:#fff}
+.card:not(.active) .btn-primary{background:#fff;color:#0b0b0b;border:1px solid #ddd}
+
+/* make collapsed card body look empty and muted */
+.card:not(.active) .card-body.muted{padding:26px 10px;color:#8a8a8a}
+
+.delivery-address-card .add-address{float:right;background:transparent;border:1px solid #ddd;padding:6px 10px;border-radius:6px;cursor:pointer}
+.delivery-address-card.expanded{background:#fff}
+.address-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.addr-card{border:1px solid #e6e6e6;padding:14px;border-radius:10px;background:#fafafa;cursor:pointer}
+.addr-card .addr-label{font-weight:700;margin-bottom:8px}
+.addr-card .addr-title{color:#333;font-weight:600;margin-bottom:6px}
+.addr-card .addr-text{color:#666;font-size:13px}
+.addr-card.selected{border-color:#111;background:#fff}
+.address-actions{grid-column:1/-1;display:flex;justify-content:flex-end;margin-top:8px}
+.address-actions .btn-primary{padding:10px 16px}
+
+.account-card .card-title{display:flex;align-items:center;gap:8px}
+
+.delivery-time-card{border:1px solid #f0f0f0;padding:18px;border-radius:16px}
+.delivery-time-card .card-title{display:flex;justify-content:space-between;align-items:center}
+.delivery-time-card.active{border:3px solid #000}
+.delivery-address-card{border:1px solid #f0f0f0;padding:18px;border-radius:12px}
+.delivery-address-card.active{border:3px solid #000}
+.payment-card{border:1px solid #f0f0f0;padding:18px;border-radius:12px}
+.payment-card.active{border:3px solid #000}
+/* Payment layout */
+.payment-inner{display:flex;gap:18px}
+.payment-nav{width:220px;background:#f7f7f7;border-radius:6px;padding:10px 6px;display:flex;flex-direction:column}
+.payment-nav-item{padding:18px;border-radius:4px;margin:6px 6px;color:#666;cursor:pointer}
+.payment-nav-item.active{background:#fff;border-left:4px solid #000;color:#111;box-shadow:0 3px 12px rgba(0,0,0,0.04)}
+.payment-nav-item .badge{margin-left:8px;color:#0b8}
+.payment-content{flex:1;padding:8px 16px}
+.pay-option{border:1px solid #e6e6e6;border-radius:10px;padding:12px;margin-bottom:12px;position:relative}
+.pay-option.selected{border:2px solid #000}
+.pay-left{font-weight:700;display:flex;align-items:center;gap:12px}
+.pay-logo{width:36px;height:24px;object-fit:contain}
+.pay-right{position:absolute;right:12px;top:14px}
+.pay-sub{margin-top:10px;background:#f6f7f8;padding:10px;border-radius:8px}
+.mini-input{border:0;background:transparent;margin-left:8px}
+.pay-add{margin-top:12px}
+.btn-add{background:#fff;border:1px solid #e6e6e6;padding:12px;border-radius:8px}
+.pay-card-box{border:1px solid #e6e6e6;padding:18px;border-radius:10px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.link{background:transparent;border:0;color:#0b8;cursor:pointer}
+.pay-desc{color:#777;font-size:13px;margin-top:8px}
+.pay-disabled{background:#fafafa;border-radius:8px;padding:18px;color:#999}
+.bank-grid{display:flex;gap:12px}
+.bank-tile{border:1px solid #e6e6e6;padding:18px;border-radius:8px;cursor:pointer}
+.bank-tile.selected{border:2px solid #000}
+.bank-select{padding:10px;border-radius:6px;border:1px solid #ddd}
+
+.pay-footer{display:flex;justify-content:flex-end;padding-top:400px;border-top:1px solid transparent;margin-top:8px}
+.pay-footer .btn-primary{padding:12px 18px}
+
+/* Pay CTA styling to match screenshot */
+.pay-cta{background:#0b0b0b;color:#fff;border-radius:8px;padding:12px 20px;font-size:16px;box-shadow:0 6px 18px rgba(0,0,0,0.12);border:0;cursor:pointer}
+.pay-cta:hover{transform:translateY(-1px)}
+
+/* Make pay CTA more prominent at right when inside payment panel */
+.payment-card .pay-footer{position:relative}
+.payment-card .pay-footer .pay-cta{min-width:120px}
+
+/* Page level fixed pay footer */
+.page-pay-footer{position:fixed;left:0;right:0;bottom:18px;display:flex;justify-content:center;pointer-events:none;z-index:1600}
+.page-pay-footer .pay-bar{width:100%;max-width:1200px;background:transparent;padding:6px 20px;display:flex;justify-content:flex-end;pointer-events:auto}
+.page-pay-footer .pay-bar{align-items:center}
+.page-pay-footer .pay-summary{background:#fff;border-radius:10px;padding:10px 14px;border:1px solid #f0f0f0;margin-right:14px;color:#333}
+.page-pay-footer .page-pay-button{min-width:140px;padding:14px 22px;border-radius:10px;font-size:16px}
+
+
+.delivery-body{display:flex;align-items:center;justify-content:space-between}
+.delivery-now{color:var(--ec-teal);} 
+.btn-primary{background:#0b0b0b;color:#fff;padding:10px 14px;border-radius:8px;border:0;cursor:pointer}
+
+.delivery-later{color:var(--ec-teal);font-weight:600}
+.delivery-later .muted{margin-left:8px;color:#0b8}
+.schedule-link{color:#111;text-decoration:underline;font-size:14px}
+.change-slot{margin-left:10px;color:#0b8;text-decoration:underline}
+
+/* small modal fallback for older screens */
+.sc-modal-backdrop{z-index:1100}
+
+.sidebar{position:relative;display:flex;flex-direction:column;gap:14px}
+.minbar{background:#f6f7f8;padding:12px;border-radius:8px;color:#333}
+
+.cart-summary{background:transparent}
+.cart-summary-header{display:flex;justify-content:space-between;align-items:center;margin:8px 0}
+.cart-item.membership{background:#111;color:#fff;padding:12px;border-radius:10px;position:relative}
+.membership-left{font-weight:700}
+.membership-right{position:absolute;right:12px;top:12px}
+.membership .old{display:inline-block;color:#999;text-decoration:line-through;margin-left:8px;font-weight:400}
+.change-plan{display:inline-block;color:#9fd;text-decoration:underline;font-size:12px;margin-top:8px}
+.remove{position:absolute;right:12px;bottom:12px;background:transparent;border:0;color:var(--ec-teal);cursor:pointer}
+
+.coupon .card-title{font-weight:700}
+.bill .card-title{font-weight:700}
+.bill-row{display:flex;justify-content:space-between;padding-top:8px}
+.saved{background:#eafbe9;border-radius:8px;padding:10px;color:#20661b;margin-top:12px}
+
+@media (max-width:900px){
+	.cart-grid{flex-direction:column;padding:0 12px}
+	.cart-right{order:2}
+}
+
+@media (max-width:700px){
+  .address-grid{grid-template-columns:1fr}
+}
+
+/* ---- Additional cart styles (banner, items, qty controls, coupon box) ---- */
+.cart-summary{background:transparent}
+.cart-summary-header{display:flex;justify-content:space-between;align-items:center;margin:8px 0}
+.cart-item.membership{background:#0b0b0b;color:#fff;padding:18px;border-radius:12px;position:relative;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+.membership-left{font-weight:700;font-size:16px}
+.membership-right{position:absolute;right:18px;top:16px;font-weight:700}
+.change-plan{display:inline-block;color:#9fd;text-decoration:underline;font-size:12px;margin-top:8px}
+.remove{position:absolute;right:18px;bottom:14px;background:transparent;border:0;color:#18a085;font-weight:700;cursor:pointer}
+
+.coupon-banner{background:#f3faf6;border-radius:20px;padding:10px 18px;color:#0b6b39;margin:8px 0;font-weight:600;display:inline-block}
+.coupon-banner .code{background:#fff;padding:4px 8px;border-radius:6px;margin-left:8px;border:1px solid #e6e6e6}
+
+.food-section{display:flex;flex-direction:column;gap:14px;margin-top:12px}
+.cart-item.food{background:#fff;padding:16px;border-radius:12px;border:1px solid #f0f0f0;display:flex;justify-content:space-between;align-items:center}
+.food-left{display:flex;flex-direction:column}
+.food-section-title{font-weight:700;color:#222;margin-bottom:6px}
+.food-title{color:#333;margin-bottom:6px;font-size:14px}
+.food-price{color:#333;margin-bottom:8px}
+.food-price .old{color:#999;text-decoration:line-through;margin-right:8px}
+
+.qty-control{display:flex;align-items:center;gap:8px}
+.qty-btn{width:34px;height:28px;border-radius:6px;border:1px solid #ddd;background:#fff;cursor:pointer}
+.qty-val{min-width:20px;text-align:center;display:inline-block}
+
+.applied-coupon-row{display:flex;gap:8px;align-items:center}
+.applied-code{background:#efefef;padding:10px 12px;border-radius:6px;border:1px solid #e0e0e0}
+.btn-remove{background:#fff;border:1px solid #ccc;padding:6px 10px;border-radius:6px;cursor:pointer}
+.coupon-desc{color:#666;font-size:13px;margin-top:8px}
+
+.saved.saved-green{background:#e9f8ee;color:#1f6f37}
+
+/* small responsive tweaks */
+@media (max-width:900px){
+	.cart-left, .cart-right{padding:12px}
+	.cart-grid{gap:12px}
+}
+
+
