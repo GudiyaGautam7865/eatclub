@@ -1,4 +1,4 @@
-.category-slider {
+/* .category-slider {
   padding: 26px 4%;
 }
 
@@ -17,11 +17,10 @@
   display: flex;
   gap: 28px;
   overflow-x: auto;
-  padding: 10px 48px; /* give space for arrows */
+  padding: 10px 48px; 
   scroll-behavior: smooth;
 }
 
-/* hide native scrollbar */
 .cs-track::-webkit-scrollbar {
   height: 8px;
 }
@@ -32,7 +31,7 @@
   background: rgba(0,0,0,0.08);
   border-radius: 8px;
 }
-/* hide for firefox */
+
 .cs-track {
   scrollbar-width: none;
 }
@@ -96,7 +95,6 @@
 .cs-left { left: 8px; }
 .cs-right { right: 8px; }
 
-/* ensure arrows don't overlap content on small screens */
 @media (max-width: 600px) {
   .cs-arrow { width: 32px; height: 32px; font-size: 18px; }
   .cs-track { gap: 20px; padding: 8px 36px; }
@@ -104,7 +102,7 @@
   .cs-label { font-size: 13px; }
 }
 
-/* Marquee Styles */
+
 .category-marquee {
   width: 100%;
   overflow: hidden;
@@ -184,4 +182,113 @@
   .cs-track { padding: 8px 28px; gap: 16px; }
   .cs-img { width: 64px; height: 64px; }
   .cs-item { min-width: 86px; }
+} */
+
+
+
+
+.category-slider {
+  padding: 26px 4%;
+}
+
+.cs-heading {
+  font-size: 22px;
+  margin: 0 0 18px 8px;
+  font-weight: 700;
+  color: #111;
+}
+
+.cs-wrapper {
+  position: relative;
+}
+
+/* ---------- ARROWS ---------- */
+.cs-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(230,230,230,0.9);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  z-index: 10;
+}
+
+.cs-left { left: 8px; }
+.cs-right { right: 8px; }
+
+/* ---------- MARQUEE ---------- */
+.category-marquee {
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8fdfd, #f8fcfc);
+  border-radius: 20px;
+  padding: 18px 0;
+  box-shadow: 0 4px 20px rgba(0, 184, 184, 0.1);
+}
+
+/* ---------- TRACK ---------- */
+.marquee-track {
+  display: flex;
+  gap: 28px;
+  padding: 0 20px;
+  will-change: transform;
+}
+
+/* ---------- ITEM ---------- */
+.cs-item {
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.25s ease;
+}
+
+.cs-item:hover {
+  transform: scale(1.1);
+}
+
+/* ---------- IMAGE ---------- */
+.cs-img {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
+.cs-img img {
+  width: 86%;
+  object-fit: cover;
+}
+
+/* ---------- LABEL ---------- */
+.cs-label {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c3e50;
+  white-space: nowrap;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width: 600px) {
+  .cs-img { width: 76px; height: 76px; }
+  .cs-item { min-width: 90px; }
+  .cs-arrow { width: 32px; height: 32px; font-size: 18px; }
+}
+
+@media (max-width: 420px) {
+  .cs-img { width: 64px; height: 64px; }
+  .cs-item { min-width: 80px; }
 }

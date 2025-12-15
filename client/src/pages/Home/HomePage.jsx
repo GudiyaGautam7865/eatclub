@@ -51,7 +51,8 @@ function HomePage() {
         </video>
 
         <div className="video-overlay">
-          <div className="banner-content">
+          <div className="banner-content ">
+          
             <h1>Delicious Food Delivered</h1>
             <p>Order your favorite meals from top restaurants</p>
             <button className="cta-button" onClick={handleOrderNow}>Order Now</button>

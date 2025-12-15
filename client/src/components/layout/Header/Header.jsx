@@ -13,6 +13,10 @@ import AddressDropdown from "./AddressDropdown";
 function Header() {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -104,6 +108,9 @@ function Header() {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
         setProfileOpen(false);
       }
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchOpen(false);
+      }
     }
     document.addEventListener("click", onDocClick);
     return () => document.removeEventListener("click", onDocClick);
@@ -119,11 +126,27 @@ function Header() {
         else if (dealsOpen) setDealsOpen(false);
         else if (cartOpen) setCartOpen(false);
         else if (profileOpen) setProfileOpen(false);
+        else if (searchOpen) setSearchOpen(false);
       }
     }
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [addressOpen, dealsOpen, cartOpen, profileOpen]);
+  }, [addressOpen, dealsOpen, cartOpen, profileOpen, searchOpen]);
+
+  // Search functionality
+  useEffect(() => {
+    if (searchQuery.trim()) {
+      const filtered = cartItems.filter((item) =>
+        (item.title || item.name || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (item.brand || item.section || "").toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setSearchResults(filtered);
+      setSearchOpen(true);
+    } else {
+      setSearchResults([]);
+      setSearchOpen(false);
+    }
+  }, [searchQuery, cartItems]);
 
   function openOnly(toggleFn) {
     setAddressOpen(false);
@@ -210,6 +233,36 @@ function Header() {
               />
             )}
           </div>
+        </div>
+
+        <div className="ec-search-container" ref={searchRef}>
+          <input
+            type="text"
+            className="ec-search-input"
+            placeholder="Search items..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            aria-label="Search menu items"
+          />
+          {searchOpen && searchResults.length > 0 && (
+            <div className="ec-search-results" role="listbox">
+              {searchResults.map((item) => (
+                <div
+                  key={item.id}
+                  className="ec-search-result-item"
+                  onClick={() => {
+                    setSearchQuery("");
+                    setSearchOpen(false);
+                  }}
+                  role="option"
+                >
+                  <div className="ec-search-item-brand">{item.section || item.brand || "Food"}</div>
+                  <div className="ec-search-item-name">{item.title || item.name}</div>
+                  <div className="ec-search-item-price">₹{item.price}</div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
 
         <nav className="ec-nav">

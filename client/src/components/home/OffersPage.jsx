@@ -153,9 +153,9 @@ export default function OffersPage() {
       <div className="offers-container">
         {canScrollLeft && (
           <button 
-            className="scroll-btn scroll-left" 
-            onClick={() => scroll(-1)}
-            aria-label="Scroll left"
+          className="scroll-btn scroll-left" 
+          onClick={() => scroll(-1)}
+          aria-label="Scroll left"
           >
             ‹
           </button>
