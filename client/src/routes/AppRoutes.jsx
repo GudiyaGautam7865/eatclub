@@ -13,6 +13,7 @@ import CartPage from "../pages/Cart/CartPage";
 import OffersPage from "../pages/Offers/OffersPage";
 import PartyOrderPage from "../pages/PartyOrder/PartyOrderPage";
 import MenuPage from "../pages/Menu/MenuPage";
+import FoodDetailPage from "../pages/Food/FoodDetailPage";
 import ManageOrdersPage from "../pages/ManageOrders/ManageOrdersPage";
 import ProfilePage from "../pages/Profile/ProfilePage";
 import CreditsPage from "../pages/Profile/CreditsPage";
@@ -51,6 +52,7 @@ function AppRoutes() {
         <Route path="/offers" element={<OffersPage />} />
         <Route path="/party_order" element={<PartyOrderPage />} />
         <Route path="/menu" element={<MenuPage />} />
+        <Route path="/food/:foodId" element={<FoodDetailPage />} />
       </Route>
 
       {/* Profile layout with nested routes */}

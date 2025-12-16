@@ -1,0 +1,366 @@
+.food-detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #f9f9f9;
+  border-color: #d0d0d0;
+}
+
+.back-button:active {
+  transform: scale(0.98);
+}
+
+.food-detail-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  background-color: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.food-image-section {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.food-image {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.veg-badge-large {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: rgba(0, 100, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.food-info-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.food-header {
+  margin-bottom: 20px;
+}
+
+.food-name {
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 8px 0;
+  line-height: 1.3;
+}
+
+.food-restaurant {
+  font-size: 16px;
+  color: #666;
+  margin: 0;
+  font-weight: 500;
+}
+
+.food-description {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin: 16px 0;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-left: 4px solid #d60036;
+  border-radius: 4px;
+}
+
+.food-pricing {
+  margin: 24px 0;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.price-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+}
+
+.price-values {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.old-price {
+  font-size: 14px;
+  color: #999;
+  text-decoration: line-through;
+}
+
+.current-price {
+  font-size: 28px;
+  font-weight: 700;
+  color: #d60036;
+}
+
+.discount-info {
+  font-size: 12px;
+  color: #27ae60;
+  font-weight: 600;
+  padding-top: 8px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.quantity-section {
+  margin: 24px 0;
+}
+
+.quantity-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #f9f9f9;
+  width: fit-content;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.qty-button {
+  width: 36px;
+  height: 36px;
+  border: none;
+  background-color: white;
+  border-radius: 6px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #d60036;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.qty-button:hover {
+  background-color: #d60036;
+  color: white;
+}
+
+.qty-button:active {
+  transform: scale(0.95);
+}
+
+.qty-display {
+  min-width: 40px;
+  text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.action-buttons {
+  margin: 32px 0;
+}
+
+.add-to-cart-button {
+  width: 100%;
+  padding: 14px 24px;
+  background-color: #d60036;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(214, 0, 54, 0.3);
+}
+
+.add-to-cart-button:hover {
+  background-color: #b8002d;
+  box-shadow: 0 6px 16px rgba(214, 0, 54, 0.4);
+}
+
+.add-to-cart-button:active {
+  transform: scale(0.98);
+}
+
+.food-details-table {
+  margin-top: 32px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 24px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
+}
+
+.detail-label {
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-size: 14px;
+  color: #333;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.food-detail-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #e0e0e0;
+  border-top: 4px solid #d60036;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.food-detail-loading p {
+  font-size: 16px;
+  color: #666;
+  font-weight: 500;
+}
+
+.food-detail-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.error-content {
+  text-align: center;
+  background-color: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.error-content h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+.error-content p {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.error-button {
+  padding: 12px 24px;
+  background-color: #d60036;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.error-button:hover {
+  background-color: #b8002d;
+}
+
+@media (max-width: 768px) {
+  .food-detail-container {
+    padding: 12px;
+  }
+
+  .food-detail-content {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 20px;
+  }
+
+  .food-name {
+    font-size: 24px;
+  }
+
+  .current-price {
+    font-size: 24px;
+  }
+
+  .back-button {
+    margin-bottom: 16px;
+  }
+}
