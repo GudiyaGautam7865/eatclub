@@ -1,0 +1,53 @@
+{
+  "customer": {
+    "id": "cust_001",
+    "name": "Sarah Johnson",
+    "role": "UX Designer",
+    "email": "sarah.johnson@email.com",
+    "phone": "+1 (555) 123-4567",
+    "address": "123 Main Street, New York, NY 10001",
+    "company": "Tech Solutions Inc.",
+    "avatar": null,
+    "balance": 2847.50,
+    "cardNumber": "**** **** **** 1234",
+    "joinDate": "2023-06-15"
+  },
+  "mostOrderedFood": [
+    {
+      "id": 1,
+      "name": "Chicken Biryani",
+      "price": 12.56,
+      "image": "/src/assets/images/Biryani.png",
+      "orderCount": 15
+    },
+    {
+      "id": 2,
+      "name": "Margherita Pizza",
+      "price": 14.99,
+      "image": "/src/assets/images/pizza.png",
+      "orderCount": 12
+    },
+    {
+      "id": 3,
+      "name": "Chicken Wings",
+      "price": 9.99,
+      "image": "/src/assets/images/chickenwings.png",
+      "orderCount": 8
+    },
+    {
+      "id": 4,
+      "name": "Garlic Bread",
+      "price": 5.99,
+      "image": "/src/assets/images/Garlicbread.png",
+      "orderCount": 6
+    }
+  ],
+  "mostLikedFood": {
+    "weekly": [
+      { "day": "Sun", "Spaghetti": 45, "Pizza": 38, "Burger": 25, "Salad": 15 },
+      { "day": "Mon", "Spaghetti": 52, "Pizza": 42, "Burger": 30, "Salad": 20 },
+      { "day": "Tue", "Spaghetti": 48, "Pizza": 35, "Burger": 28, "Salad": 18 },
+      { "day": "Wed", "Spaghetti": 55, "Pizza": 40, "Burger": 32, "Salad": 22 }
+    ]
+  }
+}
