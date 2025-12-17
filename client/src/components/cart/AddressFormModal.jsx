@@ -1,67 +1,22 @@
-import React, { useState } from 'react';
-import './AddressFormModal.css';
-import { useAddressContext } from '../../context/AddressContext';
+import React, { useState, useEffect } from 'react';
 
-export default function AddressFormModal({ isOpen, onClose, initialAddress }) {
-  const [flat, setFlat] = useState('');
-  const [floor, setFloor] = useState('');
-  const [landmark, setLandmark] = useState('');
-  const [tag, setTag] = useState('Other');
-  const [customName, setCustomName] = useState('');
-  const { createAddress, selectAddress } = useAddressContext();
-
+export default function AddressFormModal({ isOpen, onClose, initialAddress = '' }) {
+  const [address, setAddress] = useState(initialAddress);
+  useEffect(() => { setAddress(initialAddress || ''); }, [initialAddress]);
   if (!isOpen) return null;
-
-  const handleSave = () => {
-    if (tag === 'Other' && !customName.trim()) {
-      alert('Please provide a custom name for this address.');
-      return;
-    }
-
-    const fullAddress = `${flat ? flat + ', ' : ''}${floor ? floor + ', ' : ''}${landmark ? landmark + ', ' : ''}${initialAddress}`;
-    const newAddr = createAddress({
-      label: tag === 'Other' ? customName.trim() : tag,
-      type: tag,
-      address: fullAddress,
-      flat,
-      floor,
-      landmark,
-    });
-
-    selectAddress(newAddr.id);
-    onClose();
-  };
-
   return (
-    <div className="af-backdrop" onMouseDown={onClose}>
-      <div className="af-modal" onMouseDown={e=>e.stopPropagation()}>
-        <button className="af-close" onClick={onClose}>×</button>
-        <h3>{initialAddress}</h3>
-
-        <div className="af-form">
-          <label>FLAT / HOUSE NUMBER, NAME OF BUILDING ETC.</label>
-          <input placeholder="Eg: 212, Prestige Flora" value={flat} onChange={e=>setFlat(e.target.value)} />
-
-          <label>FLOOR / BLOCK (OPTIONAL)</label>
-          <input placeholder="Eg: 2nd Floor, A Block" value={floor} onChange={e=>setFloor(e.target.value)} />
-
-          <label>LANDMARK / DIRECTION TO REACH (OPTIONAL)</label>
-          <input placeholder="Eg: Yellow building, Near CV Raman Hospital" value={landmark} onChange={e=>setLandmark(e.target.value)} />
-
-          <div className="af-tags">
-            <div className={`af-tag ${tag==='Home'?'active':''}`} onClick={()=>setTag('Home')}>Home</div>
-            <div className={`af-tag ${tag==='Work'?'active':''}`} onClick={()=>setTag('Work')}>Work</div>
-            <div className={`af-tag ${tag==='Other'?'active':''}`} onClick={()=>setTag('Other')}>Other</div>
-          </div>
-
-          {tag === 'Other' && (
-            <>
-              <label>CUSTOM NAME</label>
-              <input placeholder="Enter custom name" value={customName} onChange={e=>setCustomName(e.target.value)} />
-            </>
-          )}
-
-          <button className="btn-primary af-save" onClick={handleSave}>Save & Proceed</button>
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1500, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ background: '#fff', padding: 20, borderRadius: 12, width: 360 }}>
+        <div style={{ fontWeight: 700, marginBottom: 10 }}>Confirm Address</div>
+        <textarea
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="Full address"
+          rows={4}
+          style={{ width: '100%', padding: 10, borderRadius: 8, border: '1px solid #ddd' }}
+        />
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 12 }}>
+          <button onClick={onClose}>Close</button>
         </div>
       </div>
     </div>

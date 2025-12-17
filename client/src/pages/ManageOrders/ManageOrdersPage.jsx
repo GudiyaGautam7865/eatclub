@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OrderCard from '../../components/orders/OrderCard';
-import { getOrders } from '../../services/ordersService.js';
+import { getOrders, getMyOrders } from '../../services/ordersService.js';
 import './ManageOrdersPage.css';
 
 function EmptyState({ activeTab }) {
@@ -30,17 +30,54 @@ function EmptyState({ activeTab }) {
 
 export default function ManageOrdersPage() {
   const [activeTab, setActiveTab] = useState('ongoing');
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [orders, setOrders] = useState([]);
 
-  // Load orders from service on mount
+  const mapOrder = (o) => {
+    const itemSummary = Array.isArray(o.items)
+      ? o.items.map(i => `${i.qty}x ${i.name}`).join(', ')
+      : '';
+    const addressShort = o?.address?.line1
+      ? [o.address.line1, o.address.city, o.address.pincode].filter(Boolean).join(', ')
+      : '';
+    const statusNormalized = (o.status || '').toUpperCase();
+    return {
+      id: o._id || o.id,
+      restaurantName: 'EatClub',
+      status: statusNormalized,
+      totalAmount: o.total,
+      itemSummary,
+      placedAt: o.createdAt,
+      deliveredAt: o.status === 'DELIVERED' ? o.updatedAt : null,
+      addressShort,
+    };
+  };
+
+  // Load orders from backend; fall back to local store if needed
   useEffect(() => {
-    const loadedOrders = getOrders();
-    setOrders(loadedOrders);
+    (async () => {
+      try {
+        setLoading(true);
+        const remote = await getMyOrders();
+        if (Array.isArray(remote)) {
+          setOrders(remote.map(mapOrder));
+        } else if (Array.isArray(remote?.data)) {
+          setOrders(remote.data.map(mapOrder));
+        } else {
+          setOrders([]);
+        }
+      } catch (err) {
+        // fallback to local orders store for development
+        const local = getOrders();
+        setOrders(local);
+      } finally {
+        setLoading(false);
+      }
+    })();
   }, []);
 
   // Filter orders
-  const ongoingStatuses = ['PLACED', 'PREPARING', 'OUT_FOR_DELIVERY'];
+  const ongoingStatuses = ['PLACED', 'PAID', 'PREPARING', 'OUT_FOR_DELIVERY'];
   const ongoingOrders = orders.filter((order) =>
     ongoingStatuses.includes(order.status)
   );

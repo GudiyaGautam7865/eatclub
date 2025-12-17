@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./CartPage.css";
 import ScheduleModal from "../../components/cart/ScheduleModal.jsx";
 import AddressMapModal from "../../components/cart/AddressMapModal.jsx";
@@ -8,9 +10,15 @@ import PaymentResult from "../../components/cart/PaymentResult.jsx";
 import CouponModal from "../../components/cart/CouponModal.jsx";
 import CouponAppliedModal from "../../components/cart/CouponAppliedModal.jsx";
 import MembershipModal from "../../components/cart/MembershipModal.jsx";
+import VerifyAndProceed from "../../components/Payment/VerifyAndProceed.jsx";
+import CartSummary from "../../components/cart/CartSummary.jsx";
+import DeliveryTimeSelector from "../../components/cart/DeliveryTimeSelector.jsx";
+import OrderSuccessAnimation from "../../components/cart/OrderSuccessAnimation.jsx";
 import { useCartContext } from '../../context/CartContext.jsx';
 import { useAddressContext } from '../../context/AddressContext.jsx';
+import { useUserContext } from '../../context/UserContext.jsx';
 import { createOrderFromCart } from '../../services/ordersService.js';
+import apiClient from '../../services/apiClient.js';
 import { createSingleOrder } from '../../services/singleOrdersService.js';
 
 export default function CartPage() {
@@ -20,12 +28,15 @@ export default function CartPage() {
   const [mapOpen, setMapOpen] = useState(false);
   const [formOpen, setFormOpen] = useState(false);
   const [pendingLocation, setPendingLocation] = useState('');
-  const [paymentTab, setPaymentTab] = useState('UPI');
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [showPaymentResult, setShowPaymentResult] = useState(false);
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
+  const [timeError, setTimeError] = useState('');
+  const [addressError, setAddressError] = useState('');
 
   const navigate = useNavigate();
   const { addresses, selectedAddress, selectAddress } = useAddressContext();
+  const { user } = useUserContext();
 
   // use cart context for persistent cart state
   const {
@@ -47,53 +58,259 @@ export default function CartPage() {
   const cartCount = itemsCount;
   const cartTotal = total;
 
-  const handlePay = () => {
-    // Create order from current cart
-    if (items.length > 0 && selectedAddress) {
-      try {
-        const addressShort = selectedAddress.address?.split(',')[0] || selectedAddress.label || 'Delivery Address';
-        
-        // Create order for bulk/in-memory storage
-        createOrderFromCart(items, cartTotal, addressShort);
+  // Attempt to get current browser location (lat/lng)
+  const getCurrentCoords = () => new Promise((resolve) => {
+    try {
+      if (!navigator.geolocation) return resolve({ lat: 0, lng: 0 });
+      navigator.geolocation.getCurrentPosition(
+        (pos) => resolve({ lat: pos.coords.latitude, lng: pos.coords.longitude }),
+        () => resolve({ lat: 0, lng: 0 }),
+        { timeout: 8000, enableHighAccuracy: true }
+      );
+    } catch {
+      resolve({ lat: 0, lng: 0 });
+    }
+  });
 
-        // Also save to localStorage for single orders admin view
-        const singleOrderData = {
-          items: items,
-          totalAmount: cartTotal,
-          deliveryAddress: addressShort,
-          paymentMethod: selectedPayment || 'COD',
-          date: new Date().toISOString(),
-          status: 'Paid',
-        };
-        
-        createSingleOrder(singleOrderData);
+  const parseAddressParts = (addrString) => {
+    if (!addrString) return { city: '', pincode: '' };
+    const pinMatch = addrString.match(/(\b\d{6}\b)/);
+    const pincode = pinMatch ? pinMatch[1] : '';
+    // naive city extraction: pick token before state/pincode if available
+    const parts = addrString.split(',').map(s => s.trim());
+    let city = '';
+    if (parts.length >= 2) city = parts[parts.length - 2];
+    return { city, pincode };
+  };
 
-        // Show success message
-        alert('Order placed successfully!');
+  const buildOrderPayload = async (payMethod, txId) => {
+    const addressLine = selectedAddress?.address || selectedAddress?.label || 'Delivery Address';
+    const { city, pincode } = parseAddressParts(addressLine);
+    const coords = await getCurrentCoords();
 
-        // Clear the cart by removing all items
-        items.forEach(item => {
-          if (item.qty > 0) {
-            removeItem(item.id);
+    return {
+      user: user?.id || user?._id || undefined,
+      items: (items || []).map((it) => ({
+        menuItemId: String(it.id || it.menuItemId || it.title || 'unknown'),
+        name: it.title || it.name,
+        qty: it.qty || 1,
+        price: it.price || 0,
+      })),
+      total: cartTotal,
+      status: payMethod === 'ONLINE' ? 'PAID' : 'PLACED',
+      payment: payMethod === 'ONLINE' ? { method: 'ONLINE', txId } : { method: 'COD' },
+      address: { line1: addressLine, city, pincode },
+      isBulk: false,
+      currentLocation: { lat: coords.lat, lng: coords.lng },
+    };
+  };
+
+  // Validate time slot is not in the past
+  const validateTimeSlot = (slot) => {
+    if (!slot) return true; // Deliver now is always valid
+    
+    // Parse the slot (format: "Today, 7:00 PM - 8:00 PM" or similar)
+    const timeMatch = slot.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
+    if (!timeMatch) return true; // Can't parse, assume valid
+    
+    let hours = parseInt(timeMatch[1]);
+    const minutes = parseInt(timeMatch[2]);
+    const period = timeMatch[3].toUpperCase();
+    
+    // Convert to 24-hour format
+    if (period === 'PM' && hours !== 12) hours += 12;
+    if (period === 'AM' && hours === 12) hours = 0;
+    
+    const slotTime = new Date();
+    slotTime.setHours(hours, minutes, 0, 0);
+    
+    const now = new Date();
+    
+    if (slotTime <= now) {
+      setTimeError('Selected time slot is not available');
+      return false;
+    }
+    
+    setTimeError('');
+    return true;
+  };
+
+  // Dynamically load Razorpay checkout script
+  const loadRazorpayScript = () => new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+
+  // Place order using existing backend API and local single orders log
+  const placeOrder = async (payMethod, txId) => {
+    const orderData = await buildOrderPayload(payMethod, txId);
+    let created = null;
+    try {
+      created = await createOrderFromCart(orderData);
+      toast.success('Order placed successfully!', {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    } catch (e) {
+      console.warn('Backend order creation failed, falling back to local log only.', e);
+      toast.warning('Order saved locally', {
+        position: "top-right",
+        autoClose: 2000,
+      });
+    }
+
+    // Also save to local storage for admin single orders view
+    createSingleOrder({
+      items: items,
+      totalAmount: cartTotal,
+      deliveryAddress: orderData?.address?.line1,
+      paymentMethod: payMethod,
+      date: new Date().toISOString(),
+      status: 'Paid',
+    });
+
+    // Clear cart
+    items.forEach((item) => { if (item.qty > 0) removeItem(item.id); });
+
+    // Show success animation
+    setShowSuccessAnimation(true);
+
+    return created;
+  };
+
+  // Start Razorpay checkout flow for online payments
+  const startOnlinePayment = async () => {
+    const loaded = await loadRazorpayScript();
+    if (!loaded) {
+      toast.error('Failed to load Razorpay. Please check your internet and try again.', {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    // Create payment order on backend
+    let createResp;
+    try {
+      createResp = await apiClient('/payment/create-order', {
+        method: 'POST',
+        body: JSON.stringify({ amount: cartTotal }),
+      });
+      console.log('Razorpay order created:', createResp);
+    } catch (error) {
+      toast.error('Network error — please try again', {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    const { order } = createResp || {};
+    if (!order?.id) {
+      toast.error('Unable to initiate payment. Please try again.', {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    const key = import.meta.env.VITE_RAZORPAY_KEY_ID;
+    if (!key) {
+      console.error('Razorpay key missing. Ensure VITE_RAZORPAY_KEY_ID is set in client/.env');
+      toast.error('Configuration error: Razorpay key missing', {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    const rzp = new window.Razorpay({
+      key,
+      amount: order.amount,
+      currency: order.currency || 'INR',
+      order_id: order.id,
+      name: 'EatClub',
+      description: 'Order Payment',
+      prefill: {
+        name: user?.name || user?.firstName || 'EatClub User',
+        contact: user?.phone || user?.phoneNumber || '9999999999',
+        email: user?.email || 'customer@eatclub.com',
+      },
+      theme: { color: '#0b0b0b' },
+      handler: async (response) => {
+        try {
+          const verify = await apiClient('/payment/verify', {
+            method: 'POST',
+            body: JSON.stringify(response),
+          });
+          if (verify?.success) {
+            await placeOrder('ONLINE', response.razorpay_payment_id);
+            // Redirect to success (existing manage_orders view acts as success page)
+            return;
+          } else {
+            toast.error('Payment verification failed. You have not been charged.', {
+              position: "top-right",
+              autoClose: 3000,
+            });
           }
-        });
+        } catch (e) {
+          console.error('Verify payment error', e);
+          toast.error('Payment verification failed', {
+            position: "top-right",
+            autoClose: 3000,
+          });
+        }
+      },
+    });
 
-        // Navigate to manage orders page
-        navigate('/manage_orders');
-      } catch (error) {
-        console.error('Error creating order:', error);
-        // Fallback: still show payment result on error
-        setActiveSection("");
-        setSelectedPayment(null);
-        setScheduledSlot("");
-        setShowPaymentResult(true);
+    rzp.on('payment.failed', (resp) => {
+      console.error('Razorpay payment failed', resp);
+      toast.error('Payment failed — retry or choose COD', {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    });
+
+    rzp.open();
+  };
+
+  // Handle payment from Verify & Proceed section
+  const handlePayFromVerify = async (useCOD) => {
+    if (!items?.length || !selectedAddress) {
+      toast.error('Please add items and select address', {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
+
+    // When COD selected, bypass Razorpay
+    if (useCOD) {
+      try {
+        await placeOrder('COD');
+      } catch (e) {
+        console.error('COD order error:', e);
+        toast.error('Failed to place COD order', {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
-    } else {
-      // If no items or no address, just show payment result as before
-      setActiveSection("");
-      setSelectedPayment(null);
-      setScheduledSlot("");
-      setShowPaymentResult(true);
+      return;
+    }
+
+    // For online payment, directly open Razorpay
+    try {
+      await startOnlinePayment();
+    } catch (e) {
+      console.error('Online payment error:', e);
+      toast.error('Unable to start payment. Please try again.', {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -112,6 +329,7 @@ export default function CartPage() {
   const handleSchedule = (slot) => {
     setScheduledSlot(slot);
     setIsModalOpen(false);
+    validateTimeSlot(slot);
   };
 
   const handleToggleDeliverNow = () => {
@@ -130,49 +348,47 @@ export default function CartPage() {
 
   return (
     <div className="cart-page page-container">
+      <ToastContainer />
+      {showSuccessAnimation && (
+        <OrderSuccessAnimation 
+          onComplete={() => {
+            setShowSuccessAnimation(false);
+            navigate('/manage_orders');
+          }}
+        />
+      )}
+      
       <div className="cart-grid">
         <div className="cart-left">
           
           <div className="card account-card">
             <div className="card-title">Account</div>
-            <div className="card-body">Vivek | 9767996768</div>
-          </div>
-
-          <div className={`card delivery-time-card ${activeSection === "time" ? "active" : ""}`}>
-            <div className="card-title">
-              <span className="dot">🕒 Delivery Time </span>
-              {/* top-right link: toggles between schedule and deliver now */}
-              {!scheduledSlot ? (
-                <a className="schedule-link" href="#" onClick={(e)=>{e.preventDefault(); openSchedule();}}>Schedule for Later</a>
-              ) : (
-                <a className="schedule-link" href="#" onClick={(e)=>{e.preventDefault(); handleToggleDeliverNow();}}>Deliver Now</a>
-              )}
-            </div>
-            <div className="card-body delivery-body">
-              <div>
-                {!scheduledSlot ? (
-                  <div className="delivery-now">Deliver Now <span className="muted">with live tracking ⚡</span></div>
-                ) : (
-                  <div className="delivery-later">Deliver Later <span className="muted">{scheduledSlot}</span> <a className="change-slot" href="#" onClick={(e)=>{e.preventDefault(); openSchedule();}}>Change Slot</a></div>
-                )}
-              </div>
-              <button
-                className="btn-primary"
-                onClick={() => {
-                  // expand delivery address section
-                  setActiveSection("address");
-                  // scroll into view if available
-                  setTimeout(() => {
-                    if (addressRef && addressRef.current) addressRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
-                  }, 80);
-                }}
-              >
-                Continue
-              </button>
+            <div className="card-body">
+              {user?.name || user?.firstName || 'Guest'} | {user?.phone || user?.phoneNumber || 'N/A'}
+              <a href="/profile" className="edit-profile-link">Edit Profile</a>
             </div>
           </div>
 
-          <div className={`card delivery-address-card ${activeSection === "address" ? "expanded active" : ""}`} ref={addressRef}>
+          <DeliveryTimeSelector
+            activeSection={activeSection}
+            scheduledSlot={scheduledSlot}
+            onOpenSchedule={openSchedule}
+            onToggleDeliverNow={handleToggleDeliverNow}
+            onContinue={() => {
+              if (validateTimeSlot(scheduledSlot)) {
+                setActiveSection("address");
+                setTimeout(() => {
+                  if (addressRef && addressRef.current) {
+                    addressRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+                  }
+                }, 80);
+              }
+            }}
+            isTimeValid={!timeError}
+            timeError={timeError}
+          />
+
+          <div className={`card delivery-address-card ${activeSection === "address" ? "expanded active" : ""} ${addressError ? "error-border" : ""}`} ref={addressRef}>
             <div className="card-title">Delivery Address
               <button className="add-address" onClick={(e)=>{e.preventDefault(); openMap();}}>Add Address</button>
             </div>
@@ -182,109 +398,64 @@ export default function CartPage() {
             ) : (
               <div className="card-body address-grid">
                 {addresses.map((a) => (
-                  <div key={a.id} className={`addr-card ${selectedAddress?.id === a.id ? "selected" : ""}`} onClick={() => selectAddress(a.id)}>
+                  <div key={a.id} className={`addr-card ${selectedAddress?.id === a.id ? "selected" : ""}`} onClick={() => {
+                    selectAddress(a.id);
+                    setAddressError('');
+                  }}>
                     <div className="addr-label">{a.label}</div>
                     <div className="addr-title">{a.address?.split(',')[0] || a.label}</div>
                     <div className="addr-text">{a.address}</div>
                   </div>
                 ))}
 
+                {addressError && (
+                  <div className="address-error-message">{addressError}</div>
+                )}
+
                 <div className="address-actions">
-                  <button className="btn-primary" onClick={() => { setActiveSection("payment"); window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' }); }}>
-                    PROCEED TO PAYMENT
+                  <button className="btn-primary" onClick={() => {
+                    if (!selectedAddress) {
+                      setAddressError('Please select an address to continue');
+                      toast.error('Please select an address before continuing', {
+                        position: "top-right",
+                        autoClose: 3000,
+                      });
+                      return;
+                    }
+                    setAddressError('');
+                    setActiveSection("verify");
+                    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+                  }}>
+                    Continue
                   </button>
                 </div>
               </div>
             )}
           </div>
 
-          <div className={`card payment-card ${activeSection === "payment" ? "active" : ""}`}>
-            <div className="card-title">Payment</div>
-            {activeSection !== "payment" ? (
-              <div className="card-body muted">Choose a payment method</div>
-            ) : (
-              <div className="card-body payment-inner">
-                <nav className="payment-nav">
-                {['UPI','Cards & Meal Cards','Pay Later','CRED Pay','Net Banking','Cash'].map(tab=> (
-                  <div key={tab} className={`payment-nav-item ${paymentTab===tab? 'active' : ''}`} onClick={()=>setPaymentTab(tab)}>
-                    {tab}
-                    {['Pay Later','CRED Pay'].includes(tab) && <span className="badge">✔</span>}
-                  </div>
-                ))}
-              </nav>
-
-              <div className="payment-content">
-                {paymentTab === 'UPI' && (
-                  <div>
-                    <div className={`pay-option ${selectedPayment==='gpay'?'selected':''}`} onClick={()=>setSelectedPayment('gpay')}>
-                      <div className="pay-left"><img src="/src/assets/images/payments/google-pay.svg" alt="gpay" className="pay-logo"/> Google Pay</div>
-                      <div className="pay-right"><input type="radio" name="pay" checked={selectedPayment==='gpay'} readOnly/></div>
-                      <div className="pay-sub">MOBILE NUMBER <input className="mini-input" value="9767996768" readOnly/></div>
-                    </div>
-
-                    <div className={`pay-option ${selectedPayment==='paytm'?'selected':''}`} onClick={()=>setSelectedPayment('paytm')}>
-                      <div className="pay-left"><img src="/src/assets/images/payments/paytm.svg" alt="paytm" className="pay-logo"/> Paytm UPI</div>
-                      <div className="pay-right"><input type="radio" name="pay" checked={selectedPayment==='paytm'} readOnly/></div>
-                    </div>
-
-                    <div className="pay-add"> <button className="btn-add">Add New UPI ID</button> </div>
-                  </div>
-                )}
-
-                {paymentTab === 'Cards & Meal Cards' && (
-                  <div>
-                    <div className="pay-card-box">Add New Debit/Credit Card <button className="link">ADD</button></div>
-                    <div className="pay-card-box">Add Pluxee | Sodexo <button className="link">ADD</button></div>
-                  </div>
-                )}
-
-                {paymentTab === 'Pay Later' && (
-                  <div>
-                    <div className={`pay-option ${selectedPayment==='lazypay'?'selected':''}`} onClick={()=>setSelectedPayment('lazypay')}>
-                      <div className="pay-left">LazyPay</div>
-                      <div className="pay-right"><input type="radio" name="pay" checked={selectedPayment==='lazypay'} readOnly/></div>
-                      <div className="pay-desc">Assured ₹20-₹150 CB for new users | MOV ₹249 | Valid till 31st Dec</div>
-                    </div>
-                  </div>
-                )}
-
-                {paymentTab === 'CRED Pay' && (
-                  <div>
-                    <div className="pay-disabled">CRED Pay<br/><small>Not eligible for payment.</small></div>
-                  </div>
-                )}
-
-                {paymentTab === 'Net Banking' && (
-                  <div>
-                    <div className="bank-grid">
-                      {['SBI','HDFC','ICICI','CANARA','AXIS'].map(b=> (
-                        <div key={b} className={`bank-tile ${selectedPayment===b?'selected':''}`} onClick={()=>setSelectedPayment(b)}>{b}</div>
-                      ))}
-                    </div>
-                    <div style={{marginTop:18}}>
-                      <select className="bank-select"><option>Select other bank</option></select>
-                    </div>
-                  </div>
-                )}
-
-                {paymentTab === 'Cash' && (
-                  <div>
-                    <div className={`pay-option ${selectedPayment==='cod'?'selected':''}`} onClick={()=>setSelectedPayment('cod')}>
-                      <div className="pay-left">Cash on Delivery</div>
-                      <div className="pay-right"><input type="radio" name="pay" checked={selectedPayment==='cod'} readOnly/></div>
-                    </div>
-                    <div style={{display:'flex',justifyContent:'flex-end',marginTop:12}}>
-                      <button className="btn-primary pay-cta" onClick={handlePay}>Pay ₹{cartTotal}</button>
-                    </div>
-                  </div>
-                )}
-              </div>
-              {/* generic pay CTA for all tabs: */}
-              <div className="pay-footer">
-                <button className="btn-primary pay-cta" onClick={handlePay}>Pay ₹{cartTotal}</button>
-              </div>
-              </div>)}
-          </div>
+          {/* Verify & Proceed Section */}
+          {activeSection === "verify" && (
+            <VerifyAndProceed 
+              items={items}
+              cartTotal={cartTotal}
+              selectedAddress={selectedAddress}
+              user={user}
+              onPay={handlePayFromVerify}
+              appliedSavings={appliedSavings}
+              onOnlineSelected={() => {
+                // Validate before opening Razorpay immediately
+                if (!items?.length) {
+                  toast.error('Your cart is empty', { position: 'top-right', autoClose: 3000 });
+                  return;
+                }
+                if (!selectedAddress) {
+                  toast.error('Please select an address before continuing', { position: 'top-right', autoClose: 3000 });
+                  return;
+                }
+                startOnlinePayment();
+              }}
+            />
+          )}
         </div>
 
           <aside className="cart-right">
@@ -293,54 +464,19 @@ export default function CartPage() {
               <div className="minbar">Add items worth <strong>₹140</strong> more to checkout</div>
             )}
 
-            <div className="cart-summary">
-              <div className="cart-summary-header">
-                  <span className="label">YOUR <strong>CART</strong></span>
-                  <span className="count">{cartCount} ITEM{cartCount !== 1 ? 'S' : ''} | Rs. {cartTotal}</span>
-              </div>
-
-                {appliedCoupon && (
-                  <div className="coupon-banner">Congrats! You've saved <strong>₹{appliedSavings}</strong> with <span className="code">{appliedCoupon.code || appliedCoupon}</span></div>
-                )}
-
-                {hasMembership ? (
-                  <div className="cart-item membership">
-                    <div className="membership-left">EATCLUB {appliedCoupon ? '6 Months' : '12 Months'} Membership</div>
-                    <div className="membership-right">{appliedCoupon ? 'FREE' : '₹9'} { !appliedCoupon && <span className="old">₹199</span> }</div>
-                    <a className="change-plan" href="#" onClick={(e)=>{e.preventDefault(); setMembershipOpen(true);}}>Change Plan</a>
-                    <button className="remove" onClick={() => {
-                      // remove membership persistently and clear applied coupon/banner
-                      hideMembership();
-                      removeCoupon();
-                    }}>REMOVE</button>
-                  </div>
-                ) : (
-                  <div className="cart-item membership add-membership-inline">
-                    <button className="btn-secondary" onClick={()=>setMembershipOpen(true)}>Add membership</button>
-                  </div>
-                )}
-                {/* render food items list */}
-                {items.filter(it => it.qty > 0).length > 0 && (
-                  <div className="food-section">
-                    {items.filter(it => it.qty > 0).map(it => (
-                      <div className="cart-item food" key={it.id}>
-                        <div className="food-left">
-                          <div className="food-section-title">{it.section}</div>
-                          <div className="food-title">{it.title}</div>
-                        </div>
-                        <div className="food-right">
-                          <div className="food-price"><span className="old">₹{it.oldPrice}</span> <strong>₹{it.price}</strong></div>
-                          <div className="qty-control">
-                            <button className="qty-btn" onClick={()=>decQty(it.id)}>-</button>
-                            <span className="qty-val">{it.qty}</span>
-                            <button className="qty-btn" onClick={()=>incQty(it.id)}>+</button>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
-            </div>
+            <CartSummary
+              cartCount={cartCount}
+              cartTotal={cartTotal}
+              items={items}
+              incQty={incQty}
+              decQty={decQty}
+              appliedCoupon={appliedCoupon}
+              appliedSavings={appliedSavings}
+              hasMembership={hasMembership}
+              hideMembership={hideMembership}
+              removeCoupon={removeCoupon}
+              setMembershipOpen={setMembershipOpen}
+            />
 
             <div className="coupon card small">
                 <div className="card-title">APPLY COUPON</div>
@@ -384,18 +520,25 @@ export default function CartPage() {
         <CouponModal isOpen={couponOpen} onClose={()=>setCouponOpen(false)} onApply={(c)=>{ applyCoupon(c); setCouponOpen(false); setCouponAppliedOpen(true); }} />
         <CouponAppliedModal open={couponAppliedOpen} onClose={()=>setCouponAppliedOpen(false)} code={appliedCoupon?.code || appliedCoupon} />
         <MembershipModal isOpen={membershipOpen} onClose={()=>setMembershipOpen(false)} onApply={(plan)=>{ setMembershipOpen(false); /* enable membership */ showMembership(); }} />
-
-        {/* Page-level fixed pay footer (visible on payment step) */}
-        {activeSection === 'payment' && (
-          <div className="page-pay-footer">
-            <div className="pay-bar">
-              <div className="pay-summary">To Pay <strong>₹{cartTotal}</strong></div>
-              <div className="pay-actions">
-                <button className="pay-cta page-pay-button" onClick={()=>setShowPaymentResult(true)}>Pay ₹{cartTotal}</button>
-              </div>
-            </div>
-          </div>
-        )}
+      
+      {/* Mobile sticky proceed button */}
+      {activeSection === "address" && (
+        <div className="mobile-proceed-button">
+          <button onClick={() => {
+            if (!selectedAddress) {
+              toast.error('Please select an address before continuing', {
+                position: "top-center",
+                autoClose: 3000,
+              });
+              return;
+            }
+            setActiveSection("verify");
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}>
+            Proceed to Checkout
+          </button>
+        </div>
+      )}
     </div>
   );
 }
