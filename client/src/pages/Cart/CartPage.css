@@ -45,17 +45,17 @@
 .payment-card.active{border:3px solid #000}
 /* Payment layout */
 .payment-inner{display:flex;gap:18px}
-.payment-nav{width:220px;background:#f7f7f7;border-radius:6px;padding:10px 6px;display:flex;flex-direction:column}
+.payment-nav{width:200px;background:#f7f7f7;border-radius:6px;padding:10px 6px;display:flex;flex-direction:column;flex-shrink:0}
 .payment-nav-item{padding:18px;border-radius:4px;margin:6px 6px;color:#666;cursor:pointer}
 .payment-nav-item.active{background:#fff;border-left:4px solid #000;color:#111;box-shadow:0 3px 12px rgba(0,0,0,0.04)}
 .payment-nav-item .badge{margin-left:8px;color:#0b8}
-.payment-content{flex:1;padding:8px 16px}
+.payment-content{flex:1;padding:16px 24px;background:#fff;border-radius:10px;min-width:400px}
 .pay-option{border:1px solid #e6e6e6;border-radius:10px;padding:12px;margin-bottom:12px;position:relative}
 .pay-option.selected{border:2px solid #000}
 .pay-left{font-weight:700;display:flex;align-items:center;gap:12px}
 .pay-logo{width:36px;height:24px;object-fit:contain}
 .pay-right{position:absolute;right:12px;top:14px}
-.pay-sub{margin-top:10px;background:#f6f7f8;padding:10px;border-radius:8px}
+.pay-sub{margin-top:14px;background:#fafafa;padding:16px;border-radius:10px;border:1px solid #f0f0f0}
 .mini-input{border:0;background:transparent;margin-left:8px}
 .pay-add{margin-top:12px}
 .btn-add{background:#fff;border:1px solid #e6e6e6;padding:12px;border-radius:8px}
@@ -66,18 +66,90 @@
 .bank-grid{display:flex;gap:12px}
 .bank-tile{border:1px solid #e6e6e6;padding:18px;border-radius:8px;cursor:pointer}
 .bank-tile.selected{border:2px solid #000}
-.bank-select{padding:10px;border-radius:6px;border:1px solid #ddd}
+.bank-select{padding:10px;border-radius:6px;border:1px solid #ddd;width:100%}
 
-.pay-footer{display:flex;justify-content:flex-end;padding-top:400px;border-top:1px solid transparent;margin-top:8px}
+.pay-footer{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid #e6e6e6;margin-top:16px;gap:12px}
 .pay-footer .btn-primary{padding:12px 18px}
 
 /* Pay CTA styling to match screenshot */
-.pay-cta{background:#0b0b0b;color:#fff;border-radius:8px;padding:12px 20px;font-size:16px;box-shadow:0 6px 18px rgba(0,0,0,0.12);border:0;cursor:pointer}
+.pay-cta{background:#0b0b0b;color:#fff;border-radius:8px;padding:12px 24px;font-size:16px;box-shadow:0 6px 18px rgba(0,0,0,0.12);border:0;cursor:pointer;font-weight:600;transition:all 0.3s ease}
 .pay-cta:hover{transform:translateY(-1px)}
+.pay-cta:disabled{background:#999;cursor:not-allowed;opacity:0.6}
 
 /* Make pay CTA more prominent at right when inside payment panel */
 .payment-card .pay-footer{position:relative}
-.payment-card .pay-footer .pay-cta{min-width:120px}
+.payment-card .pay-footer .pay-cta{min-width:140px}
+
+/* UPI specific styling */
+.upi-input-group{margin-top:12px}
+.upi-input-group label{display:block;font-weight:600;font-size:14px;color:#333;margin-bottom:8px}
+.upi-input-group input{width:100%;padding:10px 12px;border:1px solid #e6e6e6;border-radius:8px;font-size:14px;box-sizing:border-box}
+.upi-input-group input:focus{outline:none;border-color:#000;box-shadow:0 0 0 3px rgba(0,0,0,0.1)}
+.upi-validation{margin-top:6px;font-size:12px;font-weight:500}
+.upi-validation.valid{color:#0b8}
+.upi-validation.invalid{color:#d32f2f}
+
+/* Card specific styling */
+.card-input-group{margin-top:12px}
+.card-input-group label{display:block;font-weight:600;font-size:14px;color:#333;margin-bottom:8px}
+.card-input-group input{width:100%;padding:10px 12px;border:1px solid #e6e6e6;border-radius:8px;font-size:14px;box-sizing:border-box}
+.card-input-group input:focus{outline:none;border-color:#000;box-shadow:0 0 0 3px rgba(0,0,0,0.1)}
+.card-inputs-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+
+/* Error styling */
+.payment-error-msg{display:flex;align-items:center;gap:8px;color:#d32f2f;font-size:13px;font-weight:500;margin-top:12px}
+.payment-error-msg::before{content:'⚠️'}
+
+/* New styles for payment methods - keep old design */
+.payment-method-selector {
+  display: none;
+}
+
+.payment-form-section {
+  display: none;
+}
+
+.form-group {
+  display: none;
+}
+
+.form-input {
+  display: none;
+}
+
+.form-hint {
+  display: none;
+}
+
+.form-row {
+  display: none;
+}
+
+.wallet-options {
+  display: none;
+}
+
+.wallet-option {
+  display: none;
+}
+
+.cod-info {
+  display: none;
+}
+
+.pay-button-section {
+  display: none;
+}
+
+.btn-pay {
+  display: none;
+}
+
+.payment-error {
+  display: none;
+}
+
+
 
 /* Page level fixed pay footer */
 .page-pay-footer{position:fixed;left:0;right:0;bottom:18px;display:flex;justify-content:center;pointer-events:none;z-index:1600}
@@ -156,10 +228,227 @@
 
 .saved.saved-green{background:#e9f8ee;color:#1f6f37}
 
-/* small responsive tweaks */
-@media (max-width:900px){
-	.cart-left, .cart-right{padding:12px}
-	.cart-grid{gap:12px}
+/* Error styling */
+.error-message {
+  color: #d32f2f;
+  font-size: 13px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: #ffebee;
+  border-radius: 6px;
+  border-left: 3px solid #d32f2f;
+}
+
+.error-border {
+  border: 2px solid #d32f2f !important;
+}
+
+.address-error-message {
+  grid-column: 1/-1;
+  color: #d32f2f;
+  font-size: 14px;
+  padding: 12px;
+  background: #ffebee;
+  border-radius: 8px;
+  border-left: 4px solid #d32f2f;
+  margin-top: 12px;
+}
+
+/* Edit Profile Link */
+.edit-profile-link {
+  margin-left: 16px;
+  color: #0b8;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.edit-profile-link:hover {
+  text-decoration: underline;
+}
+
+/* Mobile Sticky Bottom Button */
+.mobile-proceed-button {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  padding: 12px 16px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+}
+
+.mobile-proceed-button button {
+  width: 100%;
+  padding: 14px;
+  background: #0b0b0b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Toast customization */
+.Toastify__toast {
+  font-family: inherit;
+  border-radius: 8px;
+}
+
+.Toastify__toast--success {
+  background: #28a745;
+}
+
+.Toastify__toast--error {
+  background: #dc3545;
+}
+
+.Toastify__toast--warning {
+  background: #ffc107;
+  color: #000;
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 900px) {
+  .cart-left, .cart-right {
+    padding: 12px;
+  }
+  
+  .cart-grid {
+    gap: 12px;
+  }
+  
+  .cart-right {
+    order: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  .cart-page {
+    padding: 12px;
+  }
+  
+  .cart-grid {
+    flex-direction: column;
+    padding: 0;
+  }
+  
+  .cart-left {
+    padding: 0;
+  }
+  
+  .cart-right {
+    padding: 12px;
+  }
+  
+  /* Stack address cards vertically */
+  .address-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Improve touch targets */
+  .btn-primary, .btn-secondary {
+    min-height: 44px;
+    font-size: 15px;
+  }
+  
+  .qty-btn {
+    width: 40px;
+    height: 34px;
+  }
+  
+  /* Collapsible cart summary on mobile */
+  .cart-summary {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  
+  /* Show mobile sticky button */
+  .mobile-proceed-button {
+    display: block;
+  }
+  
+  /* Add bottom padding to avoid overlap with sticky button */
+  .cart-page {
+    padding-bottom: 80px;
+  }
+  
+  /* Make payment nav vertical on small screens */
+  .payment-inner {
+    flex-direction: column;
+  }
+  
+  .payment-nav {
+    width: 100%;
+    flex-direction: row;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .payment-nav-item {
+    display: inline-block;
+    padding: 12px 16px;
+  }
+  
+  .payment-content {
+    min-width: auto;
+    width: 100%;
+  }
+  
+  /* Card spacing */
+  .card {
+    margin-bottom: 12px;
+  }
+  
+  /* Account card text size */
+  .account-card .card-body {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .edit-profile-link {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .cart-page {
+    padding: 8px;
+  }
+  
+  .card {
+    padding: 14px;
+  }
+  
+  .card-title {
+    font-size: 14px;
+  }
+  
+  .verify-title {
+    font-size: 18px;
+  }
+  
+  .section-heading {
+    font-size: 13px;
+  }
+  
+  /* Smaller food items */
+  .cart-item.food {
+    padding: 12px;
+  }
+  
+  .food-section-title {
+    font-size: 13px;
+  }
+  
+  .food-title {
+    font-size: 13px;
+  }
 }
 
 

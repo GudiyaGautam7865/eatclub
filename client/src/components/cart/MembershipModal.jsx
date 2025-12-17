@@ -1,52 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import './MembershipModal.css';
+import React from 'react';
 
 export default function MembershipModal({ isOpen, onClose, onApply }) {
-  const [selected, setSelected] = useState('free');
-
-  useEffect(()=>{
-    if(!isOpen) setSelected('free');
-  },[isOpen]);
-
   if (!isOpen) return null;
-
+  const plan = { id: 'EATCLUB-PLUS', name: 'EatClub Plus', price: 199 };
   return (
-    <div className="membership-modal-overlay">
-      <div className="membership-modal">
-        <button className="mm-close" onClick={onClose}>×</button>
-        <div className="mm-header">
-          <div className="mm-sub">Select Your</div>
-          <h2 className="mm-title">EatClub Membership</h2>
-        </div>
-
-        <div className="mm-features">
-          <ul>
-            <li>No HIDDEN fees EVER</li>
-            <li>Save 30% Everytime</li>
-            <li>Handpicked brands ONLY</li>
-          </ul>
-        </div>
-
-        <div className="mm-plans">
-          <div className={`mm-plan ${selected==='free' ? 'selected' : ''}`} onClick={()=>setSelected('free')}>
-            <div className="mm-plan-badge">Already in cart</div>
-            <div className="mm-plan-price">FREE</div>
-            <div className="mm-plan-duration">6 months</div>
-            <div className="mm-plan-check">{selected==='free' ? '●' : ''}</div>
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 1500, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ background: '#fff', padding: 20, borderRadius: 12, width: 340 }}>
+        <div style={{ fontWeight: 800, marginBottom: 8 }}>Join EATCLUB</div>
+        <div style={{ color: '#333', marginBottom: 12 }}>Save on delivery, surge and more.</div>
+        <div style={{ border: '1px solid #eee', borderRadius: 10, padding: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <div style={{ fontWeight: 700 }}>{plan.name}</div>
+            <div style={{ color: '#777', fontSize: 13 }}>₹{plan.price} / month</div>
           </div>
-
-          <div className={`mm-plan ${selected==='paid' ? 'selected' : ''}`} onClick={()=>setSelected('paid')}>
-            <div className="mm-plan-price">₹ 9</div>
-            <div className="mm-plan-old">₹199</div>
-            <div className="mm-plan-duration">12 months</div>
-            <div className="mm-plan-check">{selected==='paid' ? '●' : ''}</div>
-          </div>
+          <button className="btn-primary" onClick={() => onApply && onApply(plan)}>Activate</button>
         </div>
-
-        <div className="mm-cta">
-          <button className="mm-apply" onClick={()=>{ onApply && onApply(selected); }}>
-            Apply EatClub and Proceed
-          </button>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 12 }}>
+          <button onClick={onClose}>Close</button>
         </div>
       </div>
     </div>

@@ -34,7 +34,7 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['PLACED', 'PREPARING', 'DELIVERED', 'CANCELLED'],
+      enum: ['PLACED', 'PAID', 'PREPARING', 'DELIVERED', 'CANCELLED'],
       default: 'PLACED',
     },
     payment: {
@@ -74,6 +74,10 @@ const orderSchema = new mongoose.Schema(
     isBulk: {
       type: Boolean,
       default: false,
+    },
+    currentLocation: {
+      lat: { type: Number },
+      lng: { type: Number },
     },
   },
   { timestamps: true }

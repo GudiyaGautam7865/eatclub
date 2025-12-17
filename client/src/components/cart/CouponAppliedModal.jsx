@@ -1,19 +1,13 @@
 import React from 'react';
-import './CouponAppliedModal.css';
 
 export default function CouponAppliedModal({ open, onClose, code }) {
   if (!open) return null;
-
   return (
-    <div className="cam-backdrop" onClick={onClose}>
-      <div className="cam-card" onClick={e=>e.stopPropagation()}>
-        <div className="cam-icon">✅</div>
-        <h3>Yay! <strong>{code}</strong> applied</h3>
-        <p>Awesome! Your coupon code has been applied, enjoy good food!</p>
-        <div className="cam-divider" />
-        <div style={{textAlign:'center'}}>
-          <button className="cam-thanks" onClick={()=>{ console.log('Coupon applied:', code); onClose && onClose(); }}>THANKS</button>
-        </div>
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 1500, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ background: '#fff', padding: 20, borderRadius: 12, width: 300, textAlign: 'center' }}>
+        <div style={{ fontWeight: 800, marginBottom: 8 }}>Coupon Applied</div>
+        <div style={{ color: '#333', marginBottom: 12 }}>Code: {code}</div>
+        <button className="btn-primary" onClick={onClose}>OK</button>
       </div>
     </div>
   );

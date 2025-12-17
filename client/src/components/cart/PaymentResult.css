@@ -1,7 +1,0 @@
-.pr-backdrop{position:fixed;inset:0;background:linear-gradient(rgba(0,0,0,0.35),rgba(0,0,0,0.35));display:flex;align-items:center;justify-content:center;z-index:1500}
-.pr-card{background:#fff;border-radius:10px;padding:26px 28px;max-width:420px;width:92%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.2);position:relative}
-.pr-close{position:absolute;right:12px;top:8px;border:0;background:transparent;font-size:20px;cursor:pointer}
-.pr-icon{font-size:48px;margin-bottom:8px}
-.pr-title{margin:6px 0;font-size:20px}
-.pr-msg{color:#666;margin:8px 0}
-.pr-amount{background:#f6fdf6;border:1px solid #e0f2e9;color:#1a6f2d;padding:10px;border-radius:8px}
