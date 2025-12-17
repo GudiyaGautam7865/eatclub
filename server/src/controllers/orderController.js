@@ -7,7 +7,7 @@ import Order from '../models/Order.js';
  */
 export const createOrder = async (req, res) => {
   try {
-    const { items, total, payment, address } = req.body;
+    const { items, total, payment, address, currentLocation, user: userFromBody, status: statusFromBody } = req.body;
 
     // Validation
     if (!items || items.length === 0) {
@@ -32,14 +32,20 @@ export const createOrder = async (req, res) => {
     }
 
     // Create order
+    const status = statusFromBody || (payment?.method === 'ONLINE' ? 'PAID' : 'PLACED');
+
     const order = await Order.create({
-      user: req.user.id || "675712abc123def456789001",
+      user: (req.user && (req.user.id || req.user._id)) || userFromBody,
       items,
       total,
-      status: 'PLACED',
+      status,
       payment: payment || { method: 'COD' },
       address,
       isBulk: false,
+      currentLocation: currentLocation ? {
+        lat: Number(currentLocation.lat),
+        lng: Number(currentLocation.lng),
+      } : undefined,
     });
 
     res.status(201).json({
@@ -64,7 +70,8 @@ export const createOrder = async (req, res) => {
  */
 export const getUserOrders = async (req, res) => {
   try {
-    const orders = await Order.find()
+    const userId = req.user && (req.user.id || req.user._id);
+    const orders = await Order.find(userId ? { user: userId } : {})
       .sort({ createdAt: -1 })
       .lean();
 

@@ -1,0 +1,2 @@
+API_Key=rzp_test_RsZafRg4qqsQsk
+Test_Secret_key=a4xTfLpVLBd3m9MaLU3hTRU7

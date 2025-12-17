@@ -1,33 +1,21 @@
 import React, { useState } from 'react';
-import './AddressMapModal.css';
 
 export default function AddressMapModal({ isOpen, onClose, onConfirm }) {
-  const [search, setSearch] = useState('');
-
+  const [address, setAddress] = useState('');
   if (!isOpen) return null;
-
-  // In a real app we'd integrate Google Maps / Places. Here we simulate selection.
-  const mockPlace = () => {
-    return 'Ganesham Phase Building-G2, Sai Nagar Park, Pimple Saudagar, Pimpri-Chinchwad, Maharashtra 411027, India';
-  };
-
   return (
-    <div className="am-backdrop" onMouseDown={onClose}>
-      <div className="am-modal" onMouseDown={e => e.stopPropagation()}>
-        <button className="am-close" onClick={onClose}>×</button>
-        <h3>Choose Delivery Location</h3>
-
-        <div className="am-search">
-          <input placeholder="Search for area, street name etc." value={search} onChange={e=>setSearch(e.target.value)} />
-        </div>
-
-        <div className="am-map">{/* placeholder map area */}
-          <div className="am-pin">📍</div>
-        </div>
-
-        <div className="am-actions">
-          <button className="btn-secondary" onClick={() => { onConfirm(mockPlace()); }}>Use Current Location</button>
-          <button className="btn-primary" onClick={() => { onConfirm(mockPlace()); }}>Confirm Location</button>
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1500, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ background: '#fff', padding: 20, borderRadius: 12, width: 360 }}>
+        <div style={{ fontWeight: 700, marginBottom: 10 }}>Add Address</div>
+        <input
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+          placeholder="Enter your address"
+          style={{ width: '100%', padding: 10, borderRadius: 8, border: '1px solid #ddd' }}
+        />
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 8, marginTop: 12 }}>
+          <button onClick={onClose}>Cancel</button>
+          <button className="btn-primary" onClick={() => { onConfirm && onConfirm(address || 'My Address'); }}>Use This</button>
         </div>
       </div>
     </div>
