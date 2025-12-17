@@ -59,6 +59,18 @@ const orderSchema = new mongoose.Schema(
     },
     driverName: String,
     driverPhone: String,
+    
+    
+     currentLocation: {
+      lat: Number,
+      lng: Number,
+      updatedAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+
+
     isBulk: {
       type: Boolean,
       default: false,
