@@ -68,6 +68,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+  min-height: 80px;
 }
 
 .form-group:nth-child(3),
@@ -91,6 +92,9 @@
   background: #ffffff;
   transition: all 0.2s ease;
   color: #2d3748;
+  width: 100%;
+  box-sizing: border-box;
+  display: block;
 }
 
 .form-input:focus,
