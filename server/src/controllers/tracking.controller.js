@@ -74,3 +74,32 @@ export const updateOrderLocation = async (req, res) => {
 
   res.json({ success: true, message: "Location updated" });
 };
+
+// 4️⃣ Delivery assignment
+export const assignDelivery = async (req, res) => {
+  const { orderId } = req.params;
+  const { driverName, driverPhone } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(orderId)) {
+    return res.status(400).json({ success: false, message: "Invalid orderId" });
+  }
+
+  const order = await Order.findById(orderId);
+  if (!order) {
+    return res.status(404).json({ success: false, message: "Order not found" });
+  }
+
+  order.driverName = driverName;
+  order.driverPhone = driverPhone;
+  order.status = "OUT_FOR_DELIVERY";
+  await order.save();
+
+  // 🔥 socket push
+  req.io.to(orderId).emit("driverAssigned", {
+    orderId,
+    driver: { name: driverName, phone: driverPhone },
+    status: "OUT_FOR_DELIVERY"
+  });
+
+  res.json({ success: true, message: "Driver assigned successfully" });
+};

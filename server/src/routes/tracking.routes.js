@@ -3,6 +3,7 @@ import {
   getTrackingDetails,
   getOrderLocation,
   updateOrderLocation,
+  assignDelivery,
 } from "../controllers/tracking.controller.js";
 
 const router = express.Router();
@@ -12,5 +13,6 @@ const router = express.Router();
 router.get("/orders/:orderId/tracking", getTrackingDetails);
 router.get("/orders/:orderId/location", getOrderLocation);
 router.post("/orders/:orderId/location", updateOrderLocation);
+router.post("/orders/:orderId/assign-delivery", assignDelivery);
 
 export default router;
