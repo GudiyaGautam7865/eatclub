@@ -1,0 +1,203 @@
+{
+  "deliveryBoys": [
+    {
+      "id": 1,
+      "name": "Rajesh Kumar",
+      "phone": "+91 9876543210",
+      "email": "rajesh.kumar@eatclub.com",
+      "profileImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      "status": "online",
+      "totalDeliveries": 1247,
+      "todayDeliveries": 12,
+      "thisWeekDeliveries": 67,
+      "averageDeliveryTime": "28 min",
+      "rating": 4.8,
+      "vehicleType": "Bike",
+      "vehicleNumber": "MH12AB1234",
+      "joinDate": "2023-06-15",
+      "deliveryHistory": [
+        { "date": "2024-01-15", "deliveries": 15 },
+        { "date": "2024-01-14", "deliveries": 12 },
+        { "date": "2024-01-13", "deliveries": 18 },
+        { "date": "2024-01-12", "deliveries": 10 },
+        { "date": "2024-01-11", "deliveries": 14 },
+        { "date": "2024-01-10", "deliveries": 16 },
+        { "date": "2024-01-09", "deliveries": 11 }
+      ],
+      "onTimeDeliveries": 85,
+      "lateDeliveries": 15,
+      "activeOrders": [
+        {
+          "orderId": "ORD-001",
+          "customerName": "Priya Sharma",
+          "status": "picked_up",
+          "address": "Sector 15, Noida",
+          "estimatedTime": "15 min"
+        },
+        {
+          "orderId": "ORD-002",
+          "customerName": "Amit Singh",
+          "status": "on_the_way",
+          "address": "Connaught Place, Delhi",
+          "estimatedTime": "8 min"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Suresh Patel",
+      "phone": "+91 9876543211",
+      "email": "suresh.patel@eatclub.com",
+      "profileImage": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+      "status": "busy",
+      "totalDeliveries": 892,
+      "todayDeliveries": 8,
+      "thisWeekDeliveries": 45,
+      "averageDeliveryTime": "32 min",
+      "rating": 4.6,
+      "vehicleType": "Scooter",
+      "vehicleNumber": "DL08CD5678",
+      "joinDate": "2023-08-20",
+      "deliveryHistory": [
+        { "date": "2024-01-15", "deliveries": 8 },
+        { "date": "2024-01-14", "deliveries": 10 },
+        { "date": "2024-01-13", "deliveries": 12 },
+        { "date": "2024-01-12", "deliveries": 9 },
+        { "date": "2024-01-11", "deliveries": 11 },
+        { "date": "2024-01-10", "deliveries": 13 },
+        { "date": "2024-01-09", "deliveries": 7 }
+      ],
+      "onTimeDeliveries": 78,
+      "lateDeliveries": 22,
+      "activeOrders": [
+        {
+          "orderId": "ORD-003",
+          "customerName": "Neha Gupta",
+          "status": "delivering",
+          "address": "Karol Bagh, Delhi",
+          "estimatedTime": "5 min"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Mohammed Ali",
+      "phone": "+91 9876543212",
+      "email": "mohammed.ali@eatclub.com",
+      "profileImage": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      "status": "offline",
+      "totalDeliveries": 654,
+      "todayDeliveries": 0,
+      "thisWeekDeliveries": 32,
+      "averageDeliveryTime": "35 min",
+      "rating": 4.4,
+      "vehicleType": "Bike",
+      "vehicleNumber": "UP16EF9012",
+      "joinDate": "2023-10-10",
+      "deliveryHistory": [
+        { "date": "2024-01-15", "deliveries": 0 },
+        { "date": "2024-01-14", "deliveries": 8 },
+        { "date": "2024-01-13", "deliveries": 9 },
+        { "date": "2024-01-12", "deliveries": 7 },
+        { "date": "2024-01-11", "deliveries": 10 },
+        { "date": "2024-01-10", "deliveries": 6 },
+        { "date": "2024-01-09", "deliveries": 8 }
+      ],
+      "onTimeDeliveries": 72,
+      "lateDeliveries": 28,
+      "activeOrders": []
+    },
+    {
+      "id": 4,
+      "name": "Vikram Singh",
+      "phone": "+91 9876543213",
+      "email": "vikram.singh@eatclub.com",
+      "profileImage": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
+      "status": "online",
+      "totalDeliveries": 1089,
+      "todayDeliveries": 14,
+      "thisWeekDeliveries": 58,
+      "averageDeliveryTime": "26 min",
+      "rating": 4.9,
+      "vehicleType": "Bike",
+      "vehicleNumber": "RJ14GH3456",
+      "joinDate": "2023-05-25",
+      "deliveryHistory": [
+        { "date": "2024-01-15", "deliveries": 14 },
+        { "date": "2024-01-14", "deliveries": 11 },
+        { "date": "2024-01-13", "deliveries": 16 },
+        { "date": "2024-01-12", "deliveries": 13 },
+        { "date": "2024-01-11", "deliveries": 12 },
+        { "date": "2024-01-10", "deliveries": 15 },
+        { "date": "2024-01-09", "deliveries": 9 }
+      ],
+      "onTimeDeliveries": 92,
+      "lateDeliveries": 8,
+      "activeOrders": []
+    },
+    {
+      "id": 5,
+      "name": "Arjun Reddy",
+      "phone": "+91 9876543214",
+      "email": "arjun.reddy@eatclub.com",
+      "profileImage": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face",
+      "status": "busy",
+      "totalDeliveries": 743,
+      "todayDeliveries": 9,
+      "thisWeekDeliveries": 41,
+      "averageDeliveryTime": "30 min",
+      "rating": 4.5,
+      "vehicleType": "Scooter",
+      "vehicleNumber": "TN09IJ7890",
+      "joinDate": "2023-09-12",
+      "deliveryHistory": [
+        { "date": "2024-01-15", "deliveries": 9 },
+        { "date": "2024-01-14", "deliveries": 7 },
+        { "date": "2024-01-13", "deliveries": 11 },
+        { "date": "2024-01-12", "deliveries": 8 },
+        { "date": "2024-01-11", "deliveries": 10 },
+        { "date": "2024-01-10", "deliveries": 12 },
+        { "date": "2024-01-09", "deliveries": 6 }
+      ],
+      "onTimeDeliveries": 80,
+      "lateDeliveries": 20,
+      "activeOrders": [
+        {
+          "orderId": "ORD-004",
+          "customerName": "Ravi Kumar",
+          "status": "picked_up",
+          "address": "Banjara Hills, Hyderabad",
+          "estimatedTime": "12 min"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "name": "Deepak Sharma",
+      "phone": "+91 9876543215",
+      "email": "deepak.sharma@eatclub.com",
+      "profileImage": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face",
+      "status": "online",
+      "totalDeliveries": 456,
+      "todayDeliveries": 6,
+      "thisWeekDeliveries": 28,
+      "averageDeliveryTime": "33 min",
+      "rating": 4.3,
+      "vehicleType": "Bike",
+      "vehicleNumber": "GJ05KL2345",
+      "joinDate": "2023-11-08",
+      "deliveryHistory": [
+        { "date": "2024-01-15", "deliveries": 6 },
+        { "date": "2024-01-14", "deliveries": 5 },
+        { "date": "2024-01-13", "deliveries": 8 },
+        { "date": "2024-01-12", "deliveries": 4 },
+        { "date": "2024-01-11", "deliveries": 7 },
+        { "date": "2024-01-10", "deliveries": 9 },
+        { "date": "2024-01-09", "deliveries": 3 }
+      ],
+      "onTimeDeliveries": 75,
+      "lateDeliveries": 25,
+      "activeOrders": []
+    }
+  ]
+}

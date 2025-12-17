@@ -1,0 +1,190 @@
+{
+  "conversations": [
+    {
+      "id": 1,
+      "userId": "user_001",
+      "userName": "Sarah Johnson",
+      "ticketId": "#215",
+      "avatar": null,
+      "lastMessage": "Thank you for the quick delivery!",
+      "timestamp": "2024-01-15T14:30:00Z",
+      "isOnline": true,
+      "unreadCount": 0
+    },
+    {
+      "id": 2,
+      "userId": "user_002", 
+      "userName": "Mike Chen",
+      "ticketId": "#214",
+      "avatar": null,
+      "lastMessage": "Is my order ready for pickup?",
+      "timestamp": "2024-01-15T13:45:00Z",
+      "isOnline": false,
+      "unreadCount": 2
+    },
+    {
+      "id": 3,
+      "userId": "user_003",
+      "userName": "Emma Wilson",
+      "ticketId": "#213",
+      "avatar": null,
+      "lastMessage": "The food was amazing! Will order again.",
+      "timestamp": "2024-01-15T12:20:00Z",
+      "isOnline": true,
+      "unreadCount": 0
+    },
+    {
+      "id": 4,
+      "userId": "user_004",
+      "userName": "David Brown",
+      "ticketId": "#212",
+      "avatar": null,
+      "lastMessage": "Can I change my delivery address?",
+      "timestamp": "2024-01-15T11:15:00Z",
+      "isOnline": false,
+      "unreadCount": 1
+    },
+    {
+      "id": 5,
+      "userId": "user_005",
+      "userName": "Lisa Garcia",
+      "ticketId": "#211",
+      "avatar": null,
+      "lastMessage": "Perfect! Thanks for the help.",
+      "timestamp": "2024-01-15T10:30:00Z",
+      "isOnline": true,
+      "unreadCount": 0
+    }
+  ],
+  "messages": {
+    "1": [
+      {
+        "id": 1,
+        "senderId": "user_001",
+        "senderType": "user",
+        "message": "Hi, I placed an order about 30 minutes ago. Can you check the status?",
+        "timestamp": "2024-01-15T14:00:00Z"
+      },
+      {
+        "id": 2,
+        "senderId": "admin_001",
+        "senderType": "admin",
+        "message": "Hello Sarah! Let me check that for you. Your order #215 is currently being prepared and should be ready for delivery in 15 minutes.",
+        "timestamp": "2024-01-15T14:02:00Z"
+      },
+      {
+        "id": 3,
+        "senderId": "user_001",
+        "senderType": "user",
+        "message": "Great! Thank you for the update.",
+        "timestamp": "2024-01-15T14:03:00Z"
+      },
+      {
+        "id": 4,
+        "senderId": "admin_001",
+        "senderType": "admin",
+        "message": "You're welcome! Your order is now out for delivery. You should receive it within 10-15 minutes.",
+        "timestamp": "2024-01-15T14:20:00Z"
+      },
+      {
+        "id": 5,
+        "senderId": "user_001",
+        "senderType": "user",
+        "message": "Thank you for the quick delivery!",
+        "timestamp": "2024-01-15T14:30:00Z"
+      }
+    ],
+    "2": [
+      {
+        "id": 1,
+        "senderId": "user_002",
+        "senderType": "user",
+        "message": "Hello, I ordered food for pickup. Is it ready?",
+        "timestamp": "2024-01-15T13:30:00Z"
+      },
+      {
+        "id": 2,
+        "senderId": "admin_001",
+        "senderType": "admin",
+        "message": "Hi Mike! Let me check your order #214. It's almost ready, just a few more minutes.",
+        "timestamp": "2024-01-15T13:32:00Z"
+      },
+      {
+        "id": 3,
+        "senderId": "user_002",
+        "senderType": "user",
+        "message": "Is my order ready for pickup?",
+        "timestamp": "2024-01-15T13:45:00Z"
+      }
+    ],
+    "3": [
+      {
+        "id": 1,
+        "senderId": "user_003",
+        "senderType": "user",
+        "message": "Just received my order. Everything looks perfect!",
+        "timestamp": "2024-01-15T12:15:00Z"
+      },
+      {
+        "id": 2,
+        "senderId": "admin_001",
+        "senderType": "admin",
+        "message": "That's wonderful to hear, Emma! We're glad you enjoyed your meal.",
+        "timestamp": "2024-01-15T12:18:00Z"
+      },
+      {
+        "id": 3,
+        "senderId": "user_003",
+        "senderType": "user",
+        "message": "The food was amazing! Will order again.",
+        "timestamp": "2024-01-15T12:20:00Z"
+      }
+    ],
+    "4": [
+      {
+        "id": 1,
+        "senderId": "user_004",
+        "senderType": "user",
+        "message": "Hi, I need to update my delivery address for order #212",
+        "timestamp": "2024-01-15T11:10:00Z"
+      },
+      {
+        "id": 2,
+        "senderId": "admin_001",
+        "senderType": "admin",
+        "message": "Hello David! I can help you with that. What's the new address?",
+        "timestamp": "2024-01-15T11:12:00Z"
+      },
+      {
+        "id": 3,
+        "senderId": "user_004",
+        "senderType": "user",
+        "message": "Can I change my delivery address?",
+        "timestamp": "2024-01-15T11:15:00Z"
+      }
+    ],
+    "5": [
+      {
+        "id": 1,
+        "senderId": "user_005",
+        "senderType": "user",
+        "message": "I have a question about my recent order",
+        "timestamp": "2024-01-15T10:25:00Z"
+      },
+      {
+        "id": 2,
+        "senderId": "admin_001",
+        "senderType": "admin",
+        "message": "Hi Lisa! I'd be happy to help. What's your question?",
+        "timestamp": "2024-01-15T10:27:00Z"
+      },
+      {
+        "id": 3,
+        "senderId": "user_005",
+        "senderType": "user",
+        "message": "Perfect! Thanks for the help.",
+        "timestamp": "2024-01-15T10:30:00Z"
+      }
+    ]
+  }
+}

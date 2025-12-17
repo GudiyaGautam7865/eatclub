@@ -1,66 +1,49 @@
-/* Admin Layout Styles */
+/* RezTro Admin Layout Styles */
 
 .admin-layout {
-  display: flex;
-  height: 100vh;
-  background-color: #f4f7fb;
-}
-
-.admin-sidebar-container {
-  width: 270px;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  height: 100vh;
-  overflow-y: auto;
-  z-index: 100;
-}
-
-.admin-main {
-  margin-left: 270px;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  height: 100vh;
+  position: relative;
+  min-height: 100vh;
+  background: #f7fafc;
 }
 
 .admin-content {
-  flex: 1;
-  padding: 24px;
-  overflow-y: auto;
-  background-color: #f4f7fb;
+  margin-left: 280px;
+  margin-top: -12px;
+  min-height: calc(100vh - 80px);
+  transition: margin-left 0.3s ease;
+  background: #f7fafc;
+}
+
+.admin-layout.sidebar-collapsed .admin-content {
+  margin-left: 80px;
 }
 
 /* Scrollbar styling */
-.admin-sidebar-container::-webkit-scrollbar,
 .admin-content::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
-.admin-sidebar-container::-webkit-scrollbar-track,
 .admin-content::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.admin-sidebar-container::-webkit-scrollbar-thumb,
 .admin-content::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 4px;
+  background: #cbd5e0;
+  border-radius: 3px;
 }
 
-.admin-sidebar-container::-webkit-scrollbar-thumb:hover,
 .admin-content::-webkit-scrollbar-thumb:hover {
-  background: #999;
+  background: #a0aec0;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .admin-sidebar-container {
-    width: 0;
-    transform: translateX(-100%);
+@media (max-width: 1024px) {
+  .admin-content {
+    margin-left: 0;
+    margin-top: 80px;
   }
-
-  .admin-main {
+  
+  .admin-layout.sidebar-collapsed .admin-content {
     margin-left: 0;
   }
 }

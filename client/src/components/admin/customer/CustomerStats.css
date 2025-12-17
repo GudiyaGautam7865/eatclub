@@ -1,0 +1,194 @@
+.customer-stats {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+.customer-profile-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e2e8f0;
+}
+
+.profile-section {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  position: relative;
+}
+
+.profile-image {
+  flex-shrink: 0;
+}
+
+.avatar-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.customer-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 8px 0;
+}
+
+.customer-role {
+  font-size: 14px;
+  color: #667eea;
+  font-weight: 500;
+  margin: 0 0 12px 0;
+}
+
+.customer-address {
+  font-size: 14px;
+  color: #718096;
+  margin: 0 0 16px 0;
+  line-height: 1.5;
+}
+
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #4a5568;
+}
+
+.contact-item svg {
+  color: #718096;
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.company-label {
+  color: #718096;
+  font-weight: 500;
+}
+
+.company-name {
+  color: #2d3748;
+  font-weight: 600;
+}
+
+.edit-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #718096;
+}
+
+.edit-btn:hover {
+  background: #edf2f7;
+  border-color: #cbd5e0;
+  color: #4a5568;
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #48bb78, #38a169);
+  border-radius: 16px;
+  padding: 24px;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.3);
+}
+
+.balance-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0 0 16px 0;
+  opacity: 0.9;
+}
+
+.balance-amount {
+  font-size: 32px;
+  font-weight: 800;
+  margin-bottom: 24px;
+}
+
+.card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.card-number {
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  opacity: 0.9;
+}
+
+.card-holder {
+  font-size: 14px;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .customer-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .profile-section {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .edit-btn {
+    position: static;
+    align-self: center;
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .customer-profile-card {
+    padding: 20px;
+  }
+  
+  .balance-card {
+    padding: 20px;
+  }
+  
+  .customer-name {
+    font-size: 20px;
+  }
+  
+  .balance-amount {
+    font-size: 28px;
+  }
+}
