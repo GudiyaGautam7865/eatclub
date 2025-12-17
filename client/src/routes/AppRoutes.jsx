@@ -34,6 +34,11 @@ import BulkOrdersPage from "../pages/Admin/Orders/BulkOrdersPage";
 import OrdersPage from "../pages/Admin/OrdersPage";
 import OrderDetailsPage from "../pages/Admin/OrderDetailsPage";
 import MenuDetailPage from "../pages/Admin/MenuDetailPage";
+import ReviewsPage from "../pages/Admin/Reviews/ReviewsPage";
+import DeliveryBoyListPage from "../pages/Admin/DeliveryBoys/DeliveryBoyListPage";
+import DeliveryBoyDetailsPage from "../pages/Admin/DeliveryBoys/DeliveryBoyDetailsPage";
+import MessagesPage from "../pages/Admin/Messages/MessagesPage";
+import CustomerDetailPage from "../pages/Admin/CustomerDetail/CustomerDetailPage";
 
 // Admin Protected Route
 import AdminProtectedRoute from "../components/admin/AdminProtectedRoute";
@@ -93,6 +98,16 @@ function AppRoutes() {
           <Route path="single" element={<SingleOrdersPage />} />
           <Route path="bulk" element={<BulkOrdersPage />} />
         </Route>
+
+        <Route path="reviews" element={<ReviewsPage />} />
+
+        <Route path="delivery-boys">
+          <Route index element={<DeliveryBoyListPage />} />
+          <Route path=":id" element={<DeliveryBoyDetailsPage />} />
+        </Route>
+
+        <Route path="messages" element={<MessagesPage />} />
+        <Route path="customer-detail" element={<CustomerDetailPage />} />
       </Route>
 
       {/* 404 */}
