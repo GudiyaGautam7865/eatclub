@@ -15,8 +15,6 @@ import {
   IceCream
 } from 'lucide-react';
 import './Sidebar.css';
-import './Sidebar.css';
-import './Sidebar.css';
 
 const getIcon = (id) => {
   switch (id) {

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import "./Header.css";
 import { useCartContext } from "../../../context/CartContext";
 import { useUserContext } from "../../../context/UserContext";
@@ -14,6 +14,11 @@ import SearchBar from "./SearchBar";
 function Header() {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  // Treat routes under paths that include "dashboard" or "admin" as dashboard area
+  const path = location?.pathname || '';
+  const isDashboard = /dashboard|\badmin\b/i.test(path);
+  const isHome = path === '/'; // homepage should show white header on hero
 
   useEffect(() => {
     const handleScroll = () => {
@@ -185,7 +190,7 @@ function Header() {
   };
 
   return (
-    <header className={`ec-header ${isScrolled ? 'scrolled' : ''}`}>
+    <header className={`ec-header ${isScrolled ? 'scrolled' : ''} ${isDashboard ? 'dashboard' : ''} ${isHome ? 'homepage' : ''}`}>
       <div className="ec-header-inner">
         <div className="ec-left">
           <Link to="/" className="ec-logo">
