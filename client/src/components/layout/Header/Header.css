@@ -54,7 +54,56 @@
     width: 100%;
     z-index: var(--ec-z-sticky);
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    color: var(--ec-text-dark); /* default header text color -> black */
 }
+
+.ec-header.scrolled {
+    background-color: rgba(45, 55, 72, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    color: white; /* when scrolled (dark bg) switch to white */
+}
+
+/* Dashboard & Homepage: force header to white so header text is white on these pages */
+.ec-header.dashboard,
+.ec-header.homepage {
+    color: white !important;
+}
+
+/* Dashboard & Homepage-specific child rules */
+.ec-header.dashboard .ec-nav-item,
+.ec-header.dashboard .ec-address-text,
+.ec-header.dashboard .ec-caret,
+.ec-header.dashboard .ec-mode,
+.ec-header.homepage .ec-nav-item,
+.ec-header.homepage .ec-address-text,
+.ec-header.homepage .ec-caret,
+.ec-header.homepage .ec-mode {
+    color: inherit !important;
+}
+
+.ec-header.dashboard .ec-cart-button,
+.ec-header.dashboard .ec-get-app-button,
+.ec-header.dashboard .ec-signup-button,
+.ec-header.dashboard .ec-deals-button,
+.ec-header.dashboard .ec-address-pill,
+.ec-header.homepage .ec-cart-button,
+.ec-header.homepage .ec-get-app-button,
+.ec-header.homepage .ec-signup-button,
+.ec-header.homepage .ec-deals-button,
+.ec-header.homepage .ec-address-pill {
+    color: #ffffff !important;
+    border-color: rgba(255,255,255,0.9) !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+/* Search placeholder on dashboard/homepage should be white */
+.ec-header.dashboard .ec-search-input::placeholder,
+.ec-header.homepage .ec-search-input::placeholder {
+    color: rgba(255,255,255,0.6) !important;
+}
+
 
 .ec-header.scrolled {
     background-color: rgba(45, 55, 72, 0.95);
@@ -142,7 +191,7 @@
 }
 
 .ec-mode {
-    color: white;
+    color: inherit;
     font-weight: 700;
     letter-spacing: 0.4px;
     margin-right: var(--ec-spacing-sm);
@@ -154,7 +203,7 @@
 }
 
 .ec-address-text {
-    color: white;
+    color: inherit;
     max-width: 220px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -167,7 +216,7 @@
 
 .ec-caret {
     font-size: 11px;
-    color: white;
+    color: inherit;
     transition: transform var(--ec-transition-base);
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
 }
@@ -189,7 +238,7 @@
 
 .ec-nav-item {
     position: relative;
-    color: white;
+    color: inherit;
     font-size: 14px;
     font-weight: 500;
     display: flex;
@@ -198,7 +247,7 @@
 
 .ec-nav-item a {
     text-decoration: none;
-    color: white;
+    color: inherit;
     padding: var(--ec-spacing-sm) var(--ec-spacing-md);
     transition: color var(--ec-transition-base),
                 background-color var(--ec-transition-base);
@@ -238,12 +287,21 @@
     border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 50px;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
-    color: white;
+    color: inherit;
     font-size: 14px;
     outline: none;
     transition: all 0.3s ease;
     backdrop-filter: blur(15px);
     font-weight: 500;
+}
+
+.ec-search-input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* When header switches to dark background, make placeholder white for contrast */
+.ec-header.scrolled .ec-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
 }
 
 .ec-search-input::placeholder {
@@ -345,7 +403,7 @@
 .ec-deals-button {
     background: none;
     border: none;
-    color: white;
+    color: inherit;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
@@ -516,6 +574,72 @@
     backdrop-filter: blur(10px);
     transition: all var(--ec-transition-base);
 }
+
+/* Header action buttons: black by default, white when header is scrolled */
+.ec-header .ec-cart-button,
+.ec-header .ec-get-app-button,
+.ec-header .ec-signup-button {
+    color: var(--ec-text-dark) !important; /* black text */
+    border-color: rgba(0,0,0,0.12) !important;
+    background-color: transparent !important;
+}
+
+/* Keep cart button background transparent */
+.ec-header .ec-cart-button {
+    background-color: transparent !important;
+}
+
+/* Keep get-app border dark by default */
+.ec-header .ec-get-app-button {
+    border: 1.5px solid rgba(0,0,0,0.12) !important;
+    background-color: transparent !important;
+}
+
+/* When header becomes scrolled (dark background) make buttons white for contrast */
+.ec-header.scrolled .ec-cart-button,
+.ec-header.scrolled .ec-get-app-button,
+.ec-header.scrolled .ec-signup-button,
+.ec-header.scrolled .ec-deals-button,
+.ec-header.scrolled .ec-address-pill {
+    color: #ffffff !important;
+    border-color: rgba(255,255,255,0.9) !important;
+}
+
+/* Remove shadows and keep header action buttons black on hover in non-scrolled header */
+.ec-header .ec-cart-button,
+.ec-header .ec-get-app-button,
+.ec-header .ec-signup-button,
+.ec-header .ec-deals-button,
+.ec-header .ec-address-pill {
+    color: var(--ec-text-dark) !important; /* ensure black */
+    border-color: rgba(0,0,0,0.12) !important;
+    background-color: transparent !important;
+    text-shadow: none !important; /* remove black text shadow */
+    box-shadow: none !important; /* remove any button shadow */
+}
+
+.ec-header .ec-cart-button:hover,
+.ec-header .ec-get-app-button:hover,
+.ec-header .ec-signup-button:hover,
+.ec-header .ec-deals-button:hover,
+.ec-header .ec-address-pill:hover {
+    color: var(--ec-text-dark) !important;
+    background-color: transparent !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+    border-color: rgba(0,0,0,0.12) !important;
+}
+
+/* Keep hover white when header is scrolled */
+.ec-header.scrolled .ec-cart-button:hover,
+.ec-header.scrolled .ec-get-app-button:hover,
+.ec-header.scrolled .ec-signup-button:hover,
+.ec-header.scrolled .ec-deals-button:hover,
+.ec-header.scrolled .ec-address-pill:hover {
+    color: #ffffff !important;
+    border-color: rgba(255,255,255,0.9) !important;
+}
+
 
 .ec-signup-button:hover {
     background-color: var(--ec-primary-dark);
