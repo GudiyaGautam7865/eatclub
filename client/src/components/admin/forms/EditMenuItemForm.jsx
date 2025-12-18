@@ -5,24 +5,29 @@ import "./EditMenuItemForm.css"; // add modal styles similar to your add form
 export default function EditMenuItemModal({
   isOpen,
   item: initialItem,
-  onClose,        // function(shouldSave:Boolean, updatedItem:Object)
+  onClose,        // function(shouldSave:Boolean, updatedItem:Object|FormData)
   brands = [],    // array of restaurants [{ _id, name, ... }]
   getCategories,  // async function(brandId) => categories[]  OR pass categories array below
   categories = [] // optional: categories array when parent already loaded
 }) {
   const [item, setItem] = useState(null);
+  const [image, setImage] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
   const [localCategories, setLocalCategories] = useState(categories || []);
   const [loadingCategories, setLoadingCategories] = useState(false);
 
   useEffect(() => {
   if (!isOpen) {
     setItem(null);
+    setImage(null);
+    setImagePreview(null);
     setLocalCategories([]);
     return;
   }
 
   if (initialItem) {
     setItem({ ...initialItem }); // Load item once when opening modal
+    setImagePreview(initialItem.imageUrl); // Show existing image
   }
 
   // Load categories only once when modal opens
@@ -69,6 +74,18 @@ export default function EditMenuItemModal({
 
   const handleChange = (patch) => setItem(prev => ({ ...prev, ...patch }));
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleBrandChange = async (brandId) => {
     const brand = brands.find(b => (b._id ?? b.id) === brandId);
     handleChange({ brandId, brandName: brand?.name ?? "" });
@@ -83,23 +100,26 @@ export default function EditMenuItemModal({
   };
 
   const handleSubmit = () => {
-    // Build payload matching Add form and backend
-    const payload = {
-      name: (item.name || "").trim(),
-      description: item.description ?? "",
-      brandId: item.brandId ?? "",
-      brandName: item.brandName ?? "",
-      categoryId: item.categoryId ?? "",
-      categoryName: item.categoryName ?? "",
-      price: Number(item.price) || 0,
-      membershipPrice: item.membershipPrice ? Number(item.membershipPrice) : undefined,
-      isVeg: !!item.isVeg,
-      imageUrl: item.imageUrl ?? "",
-      isAvailable: item.isAvailable ?? true
-    };
+    // Use FormData to support both text fields and image file
+    const formData = new FormData();
+    formData.append('name', (item.name || "").trim());
+    formData.append('description', item.description ?? "");
+    formData.append('brandId', item.brandId ?? "");
+    formData.append('brandName', item.brandName ?? "");
+    formData.append('categoryId', item.categoryId ?? "");
+    formData.append('categoryName', item.categoryName ?? "");
+    formData.append('price', Number(item.price) || 0);
+    if (item.membershipPrice) formData.append('membershipPrice', Number(item.membershipPrice));
+    formData.append('isVeg', !!item.isVeg);
+    formData.append('isAvailable', item.isAvailable ?? true);
+    
+    // Only append image if a new one was selected
+    if (image) {
+      formData.append('image', image);
+    }
 
     // call onClose with shouldSave true and payload (parent will call API)
-    onClose(true, payload, item._id); // pass id separately for clarity
+    onClose(true, formData, item._id); // pass id separately for clarity
   };
 
   return (
@@ -190,12 +210,17 @@ export default function EditMenuItemModal({
       </div>
     </div>
 
-    <label>Image URL</label>
+    <label>Image</label>
     <input
-      value={item.imageUrl ?? ""}
-      onChange={(e) => handleChange({ imageUrl: e.target.value })}
-      placeholder="https://example.com/image.jpg"
+      type="file"
+      accept=".jpg,.jpeg,.png,.webp"
+      onChange={handleImageChange}
     />
+    {imagePreview && (
+      <div className="image-preview-modal">
+        <img src={imagePreview} alt="Preview" />
+      </div>
+    )}
 
     <div className="modal-actions">
       <button className="cancel-btn" onClick={() => onClose(false)}>Cancel</button>

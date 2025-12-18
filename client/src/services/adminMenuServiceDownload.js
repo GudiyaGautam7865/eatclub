@@ -1,45 +1,49 @@
-// Admin Menu Service - Download updated JSON files
-const BRAND_FILE_MAP = {
-  'BOX8': 'box8-menu.json',
-  'Behrouz': 'behrouz-menu.json',
-  'Biryani Blues': 'biryani-blues-menu.json',
-  'Faasos': 'faasos-menu.json',
-  'Firangi Bake': 'firangi-bake-menu.json',
-  'Fresh Menu': 'fresh-menu-menu.json',
-  'Kettle Curry': 'kettle-curry-menu.json',
-  'LunchBox': 'lunchbox-menu.json',
-  'Mandarin Oak': 'mandarin-oak-menu.json',
-  'Ovenstory': 'ovenstory-menu.json',
-  'Sweet Truth': 'sweet-truth-menu.json',
-  'The Good Bowl': 'the-good-bowl-menu.json',
-  'Wow China': 'wow-china-menu.json',
-  'Wow Momo': 'wow-momo-menu.json'
+// Admin Menu Service - API-only (local JSON files removed)
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
+// Map display brand name -> productId used by the API
+const BRAND_PRODUCT_MAP = {
+  'BOX8': 'box8',
+  'Behrouz': 'behrouz',
+  'Biryani Blues': 'biryani-blues',
+  'Faasos': 'faasos',
+  'Firangi Bake': 'firangi-bake',
+  'Fresh Menu': 'fresh-menu',
+  'Kettle Curry': 'kettle-curry',
+  'LunchBox': 'lunchbox',
+  'Mandarin Oak': 'mandarin-oak',
+  'Ovenstory': 'ovenstory',
+  'Sweet Truth': 'sweet-truth',
+  'The Good Bowl': 'the-good-bowl',
+  'Wow China': 'wow-china',
+  'Wow Momo': 'wow-momo'
 };
 
 export const adminMenuService = {
   async loadMenu(brand, category = null) {
-    const fileName = BRAND_FILE_MAP[brand];
-    if (!fileName) return { items: [], categories: [] };
-    
+    const productId = BRAND_PRODUCT_MAP[brand];
+    if (!productId) return { items: [], categories: [] };
     try {
-      const response = await fetch(`/data/menus/${fileName}`);
+      const response = await fetch(`${API_URL}/menu/${productId}`);
       if (!response.ok) return { items: [], categories: [] };
-      const data = await response.json();
-      
-      return category ? { items: data.items.filter(item => item.categoryId === category), categories: data.categories } : data;
+      const result = await response.json();
+      if (!result.success || !result.data) return { items: [], categories: [] };
+      const data = result.data;
+      const items = category ? data.items.filter(item => item.categoryId === category) : data.items;
+      return { items: items || [], categories: data.categories || [] };
     } catch (error) {
-      console.error('Error loading menu:', error);
+      console.error('Error loading menu from API:', error);
       return { items: [], categories: [] };
     }
   },
 
   async addMenuItem(brand, category, itemData) {
-    const fileName = BRAND_FILE_MAP[brand];
-    if (!fileName) throw new Error('Brand not found');
+    const productId = BRAND_PRODUCT_MAP[brand];
+    if (!productId) throw new Error('Brand not found');
 
+    // Note: No persistence here; this just produces a JSON export based on live API data.
     try {
       const menuData = await this.loadMenu(brand);
-      
       const newItem = {
         id: `admin_${Date.now()}`,
         name: itemData.name,
@@ -50,10 +54,10 @@ export const adminMenuService = {
         isVeg: itemData.isVeg,
         categoryId: category
       };
-      
       menuData.items.push(newItem);
-      
-      // Download updated JSON file
+
+      // Download updated JSON snapshot for offline/manual use
+      const fileName = `${productId}-menu.json`;
       const blob = new Blob([JSON.stringify(menuData, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -62,7 +66,7 @@ export const adminMenuService = {
       a.click();
       URL.revokeObjectURL(url);
       
-      return { message: 'Menu item added. Please replace the downloaded file in /public/data/menus/', item: newItem };
+      return { message: 'Menu item added to exported snapshot (API is source of truth).', item: newItem };
     } catch (error) {
       console.error('Error adding menu item:', error);
       throw error;
@@ -72,7 +76,7 @@ export const adminMenuService = {
   async getAllMenuItems() {
     const allItems = [];
     
-    for (const brand of Object.keys(BRAND_FILE_MAP)) {
+    for (const brand of Object.keys(BRAND_PRODUCT_MAP)) {
       const menuData = await this.loadMenu(brand);
       if (menuData.items) {
         menuData.items.forEach(item => {
@@ -89,7 +93,7 @@ export const adminMenuService = {
   },
 
   getBrands() {
-    return Object.keys(BRAND_FILE_MAP);
+    return Object.keys(BRAND_PRODUCT_MAP);
   },
 
   async getCategories(brand) {

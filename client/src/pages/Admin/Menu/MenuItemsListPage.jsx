@@ -173,7 +173,7 @@ const closeEditModal = () => {
           >
             <option value="">All Brands</option>
             {brands.map(brand => (
-              <option key={brand._id} value={brand._id}>{brand.name}</option>
+              <option key={brand.id} value={brand.id}>{brand.name}</option>
             ))}
           </select>
           
