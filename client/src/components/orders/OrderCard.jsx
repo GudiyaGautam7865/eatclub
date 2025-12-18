@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import OrderStatusBadge from './OrderStatusBadge';
 
 function formatDateTime(isoString) {
@@ -16,6 +17,7 @@ function formatDateTime(isoString) {
 }
 
 export default function OrderCard({ order }) {
+  const navigate = useNavigate();
   const {
     id,
     restaurantName,
@@ -28,8 +30,10 @@ export default function OrderCard({ order }) {
   } = order;
 
   const isOngoing =
-    status === 'PLACED' || status === 'PREPARING' || status === 'OUT_FOR_DELIVERY';
+    status === 'PLACED' || status === 'PREPARING' || status === 'OUT_FOR_DELIVERY' || status === 'PAID';
   const isDelivered = status === 'DELIVERED';
+  
+  console.log('Order status:', status, 'isOngoing:', isOngoing); // Debug log
 
   // Determine date/time string
   const dateTimeString = isDelivered
@@ -57,9 +61,14 @@ export default function OrderCard({ order }) {
 
       {/* Actions */}
       <div className="order-card-actions">
-        {isOngoing && (
+        {(isOngoing || true) && (
           <>
-            <button className="order-btn-primary">Track Order</button>
+            <button 
+              className="order-btn-primary"
+              onClick={() => navigate(`/track-order/${id}`)}
+            >
+              Track Order
+            </button>
             <button className="order-btn-secondary">Cancel Order</button>
           </>
         )}
