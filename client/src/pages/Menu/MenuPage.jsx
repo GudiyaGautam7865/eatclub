@@ -11,7 +11,7 @@ import './MenuPage.css';
 const MenuPage = () => {
   const location = useLocation();
   const [products, setProducts] = useState([]);
-  const [currentProduct, setCurrentProduct] = useState('box8');
+  const [currentProduct, setCurrentProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const [items, setItems] = useState([]);
   const [activeCategory, setActiveCategory] = useState('');
@@ -28,13 +28,16 @@ const MenuPage = () => {
     const loadProducts = async () => {
       const productsData = await getProducts();
       setProducts(productsData);
-      
-      // Check for restaurant query parameter
+
       const searchParams = new URLSearchParams(location.search);
       const restaurantParam = searchParams.get('restaurant');
-      if (restaurantParam && productsData.some(p => p.id === restaurantParam)) {
-        setCurrentProduct(restaurantParam);
-        // Scroll to top when coming from restaurant click
+      const hasParam = restaurantParam && productsData.some(p => p.id === restaurantParam);
+      const fallback = productsData[0]?.id || null;
+
+      const nextProduct = hasParam ? restaurantParam : fallback;
+      if (nextProduct && nextProduct !== currentProduct) {
+        setCurrentProduct(nextProduct);
+        console.log(`🍽️ MenuPage: set product -> ${nextProduct}`);
         window.scrollTo(0, 0);
       }
     };
@@ -45,10 +48,16 @@ const MenuPage = () => {
   useEffect(() => {
     const loadMenu = async () => {
       setLoading(true);
-      const data = await getMenuData(currentProduct);
+      const token = currentProduct;
+      console.log(`🔄 Fetching menu for product: ${token}`);
+      const data = await getMenuData(token);
+      // Ignore stale responses if product changed while awaiting
+      if (token !== currentProduct) {
+        console.log(`⏭️ Stale response ignored for ${token}`);
+        return;
+      }
       setCategories(data.categories);
       setItems(data.items);
-      // Set first category as active
       if (data.categories.length > 0) {
         setActiveCategory(data.categories[0].id);
       }

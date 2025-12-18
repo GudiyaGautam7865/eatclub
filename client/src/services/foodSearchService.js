@@ -1,33 +1,33 @@
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 let foodCache = null;
 
 const getProducts = async () => {
   try {
-    const response = await fetch('/data/products.json');
-    const data = await response.json();
-    return data.products;
+    const response = await fetch(`${API_URL}/menu/products`);
+    const result = await response.json();
+    if (result.success && result.data && result.data.products) {
+      return result.data.products;
+    }
+    throw new Error('Invalid products response');
   } catch (error) {
-    console.error('Error loading products:', error);
+    console.error('Error loading products from API:', error);
     return [];
   }
 };
 
 const getMenuData = async (productId) => {
   try {
-    const storageKey = `EC_MENUS_${productId.toUpperCase().replace('-', '_')}`;
-    const stored = localStorage.getItem(storageKey);
-    if (stored) {
-      return JSON.parse(stored);
+    const response = await fetch(`${API_URL}/menu/${productId}`);
+    const result = await response.json();
+    
+    if (result.success && result.data) {
+      return result.data;
     }
-
-    const response = await fetch(`/data/menus/${productId}-menu.json`);
-    if (!response.ok) {
-      return null;
-    }
-    const data = await response.json();
-    localStorage.setItem(storageKey, JSON.stringify(data));
-    return data;
+    
+    return null;
   } catch (error) {
-    console.error(`Error loading menu for ${productId}:`, error);
+    console.error(`Error loading menu for ${productId} from API:`, error);
     return null;
   }
 };

@@ -69,27 +69,44 @@ class AdminMenuService {
     return [];
   }
 
-  // Add a new menu item (JSON only, optional image URL)
+  // Add a new menu item (supports FormData for file uploads)
   async addMenuItem(itemData = {}) {
     try {
-      const payload = {
-        brandId: itemData.brandId,
-        brandName: itemData.brandName,
-        categoryId: itemData.categoryId,
-        categoryName: itemData.categoryName,
-        name: itemData.name,
-        description: itemData.description,
-        price: itemData.price,
-        isVeg: itemData.isVeg,
-        imageUrl: itemData.imageUrl
-      };
+      // Check if itemData is FormData (has append method)
+      if (itemData instanceof FormData) {
+        // FormData - send as multipart
+        const response = await axios.post(
+          `${API_URL}/admin/menu/items`,
+          itemData,
+          {
+            headers: {
+              ...getAuthHeader(),
+              // DO NOT set Content-Type for FormData; let Axios set it with boundary
+            }
+          }
+        );
+        return response.data;
+      } else {
+        // Plain object - send as JSON
+        const payload = {
+          brandId: itemData.brandId,
+          brandName: itemData.brandName,
+          categoryId: itemData.categoryId,
+          categoryName: itemData.categoryName,
+          name: itemData.name,
+          description: itemData.description,
+          price: itemData.price,
+          isVeg: itemData.isVeg,
+          imageUrl: itemData.imageUrl
+        };
 
-      const response = await axios.post(
-        `${API_URL}/admin/menu/items`,
-        payload,
-        { headers: getAuthHeader() }
-      );
-      return response.data;
+        const response = await axios.post(
+          `${API_URL}/admin/menu/items`,
+          payload,
+          { headers: getAuthHeader() }
+        );
+        return response.data;
+      }
     } catch (error) {
       console.error('Error adding menu item:', error);
       throw error;
