@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 
 const menuItemSchema = new mongoose.Schema(
   {
+    sourceId: {
+      type: String,
+    },
     brandId: {
       type: String,
       required: true,
@@ -13,6 +16,9 @@ const menuItemSchema = new mongoose.Schema(
     categoryId: {
       type: String,
       required: true,
+    },
+    categorySourceId: {
+      type: String,
     },
     categoryName: {
       type: String,
