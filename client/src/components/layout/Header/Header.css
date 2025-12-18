@@ -87,11 +87,13 @@
 .ec-header.dashboard .ec-signup-button,
 .ec-header.dashboard .ec-deals-button,
 .ec-header.dashboard .ec-address-pill,
+.ec-header.dashboard .ec-profile-button,
 .ec-header.homepage .ec-cart-button,
 .ec-header.homepage .ec-get-app-button,
 .ec-header.homepage .ec-signup-button,
 .ec-header.homepage .ec-deals-button,
-.ec-header.homepage .ec-address-pill {
+.ec-header.homepage .ec-address-pill,
+.ec-header.homepage .ec-profile-button {
     color: #ffffff !important;
     border-color: rgba(255,255,255,0.9) !important;
     text-shadow: none !important;
@@ -600,7 +602,8 @@
 .ec-header.scrolled .ec-get-app-button,
 .ec-header.scrolled .ec-signup-button,
 .ec-header.scrolled .ec-deals-button,
-.ec-header.scrolled .ec-address-pill {
+.ec-header.scrolled .ec-address-pill,
+.ec-header.scrolled .ec-profile-button {
     color: #ffffff !important;
     border-color: rgba(255,255,255,0.9) !important;
 }
@@ -679,7 +682,7 @@
     border: none;
     cursor: pointer;
     padding: var(--ec-spacing-sm) var(--ec-spacing-md);
-    color: var(--ec-text-base);
+    color: #000;
     font-size: 14px;
     font-weight: 500;
     border-radius: 6px;
@@ -687,7 +690,8 @@
 }
 
 .ec-profile-button:hover {
-    background-color: var(--ec-bg-light);
+    background-color: transparent;
+    color: var(--ec-text-base) !important;
 }
 
 .ec-profile-button:focus-visible {
@@ -696,7 +700,7 @@
 }
 
 .ec-profile-button[aria-expanded="true"] {
-    background-color: var(--ec-primary-light);
+    background-color: transparent;
     color: var(--ec-primary);
 }
 
@@ -725,23 +729,24 @@
     margin-top: var(--ec-spacing-md);
     background-color: var(--ec-bg-white);
     border: 1px solid var(--ec-border);
-    box-shadow: var(--ec-shadow-lg);
     padding: var(--ec-spacing-sm) 0;
     border-radius: 8px;
     min-width: 200px;
     z-index: var(--ec-z-dropdown);
     animation: slideDownSmooth 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: none !important;
 }
 
 .ec-profile-item {
     display: block;
     padding: var(--ec-spacing-md) var(--ec-spacing-lg);
-    color: var(--ec-text-base);
+    color: #000 !important;
     text-decoration: none;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 400;
     transition: color var(--ec-transition-base),
                 background-color var(--ec-transition-base);
+    text-shadow: none !important;
 }
 
 .ec-profile-item:hover {

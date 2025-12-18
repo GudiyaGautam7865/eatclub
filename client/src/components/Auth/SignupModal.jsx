@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import { signup } from '../../services/authService';
 import { useUserContext } from '../../context/UserContext';
-import './LoginModal.css';
+import './SignupModal.css';
 
 function SignupModal({ isOpen, onClose, onSwitchToLogin }) {
   const navigate = useNavigate();
@@ -19,15 +19,9 @@ function SignupModal({ isOpen, onClose, onSwitchToLogin }) {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
+    // Keep dashboard scrollbar visible when modal opens.
+    // Overlay CSS will cover the viewport area so the scrollbar won't appear inside the modal area.
+    return () => {};
   }, [isOpen]);
 
   const handleChange = (e) => {
