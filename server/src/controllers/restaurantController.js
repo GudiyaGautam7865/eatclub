@@ -1,68 +1,43 @@
-import fs from 'fs/promises';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import Category from '../models/Category.js';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// Map restaurant ids to their corresponding menu JSON files
-const MENU_FILE_MAP = {
-  box8: { name: 'BOX8', file: 'box8-menu.json' },
-  faasos: { name: 'Faasos', file: 'faasos-menu.json' },
-  behrouz: { name: 'Behrouz Biryani', file: 'behrouz-menu.json' },
-  ovenstory: { name: 'Ovenstory', file: 'ovenstory-menu.json' },
-  'mandarin-oak': { name: 'Mandarin Oak', file: 'mandarin-oak-menu.json' },
-  lunchbox: { name: 'LunchBox', file: 'lunchbox-menu.json' },
-  'sweet-truth': { name: 'Sweet Truth', file: 'sweet-truth-menu.json' },
-  'firangi-bake': { name: 'Firangi Bake', file: 'firangi-bake-menu.json' },
-  'the-good-bowl': { name: 'The Good Bowl', file: 'the-good-bowl-menu.json' },
-  'kettle-curry': { name: 'Kettle & Curry', file: 'kettle-curry-menu.json' },
-  'wow-momo': { name: 'Wow! Momo', file: 'wow-momo-menu.json' },
-  'wow-china': { name: 'Wow! China', file: 'wow-china-menu.json' },
-  'biryani-blues': { name: 'Biryani Blues', file: 'biryani-blues-menu.json' },
-  'fresh-menu': { name: 'Fresh Menu', file: 'fresh-menu-menu.json' },
-};
-
-const DATA_BASE_PATH = path.resolve(__dirname, '../../../client/public/data');
-const MENUS_BASE_PATH = path.join(DATA_BASE_PATH, 'menus');
-const PRODUCTS_PATH = path.join(DATA_BASE_PATH, 'products.json');
-
-let cachedRestaurants = null;
-
-// Build restaurant list from products.json when available, otherwise from MENU_FILE_MAP keys
-const loadRestaurants = async () => {
-  if (cachedRestaurants) {
-    return cachedRestaurants;
-  }
-
-  try {
-    const raw = await fs.readFile(PRODUCTS_PATH, 'utf-8');
-    const { products = [] } = JSON.parse(raw);
-
-    cachedRestaurants = products
-      .filter((product) => MENU_FILE_MAP[product.id])
-      .map((product) => ({
-        id: product.id,
-        name: product.name,
-        file: MENU_FILE_MAP[product.id].file,
-      }));
-  } catch (error) {
-    console.warn('Could not read products.json, falling back to default menu map');
-    cachedRestaurants = Object.entries(MENU_FILE_MAP).map(([id, value]) => ({
-      id,
-      name: value.name,
-      file: value.file,
-    }));
-  }
-
-  return cachedRestaurants;
+// Map productId to brandId for querying MongoDB
+const PRODUCT_BRAND_MAP = {
+  'box8': '3',
+  'behrouz': 'B1',
+  'faasos': 'F1',
+  'ovenstory': 'O1',
+  'mandarin-oak': 'M1',
+  'lunchbox': 'L1',
+  'sweet-truth': 'S1',
+  'the-good-bowl': 'G1',
+  'wow-china': 'W1',
+  'wow-momo': 'W2',
+  'kettle-curry': 'K1',
+  'biryani-blues': 'BB1',
 };
 
 export const getRestaurants = async (req, res) => {
   try {
-    const restaurants = await loadRestaurants();
+    const restaurants = [
+      { id: 'box8', name: 'BOX8' },
+      { id: 'behrouz', name: 'Behrouz Biryani' },
+      { id: 'faasos', name: 'Faasos' },
+      { id: 'ovenstory', name: 'Oven Story Pizza' },
+      { id: 'mandarin-oak', name: 'Mandarin Oak' },
+      { id: 'lunchbox', name: 'LunchBox' },
+      { id: 'sweet-truth', name: 'Sweet Truth' },
+      { id: 'the-good-bowl', name: 'The Good Bowl' },
+      { id: 'wow-china', name: 'Wow! China' },
+      { id: 'wow-momo', name: 'Wow! Momo' },
+      { id: 'fresh-menu', name: 'FreshMenu' },
+      { id: 'firangi-bake', name: 'Firangi Bake' },
+      { id: 'kettle-curry', name: 'Kettle & Curry' },
+      { id: 'biryani-blues', name: 'Biryani Blues' },
+    ];
+    
     return res.status(200).json({
       success: true,
-      data: restaurants.map((rest) => ({ _id: rest.id, name: rest.name })),
+      data: restaurants,
     });
   } catch (error) {
     console.error('Error loading restaurants:', error);
@@ -75,9 +50,9 @@ export const getRestaurants = async (req, res) => {
 };
 
 export const getCategories = async (req, res) => {
-  const restaurantId = req.query.restaurant || req.params.restaurantId;
+  const productId = req.query.restaurant || req.params.restaurant;
 
-  if (!restaurantId) {
+  if (!productId) {
     return res.status(400).json({
       success: false,
       message: 'restaurant query parameter is required',
@@ -85,28 +60,27 @@ export const getCategories = async (req, res) => {
   }
 
   try {
-    const restaurants = await loadRestaurants();
-    const restaurant = restaurants.find((rest) => rest.id === restaurantId);
+    // Get categories for this product from MongoDB
+    const categories = await Category.find({ productId })
+      .select('_id name sourceId imageUrl')
+      .sort({ createdAt: 1 })
+      .lean();
 
-    if (!restaurant) {
+    if (!categories || categories.length === 0) {
       return res.status(404).json({
         success: false,
-        message: 'Restaurant not found',
+        message: 'No categories found for this restaurant',
       });
     }
 
-    const menuPath = path.join(MENUS_BASE_PATH, restaurant.file);
-    const raw = await fs.readFile(menuPath, 'utf-8');
-    const menuData = JSON.parse(raw);
-
-    const categories = (menuData.categories || []).map((cat) => ({
-      _id: cat.id || cat._id || cat.slug,
-      name: cat.name,
-    }));
-
     return res.status(200).json({
       success: true,
-      data: categories,
+      data: categories.map((cat) => ({
+        _id: cat._id,
+        id: cat.sourceId,
+        name: cat.name,
+        imageUrl: cat.imageUrl,
+      })),
     });
   } catch (error) {
     console.error('Error loading categories:', error);

@@ -12,7 +12,9 @@
     "seed": "node src/seed/seedMenu.js",
     "seed:admin": "node src/seed/seedAdmin.js",
     "seed:orders": "node src/seed/seedOrders.js",
-    "migrate:test-to-eatclub": "node src/seed/migrateTestToEatclub.js"
+    "migrate:test-to-eatclub": "node src/seed/migrateTestToEatclub.js",
+    "migrate:menu": "node src/seed/migrateMenuData.js",
+    "migrate:menu:v2": "node src/seed/migrateMenuDataV2.js"
   },
   "keywords": [
     "eatclub",
@@ -23,6 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.41.0",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.3",
@@ -33,6 +36,8 @@
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.0.0",
+    "multer": "^1.4.5-lts.1",
+    "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^7.0.11",
     "razorpay": "^2.9.6",
     "socket.io": "^4.8.1"
