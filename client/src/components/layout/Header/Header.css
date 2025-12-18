@@ -630,14 +630,27 @@
     border-color: rgba(0,0,0,0.12) !important;
 }
 
-/* Keep hover white when header is scrolled */
+/* Keep hover white when header is scrolled, or on dashboard/homepage */
 .ec-header.scrolled .ec-cart-button:hover,
 .ec-header.scrolled .ec-get-app-button:hover,
 .ec-header.scrolled .ec-signup-button:hover,
 .ec-header.scrolled .ec-deals-button:hover,
-.ec-header.scrolled .ec-address-pill:hover {
+.ec-header.scrolled .ec-address-pill:hover,
+.ec-header.dashboard .ec-cart-button:hover,
+.ec-header.dashboard .ec-get-app-button:hover,
+.ec-header.dashboard .ec-signup-button:hover,
+.ec-header.dashboard .ec-deals-button:hover,
+.ec-header.dashboard .ec-address-pill:hover,
+.ec-header.homepage .ec-cart-button:hover,
+.ec-header.homepage .ec-get-app-button:hover,
+.ec-header.homepage .ec-signup-button:hover,
+.ec-header.homepage .ec-deals-button:hover,
+.ec-header.homepage .ec-address-pill:hover {
     color: #ffffff !important;
     border-color: rgba(255,255,255,0.9) !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
 }
 
 
