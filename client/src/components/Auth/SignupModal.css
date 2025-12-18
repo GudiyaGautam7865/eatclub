@@ -1,0 +1,261 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0; /* top:0; right:0; bottom:0; left:0; ensures the overlay covers the full viewport including the scrollbar gutter */
+  background-color: rgba(153, 110, 110, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10001;
+  overflow: hidden;
+}
+
+/* Hide any scrollbar on the overlay itself */
+.modal-overlay::-webkit-scrollbar { display: none; }
+.modal-overlay { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Hide scrollbars inside modal content if it ever scrolls */
+.modal-content::-webkit-scrollbar { display: none; }
+.modal-content { -ms-overflow-style: none; scrollbar-width: none; }
+
+.signup-modal {
+  background: white;
+  border-radius: 12px;
+  width: 450px;
+  max-width: 95vw;
+  position: relative;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  height: 660px;
+  display: flex;
+  flex-direction: column;
+} 
+
+.signup-modal::-webkit-scrollbar {
+  display: none;
+}
+
+.signup-modal {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 8px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.modal-close:hover {
+  color: #374151;
+  background-color: #f9fafb;
+}
+
+.modal-content {
+  margin-top: 10px;
+  padding: 16px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+} 
+
+.modal-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 16px 0;
+  text-align: center;
+}
+
+.signup-form {
+  margin-bottom: 12px;
+}
+
+.form-group {
+  margin-bottom: 8px;
+} 
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #00d0e3;
+}
+
+.form-group input:disabled {
+  background-color: #f9fafb;
+  cursor: not-allowed;
+}
+
+.field-error {
+  display: block;
+  color: #dc2626;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.error-message {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  border: 1px solid #fecaca;
+}
+
+.signup-btn {
+  width: 100%;
+  background-color: #00d0e3;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.signup-btn:hover:not(:disabled) {
+  background-color: #00a8c1;
+}
+
+.signup-btn:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #00d0e3;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.signup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.terms-text {
+  color: #6b7280;
+  font-size: 12px;
+  margin: 8px 0 0 0;
+  line-height: 1.3;
+}
+
+.terms-link {
+  color: #00d0e3;
+  text-decoration: none;
+}
+
+@media (max-width: 480px) {
+  .signup-modal {
+    width: 95vw;
+    margin: 16px;
+  }
+  
+  .modal-content {
+    padding: 24px;
+  }
+  
+  .modal-title {
+    font-size: 20px;
+  }
+}
+
+/* If viewport height is limited, tighten spacing and input padding so everything fits */
+@media (max-height: 700px) {
+  .signup-modal {
+    width: 92vw;
+    border-radius: 8px;
+    max-height: calc(100vh - 12px);
+  }
+
+  .modal-content {
+    padding: 12px 16px;
+    margin-top: 0;
+  }
+
+  .modal-title {
+    font-size: 18px;
+  }
+
+  .form-group {
+    margin-bottom: 6px;
+  }
+
+  .form-group input {
+    padding: 10px 12px;
+    font-size: 15px;
+  }
+
+  .signup-btn {
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+
+/* Smallest screens */
+@media (max-width: 360px) {
+  .signup-modal {
+    width: 96vw;
+  }
+  .modal-content {
+    padding: 10px 12px;
+  }
+  .form-group input {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+  .modal-title { font-size: 16px; }
+}
+
+/* Taller viewports: increase modal height so all fields fit without scrolling */
+@media (min-height: 900px) {
+  .signup-modal {
+    min-height: 820px;
+    max-height: calc(100vh - 8px);
+  }
+}
+
+/* Extra tall viewports: use larger modal to comfortably show all fields */
+@media (min-height: 1100px) {
+  .signup-modal {
+    min-height: 900px;
+    max-height: calc(100vh - 8px);
+  }
+}

@@ -10,7 +10,7 @@ export const getTrackingDetails = async (req, res) => {
   }
 
   const order = await Order.findById(orderId).select(
-    "status driverName driverPhone currentLocation"
+    "status driverName driverPhone driverVehicleNumber currentLocation userLocation address items total createdAt"
   );
 
   if (!order) {
@@ -23,8 +23,19 @@ export const getTrackingDetails = async (req, res) => {
       orderId: order._id,
       status: order.status,
       driver: order.driverName
-        ? { name: order.driverName, phone: order.driverPhone }
+        ? { 
+            name: order.driverName, 
+            phone: order.driverPhone,
+            vehicleNumber: order.driverVehicleNumber 
+          }
         : null,
+      userLocation: order.userLocation,
+      deliveryAddress: order.address,
+      orderDetails: {
+        items: order.items,
+        total: order.total,
+        placedAt: order.createdAt
+      },
       currentLocation: order.currentLocation || null,
     },
   });
@@ -78,7 +89,7 @@ export const updateOrderLocation = async (req, res) => {
 // 4️⃣ Delivery assignment
 export const assignDelivery = async (req, res) => {
   const { orderId } = req.params;
-  const { driverName, driverPhone } = req.body;
+  const { driverName, driverPhone, driverVehicleNumber } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(orderId)) {
     return res.status(400).json({ success: false, message: "Invalid orderId" });
@@ -91,15 +102,36 @@ export const assignDelivery = async (req, res) => {
 
   order.driverName = driverName;
   order.driverPhone = driverPhone;
+  order.driverVehicleNumber = driverVehicleNumber;
   order.status = "OUT_FOR_DELIVERY";
   await order.save();
 
   // 🔥 socket push
   req.io.to(orderId).emit("driverAssigned", {
     orderId,
-    driver: { name: driverName, phone: driverPhone },
+    driver: { name: driverName, phone: driverPhone, vehicleNumber: driverVehicleNumber },
     status: "OUT_FOR_DELIVERY"
   });
 
   res.json({ success: true, message: "Driver assigned successfully" });
+};
+
+// 5️⃣ Update user location
+export const updateUserLocation = async (req, res) => {
+  const { orderId } = req.params;
+  const { lat, lng } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(orderId)) {
+    return res.status(400).json({ success: false, message: "Invalid orderId" });
+  }
+
+  const order = await Order.findById(orderId);
+  if (!order) {
+    return res.status(404).json({ success: false, message: "Order not found" });
+  }
+
+  order.userLocation = { lat, lng };
+  await order.save();
+
+  res.json({ success: true, message: "User location updated" });
 };
