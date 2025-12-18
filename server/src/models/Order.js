@@ -34,7 +34,7 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['PLACED', 'PAID', 'PREPARING', 'DELIVERED', 'CANCELLED'],
+      enum: ['PLACED', 'PAID', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
       default: 'PLACED',
     },
     payment: {
@@ -59,6 +59,18 @@ const orderSchema = new mongoose.Schema(
     },
     driverName: String,
     driverPhone: String,
+    
+    
+     currentLocation: {
+      lat: Number,
+      lng: Number,
+      updatedAt: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+
+
     isBulk: {
       type: Boolean,
       default: false,
