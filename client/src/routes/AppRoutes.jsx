@@ -15,6 +15,8 @@ import PartyOrderPage from "../pages/PartyOrder/PartyOrderPage";
 import MenuPage from "../pages/Menu/MenuPage";
 import FoodDetailPage from "../pages/Food/FoodDetailPage";
 import ManageOrdersPage from "../pages/ManageOrders/ManageOrdersPage";
+import TrackOrderPage from "../pages/TrackOrder/TrackOrderPage";
+import DeliveryApp from "../pages/DeliveryApp/DeliveryApp";
 import ProfilePage from "../pages/Profile/ProfilePage";
 import CreditsPage from "../pages/Profile/CreditsPage";
 import PaymentsPage from "../pages/Profile/PaymentsPage";
@@ -58,6 +60,8 @@ function AppRoutes() {
         <Route path="/party_order" element={<PartyOrderPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/food/:foodId" element={<FoodDetailPage />} />
+        <Route path="/track-order/:orderId" element={<TrackOrderPage />} />
+        <Route path="/delivery-app" element={<DeliveryApp />} />
       </Route>
 
       {/* Profile layout with nested routes */}

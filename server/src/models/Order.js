@@ -59,6 +59,12 @@ const orderSchema = new mongoose.Schema(
     },
     driverName: String,
     driverPhone: String,
+    driverVehicleNumber: String,
+    userLocation: {
+      lat: { type: Number },
+      lng: { type: Number },
+      address: String
+    },
     
     
      currentLocation: {
