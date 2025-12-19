@@ -47,7 +47,7 @@ export default function DeliveryBoyListPage() {
             email: boy.email,
             vehicleType: boy.vehicleType,
             vehicleNumber: boy.vehicleNumber || 'N/A',
-            status: boy.status?.toLowerCase() || 'offline',
+            status: boy.deliveryStatus?.toLowerCase() || 'offline',
             totalDeliveries: boy.totalDeliveries || 0,
             todayDeliveries: 0,
             thisWeekDeliveries: 0,
@@ -55,6 +55,7 @@ export default function DeliveryBoyListPage() {
             rating: boy.rating || 0,
             joinDate: boy.createdAt ? new Date(boy.createdAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
             activeOrders: [],
+            profileImage: boy.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(boy.name)}&background=random`,
           }));
           setDeliveryBoys(mappedBoys);
           setLoading(false);
