@@ -1,23 +1,18 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAddressContext } from '../../context/AddressContext';
-import AddressMapModal from '../../components/cart/AddressMapModal';
-import AddressFormModal from '../../components/cart/AddressFormModal';
+import AddressModal from '../../components/address/AddressModal';
 import './ProfilePage.css';
 import './AddressesPage.css';
 import { useUserContext } from "../../context/UserContext";
 
 const AddressesPage = () => {
   const navigate = useNavigate();
-  const { addresses, deleteAddress, updateAddressData } = useAddressContext();
-  const [mapOpen, setMapOpen] = useState(false);
-  const [formOpen, setFormOpen] = useState(false);
-  const [pendingLocation, setPendingLocation] = useState('');
-  const [showEditModal, setShowEditModal] = useState(false);
+  const { addresses, deleteAddress, updateAddress, createAddress, selectAddress, addFromGeolocation } = useAddressContext();
+  const [addressModalOpen, setAddressModalOpen] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
-  const [editFlat, setEditFlat] = useState('');
-  const [editFloor, setEditFloor] = useState('');
-  const [editLandmark, setEditLandmark] = useState('');
+  const [savingAddress, setSavingAddress] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false); // profile info modal
    const { user } = useUserContext();
   if (!user) {
   return <div style={{ padding: "20px" }}>Please login to view your profile</div>;
@@ -37,35 +32,31 @@ const AddressesPage = () => {
     }
   };
 
-  const handleConfirmLocation = (locationString) => {
-    setPendingLocation(locationString);
-    setMapOpen(false);
-    setTimeout(() => setFormOpen(true), 80);
-  };
+  const openAddressModal = (addr = null) => { setEditingAddress(addr); setAddressModalOpen(true); };
+  const closeAddressModal = () => { setEditingAddress(null); setAddressModalOpen(false); };
 
-  const handleEditAddress = (addr) => {
-    setEditingAddress(addr);
-    setEditFlat(addr.flat || '');
-    setEditFloor(addr.floor || '');
-    setEditLandmark(addr.landmark || '');
-    setShowEditModal(true);
-  };
-
-  const handleSaveEdit = () => {
-    if (editingAddress) {
-      updateAddressData(editingAddress.id, {
-        flat: editFlat,
-        floor: editFloor,
-        landmark: editLandmark
-      });
-      setShowEditModal(false);
-      setEditingAddress(null);
+  const handleSaveAddress = async (payload) => {
+    try {
+      setSavingAddress(true);
+      const created = editingAddress
+        ? await updateAddress(editingAddress.id, payload)
+        : await createAddress(payload);
+      selectAddress(created.id);
+      closeAddressModal();
+    } catch (e) {
+      alert(e?.message || 'Unable to save address');
+    } finally {
+      setSavingAddress(false);
     }
   };
 
-  const handleDeleteAddress = (id) => {
-    if (confirm('Are you sure you want to delete this address?')) {
-      deleteAddress(id);
+  const handleDeleteAddress = async (id) => {
+    if (!confirm('Are you sure you want to delete this address?')) return;
+    try {
+      await deleteAddress(id);
+      closeAddressModal();
+    } catch (e) {
+      alert(e?.message || 'Unable to delete address');
     }
   };
 
@@ -109,7 +100,7 @@ const AddressesPage = () => {
           <div className="addresses-header">
             <button 
               className="add-new-address-btn"
-              onClick={() => setMapOpen(true)}
+              onClick={() => openAddressModal()}
             >
               + Add New Address
             </button>
@@ -149,7 +140,7 @@ const AddressesPage = () => {
                     <div className="address-actions">
                       <button
                         className="address-action-btn"
-                        onClick={() => handleEditAddress(addr)}
+                         onClick={() => openAddressModal(addr)}
                       >
                         EDIT
                       </button>
@@ -169,8 +160,15 @@ const AddressesPage = () => {
       </div>
 
       {/* Modals */}
-      <AddressMapModal isOpen={mapOpen} onClose={() => setMapOpen(false)} onConfirm={handleConfirmLocation} />
-      <AddressFormModal isOpen={formOpen} onClose={() => setFormOpen(false)} initialAddress={pendingLocation} />
+      <AddressModal
+        isOpen={addressModalOpen}
+        onClose={closeAddressModal}
+        initialData={editingAddress || {}}
+        mode={editingAddress ? 'edit' : 'add'}
+        onSave={handleSaveAddress}
+        onUseCurrentLocation={addFromGeolocation}
+        onDelete={handleDeleteAddress}
+      />
 
          {showEditModal && (
         <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
@@ -228,54 +226,6 @@ const AddressesPage = () => {
                 </svg>
               </div>
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Edit Address Modal */}
-      {showEditModal && editingAddress && (
-        <div className="modal-overlay" onClick={() => setShowEditModal(false)}>
-          <div className="edit-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="close-btn" onClick={() => setShowEditModal(false)}>×</button>
-            
-            <h2 style={{ marginBottom: '20px', fontSize: '18px', color: '#333' }}>Edit Address</h2>
-
-            <div className="form-field">
-              <label>FLAT / HOUSE NUMBER</label>
-              <input 
-                type="text" 
-                value={editFlat} 
-                onChange={(e) => setEditFlat(e.target.value)}
-                placeholder="Eg: 212, Prestige Flora"
-              />
-            </div>
-
-            <div className="form-field">
-              <label>FLOOR / BLOCK (OPTIONAL)</label>
-              <input 
-                type="text" 
-                value={editFloor} 
-                onChange={(e) => setEditFloor(e.target.value)}
-                placeholder="Eg: 2nd Floor, A Block"
-              />
-            </div>
-
-            <div className="form-field">
-              <label>LANDMARK / DIRECTION (OPTIONAL)</label>
-              <input 
-                type="text" 
-                value={editLandmark} 
-                onChange={(e) => setEditLandmark(e.target.value)}
-                placeholder="Eg: Yellow building, Near CV Raman Hospital"
-              />
-            </div>
-
-            <button 
-              onClick={handleSaveEdit}
-              className="save-changes-btn"
-            >
-              Save Changes
-            </button>
           </div>
         </div>
       )}

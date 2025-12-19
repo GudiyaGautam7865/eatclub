@@ -4,8 +4,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "./CartPage.css";
 import ScheduleModal from "../../components/cart/ScheduleModal.jsx";
-import AddressMapModal from "../../components/cart/AddressMapModal.jsx";
-import AddressFormModal from "../../components/cart/AddressFormModal.jsx";
+import AddressModal from "../../components/address/AddressModal.jsx";
 import PaymentResult from "../../components/cart/PaymentResult.jsx";
 import CouponModal from "../../components/cart/CouponModal.jsx";
 import CouponAppliedModal from "../../components/cart/CouponAppliedModal.jsx";
@@ -20,14 +19,13 @@ import { useUserContext } from '../../context/UserContext.jsx';
 import { createOrderFromCart } from '../../services/ordersService.js';
 import apiClient from '../../services/apiClient.js';
 import { createSingleOrder } from '../../services/singleOrdersService.js';
-
 export default function CartPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scheduledSlot, setScheduledSlot] = useState("");
   const [activeSection, setActiveSection] = useState("time");
-  const [mapOpen, setMapOpen] = useState(false);
-  const [formOpen, setFormOpen] = useState(false);
-  const [pendingLocation, setPendingLocation] = useState('');
+  const [addressModalOpen, setAddressModalOpen] = useState(false);
+  const [editingAddress, setEditingAddress] = useState(null);
+  const [savingAddress, setSavingAddress] = useState(false);
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [showPaymentResult, setShowPaymentResult] = useState(false);
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
@@ -35,7 +33,7 @@ export default function CartPage() {
   const [addressError, setAddressError] = useState('');
 
   const navigate = useNavigate();
-  const { addresses, selectedAddress, selectAddress } = useAddressContext();
+  const { addresses, selectedAddress, selectAddress, createAddress, updateAddress, deleteAddress, addFromGeolocation } = useAddressContext();
   const { user } = useUserContext();
 
   // use cart context for persistent cart state
@@ -84,7 +82,10 @@ export default function CartPage() {
   };
 
   const buildOrderPayload = async (payMethod, txId) => {
-    const addressLine = selectedAddress?.address || selectedAddress?.label || 'Delivery Address';
+    if (!selectedAddress?.address) {
+      throw new Error('Please select a delivery address');
+    }
+    const addressLine = selectedAddress.address;
     const { city, pincode } = parseAddressParts(addressLine);
     const coords = await getCurrentCoords();
 
@@ -321,10 +322,8 @@ export default function CartPage() {
 
   const openSchedule = () => setIsModalOpen(true);
   const closeSchedule = () => setIsModalOpen(false);
-  const openMap = () => setMapOpen(true);
-  const closeMap = () => setMapOpen(false);
-  const openForm = () => setFormOpen(true);
-  const closeForm = () => setFormOpen(false);
+  const openAddressModal = (addr = null) => { setEditingAddress(addr); setAddressModalOpen(true); };
+  const closeAddressModal = () => { setEditingAddress(null); setAddressModalOpen(false); };
 
   const handleSchedule = (slot) => {
     setScheduledSlot(slot);
@@ -337,10 +336,33 @@ export default function CartPage() {
     if (scheduledSlot) setScheduledSlot("");
   };
 
-  const handleConfirmLocation = (locationString) => {
-    setPendingLocation(locationString);
-    setMapOpen(false);
-    setTimeout(() => setFormOpen(true), 80);
+  const handleSaveAddress = async (payload) => {
+    try {
+      setSavingAddress(true);
+      const created = editingAddress
+        ? await updateAddress(editingAddress.id, payload)
+        : await createAddress(payload);
+      selectAddress(created.id);
+      setAddressError('');
+      closeAddressModal();
+    } catch (e) {
+      toast.error(e?.message || 'Unable to save address', {
+        position: 'top-right',
+        autoClose: 3000,
+      });
+    } finally {
+      setSavingAddress(false);
+    }
+  };
+
+  const handleDeleteAddress = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this address?')) return;
+    try {
+      await deleteAddress(id);
+      closeAddressModal();
+    } catch (e) {
+      toast.error(e?.message || 'Unable to delete address', { position: 'top-right', autoClose: 3000 });
+    }
   };
 
   // recompute cart count and total when items/membership/appliedSavings change
@@ -390,7 +412,7 @@ export default function CartPage() {
 
           <div className={`card delivery-address-card ${activeSection === "address" ? "expanded active" : ""} ${addressError ? "error-border" : ""}`} ref={addressRef}>
             <div className="card-title">Delivery Address
-              <button className="add-address" onClick={(e)=>{e.preventDefault(); openMap();}}>Add Address</button>
+              <button className="add-address" onClick={(e)=>{e.preventDefault(); openAddressModal();}}>Add Address</button>
             </div>
 
             {activeSection !== "address" ? (
@@ -398,13 +420,16 @@ export default function CartPage() {
             ) : (
               <div className="card-body address-grid">
                 {addresses.map((a) => (
-                  <div key={a.id} className={`addr-card ${selectedAddress?.id === a.id ? "selected" : ""}`} onClick={() => {
-                    selectAddress(a.id);
-                    setAddressError('');
-                  }}>
-                    <div className="addr-label">{a.label}</div>
-                    <div className="addr-title">{a.address?.split(',')[0] || a.label}</div>
-                    <div className="addr-text">{a.address}</div>
+                  <div key={a.id} className={`addr-card ${selectedAddress?.id === a.id ? "selected" : ""}`}>
+                    <div className="addr-card-header">
+                      <div onClick={() => { selectAddress(a.id); setAddressError(''); }} style={{ cursor: 'pointer', flex: 1 }}>
+                        <div className="addr-label">{a.label}</div>
+                        <div className="addr-title">{a.address?.split(',')[0] || a.label}</div>
+                        <div className="addr-text">{a.address}</div>
+                      </div>
+                      <button className="addr-edit-btn" onClick={(e)=>{e.stopPropagation(); openAddressModal(a);}}>Edit</button>
+                      <button className="addr-delete-btn" onClick={(e)=>{e.stopPropagation(); handleDeleteAddress(a.id);}}>Delete</button>
+                    </div>
                   </div>
                 ))}
 
@@ -514,8 +539,15 @@ export default function CartPage() {
         </aside>
       </div>
         <ScheduleModal isOpen={isModalOpen} onClose={closeSchedule} onSchedule={handleSchedule} initial={scheduledSlot} />
-        <AddressMapModal isOpen={mapOpen} onClose={closeMap} onConfirm={handleConfirmLocation} />
-        <AddressFormModal isOpen={formOpen} onClose={closeForm} initialAddress={pendingLocation} />
+        <AddressModal
+          isOpen={addressModalOpen}
+          onClose={closeAddressModal}
+          initialData={editingAddress || {}}
+          mode={editingAddress ? 'edit' : 'add'}
+          onSave={handleSaveAddress}
+          onUseCurrentLocation={addFromGeolocation}
+          onDelete={handleDeleteAddress}
+        />
         <PaymentResult open={showPaymentResult} onClose={()=>setShowPaymentResult(false)} method={selectedPayment} amount={cartTotal} />
         <CouponModal isOpen={couponOpen} onClose={()=>setCouponOpen(false)} onApply={(c)=>{ applyCoupon(c); setCouponOpen(false); setCouponAppliedOpen(true); }} />
         <CouponAppliedModal open={couponAppliedOpen} onClose={()=>setCouponAppliedOpen(false)} code={appliedCoupon?.code || appliedCoupon} />
