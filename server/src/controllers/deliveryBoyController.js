@@ -1,4 +1,4 @@
-import DeliveryBoy from '../models/DeliveryBoy.js';
+import User from '../models/User.js';
 import { sendDeliveryBoyCredentials } from '../utils/emailService.js';
 
 // Admin: Create Delivery Boy
@@ -29,25 +29,26 @@ export const createDeliveryBoy = async (req, res) => {
       });
     }
 
-    // Check if delivery boy already exists
-    const existing = await DeliveryBoy.findOne({ email });
+    // Check if user already exists with this email
+    const existing = await User.findOne({ email: email.toLowerCase().trim() });
     if (existing) {
       return res.status(409).json({
         success: false,
-        message: 'Delivery boy with this email already exists',
+        message: 'User with this email already exists',
       });
     }
 
-    // Create delivery boy with admin-provided password
-    const deliveryBoy = await DeliveryBoy.create({
+    // Create delivery boy as a user with DELIVERY_BOY role
+    const deliveryBoy = await User.create({
       name,
-      email,
+      email: email.toLowerCase().trim(),
       phone,
       vehicleType: vehicleType || 'BIKE',
       vehicleNumber: vehicleNumber || '',
       password: password,
       role: 'DELIVERY_BOY',
-      status: 'ACTIVE',
+      deliveryStatus: 'ACTIVE',
+      isActive: true,
     });
 
     // Send credentials via email
@@ -69,7 +70,7 @@ export const createDeliveryBoy = async (req, res) => {
           phone: deliveryBoy.phone,
           vehicleType: deliveryBoy.vehicleType,
           vehicleNumber: deliveryBoy.vehicleNumber,
-          status: deliveryBoy.status,
+          deliveryStatus: deliveryBoy.deliveryStatus,
           role: deliveryBoy.role,
         },
       },
@@ -87,7 +88,7 @@ export const createDeliveryBoy = async (req, res) => {
 // Get all delivery boys (Admin)
 export const getAllDeliveryBoys = async (req, res) => {
   try {
-    const deliveryBoys = await DeliveryBoy.find({}).select('-password').sort({ createdAt: -1 });
+    const deliveryBoys = await User.find({ role: 'DELIVERY_BOY' }).select('-password').sort({ createdAt: -1 });
 
     res.json({
       success: true,
@@ -107,7 +108,7 @@ export const getDeliveryBoyById = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const deliveryBoy = await DeliveryBoy.findById(id).select('-password');
+    const deliveryBoy = await User.findById(id).select('-password');
 
     if (!deliveryBoy) {
       return res.status(404).json({
@@ -143,9 +144,9 @@ export const updateDeliveryBoyStatus = async (req, res) => {
       });
     }
 
-    const deliveryBoy = await DeliveryBoy.findByIdAndUpdate(
+    const deliveryBoy = await User.findByIdAndUpdate(
       id,
-      { status },
+      { deliveryStatus: status },
       { new: true }
     ).select('-password');
 
@@ -175,7 +176,7 @@ export const deleteDeliveryBoy = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const deliveryBoy = await DeliveryBoy.findByIdAndDelete(id);
+    const deliveryBoy = await User.findByIdAndDelete(id);
 
     if (!deliveryBoy) {
       return res.status(404).json({

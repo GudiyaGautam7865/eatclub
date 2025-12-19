@@ -1,5 +1,4 @@
 import User from '../models/User.js';
-import DeliveryBoy from '../models/DeliveryBoy.js';
 import { generateAccessToken } from '../utils/generateToken.js';
 import { sendVerificationEmail, sendPasswordResetEmail } from '../utils/emailService.js';
 import { generateOTP, generateToken } from '../utils/otpGenerator.js';
@@ -118,8 +117,11 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // 1️⃣ Check User
-    let user = await User.findOne({ email }).select('+password');
+    // Normalize email: lowercase and trim
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Check User in Users collection (USER, DELIVERY_BOY, or ADMIN roles)
+    let user = await User.findOne({ email: normalizedEmail }).select('+password');
     
     if (user) {
       // User found - verify password
@@ -130,36 +132,55 @@ export const loginUser = async (req, res) => {
         });
       }
 
-      // Check if email is verified
-      if (!user.isEmailVerified) {
+      // For regular users, check if email is verified
+      if (user.role === 'USER' && !user.isEmailVerified) {
         return res.status(401).json({
           success: false,
           message: 'Please verify your email before logging in',
         });
       }
 
+      // Check if account is active (applies to all roles)
+      if (!user.isActive) {
+        return res.status(401).json({
+          success: false,
+          message: 'Your account is inactive. Please contact admin.',
+        });
+      }
+
       // Generate token with role
       const token = generateAccessToken(user._id, user.role);
 
+      // Build response based on role
+      const responseData = {
+        token,
+        role: user.role,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+      };
+
+      // Add role-specific data
+      if (user.role === 'USER') {
+        responseData.user.phoneNumber = user.phoneNumber;
+        responseData.user.isEmailVerified = user.isEmailVerified;
+      } else if (user.role === 'DELIVERY_BOY') {
+        responseData.user.phone = user.phone;
+        responseData.user.vehicleType = user.vehicleType;
+        responseData.user.deliveryStatus = user.deliveryStatus;
+      }
+
       return res.json({
         success: true,
-        data: {
-          token,
-          role: user.role,
-          user: {
-            id: user._id,
-            name: user.name,
-            email: user.email,
-            phoneNumber: user.phoneNumber,
-            role: user.role,
-            isEmailVerified: user.isEmailVerified,
-          },
-        },
+        data: responseData,
       });
     }
 
-    // 2️⃣ Check Admin (hardcoded for now)
-    if (email === 'admin@gmail.com' && password === '1260') {
+    // Special case: Hardcoded Admin (for backward compatibility)
+    if (normalizedEmail === 'admin@gmail.com' && password === '1260') {
       const token = generateAccessToken('admin', 'ADMIN');
 
       return res.json({
@@ -171,47 +192,6 @@ export const loginUser = async (req, res) => {
             id: 'admin',
             email: 'admin@gmail.com',
             role: 'ADMIN',
-          },
-        },
-      });
-    }
-
-    // 3️⃣ Check Delivery Boy
-    const deliveryBoy = await DeliveryBoy.findOne({ email }).select('+password');
-    
-    if (deliveryBoy) {
-      // Verify password
-      if (!(await deliveryBoy.matchPassword(password))) {
-        return res.status(401).json({
-          success: false,
-          message: 'Invalid email or password',
-        });
-      }
-
-      // Check if active
-      if (!deliveryBoy.isActive) {
-        return res.status(401).json({
-          success: false,
-          message: 'Your account is inactive. Please contact admin.',
-        });
-      }
-
-      // Generate token with role
-      const token = generateAccessToken(deliveryBoy._id, 'DELIVERY_BOY');
-
-      return res.json({
-        success: true,
-        data: {
-          token,
-          role: 'DELIVERY_BOY',
-          user: {
-            id: deliveryBoy._id,
-            name: deliveryBoy.name,
-            email: deliveryBoy.email,
-            phone: deliveryBoy.phone,
-            role: 'DELIVERY_BOY',
-            status: deliveryBoy.status,
-            vehicleType: deliveryBoy.vehicleType,
           },
         },
       });
