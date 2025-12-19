@@ -1,0 +1,185 @@
+.profile-header {
+  background: #000 !important;
+  color: rgb(255, 255, 255);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  justify-content: flex-start;
+}
+
+.avatar-circle {
+  width: 80px;
+  height: 80px;
+  background-color: #333;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 32px;
+}
+
+.profile-details p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.edit-btn {
+  background-color: #fff;
+  color: #000;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin: 70px;
+}
+
+.edit-btn:hover {
+  background-color: #f0f0f0;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.edit-modal {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+}
+
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.form-field input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #333;
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-container svg {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  cursor: pointer;
+}
+
+.password-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.password-container input {
+  flex: 1;
+}
+
+.change-link {
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.dob-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dob-container input[type="date"] {
+  cursor: pointer;
+}
+
+.dob-container input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0;
+  position: absolute;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.dob-container svg {
+  position: absolute;
+  right: 2.5rem;
+  color: #666;
+  cursor: pointer;
+  pointer-events: none;
+}
+
+.dob-container svg:last-child {
+  right: 0.8rem;
+  pointer-events: none;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 1rem;
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.3s;
+}
+
+.submit-btn:hover {
+  background-color: #333;
+}
+
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+}

@@ -24,6 +24,7 @@ import PaymentsPage from "../pages/Profile/PaymentsPage";
 import AddressesPage from "../pages/Profile/AddressesPage";
 import PromotionSubscriptionsPage from "../pages/Profile/PromotionSubscriptionsPage";
 import FaqPage from "../pages/Profile/FaqPage";
+import UserMessagesPage from "../pages/Profile/MessagesPage";
 import NotFoundPage from "../pages/NotFound/NotFoundPage";
 
 
@@ -78,6 +79,7 @@ function AppRoutes() {
         <Route path="credits" element={<CreditsPage />} />
         <Route path="payments" element={<PaymentsPage />} />
         <Route path="addresses" element={<AddressesPage />} />
+        <Route path="messages" element={<UserMessagesPage />} />
         <Route
           path="promotion_subscriptions"
           element={<PromotionSubscriptionsPage />}
