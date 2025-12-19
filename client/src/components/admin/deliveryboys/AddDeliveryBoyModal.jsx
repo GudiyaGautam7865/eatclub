@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createDeliveryBoy } from '../../../services/deliveryBoyService.js';
 import './AddDeliveryBoyModal.css';
 
 export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
@@ -6,12 +7,15 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
     name: '',
     phone: '',
     email: '',
-    vehicleType: 'Bike',
+    vehicleType: 'BIKE',
     vehicleNumber: '',
-    profileImage: ''
+    password: '',
+    confirmPassword: '',
   });
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -51,32 +55,58 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
       newErrors.vehicleNumber = 'Vehicle number is required';
     }
 
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = 'Please confirm password';
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (validateForm()) {
-      const newDeliveryBoy = {
-        id: Date.now(), // Simple ID generation
-        ...formData,
-        status: 'offline',
-        totalDeliveries: 0,
-        todayDeliveries: 0,
-        thisWeekDeliveries: 0,
-        averageDeliveryTime: '0 min',
-        rating: 0,
-        joinDate: new Date().toISOString().split('T')[0],
-        deliveryHistory: [],
-        onTimeDeliveries: 0,
-        lateDeliveries: 0,
-        activeOrders: []
-      };
+    if (!validateForm()) return;
 
-      onAdd(newDeliveryBoy);
-      handleClose();
+    setLoading(true);
+    setErrors({});
+    setSuccessMessage('');
+
+    try {
+      const response = await createDeliveryBoy({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        vehicleType: formData.vehicleType,
+        vehicleNumber: formData.vehicleNumber,
+        password: formData.password,
+      });
+
+      if (response.deliveryBoy) {
+        setSuccessMessage(`✅ Delivery boy created! Credentials sent to ${formData.email}`);
+        
+        alert(`Delivery Boy Created Successfully!\n\nEmail: ${formData.email}\nPassword: ${formData.password}\n\nCredentials have been sent via email.`);
+
+        // Notify parent component
+        onAdd(response.deliveryBoy);
+
+        // Close modal after 2 seconds
+        setTimeout(() => {
+          handleClose();
+        }, 2000);
+      }
+    } catch (error) {
+      setErrors({ submit: error.message || 'Failed to create delivery boy' });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -85,11 +115,13 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
       name: '',
       phone: '',
       email: '',
-      vehicleType: 'Bike',
+      vehicleType: 'BIKE',
       vehicleNumber: '',
-      profileImage: ''
+      password: '',
+      confirmPassword: '',
     });
     setErrors({});
+    setSuccessMessage('');
     onClose();
   };
 
@@ -154,9 +186,10 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
                 onChange={handleInputChange}
                 className="form-select"
               >
-                <option value="Bike">Bike</option>
-                <option value="Scooter">Scooter</option>
-                <option value="Bicycle">Bicycle</option>
+                <option value="BIKE">Bike</option>
+                <option value="SCOOTER">Scooter</option>
+                <option value="BICYCLE">Bicycle</option>
+                <option value="CAR">Car</option>
               </select>
             </div>
 
@@ -174,24 +207,51 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Profile Image URL</label>
+              <label className="form-label">Password *</label>
               <input
-                type="url"
-                name="profileImage"
-                value={formData.profileImage}
+                type="password"
+                name="password"
+                value={formData.password}
                 onChange={handleInputChange}
-                className="form-input"
-                placeholder="https://example.com/image.jpg (optional)"
+                className={`form-input ${errors.password ? 'error' : ''}`}
+                placeholder="Enter password (min 6 characters)"
               />
+              {errors.password && <span className="error-message">{errors.password}</span>}
             </div>
+
+            <div className="form-group">
+              <label className="form-label">Confirm Password *</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
+                placeholder="Re-enter password"
+              />
+              {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+            </div>
+
           </div>
 
+          {successMessage && (
+            <div className="success-message" style={{ color: 'green', padding: '10px', marginTop: '10px', background: '#d4edda', borderRadius: '4px' }}>
+              {successMessage}
+            </div>
+          )}
+
+          {errors.submit && (
+            <div className="error-message" style={{ color: 'red', padding: '10px', marginTop: '10px', background: '#f8d7da', borderRadius: '4px' }}>
+              {errors.submit}
+            </div>
+          )}
+
           <div className="modal-actions">
-            <button type="button" className="btn-secondary" onClick={handleClose}>
+            <button type="button" className="btn-secondary" onClick={handleClose} disabled={loading}>
               Cancel
             </button>
-            <button type="submit" className="btn-primary">
-              Add Delivery Boy
+            <button type="submit" className="btn-primary" disabled={loading}>
+              {loading ? 'Creating...' : 'Add Delivery Boy'}
             </button>
           </div>
         </form>

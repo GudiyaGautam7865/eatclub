@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import DeliveryBoyCard from '../../../components/admin/deliveryboys/DeliveryBoyCard';
 import DeliveryBoyListItem from '../../../components/admin/deliveryboys/DeliveryBoyListItem';
 import AddDeliveryBoyModal from '../../../components/admin/deliveryboys/AddDeliveryBoyModal';
+import { getAllDeliveryBoys, deleteDeliveryBoy } from '../../../services/deliveryBoyService.js';
 import deliveryBoysData from '../../../mock/deliveryboys.json';
 import './DeliveryBoyListPage.css';
 
@@ -33,26 +34,43 @@ export default function DeliveryBoyListPage() {
   const loadDeliveryBoys = async () => {
     try {
       setLoading(true);
-      // Load from localStorage first, then merge with mock data
-      const savedDeliveryBoys = localStorage.getItem('deliveryBoys');
+      
+      // Try to fetch from backend first
+      try {
+        const backendBoys = await getAllDeliveryBoys();
+        if (backendBoys && backendBoys.length > 0) {
+          // Map backend data to match expected format
+          const mappedBoys = backendBoys.map(boy => ({
+            id: boy._id || boy.id,
+            name: boy.name,
+            phone: boy.phone,
+            email: boy.email,
+            vehicleType: boy.vehicleType,
+            vehicleNumber: boy.vehicleNumber || 'N/A',
+            status: boy.status?.toLowerCase() || 'offline',
+            totalDeliveries: boy.totalDeliveries || 0,
+            todayDeliveries: 0,
+            thisWeekDeliveries: 0,
+            averageDeliveryTime: '0 min',
+            rating: boy.rating || 0,
+            joinDate: boy.createdAt ? new Date(boy.createdAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+            activeOrders: [],
+          }));
+          setDeliveryBoys(mappedBoys);
+          setLoading(false);
+          return;
+        }
+      } catch (apiError) {
+        console.warn('Failed to fetch from API, falling back to mock data:', apiError.message);
+      }
+
+      // Fallback to mock data
       const deletedDeliveryBoys = localStorage.getItem('deletedDeliveryBoys') || '[]';
       const deletedList = JSON.parse(deletedDeliveryBoys);
+      const allDeliveryBoys = deliveryBoysData.deliveryBoys.filter(boy => !deletedList.includes(boy.id));
       
-      // Filter out deleted mock data boys
-      let allDeliveryBoys = deliveryBoysData.deliveryBoys.filter(boy => !deletedList.includes(boy.id));
-      
-      if (savedDeliveryBoys) {
-        const parsedSaved = JSON.parse(savedDeliveryBoys);
-        // Merge saved delivery boys with mock data, avoiding duplicates
-        const existingIds = allDeliveryBoys.map(boy => boy.id);
-        const newDeliveryBoys = parsedSaved.filter(boy => !existingIds.includes(boy.id));
-        allDeliveryBoys = [...allDeliveryBoys, ...newDeliveryBoys];
-      }
-      
-      setTimeout(() => {
-        setDeliveryBoys(allDeliveryBoys);
-        setLoading(false);
-      }, 500);
+      setDeliveryBoys(allDeliveryBoys);
+      setLoading(false);
     } catch (error) {
       console.error('Failed to load delivery boys:', error);
       setLoading(false);
@@ -100,44 +118,23 @@ export default function DeliveryBoyListPage() {
   };
 
   const handleAddNewDeliveryBoy = (newDeliveryBoy) => {
-    const updatedDeliveryBoys = [...deliveryBoys, newDeliveryBoy];
-    setDeliveryBoys(updatedDeliveryBoys);
-    
-    // Save to localStorage
-    const savedDeliveryBoys = localStorage.getItem('deliveryBoys');
-    let allSavedBoys = [];
-    
-    if (savedDeliveryBoys) {
-      allSavedBoys = JSON.parse(savedDeliveryBoys);
-    }
-    
-    allSavedBoys.push(newDeliveryBoy);
-    localStorage.setItem('deliveryBoys', JSON.stringify(allSavedBoys));
-    
+    // Reload the list to get updated data from backend
+    loadDeliveryBoys();
     console.log('New delivery boy added:', newDeliveryBoy);
   };
 
-  const handleDeleteDeliveryBoy = (deliveryBoyId) => {
-    const updatedDeliveryBoys = deliveryBoys.filter(boy => boy.id !== deliveryBoyId);
-    setDeliveryBoys(updatedDeliveryBoys);
-    
-    // Update localStorage - only remove from saved boys, not mock data
-    const savedDeliveryBoys = localStorage.getItem('deliveryBoys');
-    if (savedDeliveryBoys) {
-      const allSavedBoys = JSON.parse(savedDeliveryBoys);
-      const updatedSavedBoys = allSavedBoys.filter(boy => boy.id !== deliveryBoyId);
-      localStorage.setItem('deliveryBoys', JSON.stringify(updatedSavedBoys));
+  const handleDeleteDeliveryBoy = async (deliveryBoyId) => {
+    if (!window.confirm('Are you sure you want to delete this delivery boy?')) return;
+
+    try {
+      await deleteDeliveryBoy(deliveryBoyId);
+      // Reload the list after deletion
+      loadDeliveryBoys();
+      console.log('Delivery boy deleted:', deliveryBoyId);
+    } catch (error) {
+      console.error('Failed to delete delivery boy:', error);
+      alert('Failed to delete delivery boy. Please try again.');
     }
-    
-    // Also add to deleted list to hide mock data boys
-    const deletedBoys = localStorage.getItem('deletedDeliveryBoys') || '[]';
-    const deletedList = JSON.parse(deletedBoys);
-    if (!deletedList.includes(deliveryBoyId)) {
-      deletedList.push(deliveryBoyId);
-      localStorage.setItem('deletedDeliveryBoys', JSON.stringify(deletedList));
-    }
-    
-    console.log('Delivery boy fired:', deliveryBoyId);
   };
 
   const getOnlineCount = () => {

@@ -1,4 +1,5 @@
 import User from '../models/User.js';
+import DeliveryBoy from '../models/DeliveryBoy.js';
 import { generateAccessToken } from '../utils/generateToken.js';
 import { sendVerificationEmail, sendPasswordResetEmail } from '../utils/emailService.js';
 import { generateOTP, generateToken } from '../utils/otpGenerator.js';
@@ -117,7 +118,7 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // Attempt to find user by email in users collection
+    // 1️⃣ Check User
     let user = await User.findOne({ email }).select('+password');
     
     if (user) {
@@ -144,6 +145,7 @@ export const loginUser = async (req, res) => {
         success: true,
         data: {
           token,
+          role: user.role,
           user: {
             id: user._id,
             name: user.name,
@@ -156,15 +158,15 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // User not found - fallback to temporary admin credential check
+    // 2️⃣ Check Admin (hardcoded for now)
     if (email === 'admin@gmail.com' && password === '1260') {
-      // Generate token with admin role (transient admin)
       const token = generateAccessToken('admin', 'ADMIN');
 
       return res.json({
         success: true,
         data: {
           token,
+          role: 'ADMIN',
           user: {
             id: 'admin',
             email: 'admin@gmail.com',
@@ -174,7 +176,48 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // Neither user found nor admin credentials match
+    // 3️⃣ Check Delivery Boy
+    const deliveryBoy = await DeliveryBoy.findOne({ email }).select('+password');
+    
+    if (deliveryBoy) {
+      // Verify password
+      if (!(await deliveryBoy.matchPassword(password))) {
+        return res.status(401).json({
+          success: false,
+          message: 'Invalid email or password',
+        });
+      }
+
+      // Check if active
+      if (!deliveryBoy.isActive) {
+        return res.status(401).json({
+          success: false,
+          message: 'Your account is inactive. Please contact admin.',
+        });
+      }
+
+      // Generate token with role
+      const token = generateAccessToken(deliveryBoy._id, 'DELIVERY_BOY');
+
+      return res.json({
+        success: true,
+        data: {
+          token,
+          role: 'DELIVERY_BOY',
+          user: {
+            id: deliveryBoy._id,
+            name: deliveryBoy.name,
+            email: deliveryBoy.email,
+            phone: deliveryBoy.phone,
+            role: 'DELIVERY_BOY',
+            status: deliveryBoy.status,
+            vehicleType: deliveryBoy.vehicleType,
+          },
+        },
+      });
+    }
+
+    // No match found
     return res.status(401).json({
       success: false,
       message: 'Invalid email or password',

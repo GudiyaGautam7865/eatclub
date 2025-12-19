@@ -41,3 +41,27 @@ export const sendPasswordResetEmail = async (email, otp) => {
 
   await transporter.sendMail(mailOptions);
 };
+
+export const sendDeliveryBoyCredentials = async (email, password, name) => {
+  const loginUrl = `${process.env.FRONTEND_URL || 'http://localhost:5173'}`;
+  
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Welcome to EatClub - Delivery Partner Credentials',
+    html: `
+      <h2>Welcome to EatClub, ${name}!</h2>
+      <p>You have been registered as a Delivery Partner. Please use the following credentials to login:</p>
+      <div style="background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 15px 0;">
+        <p style="margin: 5px 0;"><strong>Email:</strong> ${email}</p>
+        <p style="margin: 5px 0;"><strong>Password:</strong> ${password}</p>
+      </div>
+      <p><strong>Login URL:</strong> <a href="${loginUrl}">${loginUrl}</a></p>
+      <p style="color: #666; font-size: 14px;">Please change your password after first login for security.</p>
+      <hr style="margin: 20px 0;" />
+      <p style="color: #999; font-size: 12px;">If you did not request this account, please contact support immediately.</p>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+};
