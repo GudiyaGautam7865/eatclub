@@ -58,7 +58,7 @@ export default function TrackOrderPage() {
             {messages.map(m => (
               <div key={m.id} className={`msg ${m.sender}`}>
                 <div className="bubble">
-                  <div>{m.text}</div>
+                  <div>{m.text}</div> 
                   <small>{m.time}</small>
                 </div>
               </div>
