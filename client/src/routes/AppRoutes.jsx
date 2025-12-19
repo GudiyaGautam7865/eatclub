@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import ProfileLayout from "../layouts/ProfileLayout";
 import AdminLayout from "../layouts/AdminLayout";
+import DeliveryLayout from "../components/delivery/DeliveryLayout";
 
 // Pages
 import React from "react"; // or: import * as React from "react";
@@ -44,6 +45,13 @@ import CustomerDetailPage from "../pages/Admin/CustomerDetail/CustomerDetailPage
 
 // Admin Protected Route
 import AdminProtectedRoute from "../components/admin/AdminProtectedRoute";
+
+// Delivery Pages
+import DeliveryDashboard from "../pages/Delivery/DeliveryDashboard";
+import DeliveryOrders from "../pages/Delivery/DeliveryOrders";
+import OrderDetails from "../pages/Delivery/OrderDetails";
+import DeliveryEarnings from "../pages/Delivery/DeliveryEarnings";
+import DeliveryProfile from "../pages/Delivery/DeliveryProfile";
 
 
 function AppRoutes() {
@@ -112,6 +120,16 @@ function AppRoutes() {
 
         <Route path="messages" element={<MessagesPage />} />
         <Route path="customer-detail" element={<CustomerDetailPage />} />
+      </Route>
+
+      {/* Delivery layout routes */}
+      <Route path="/delivery" element={<DeliveryLayout />}>
+        <Route index element={<DeliveryDashboard />} />
+        <Route path="dashboard" element={<DeliveryDashboard />} />
+        <Route path="orders" element={<DeliveryOrders />} />
+        <Route path="orders/:orderId" element={<OrderDetails />} />
+        <Route path="earnings" element={<DeliveryEarnings />} />
+        <Route path="profile" element={<DeliveryProfile />} />
       </Route>
 
       {/* 404 */}

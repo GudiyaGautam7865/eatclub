@@ -1,0 +1,26 @@
+.addr-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;z-index:3000;padding:16px;}
+.addr-modal-card{background:#fff;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,0.12);width:420px;max-width:100%;padding:18px 18px 16px;display:flex;flex-direction:column;gap:12px;}
+.addr-modal-header{display:flex;justify-content:space-between;align-items:center;gap:12px;}
+.addr-modal-title{font-weight:700;font-size:18px;color:#111;}
+.addr-modal-actions{display:flex;align-items:center;gap:8px;}
+.addr-close{border:none;background:transparent;font-size:20px;cursor:pointer;line-height:1;color:#444;}
+.addr-delete{border:none;background:#fef2f2;color:#b91c1c;border-radius:10px;padding:6px 10px;font-size:16px;cursor:pointer;}
+.addr-delete:disabled{opacity:.6;cursor:not-allowed;}
+.addr-geo-btn{border:1px solid #111;border-radius:10px;padding:10px 12px;font-weight:600;background:#111;color:#fff;cursor:pointer;text-align:left;}
+.addr-geo-btn:disabled{opacity:.6;cursor:not-allowed;}
+.addr-field{display:flex;flex-direction:column;gap:6px;}
+.addr-field label{font-size:12px;color:#555;font-weight:600;}
+.addr-field textarea,.addr-field input{border:1px solid #ddd;border-radius:10px;padding:10px 12px;font-size:14px;outline:none;}
+.addr-field textarea:focus,.addr-field input:focus{border-color:#111;}
+.addr-row{display:flex;gap:10px;}
+.addr-row .half{flex:1;}
+.addr-chip-row{display:flex;gap:8px;}
+.addr-chip{flex:1;border:1px solid #ddd;border-radius:10px;padding:8px 10px;background:#fff;cursor:pointer;font-weight:600;color:#333;}
+.addr-chip.active{border:2px solid #111;background:#f6f6f6;}
+.addr-error{color:#c1121f;font-size:12px;padding:4px 0;}
+.addr-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:4px;}
+.addr-btn{border:none;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer;}
+.addr-btn.secondary{background:#f2f2f2;color:#333;}
+.addr-btn.primary{background:#111;color:#fff;}
+.addr-btn:disabled{opacity:.6;cursor:not-allowed;}
+@media (max-width:520px){.addr-modal-card{width:100%;}}

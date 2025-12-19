@@ -5,6 +5,7 @@ import { CartProvider } from "./context/CartContext";
 import { UserProvider } from "./context/UserContext";
 import { UiProvider } from "./context/UiContext";
 import { AddressProvider } from "./context/AddressContext";
+import { DeliveryProvider } from "./context/DeliveryContext";
 
 function App() {
   return (
@@ -12,7 +13,9 @@ function App() {
       <UserProvider>
         <AddressProvider>
           <CartProvider>
-            <AppRoutes />
+            <DeliveryProvider>
+              <AppRoutes />
+            </DeliveryProvider>
           </CartProvider>
         </AddressProvider>
       </UserProvider>
