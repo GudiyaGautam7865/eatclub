@@ -10,6 +10,7 @@ import routes from './routes/index.js';
 import authRoutes from './routes/authRoutes.js';
 import adminAuthRoutes from './routes/admin/adminAuthRoutes.js';
 import adminMenuRoutes from './routes/admin/adminMenuRoutes.js';
+import menuRoutes from './routes/menuRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import trackingRoutes from './routes/tracking.routes.js';
@@ -85,6 +86,7 @@ app.use('/api', routes);
 app.use('/api', authRoutes);
 app.use('/api/admin', adminAuthRoutes);
 app.use('/api/admin/menu', adminMenuRoutes);
+app.use('/api/menu', menuRoutes);
 app.use('/api/payment', paymentRoutes);
 
 

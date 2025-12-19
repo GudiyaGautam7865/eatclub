@@ -13,8 +13,7 @@ export const ProductCard = ({ item }) => {
       name: item.name,
       title: item.name,
       section: item.categoryName || 'Menu Item',
-      price: item.membershipPrice || item.price || 0,
-      oldPrice: item.price || item.membershipPrice || 0,
+      price: item.price || 0,
       imageUrl: item.imageUrl,
       isVeg: item.isVeg
     });
@@ -28,6 +27,14 @@ export const ProductCard = ({ item }) => {
     updateItemQuantity(item.id, quantity - 1);
   };
 
+  // Truncate description to 2-3 lines
+  const truncateDescription = (text, lines = 2) => {
+    if (!text) return '';
+    const lineArray = text.split('\n');
+    const truncated = lineArray.slice(0, lines).join(' ');
+    return truncated.length > 80 ? truncated.substring(0, 80) + '...' : truncated;
+  };
+
   return (
     <div className="item-card">
       {/* Image Area */}
@@ -38,8 +45,14 @@ export const ProductCard = ({ item }) => {
           className="item-image"
         />
         {item.isBestseller && (
-          <div className="item-badge">
+          <div className="item-badge bestseller-badge">
             Bestseller
+          </div>
+        )}
+        {/* Category Badge */}
+        {item.categoryName && (
+          <div className="item-badge category-badge">
+            {item.categoryName}
           </div>
         )}
       </div>
@@ -54,57 +67,43 @@ export const ProductCard = ({ item }) => {
           <h3 className="item-name">{item.name}</h3>
         </div>
 
-        <p className="item-description">
-          {item.description}
+        {/* Description */}
+        <p className="item-description" title={item.description}>
+          {truncateDescription(item.description)}
         </p>
 
-        <div className="item-action">
-          {/* Price and Add Button Row */}
-          <div className="item-footer">
-            <div className="item-info">
-              <span className="item-rating">
-                <span className="rating-star">★</span>
-                <span className="rating-value">{item.rating || 4.5}</span>
-              </span>
-            </div>
-            
-            {quantity === 0 ? (
-              <button className="add-btn" onClick={handleAddToCart}>
-                ADD +
-              </button>
-            ) : (
-              <div className="qty-control">
-                <button 
-                  className="qty-btn qty-btn-minus" 
-                  onClick={handleDecrement}
-                  aria-label="Decrease quantity"
-                >
-                  −
-                </button>
-                <span className="qty-value">{quantity}</span>
-                <button 
-                  className="qty-btn qty-btn-plus" 
-                  onClick={handleIncrement}
-                  aria-label="Increase quantity"
-                >
-                  +
-                </button>
-              </div>
-            )}
-          </div>
+        {/* Price Section */}
+        <div className="item-price-section">
+          <span className="item-price">₹{item.price}</span>
+          <span className="item-rating">
+            <span className="rating-star">★</span>
+            <span className="rating-value">{item.rating || 4.5}</span>
+          </span>
+        </div>
 
-          {/* Membership Price Banner */}
-          {item.membershipPrice && (
-            <div className="price-tag">
-              <span>₹ {item.membershipPrice}</span>
-              <span>with</span>
-              {/* EatClub Mini Logo Block */}
-              <div className="price-badge">
-                <span className="text-[7px] font-bold tracking-wider">EAT</span>
-                <span className="text-[7px] font-bold tracking-wider">CLUB</span>
-              </div>
-              <span>membership</span>
-              <Info size={12} />
+        {/* Action Section */}
+        <div className="item-action">
+          {quantity === 0 ? (
+            <button className="add-btn" onClick={handleAddToCart}>
+              ADD +
+            </button>
+          ) : (
+            <div className="qty-control">
+              <button 
+                className="qty-btn qty-btn-minus" 
+                onClick={handleDecrement}
+                aria-label="Decrease quantity"
+              >
+                −
+              </button>
+              <span className="qty-value">{quantity}</span>
+              <button 
+                className="qty-btn qty-btn-plus" 
+                onClick={handleIncrement}
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
             </div>
           )}
         </div>

@@ -133,3 +133,15 @@
 .cancel-btn:hover {
   background: #e2e8f0;
 }
+
+.image-preview-modal {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.image-preview-modal img {
+  max-width: 150px;
+  max-height: 150px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}

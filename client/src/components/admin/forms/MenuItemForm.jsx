@@ -2,6 +2,24 @@ import React, { useState, useEffect } from 'react';
 import { adminMenuService } from '../../../services/adminMenuService';
 import './MenuItemForm.css';
 
+// Map productId to brandId for database storage
+const PRODUCT_BRAND_MAP = {
+  'box8': '3',
+  'behrouz': 'B1',
+  'faasos': 'F1',
+  'ovenstory': 'O1',
+  'mandarin-oak': 'M1',
+  'lunchbox': 'L1',
+  'sweet-truth': 'S1',
+  'the-good-bowl': 'G1',
+  'wow-china': 'W1',
+  'wow-momo': 'W2',
+  'fresh-menu': 'FR1',
+  'firangi-bake': 'FI1',
+  'kettle-curry': 'K1',
+  'biryani-blues': 'BB1',
+};
+
 export default function MenuItemForm({ onSubmit }) {
   const [formData, setFormData] = useState({
     name: '',
@@ -10,9 +28,10 @@ export default function MenuItemForm({ onSubmit }) {
     restaurantId: '',
     price: '',
     isVeg: true,
-    imageUrl: ''
+    image: null
   });
   
+  const [imagePreview, setImagePreview] = useState(null);
   const [categories, setCategories] = useState([]);
   const [restaurants, setRestaurants] = useState([]);
 
@@ -52,28 +71,48 @@ export default function MenuItemForm({ onSubmit }) {
     }));
   };
 
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({
+        ...prev,
+        image: file
+      }));
+      // Show preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    // Prepare data for submission with names required by backend
-    const selectedRestaurant = restaurants.find(r => r._id === formData.restaurantId);
+    // Prepare FormData for submission
+    const selectedRestaurant = restaurants.find(r => r.id === formData.restaurantId);
     const selectedCategory = categories.find(c => c._id === formData.category);
 
-    const DEFAULT_IMAGE_URL = 'https://assets.box8.co.in/rectangle-19x10/xhdpi/product/3810';
+    // Map productId to brandId for database storage
+    const brandId = PRODUCT_BRAND_MAP[selectedRestaurant?.id] || selectedRestaurant?.id;
 
-    const submitData = {
-      brandId: selectedRestaurant?._id || formData.restaurantId,
-      brandName: selectedRestaurant?.name,
-      categoryId: selectedCategory?._id || formData.category,
-      categoryName: selectedCategory?.name,
-      name: formData.name,
-      description: formData.description,
-      price: parseFloat(formData.price),
-      isVeg: formData.isVeg,
-      imageUrl: formData.imageUrl || DEFAULT_IMAGE_URL
-    };
+    const submitFormData = new FormData();
+    submitFormData.append('brandId', brandId);
+    submitFormData.append('brandName', selectedRestaurant?.name);
+    submitFormData.append('categoryId', selectedCategory?._id || formData.category);
+    submitFormData.append('categoryName', selectedCategory?.name);
+    submitFormData.append('name', formData.name);
+    submitFormData.append('description', formData.description);
+    submitFormData.append('price', parseFloat(formData.price));
+    submitFormData.append('isVeg', formData.isVeg);
+    
+    // Only append image if one was selected
+    if (formData.image) {
+      submitFormData.append('image', formData.image);
+    }
 
-    onSubmit(submitData);
+    onSubmit(submitFormData);
     
     // Reset form
     setFormData({
@@ -83,8 +122,9 @@ export default function MenuItemForm({ onSubmit }) {
       restaurantId: '',
       price: '',
       isVeg: true,
-      imageUrl: ''
+      image: null
     });
+    setImagePreview(null);
     setCategories([]);
   };
 
@@ -122,7 +162,7 @@ export default function MenuItemForm({ onSubmit }) {
           >
             <option value="">Select Restaurant</option>
             {restaurants.map(restaurant => (
-              <option key={restaurant._id} value={restaurant._id}>
+              <option key={restaurant.id} value={restaurant.id}>
                 {restaurant.name}
               </option>
             ))}
@@ -173,14 +213,18 @@ export default function MenuItemForm({ onSubmit }) {
       </div>
 
       <div className="form-group">
-        <label>Image URL (optional)</label>
+        <label>Image</label>
         <input
-          type="url"
-          name="imageUrl"
-          value={formData.imageUrl}
-          onChange={handleChange}
-          placeholder="https://example.com/image.jpg (defaults if empty)"
+          type="file"
+          name="image"
+          accept=".jpg,.jpeg,.png,.webp"
+          onChange={handleImageChange}
         />
+        {imagePreview && (
+          <div className="image-preview">
+            <img src={imagePreview} alt="Preview" />
+          </div>
+        )}
       </div>
 
       <button type="submit" className="submit-btn">

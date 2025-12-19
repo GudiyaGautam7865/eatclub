@@ -61,52 +61,102 @@
 
 .menu-filters {
   display: flex;
-  flex-wrap: wrap;
   gap: 16px;
   margin-bottom: 32px;
   align-items: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  justify-content: flex-start !important; /* enforce left alignment */
 }
 
 @media (min-width: 768px) {
   .menu-filters {
-    justify-content: space-between;
+    justify-content: flex-start;
+  }
+
+  /* Keep search pinned to the right */
+  .search-wrapper {
+    margin-left: auto;
   }
 }
 
 .filter-group {
   display: flex;
-  gap: 12px;
+  flex-direction: row;
   align-items: center;
+  gap: 12px;
   overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex: 0 0 auto; /* size to content so it stays flush left */
+  min-width: 0;
+  padding-left: 0; /* ensure scroller starts at left edge */
+  margin-left: 0;
+  margin-right: auto; /* keep filters flushed to left and push search to right */
+  justify-content: flex-start !important;
+}
+
+.filter-group::-webkit-scrollbar {
+  display: none;
 }
 
 .filter-item {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  border: 1px solid #e0e0e0;
-  background-color: #fff;
-  padding: 6px 12px;
-  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 20px;
   font-size: 14px;
-  transition: all 0.3s ease;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  min-height: 40px;
+  color: #4a5568;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  flex: 0 0 auto;
   white-space: nowrap;
 }
 
 .filter-item:hover {
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #f7fafc;
+  border-color: #cbd5e0;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.filter-item:active {
+  transform: translateY(0);
+}
+
+/* Active states for checkbox filters */
+label.filter-item:has(input:checked) {
+  background-color: #667eea;
+  border-color: #667eea;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+label.filter-item:has(input:checked):hover {
+  background-color: #5a67d8;
+  border-color: #5a67d8;
+  transform: translateY(-1px);
 }
 
 .filter-checkbox-box {
-  width: 16px;
-  height: 16px;
+  display:flex;
+  width: 14px;
+  height: 14px;
   border: 2px solid;
   border-radius: 2px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: all 0.2s ease;
 }
 
 .filter-checkbox-box.green {
@@ -117,10 +167,17 @@
   border-color: #ef4444;
 }
 
+/* When parent filter-item is active (checked), make checkbox white */
+label.filter-item:has(input:checked) .filter-checkbox-box {
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
 .filter-checkbox-indicator {
-  width: 12px;
-  height: 12px;
+  display:flex;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
+  transition: all 0.2s ease;
 }
 
 .filter-checkbox-indicator.green {
@@ -131,15 +188,142 @@
   background-color: #ef4444;
 }
 
+/* When parent is active, make indicator white */
+label.filter-item:has(input:checked) .filter-checkbox-indicator {
+  background-color: #ffffff;
+}
+
+/* Button-type filters (Bestseller, Chef's Special) */
+button.filter-item {
+  display:flex;
+  position: relative;
+  overflow: hidden;
+}
+
+button.filter-item:hover {
+  background-color: #f7fafc;
+  border-color: #cbd5e0;
+}
+
+/* Bestseller filter styling */
+button.filter-item:has([style*="#eab308"]) {
+  display:flex;
+  border-color: #fbbf24;
+  color: #92400e;
+}
+
+button.filter-item:has([style*="#eab308"]):hover {
+  display:flex;
+  background-color: #fef3c7;
+  border-color: #f59e0b;
+}
+
+/* Chef's Special filter styling */
+button.filter-item:has([style*="#3b82f6"]) {
+  border-color: #60a5fa;
+  display:flex;
+  color: #1e40af;
+}
+
+button.filter-item:has([style*="#3b82f6"]):hover {
+  background-color: #dbeafe;
+  display:flex;
+  border-color: #3b82f6;
+}
+
+/* Mobile responsiveness for filters */
+@media (max-width: 768px) {
+  .menu-filters {
+    display:flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+  
+  .filter-group {
+    display:flex;
+    gap: 8px;
+  }
+  
+  .filter-item {
+    display:flex;
+    padding: 8px 14px;
+    font-size: 13px;
+    min-height: 36px;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .filter-item {
+    display:flex;
+    padding: 6px 12px;
+    font-size: 12px;
+    min-height: 32px;
+    gap: 6px;
+  }
+  
+  .filter-checkbox-box {
+    display:flex;
+    width: 12px;
+    height: 12px;
+  }
+  
+  .filter-checkbox-indicator {
+    display:flex;
+    width: 6px;
+    height: 6px;
+  }
+}
+
+/* Ensure search stays a fixed width and doesn't cause the filters to center */
 .search-wrapper {
   position: relative;
   width: 100%;
+  flex: 0 0 auto;
+  max-width: 100%;
 }
 
 @media (min-width: 768px) {
   .search-wrapper {
     width: 256px;
+    flex: 0 0 256px;
   }
+}
+
+/* Strong, scoped overrides to prevent unexpected centering from duplicate styles */
+.menu-main > .menu-filters {
+  flex-direction: row !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  text-align: left !important;
+}
+
+.menu-main .filter-group {
+  flex-direction: row !important;
+  margin-left: 0 !important;
+  margin-right: auto !important;
+  padding-left: 0 !important;
+  justify-content: flex-start !important;
+  white-space: nowrap !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  flex: 0 0 auto !important;
+}
+
+/* Force each filter item to be inline and prevent it stretching to full width */
+.menu-main .filter-group .filter-item,
+.menu-main .filter-group label.filter-item,
+.menu-main .filter-group button.filter-item {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  width: auto !important;
+  white-space: nowrap !important;
+  align-items: center !important;
+}
+
+.menu-main .search-wrapper {
+  margin-left: auto !important;
+  flex: 0 0 auto !important;
 }
 
 .search-input {

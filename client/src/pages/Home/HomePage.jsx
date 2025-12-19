@@ -5,7 +5,7 @@ import OffersPage from "../../components/home/OffersPage";
 import CategorySlider from "../../components/home/CategorySlider";
 import Restaurant from "../../components/home/Restaurant";
 import Footer from "../../components/layout/Footer/Footer";
-import { restaurantToProductMapping } from "../../services/restaurantMapping";
+// Product IDs now come directly from API-loaded cards
 
 // This is a placeholder component for a single offer card
 const OfferCard = ({ title, price, imageUrl, className = "", label = null }) => (
@@ -27,7 +27,7 @@ function HomePage() {
   const [headerVisible, setHeaderVisible] = useState(false);
 
   const handleRestaurantClick = (restaurant) => {
-    const productId = restaurantToProductMapping[restaurant.name];
+    const productId = restaurant.id; // already normalized from API
     if (productId) {
       navigate(`/menu?restaurant=${productId}`);
       setTimeout(() => window.scrollTo(0, 0), 100);

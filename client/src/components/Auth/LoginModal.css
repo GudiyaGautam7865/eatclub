@@ -12,7 +12,7 @@
   overflow-y: auto;
 }
 
-.login-modal, .signup-modal {
+.login-modal {
   background: white;
   border-radius: 12px;
   width: 420px;
@@ -60,9 +60,8 @@
   text-align: center;
 }
 
-.login-form, .signup-form {
+.login-form {
   margin-bottom: 20px;
-  
 }
 
 .form-group {
@@ -114,7 +113,7 @@
   border: 1px solid #fecaca;
 }
 
-.login-btn, .signup-btn {
+.login-btn {
   width: 100%;
   background-color: #00d0e3;
   color: white;
@@ -127,11 +126,11 @@
   transition: background-color 0.2s;
 }
 
-.login-btn:hover:not(:disabled), .signup-btn:hover:not(:disabled) {
+.login-btn:hover:not(:disabled) {
   background-color: #00a8c1;
 }
 
-.login-btn:disabled, .signup-btn:disabled {
+.login-btn:disabled {
   background-color: #9ca3af;
   cursor: not-allowed;
 }
@@ -213,27 +212,10 @@
   text-decoration: underline;
 }
 
-.signup-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
 
-.terms-text {
-  color: #6b7280;
-  font-size: 12px;
-  margin: 16px 0 0 0;
-  line-height: 1.5;
-}
-
-.terms-link {
-  color: #00d0e3;
-  text-decoration: none;
-}
 
 @media (max-width: 480px) {
-  .login-modal, .signup-modal {
+  .login-modal {
     width: 95vw;
     margin: 16px;
   }

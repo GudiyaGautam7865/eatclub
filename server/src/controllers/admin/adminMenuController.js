@@ -1,4 +1,5 @@
 import MenuItem from '../../models/MenuItem.js';
+import Category from '../../models/Category.js';
 
 /**
  * Create a new menu item
@@ -17,7 +18,6 @@ export const createMenuItem = async (req, res) => {
       price,
       membershipPrice,
       isVeg,
-      imageUrl,
     } = req.body;
 
     // Validate required fields
@@ -28,11 +28,30 @@ export const createMenuItem = async (req, res) => {
       });
     }
 
+    // Get image URL from Cloudinary upload
+    const imageUrl = req.file ? req.file.path : null;
+
+    // Debug logging
+    console.log('req.file:', req.file);
+    console.log('imageUrl:', imageUrl);
+
+    // Get categorySourceId from Category by _id
+    let categorySourceId = '';
+    try {
+      const category = await Category.findById(categoryId);
+      if (category) {
+        categorySourceId = category.sourceId;
+      }
+    } catch (err) {
+      console.warn('Could not fetch categorySourceId:', err.message);
+    }
+
     // Create menu item
     const menuItem = await MenuItem.create({
       brandId,
       brandName,
       categoryId,
+      categorySourceId,
       categoryName,
       name,
       description,
@@ -121,6 +140,11 @@ export const updateMenuItem = async (req, res) => {
   try {
     const { id } = req.params;           // mongo objectId
     const updates = req.body;            // expect updated fields in request body
+
+    // If new image is uploaded, use its Cloudinary URL
+    if (req.file) {
+      updates.imageUrl = req.file.path;
+    }
 
     // Optional: whitelist fields you allow to update
     const allowed = ['name','description','price','membershipPrice','isVeg','imageUrl','isAvailable','brandId','categoryId','brandName','categoryName'];
