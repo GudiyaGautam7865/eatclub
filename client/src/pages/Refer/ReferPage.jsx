@@ -6,8 +6,10 @@ export default function ReferPage() {
     <main className="refer-page">
       <section className="refer-hero">
         <div className="refer-left">
-          <video className="refer-video" controls>
-            <source src="/menus/videoframe_1281.mp4" type="video/mp4" />
+          <video className="refer-video" controls preload="metadata">
+            <source src="/data/menus/videoframe_1281.mp4" type="video/mp4" />
+            {/* Fallback content for browsers that don't support <video> */}
+            Your browser does not support the video tag. You can <a href="/data/menus/videoframe_1281.mp4">download the video</a> instead.
           </video>
         </div>
         <div className="refer-right">
