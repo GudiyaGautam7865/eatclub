@@ -445,7 +445,7 @@
     margin-top: var(--ec-spacing-md);
     background-color: var(--ec-bg-white);
     border: 1px solid var(--ec-border);
-    box-shadow: var(--ec-shadow-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: var(--ec-spacing-sm) 0;
     border-radius: 8px;
     min-width: 180px;
@@ -471,6 +471,14 @@
     font-weight: 600 !important;
 }
 
+.ec-deals-menu .ec-deals-item:hover {
+    background-color: var(--ec-bg-light) !important;
+    color: var(--ec-text-dark) !important;
+    text-shadow: none !important;
+    transform: translateX(4px) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
 .ec-deals-item {
     display: block;
     padding: var(--ec-spacing-md) var(--ec-spacing-lg);
@@ -485,8 +493,8 @@
 }
 
 .ec-deals-item:hover {
-    background-color: var(--ec-primary-light);
-    color: var(--ec-primary-dark);
+    background-color: var(--ec-bg-light);
+    color: var(--ec-text-dark);
     text-shadow: none;
     transform: translateX(4px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -786,7 +794,7 @@
     min-width: 200px;
     z-index: var(--ec-z-dropdown);
     animation: slideDownSmooth 200ms cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: none !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
     /* Ensure items stack vertically */
     display: flex;
@@ -814,8 +822,8 @@
 }
 
 .ec-profile-item:hover {
-    background-color: var(--ec-primary-light);
-    color: var(--ec-primary-dark) !important;
+    background-color: var(--ec-bg-light);
+    color: var(--ec-text-dark) !important;
     transform: translateX(4px);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
