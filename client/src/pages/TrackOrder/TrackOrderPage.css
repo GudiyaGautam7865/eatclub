@@ -53,6 +53,41 @@
 .map {
   width: 100%;
   height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.map-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-placeholder-content {
+  text-align: center;
+  color: white;
+}
+
+.map-icon {
+  font-size: 4rem;
+  display: block;
+  margin-bottom: 1rem;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.map-placeholder-content p {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+}
+
+.map-placeholder-content small {
+  font-size: 0.9rem;
+  opacity: 0.9;
 }
 
 /* Bottom Sheet for Mobile */
@@ -110,6 +145,33 @@
   font-size: 0.9rem;
 }
 
+.status-text .substatus {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #8b5cf6;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.delivery-progress {
+  margin-top: 0.75rem;
+}
+
+.progress-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
 /* Delivery Boy Card */
 .delivery-boy-card {
   background: #fff;
@@ -143,6 +205,13 @@
 
 .delivery-boy-details h4 {
   margin: 0 0 0.25rem 0;
+}
+
+.delivery-boy-details .driver-status {
+  color: #8b5cf6;
+  font-weight: 500;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
   font-size: 1rem;
   font-weight: 600;
 }
@@ -164,9 +233,8 @@
 }
 
 .call-btn {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  padding: 0.75rem 1.25rem;
+  border-radius: 8px;
   background: #4caf50;
   border: none;
   color: white;
@@ -174,10 +242,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  margin: 0;
-  font-size: 18px;
-  line-height: 1;
+  gap: 0.5rem;
+  font-size: 14px;
+  font-weight: 600;
   transition: all 0.2s ease;
   box-shadow: 0 2px 8px rgba(76, 175, 80, 0.25);
 }
@@ -194,6 +261,7 @@
   border-radius: 12px;
   padding: 1rem;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
 }
 
 .order-items-card h4 {
@@ -204,6 +272,56 @@
 
 .items-list {
   margin-bottom: 1rem;
+}
+
+/* Status History Card */
+.history-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+}
+
+.history-card h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.history-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-card li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.history-card li:last-child {
+  border-bottom: none;
+}
+
+.history-time {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+.history-text {
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.history-note {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
 }
 
 .order-item {

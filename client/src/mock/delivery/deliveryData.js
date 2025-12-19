@@ -120,8 +120,9 @@ export const earnings = {
 };
 
 export const orderStatuses = {
+  available: { label: '🚀 Available', color: '#00bcd4', bgColor: '#e0f7fa' },
   assigned: { label: 'Assigned', color: '#ff9800', bgColor: '#fff3e0' },
-  picked: { label: 'Picked Up', color: '#2196f3', bgColor: '#e3f2fd' },
+  picked_up: { label: 'Picked Up', color: '#2196f3', bgColor: '#e3f2fd' },
   on_the_way: { label: 'On the Way', color: '#9c27b0', bgColor: '#f3e5f5' },
   delivered: { label: 'Delivered', color: '#4caf50', bgColor: '#e8f5e8' },
   cancelled: { label: 'Cancelled', color: '#f44336', bgColor: '#ffebee' }

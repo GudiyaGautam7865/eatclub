@@ -81,10 +81,27 @@ export const clearOrders = () => {
   ordersStore = [];
 };
 
+/**
+ * Get tracking details for an order
+ * @param {string} orderId
+ */
+export const getOrderTracking = async (orderId) => {
+  try {
+    const response = await apiClient(`/orders/${orderId}/tracking`, {
+      method: 'GET',
+    });
+    return response.data || response;
+  } catch (error) {
+    console.error('Get order tracking error:', error);
+    throw error;
+  }
+};
+
 export default {
   createOrderFromCart,
   getMyOrders,
   getOrders,
   addOrder,
   clearOrders,
+  getOrderTracking,
 };

@@ -52,6 +52,28 @@ export async function updateOrderStatus(orderId, status) {
 }
 
 /**
+ * Assign delivery partner to an order (admin)
+ * @param {String} orderId
+ * @param {Object} driver - { name, phone, vehicleNumber }
+ */
+export async function assignDelivery(orderId, driver) {
+  try {
+    const response = await apiClient(`/tracking/orders/${orderId}/assign-delivery`, {
+      method: 'POST',
+      body: JSON.stringify({
+        driverName: driver.name,
+        driverPhone: driver.phone,
+        driverVehicleNumber: driver.vehicleNumber,
+      }),
+    });
+    return response.data || response;
+  } catch (error) {
+    console.error('Assign delivery error:', error);
+    throw error;
+  }
+}
+
+/**
  * Update bulk order status (admin)
  * @param {String} orderId - Bulk order ID
  * @param {String} status - New status

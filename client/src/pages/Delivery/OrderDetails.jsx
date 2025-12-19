@@ -22,7 +22,8 @@ const OrderDetails = () => {
     );
   }
   
-  const statusInfo = orderStatuses[order.status];
+  const statusKey = order.status === 'picked_up' ? 'picked_up' : order.status;
+  const statusInfo = orderStatuses[statusKey];
   
   const handleStatusUpdate = (newStatus) => {
     updateOrderStatus(order.id, newStatus);
@@ -30,8 +31,8 @@ const OrderDetails = () => {
   
   const getNextStatus = () => {
     switch (order.status) {
-      case 'assigned': return 'picked';
-      case 'picked': return 'on_the_way';
+      case 'assigned': return 'picked_up';
+      case 'picked_up': return 'on_the_way';
       case 'on_the_way': return 'delivered';
       default: return null;
     }
@@ -40,7 +41,7 @@ const OrderDetails = () => {
   const getNextStatusLabel = () => {
     switch (order.status) {
       case 'assigned': return 'Mark as Picked Up';
-      case 'picked': return 'Start Delivery';
+      case 'picked_up': return 'Start Delivery';
       case 'on_the_way': return 'Mark as Delivered';
       default: return null;
     }

@@ -4,12 +4,13 @@ import './OrdersTable.css';
 export default function OrdersTable({ orders, onRowClick }) {
   const getStatusColor = (status) => {
     const colors = {
-      placed: '#3b82f6',
-      preparing: '#f59e0b',
-      completed: '#10b981',
-      cancelled: '#ef4444',
-      pending: '#6b7280',
-      confirmed: '#8b5cf6'
+      PLACED: '#3b82f6',
+      PAID: '#2563eb',
+      PREPARING: '#f59e0b',
+      READY_FOR_PICKUP: '#14b8a6',
+      OUT_FOR_DELIVERY: '#8b5cf6',
+      DELIVERED: '#10b981',
+      CANCELLED: '#ef4444',
     };
     return colors[status] || '#6b7280';
   };
