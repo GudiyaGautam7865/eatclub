@@ -47,6 +47,12 @@
   text-transform: uppercase;
 }
 
+.order-status-badge.assigned { background: #fbbf24; color: #78350f; }
+.order-status-badge.picked_up { background: #38bdf8; color: #0b4f6c; }
+.order-status-badge.on_the_way { background: #c4b5fd; color: #5b21b6; }
+.order-status-badge.delivered { background: #34d399; color: #065f46; }
+.order-status-badge.cancelled { background: #e5e7eb; color: #4b5563; }
+
 .order-details-content {
   display: grid;
   grid-template-columns: 2fr 1fr;

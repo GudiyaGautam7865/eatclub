@@ -22,6 +22,7 @@ export default function OrderCard({ order }) {
     id,
     restaurantName,
     status,
+    deliveryStatus,
     totalAmount,
     itemSummary,
     placedAt,
@@ -56,6 +57,9 @@ export default function OrderCard({ order }) {
         <p className="order-card-items">{itemSummary}</p>
         <p className="order-card-id">Order ID: {id}</p>
         <p className="order-card-date">{dateTimeString}</p>
+        {status === 'OUT_FOR_DELIVERY' && deliveryStatus && (
+          <p className="order-card-substatus">Delivery status: {deliveryStatus.replace(/_/g, ' ')}</p>
+        )}
         <p className="order-card-address">{addressShort}</p>
       </div>
 

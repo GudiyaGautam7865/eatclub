@@ -35,7 +35,7 @@ export default function OrdersPage() {
           orderDate: order.createdAt || order.orderDate || order.date || null,
           totalAmount: order.total ?? order.amount ?? 0,
           items: Array.isArray(order.items) ? order.items : (order.itemsList || []),
-          status: (order.status || '').toLowerCase(),
+          status: (order.status || '').toUpperCase(),
           raw: order,
         };
       };

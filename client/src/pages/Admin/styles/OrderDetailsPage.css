@@ -2,6 +2,13 @@
   padding: 20px;
 }
 
+.order-details-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
 .back-button {
   background: white;
   border: 1px solid #e5e7eb;
@@ -9,12 +16,31 @@
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-  margin-bottom: 20px;
   transition: all 0.2s;
 }
 
 .back-button:hover {
   background: #f9fafb;
+}
+
+.refresh-button {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.refresh-button:hover {
+  background: #2563eb;
+}
+
+.refresh-button:active {
+  transform: scale(0.95);
 }
 
 .order-details-header {
@@ -31,12 +57,37 @@
   margin: 0 0 8px 0;
 }
 
+.status-badges {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .order-status-badge {
   padding: 8px 20px;
   border-radius: 20px;
   color: white;
   font-size: 14px;
   font-weight: 600;
+}
+
+.order-status-badge.placed { background: #3b82f6; }
+.order-status-badge.paid { background: #2563eb; }
+.order-status-badge.preparing { background: #f59e0b; }
+.order-status-badge.ready_for_pickup { background: #14b8a6; }
+.order-status-badge.out_for_delivery { background: #8b5cf6; }
+.order-status-badge.delivered { background: #10b981; }
+.order-status-badge.cancelled { background: #ef4444; }
+
+.delivery-status-badge {
+  padding: 6px 16px;
+  border-radius: 16px;
+  background: #f3e8ff;
+  color: #6b21a8;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .order-details-grid {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { orderStatuses } from '../../mock/delivery/deliveryData';
 import { useDelivery } from '../../context/DeliveryContext';
@@ -7,12 +7,21 @@ import './OrderCard.css';
 const OrderCard = ({ order }) => {
   const navigate = useNavigate();
   const { acceptOrder, rejectOrder, updateOrderStatus } = useDelivery();
+  const [updating, setUpdating] = useState(false);
   
-  const statusInfo = orderStatuses[order.status];
+  // Check if order is available (not yet assigned to driver)
+  const isAvailable = order.status === 'available' || !order.driverId;
+  const statusKey = order.status === 'picked_up' ? 'picked_up' : order.status;
+  const statusInfo = orderStatuses[statusKey] || { label: order.status, color: '#555', bgColor: '#eee' };
   
-  const handleAccept = (e) => {
+  const handleAccept = async (e) => {
     e.stopPropagation();
-    acceptOrder(order.id);
+    setUpdating(true);
+    try {
+      await acceptOrder(order.id);
+    } finally {
+      setUpdating(false);
+    }
   };
   
   const handleReject = (e) => {
@@ -20,9 +29,14 @@ const OrderCard = ({ order }) => {
     rejectOrder(order.id);
   };
   
-  const handleStatusUpdate = (e, newStatus) => {
+  const handleStatusUpdate = async (e, newStatus) => {
     e.stopPropagation();
-    updateOrderStatus(order.id, newStatus);
+    setUpdating(true);
+    try {
+      await updateOrderStatus(order.id, newStatus);
+    } finally {
+      setUpdating(false);
+    }
   };
   
   const handleCardClick = () => {
@@ -31,8 +45,8 @@ const OrderCard = ({ order }) => {
   
   const getNextStatus = () => {
     switch (order.status) {
-      case 'assigned': return 'picked';
-      case 'picked': return 'on_the_way';
+      case 'assigned': return 'picked_up';
+      case 'picked_up': return 'on_the_way';
       case 'on_the_way': return 'delivered';
       default: return null;
     }
@@ -41,7 +55,7 @@ const OrderCard = ({ order }) => {
   const getNextStatusLabel = () => {
     switch (order.status) {
       case 'assigned': return 'Mark as Picked';
-      case 'picked': return 'Start Delivery';
+      case 'picked_up': return 'Start Delivery';
       case 'on_the_way': return 'Mark Delivered';
       default: return null;
     }
@@ -97,29 +111,33 @@ const OrderCard = ({ order }) => {
       </div>
       
       <div className="order-actions">
-        {order.status === 'assigned' && (
-          <>
-            <button 
-              className="btn-reject"
-              onClick={handleReject}
-            >
-              Reject
-            </button>
-            <button 
-              className="btn-accept"
-              onClick={handleAccept}
-            >
-              Accept
-            </button>
-          </>
+        {isAvailable && (
+          <button 
+            className="btn-accept"
+            onClick={handleAccept}
+            disabled={updating}
+          >
+            {updating ? 'Accepting...' : '🚀 Accept Order'}
+          </button>
         )}
         
-        {order.status !== 'assigned' && order.status !== 'delivered' && getNextStatus() && (
+        {!isAvailable && order.status === 'assigned' && (
           <button 
             className="btn-update-status"
             onClick={(e) => handleStatusUpdate(e, getNextStatus())}
+            disabled={updating}
           >
-            {getNextStatusLabel()}
+            {updating ? 'Updating...' : getNextStatusLabel()}
+          </button>
+        )}
+        
+        {!isAvailable && order.status !== 'assigned' && order.status !== 'delivered' && getNextStatus() && (
+          <button 
+            className="btn-update-status"
+            onClick={(e) => handleStatusUpdate(e, getNextStatus())}
+            disabled={updating}
+          >
+            {updating ? 'Updating...' : getNextStatusLabel()}
           </button>
         )}
         

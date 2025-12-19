@@ -30,12 +30,13 @@ export default function OrdersFilterBar({ onFilter }) {
         <label>Status</label>
         <select value={filters.status} onChange={(e) => handleChange('status', e.target.value)}>
           <option value="all">All Status</option>
-          <option value="placed">Placed</option>
-          <option value="preparing">Preparing</option>
-          <option value="completed">Completed</option>
-          <option value="cancelled">Cancelled</option>
-          <option value="pending">Pending</option>
-          <option value="confirmed">Confirmed</option>
+          <option value="PLACED">Placed</option>
+          <option value="PAID">Paid</option>
+          <option value="PREPARING">Preparing</option>
+          <option value="READY_FOR_PICKUP">Ready for Pickup</option>
+          <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+          <option value="DELIVERED">Delivered</option>
+          <option value="CANCELLED">Cancelled</option>
         </select>
       </div>
 

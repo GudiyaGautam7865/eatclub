@@ -45,6 +45,7 @@ export default function ManageOrdersPage() {
       id: o._id || o.id,
       restaurantName: 'EatClub',
       status: statusNormalized,
+      deliveryStatus: (o.deliveryStatus || '').toUpperCase(),
       totalAmount: o.total,
       itemSummary,
       placedAt: o.createdAt,
@@ -77,7 +78,7 @@ export default function ManageOrdersPage() {
   }, []);
 
   // Filter orders
-  const ongoingStatuses = ['PLACED', 'PAID', 'PREPARING', 'OUT_FOR_DELIVERY'];
+  const ongoingStatuses = ['PLACED', 'PAID', 'PREPARING', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY'];
   const ongoingOrders = orders.filter((order) =>
     ongoingStatuses.includes(order.status)
   );

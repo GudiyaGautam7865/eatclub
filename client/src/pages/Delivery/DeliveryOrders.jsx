@@ -1,39 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OrderCard from '../../components/delivery/OrderCard';
+import { useDelivery } from '../../context/DeliveryContext';
 import './DeliveryOrders.css';
 
 const DeliveryOrders = () => {
   const navigate = useNavigate();
-  const [ordersList, setOrdersList] = useState([
-    {
-      id: 'ORD-1234',
-      status: 'assigned',
-      customerName: 'John Doe',
-      address: '123 Main St, Bangalore',
-      amount: 450,
-      items: 3,
-      distance: '2.5 km',
-    },
-    {
-      id: 'ORD-1235',
-      status: 'picked',
-      customerName: 'Jane Smith',
-      address: '456 Park Ave, Bangalore',
-      amount: 650,
-      items: 5,
-      distance: '3.1 km',
-    },
-    {
-      id: 'ORD-1236',
-      status: 'delivered',
-      customerName: 'Bob Wilson',
-      address: '789 Lake Rd, Bangalore',
-      amount: 300,
-      items: 2,
-      distance: '1.8 km',
-    },
-  ]);
+  const { ordersList } = useDelivery();
   const [filter, setFilter] = useState('all');
 
   useEffect(() => {
@@ -51,21 +24,23 @@ const DeliveryOrders = () => {
 
   const filteredOrders = ordersList.filter(order => {
     if (filter === 'all') return true;
-    if (filter === 'pending') return ['assigned', 'picked', 'on_the_way'].includes(order.status);
+    if (filter === 'available') return order.status === 'available';
+    if (filter === 'pending') return ['assigned', 'picked_up', 'on_the_way'].includes(order.status);
     if (filter === 'completed') return order.status === 'delivered';
     return order.status === filter;
   });
 
   const getFilterCount = (filterType) => {
     if (filterType === 'all') return ordersList.length;
-    if (filterType === 'pending') return ordersList.filter(o => ['assigned', 'picked', 'on_the_way'].includes(o.status)).length;
+    if (filterType === 'available') return ordersList.filter(o => o.status === 'available').length;
+    if (filterType === 'pending') return ordersList.filter(o => ['assigned', 'picked_up', 'on_the_way'].includes(o.status)).length;
     if (filterType === 'completed') return ordersList.filter(o => o.status === 'delivered').length;
     return ordersList.filter(o => o.status === filterType).length;
   };
 
   const filters = [
     { key: 'all', label: 'All Orders', count: getFilterCount('all') },
-    { key: 'assigned', label: 'New', count: getFilterCount('assigned') },
+    { key: 'available', label: '🚀 Available', count: getFilterCount('available') },
     { key: 'pending', label: 'In Progress', count: getFilterCount('pending') },
     { key: 'completed', label: 'Completed', count: getFilterCount('completed') }
   ];

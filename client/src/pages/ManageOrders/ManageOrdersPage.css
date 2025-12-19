@@ -308,14 +308,24 @@
   color: #1e40af;
 }
 
+.order-status-badge--paid {
+  background-color: #e0ecff;
+  color: #1d4ed8;
+}
+
 .order-status-badge--preparing {
-  background-color: #dbeafe;
-  color: #1e40af;
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.order-status-badge--ready {
+  background-color: #ccfbf1;
+  color: #0f766e;
 }
 
 .order-status-badge--out-for-delivery {
-  background-color: #fed7aa;
-  color: #92400e;
+  background-color: #ede9fe;
+  color: #6b21a8;
 }
 
 .order-status-badge--delivered {
@@ -326,6 +336,13 @@
 .order-status-badge--cancelled {
   background-color: #f3f4f6;
   color: #4b5563;
+}
+
+.order-card-substatus {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #6b7280;
+  font-style: italic;
 }
 
 /* =====================================================

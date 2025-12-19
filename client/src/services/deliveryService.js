@@ -67,15 +67,6 @@ export const getOrderDetails = async (orderId) => {
   }
 };
 
-export const acceptOrder = async (orderId) => {
-  try {
-    const response = await apiClient.patch(`/delivery/orders/${orderId}/accept`);
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
 export const rejectOrder = async (orderId, reason) => {
   try {
     const response = await apiClient.patch(`/delivery/orders/${orderId}/reject`, { reason });
@@ -154,4 +145,26 @@ export const contactSupport = async (message, orderId = null) => {
   } catch (error) {
     throw error.response?.data || error.message;
   }
+};
+
+// New: driver view using tracking endpoints
+export const getDriverOrders = async () => {
+  const response = await apiClient('/driver/orders', { method: 'GET' });
+  return response.data || response;
+};
+
+export const updateDeliveryStatus = async (orderId, deliveryStatus) => {
+  const normalized = (deliveryStatus || '').toUpperCase();
+  const response = await apiClient(`/orders/${orderId}/delivery-status`, {
+    method: 'POST',
+    body: JSON.stringify({ deliveryStatus: normalized }),
+  });
+  return response.data || response;
+};
+
+export const acceptOrder = async (orderId) => {
+  const response = await apiClient(`/driver/orders/${orderId}/accept`, {
+    method: 'POST',
+  });
+  return response.data || response;
 };
