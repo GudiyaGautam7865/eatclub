@@ -10,8 +10,11 @@ const bulkOrderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    email: {
+      type: String,
+    },
     peopleCount: {
-      type: Number,
+      type: String,
       required: true,
     },
     eventDateTime: {
@@ -24,6 +27,7 @@ const bulkOrderSchema = new mongoose.Schema(
     },
     brandPreference: String,
     budgetPerHead: Number,
+    notes: String,
     status: {
       type: String,
       enum: ['PENDING', 'CONFIRMED', 'DELIVERED', 'CANCELLED'],
