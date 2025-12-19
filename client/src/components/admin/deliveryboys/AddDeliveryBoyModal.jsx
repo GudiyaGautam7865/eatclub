@@ -8,8 +8,12 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
     email: '',
     vehicleType: 'Bike',
     vehicleNumber: '',
-    profileImage: ''
+    profileImage: null,
+    password: '',
+    confirmPassword: ''
   });
+
+  const [imagePreview, setImagePreview] = useState(null);
 
   const [errors, setErrors] = useState({});
 
@@ -26,6 +30,31 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
         [name]: ''
       }));
     }
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({
+        ...prev,
+        profileImage: file
+      }));
+      
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setFormData(prev => ({
+      ...prev,
+      profileImage: null
+    }));
+    setImagePreview(null);
   };
 
   const validateForm = () => {
@@ -49,6 +78,18 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
 
     if (!formData.vehicleNumber.trim()) {
       newErrors.vehicleNumber = 'Vehicle number is required';
+    }
+
+    if (!formData.password.trim()) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 6) {
+      newErrors.password = 'Password must be at least 6 characters';
+    }
+
+    if (!formData.confirmPassword.trim()) {
+      newErrors.confirmPassword = 'Confirm password is required';
+    } else if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Passwords do not match';
     }
 
     setErrors(newErrors);
@@ -87,9 +128,12 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
       email: '',
       vehicleType: 'Bike',
       vehicleNumber: '',
-      profileImage: ''
+      profileImage: null,
+      password: '',
+      confirmPassword: ''
     });
     setErrors({});
+    setImagePreview(null);
     onClose();
   };
 
@@ -145,8 +189,33 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
               />
               {errors.email && <span className="error-message">{errors.email}</span>}
             </div>
+           <div className="form-group">
+              <label className="form-label">Password *</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className={`form-input ${errors.password ? 'error' : ''}`}
+                placeholder="Enter password"
+              />
+              {errors.password && <span className="error-message">{errors.password}</span>}
+            </div>
 
             <div className="form-group">
+              <label className="form-label">Confirm Password *</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
+                placeholder="Confirm password"/>
+              {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+            </div>
+          </div>
+
+            <div className="form-vehicle">
               <label className="form-label">Vehicle Type</label>
               <select
                 name="vehicleType"
@@ -174,17 +243,26 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Profile Image URL</label>
-              <input
-                type="url"
-                name="profileImage"
-                value={formData.profileImage}
-                onChange={handleInputChange}
-                className="form-input"
-                placeholder="https://example.com/image.jpg (optional)"
-              />
+              <label className="form-label">Profile Image</label>
+              <div className="image-upload-container">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="file-input"
+                />
+                {imagePreview && (
+                  <div className="image-preview">
+                    <img src={imagePreview} alt="Profile preview" className="preview-image" />
+                    <button type="button" className="remove-image-btn" onClick={removeImage}>
+                      Remove
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+
+            
 
           <div className="modal-actions">
             <button type="button" className="btn-secondary" onClick={handleClose}>
