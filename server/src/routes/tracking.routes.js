@@ -5,16 +5,28 @@ import {
   updateOrderLocation,
   assignDelivery,
   updateUserLocation,
+  updateDeliveryStatus,
+  getDriverOrders,
+  acceptOrderByDriver,
 } from "../controllers/tracking.controller.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 
 
+// Handle OPTIONS for preflight requests
+router.options("*", (req, res) => {
+  res.sendStatus(200);
+});
+
 router.get("/orders/:orderId/tracking", getTrackingDetails);
 router.get("/orders/:orderId/location", getOrderLocation);
-router.post("/orders/:orderId/location", updateOrderLocation);
-router.post("/orders/:orderId/assign-delivery", assignDelivery);
-router.post("/orders/:orderId/user-location", updateUserLocation);
+router.post("/orders/:orderId/location", authMiddleware, updateOrderLocation);
+router.post("/orders/:orderId/assign-delivery", authMiddleware, assignDelivery);
+router.post("/orders/:orderId/user-location", authMiddleware, updateUserLocation);
+router.post("/orders/:orderId/delivery-status", authMiddleware, updateDeliveryStatus);
+router.get("/driver/orders", authMiddleware, getDriverOrders);
+router.post("/driver/orders/:orderId/accept", authMiddleware, acceptOrderByDriver);
 
 export default router;

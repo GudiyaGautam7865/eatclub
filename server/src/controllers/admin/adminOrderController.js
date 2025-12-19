@@ -72,7 +72,7 @@ export const updateOrderStatus = async (req, res) => {
     const { status } = req.body;
 
     // Validate status
-    const validStatuses = ['PLACED', 'PREPARING', 'DELIVERED', 'CANCELLED'];
+    const validStatuses = ['PLACED', 'PAID', 'PREPARING', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'];
     if (!status || !validStatuses.includes(status)) {
       return res.status(400).json({
         success: false,
@@ -80,11 +80,26 @@ export const updateOrderStatus = async (req, res) => {
       });
     }
 
-    const order = await Order.findByIdAndUpdate(
-      id,
-      { status },
-      { new: true, runValidators: true }
-    ).populate('user', 'name email');
+    const order = await Order.findById(id).populate('user', 'name email');
+
+    if (!order) {
+      return res.status(404).json({
+        success: false,
+        message: 'Order not found',
+      });
+    }
+
+    order.status = status;
+    order.statusHistory = order.statusHistory || [];
+    order.statusHistory.push({
+      status,
+      deliveryStatus: order.deliveryStatus || null,
+      actorId: req.user ? (req.user._id || req.user.id) : undefined,
+      actorRole: req.user ? req.user.role : 'ADMIN',
+      timestamp: new Date(),
+    });
+
+    await order.save();
 
     if (!order) {
       return res.status(404).json({

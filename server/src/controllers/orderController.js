@@ -39,6 +39,7 @@ export const createOrder = async (req, res) => {
       items,
       total,
       status,
+      deliveryStatus: null,
       payment: payment || { method: 'COD' },
       address,
       isBulk: false,
@@ -46,6 +47,15 @@ export const createOrder = async (req, res) => {
         lat: Number(currentLocation.lat),
         lng: Number(currentLocation.lng),
       } : undefined,
+      statusHistory: [
+        {
+          status,
+          deliveryStatus: null,
+          actorId: req.user ? (req.user.id || req.user._id) : undefined,
+          actorRole: req.user ? req.user.role : 'USER',
+          timestamp: new Date(),
+        },
+      ],
     });
 
     res.status(201).json({

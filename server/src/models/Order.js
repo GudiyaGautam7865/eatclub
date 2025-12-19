@@ -34,8 +34,13 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['PLACED', 'PAID', 'PREPARING', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
+      enum: ['PLACED', 'PAID', 'PREPARING', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
       default: 'PLACED',
+    },
+    deliveryStatus: {
+      type: String,
+      enum: ['ASSIGNED', 'PICKED_UP', 'ON_THE_WAY', 'DELIVERED', null],
+      default: null,
     },
     payment: {
       method: {
@@ -63,11 +68,9 @@ const orderSchema = new mongoose.Schema(
     userLocation: {
       lat: { type: Number },
       lng: { type: Number },
-      address: String
+      address: String,
     },
-    
-    
-     currentLocation: {
+    currentLocation: {
       lat: Number,
       lng: Number,
       updatedAt: {
@@ -75,16 +78,30 @@ const orderSchema = new mongoose.Schema(
         default: Date.now,
       },
     },
-
-
     isBulk: {
       type: Boolean,
       default: false,
     },
-    currentLocation: {
-      lat: { type: Number },
-      lng: { type: Number },
-    },
+    statusHistory: [
+      {
+        status: {
+          type: String,
+          enum: ['PLACED', 'PAID', 'PREPARING', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
+        },
+        deliveryStatus: {
+          type: String,
+          enum: ['ASSIGNED', 'PICKED_UP', 'ON_THE_WAY', 'DELIVERED', null],
+          default: null,
+        },
+        note: String,
+        actorId: { type: mongoose.Schema.Types.Mixed }, // Mixed type to allow both ObjectId and string (for admin)
+        actorRole: String,
+        timestamp: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
