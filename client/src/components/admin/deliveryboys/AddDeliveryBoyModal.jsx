@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { createDeliveryBoy } from '../../../services/deliveryBoyService.js';
 import './AddDeliveryBoyModal.css';
 
 export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
@@ -6,7 +7,7 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
     name: '',
     phone: '',
     email: '',
-    vehicleType: 'Bike',
+    vehicleType: 'BIKE',
     vehicleNumber: '',
     profileImage: null,
     password: '',
@@ -16,6 +17,8 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
   const [imagePreview, setImagePreview] = useState(null);
 
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -96,28 +99,42 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (validateForm()) {
-      const newDeliveryBoy = {
-        id: Date.now(), // Simple ID generation
-        ...formData,
-        status: 'offline',
-        totalDeliveries: 0,
-        todayDeliveries: 0,
-        thisWeekDeliveries: 0,
-        averageDeliveryTime: '0 min',
-        rating: 0,
-        joinDate: new Date().toISOString().split('T')[0],
-        deliveryHistory: [],
-        onTimeDeliveries: 0,
-        lateDeliveries: 0,
-        activeOrders: []
-      };
+    if (!validateForm()) return;
 
-      onAdd(newDeliveryBoy);
-      handleClose();
+    setLoading(true);
+    setErrors({});
+    setSuccessMessage('');
+
+    try {
+      const response = await createDeliveryBoy({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        vehicleType: formData.vehicleType,
+        vehicleNumber: formData.vehicleNumber,
+        password: formData.password,
+      });
+
+      if (response.deliveryBoy) {
+        setSuccessMessage(`✅ Delivery boy created! Credentials sent to ${formData.email}`);
+        
+        alert(`Delivery Boy Created Successfully!\n\nEmail: ${formData.email}\nPassword: ${formData.password}\n\nCredentials have been sent via email.`);
+
+        // Notify parent component
+        onAdd(response.deliveryBoy);
+
+        // Close modal after 2 seconds
+        setTimeout(() => {
+          handleClose();
+        }, 2000);
+      }
+    } catch (error) {
+      setErrors({ submit: error.message || 'Failed to create delivery boy' });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -126,7 +143,7 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
       name: '',
       phone: '',
       email: '',
-      vehicleType: 'Bike',
+      vehicleType: 'BIKE',
       vehicleNumber: '',
       profileImage: null,
       password: '',
@@ -223,9 +240,10 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
                 onChange={handleInputChange}
                 className="form-select"
               >
-                <option value="Bike">Bike</option>
-                <option value="Scooter">Scooter</option>
-                <option value="Bicycle">Bicycle</option>
+                <option value="BIKE">Bike</option>
+                <option value="SCOOTER">Scooter</option>
+                <option value="BICYCLE">Bicycle</option>
+                <option value="CAR">Car</option>
               </select>
             </div>
 
@@ -264,12 +282,24 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
 
             
 
+          {successMessage && (
+            <div className="success-message" style={{ color: 'green', padding: '10px', marginTop: '10px', background: '#d4edda', borderRadius: '4px' }}>
+              {successMessage}
+            </div>
+          )}
+
+          {errors.submit && (
+            <div className="error-message" style={{ color: 'red', padding: '10px', marginTop: '10px', background: '#f8d7da', borderRadius: '4px' }}>
+              {errors.submit}
+            </div>
+          )}
+
           <div className="modal-actions">
-            <button type="button" className="btn-secondary" onClick={handleClose}>
+            <button type="button" className="btn-secondary" onClick={handleClose} disabled={loading}>
               Cancel
             </button>
-            <button type="submit" className="btn-primary">
-              Add Delivery Boy
+            <button type="submit" className="btn-primary" disabled={loading}>
+              {loading ? 'Creating...' : 'Add Delivery Boy'}
             </button>
           </div>
         </form>

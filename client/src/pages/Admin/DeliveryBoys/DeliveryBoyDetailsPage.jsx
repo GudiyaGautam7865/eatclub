@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import DeliveryBoyStatsCard from '../../../components/admin/deliveryboys/DeliveryBoyStatsCard';
 import { DeliveryLineChart, DeliveryDonutChart } from '../../../components/admin/deliveryboys/DeliveryCharts';
+import { getDeliveryBoyById } from '../../../services/deliveryBoyService';
 import deliveryBoysData from '../../../mock/deliveryboys.json';
 import './DeliveryBoyDetailsPage.css';
 
@@ -18,11 +19,41 @@ export default function DeliveryBoyDetailsPage() {
   const loadDeliveryBoyDetails = async () => {
     try {
       setLoading(true);
-      // Load from both mock data and localStorage
+      
+      // Try to fetch from backend API first
+      try {
+        const backendBoy = await getDeliveryBoyById(id);
+        if (backendBoy) {
+          // Map backend data to match expected format
+          const mappedBoy = {
+            id: backendBoy._id || backendBoy.id,
+            name: backendBoy.name,
+            phone: backendBoy.phone,
+            email: backendBoy.email,
+            vehicleType: backendBoy.vehicleType,
+            vehicleNumber: backendBoy.vehicleNumber || 'N/A',
+            status: backendBoy.deliveryStatus?.toLowerCase() || 'offline',
+            totalDeliveries: backendBoy.totalDeliveries || 0,
+            todayDeliveries: 0,
+            thisWeekDeliveries: 0,
+            averageDeliveryTime: '0 min',
+            rating: backendBoy.rating || 0,
+            joinDate: backendBoy.createdAt ? new Date(backendBoy.createdAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0],
+            activeOrders: [],
+            profileImage: backendBoy.profileImage || `https://ui-avatars.com/api/?name=${encodeURIComponent(backendBoy.name)}&background=random`,
+          };
+          setDeliveryBoy(mappedBoy);
+          setLoading(false);
+          return;
+        }
+      } catch (apiError) {
+        console.warn('Failed to fetch from API, falling back to mock data:', apiError.message);
+      }
+
+      // Fallback to mock data (for backward compatibility)
       const deletedDeliveryBoys = localStorage.getItem('deletedDeliveryBoys') || '[]';
       const deletedList = JSON.parse(deletedDeliveryBoys);
       
-      // Filter out deleted mock data boys
       let allDeliveryBoys = deliveryBoysData.deliveryBoys.filter(boy => !deletedList.includes(boy.id));
       
       const savedDeliveryBoys = localStorage.getItem('deliveryBoys');
@@ -33,11 +64,9 @@ export default function DeliveryBoyDetailsPage() {
         allDeliveryBoys = [...allDeliveryBoys, ...newDeliveryBoys];
       }
       
-      setTimeout(() => {
-        const boy = allDeliveryBoys.find(b => b.id === parseInt(id));
-        setDeliveryBoy(boy);
-        setLoading(false);
-      }, 500);
+      const boy = allDeliveryBoys.find(b => b.id === parseInt(id) || b.id === id);
+      setDeliveryBoy(boy);
+      setLoading(false);
     } catch (error) {
       console.error('Failed to load delivery boy details:', error);
       setLoading(false);

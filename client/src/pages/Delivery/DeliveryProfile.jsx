@@ -1,19 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDelivery } from '../../context/DeliveryContext';
+import { logout } from '../../services/authService';
 import './DeliveryProfile.css';
 
 const DeliveryProfile = () => {
-  const { partner } = useDelivery();
   const navigate = useNavigate();
+  const [partner, setPartner] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
-    name: partner.name,
-    phone: partner.phone,
-    email: partner.email,
-    vehicleType: partner.vehicleType,
-    vehicleNumber: partner.vehicleNumber
+    name: '',
+    phone: '',
+    email: '',
+    vehicleType: '',
+    vehicleNumber: ''
   });
+
+  useEffect(() => {
+    // Get delivery boy info from localStorage
+    const userStr = localStorage.getItem('ec_user');
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      if (user.role === 'DELIVERY_BOY') {
+        const partnerData = {
+          name: user.name,
+          phone: user.phone || 'Not provided',
+          email: user.email,
+          vehicleType: user.vehicleType || 'BIKE',
+          vehicleNumber: user.vehicleNumber || 'Not provided',
+          id: user.id,
+          rating: 4.8,
+          totalDeliveries: 127,
+          joinedDate: new Date('2024-01-01'),
+          isOnline: true,
+          profilePhoto: `https://via.placeholder.com/100/ff6b35/ffffff?text=${user.name.charAt(0)}`,
+        };
+        setPartner(partnerData);
+        setFormData({
+          name: partnerData.name,
+          phone: partnerData.phone,
+          email: partnerData.email,
+          vehicleType: partnerData.vehicleType,
+          vehicleNumber: partnerData.vehicleNumber,
+        });
+      } else {
+        navigate('/');
+      }
+    } else {
+      navigate('/');
+    }
+  }, [navigate]);
+
+  if (!partner) {
+    return <div style={{ padding: '20px' }}>Loading...</div>;
+  }
 
   const handleInputChange = (e) => {
     setFormData({
@@ -29,9 +68,8 @@ const DeliveryProfile = () => {
   };
 
   const handleLogout = () => {
-    // Handle logout logic here
     if (window.confirm('Are you sure you want to logout?')) {
-      // Clear auth data and redirect
+      logout();
       navigate('/');
     }
   };

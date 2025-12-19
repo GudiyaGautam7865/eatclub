@@ -1,11 +1,53 @@
-import React, { useState } from 'react';
-import { useDelivery } from '../../context/DeliveryContext';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import OrderCard from '../../components/delivery/OrderCard';
 import './DeliveryOrders.css';
 
 const DeliveryOrders = () => {
-  const { ordersList } = useDelivery();
+  const navigate = useNavigate();
+  const [ordersList, setOrdersList] = useState([
+    {
+      id: 'ORD-1234',
+      status: 'assigned',
+      customerName: 'John Doe',
+      address: '123 Main St, Bangalore',
+      amount: 450,
+      items: 3,
+      distance: '2.5 km',
+    },
+    {
+      id: 'ORD-1235',
+      status: 'picked',
+      customerName: 'Jane Smith',
+      address: '456 Park Ave, Bangalore',
+      amount: 650,
+      items: 5,
+      distance: '3.1 km',
+    },
+    {
+      id: 'ORD-1236',
+      status: 'delivered',
+      customerName: 'Bob Wilson',
+      address: '789 Lake Rd, Bangalore',
+      amount: 300,
+      items: 2,
+      distance: '1.8 km',
+    },
+  ]);
   const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    // Verify delivery boy is logged in
+    const userStr = localStorage.getItem('ec_user');
+    if (!userStr) {
+      navigate('/');
+      return;
+    }
+    const user = JSON.parse(userStr);
+    if (user.role !== 'DELIVERY_BOY') {
+      navigate('/');
+    }
+  }, [navigate]);
 
   const filteredOrders = ordersList.filter(order => {
     if (filter === 'all') return true;

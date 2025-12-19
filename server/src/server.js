@@ -13,6 +13,7 @@ import adminMenuRoutes from './routes/admin/adminMenuRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import addressRoutes from './routes/addressRoutes.js';
+import deliveryBoyRoutes from './routes/deliveryBoyRoutes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 import trackingRoutes from './routes/tracking.routes.js';
 
@@ -90,6 +91,7 @@ app.use('/api/admin/menu', adminMenuRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/addresses', addressRoutes);
+app.use('/api/delivery-boys', deliveryBoyRoutes);
 
 
 

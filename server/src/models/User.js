@@ -35,12 +35,44 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ['USER', 'ADMIN'],
+      enum: ['USER', 'ADMIN', 'DELIVERY_BOY'],
       default: 'USER',
     },
     isActive: {
       type: Boolean,
       default: true,
+    },
+    // Delivery boy specific fields
+    phone: {
+      type: String,
+      required: function() {
+        return this.role === 'DELIVERY_BOY';
+      },
+      trim: true,
+    },
+    vehicleType: {
+      type: String,
+      enum: ['BIKE', 'SCOOTER', 'BICYCLE', 'CAR'],
+      default: 'BIKE',
+    },
+    vehicleNumber: {
+      type: String,
+      trim: true,
+    },
+    deliveryStatus: {
+      type: String,
+      enum: ['ACTIVE', 'INACTIVE', 'ON_DELIVERY', 'OFFLINE'],
+      default: 'ACTIVE',
+    },
+    earnings: {
+      type: Number,
+      default: 0,
+    },
+    rating: {
+      type: Number,
+      default: 5,
+      min: 0,
+      max: 5,
     },
     isEmailVerified: {
       type: Boolean,
