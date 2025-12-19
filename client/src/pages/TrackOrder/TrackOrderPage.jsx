@@ -1,93 +1,201 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './TrackOrderPage.css';
 
 export default function TrackOrderPage() {
   const navigate = useNavigate();
+  const { orderId } = useParams();
   const mapRef = useRef(null);
-  const [messages, setMessages] = useState([
-    { id: 1, text: "Hi! I'm on my way to pick up your order.", sender: 'delivery', time: '2:30 PM' },
-    { id: 2, text: "Great! How long will it take?", sender: 'user', time: '2:31 PM' }
-  ]);
-  const [newMsg, setNewMsg] = useState('');
-  const [showChat, setShowChat] = useState(true);
+  
+  // Order status state - TODO: Replace with backend-driven status updates
+  const [orderStatus, setOrderStatus] = useState('out_for_delivery');
+  
+  // Static order data - TODO: Fetch from backend API
+  const [orderData] = useState({
+    id: orderId || 'ORD123456',
+    items: [
+      { id: 1, name: 'Margherita Pizza', quantity: 1, price: 299, image: '/api/placeholder/60/60' },
+      { id: 2, name: 'Garlic Bread', quantity: 2, price: 149, image: '/api/placeholder/60/60' }
+    ],
+    total: 448,
+    restaurant: { name: 'Pizza Palace', address: 'FC Road, Pune' },
+    deliveryAddress: 'Koregaon Park, Pune'
+  });
+  
+  // Static delivery boy data - TODO: Populate from backend order assignment API
+  const [deliveryBoy] = useState({
+    name: 'Rahul Sharma',
+    phone: '+91 98765 43210',
+    vehicle: 'MH12AB1234',
+    rating: 4.8
+  });
+
+  // Status configuration
+  const statusConfig = {
+    processing: { text: 'Order is being processed', icon: '⏳', color: '#ff9800' },
+    preparing: { text: 'Restaurant is preparing your order', icon: '👨‍🍳', color: '#2196f3' },
+    delivery_assigned: { text: 'Delivery partner assigned', icon: '🚴', color: '#9c27b0' },
+    out_for_delivery: { text: 'Out for delivery – track your order', icon: '🛵', color: '#4caf50' },
+    delivered: { text: 'Order delivered', icon: '✅', color: '#4caf50' }
+  };
 
   useEffect(() => {
-    const script = document.createElement('script');
-    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-    script.onload = () => {
-      const map = L.map(mapRef.current).setView([18.52, 73.86], 13);
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-      L.marker([18.52, 73.86]).addTo(map).bindPopup('Restaurant');
-      L.marker([18.53, 73.87]).addTo(map).bindPopup('Your Location');
-      L.polyline([[18.52, 73.86], [18.53, 73.87]], {color: '#2196F3', weight: 0}).addTo(map);
-    };
-    document.head.appendChild(script);
-    
+    // Load Leaflet CSS
     const link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
     document.head.appendChild(link);
+
+    // Load Leaflet JS
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    script.onload = initializeMap;
+    document.head.appendChild(script);
   }, []);
 
-  const sendMsg = () => {
-    if (newMsg.trim()) {
-      setMessages([...messages, { id: Date.now(), text: newMsg, sender: 'user', time: new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) }]);
-      setNewMsg('');
+  const initializeMap = () => {
+    if (!mapRef.current) return;
+    
+    // Static coordinates - TODO: Replace with live GPS data from backend/socket
+    const restaurantCoords = [18.5204, 73.8567]; // FC Road
+    const userCoords = [18.5362, 73.8953]; // Koregaon Park
+    const deliveryBoyCoords = [18.5283, 73.8759]; // Current position
+    
+    const map = L.map(mapRef.current).setView(deliveryBoyCoords, 13);
+    
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    
+    // User address marker
+    L.marker(userCoords)
+      .addTo(map)
+      .bindPopup('🏠 Your Location');
+    
+    // Delivery boy marker (only show if delivery assigned)
+    if (['delivery_assigned', 'out_for_delivery'].includes(orderStatus)) {
+      L.marker(deliveryBoyCoords)
+        .addTo(map)
+        .bindPopup('🚴 ' + deliveryBoy.name);
     }
+    
+    // Dashed polyline route
+    L.polyline([ deliveryBoyCoords, userCoords], {
+      color: '#4caf50',
+      weight: 2,
+      dashArray: '10, 10'
+    }).addTo(map);
+    
+    // Fit map to show all markers
+    const group = new L.featureGroup([L.marker(userCoords)]);
+    map.fitBounds(group.getBounds().pad(0.1));
   };
 
-  return (
-    <div className="track-page">
-      <div className="map-side">
-        <div className="map-header">
-          <button onClick={() => navigate(-1)}>←</button>
-          <span>Track Order</span>
+  // Status Card Component
+  const StatusCard = () => {
+    const config = statusConfig[orderStatus];
+    return (
+      <div className="status-card" style={{ borderColor: config.color }}>
+        <div className="status-icon" style={{ backgroundColor: config.color }}>
+          {config.icon}
         </div>
-        <div ref={mapRef} className="map"></div>
+        <div className="status-text">
+          <h3>Order #{orderData.id}</h3>
+          <p>{config.text}</p>
+        </div>
       </div>
-      
-      <div className="info-side">
-        {showChat && (
-          <div className="chat">
-            <div className="chat-header">
-              <span>🚴 Rahul Sharma</span>
-              <button onClick={() => setShowChat(false)}>×</button>
+    );
+  };
+
+  // Delivery Boy Card Component (only show when delivery assigned)
+  const DeliveryBoyCard = () => {
+    if (!['delivery_assigned', 'out_for_delivery', 'delivered'].includes(orderStatus)) {
+      return null;
+    }
+    
+    return (
+      <div className="delivery-boy-card">
+        <div className="delivery-boy-info">
+          <div className="delivery-boy-avatar">
+            <span>🚴</span>
+          </div>
+          <div className="delivery-boy-details">
+            <h4>{deliveryBoy.name}</h4>
+            <p>⭐ {deliveryBoy.rating} • {deliveryBoy.vehicle}</p>
+            <p className="eta">ETA: 15-20 mins</p>
+          </div>
+        </div>
+        <div className="delivery-boy-actions">
+          <button className="call-btn" onClick={() => window.open(`tel:${deliveryBoy.phone}`)}>
+            📞
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  // Order Items Card Component
+  const OrderItemsCard = () => (
+    <div className="order-items-card">
+      <h4>Order Items</h4>
+      <div className="items-list">
+        {orderData.items.map(item => (
+          <div key={item.id} className="order-item">
+            <img src={item.image} alt={item.name} className="item-image" />
+            <div className="item-details">
+              <h5>{item.name}</h5>
+              <p>Qty: {item.quantity}</p>
             </div>
-          <div className="msgs">
-            {messages.map(m => (
-              <div key={m.id} className={`msg ${m.sender}`}>
-                <div className="bubble">
-                  <div>{m.text}</div> 
-                  <small>{m.time}</small>
-                </div>
-              </div>
-            ))}
+            <div className="item-price">
+              ₹{item.price}
+            </div>
           </div>
-          <div className="input">
-            <input value={newMsg} onChange={e => setNewMsg(e.target.value)} onKeyPress={e => e.key === 'Enter' && sendMsg()} placeholder="Type message..." />
-            <button onClick={sendMsg}>Send</button>
-          </div>
-        </div>
-        )}
-        
-        <div className="driver-card">
-          <div className="avatar">🚴</div>
-          <div className="info">
-            <h3>Rahul Sharma</h3>
-            <div>⭐⭐⭐⭐⭐ 4.8</div>
-            <div>📍 Pickup → Drop</div>
-            <div className="eta">ETA: 15-20 mins</div>
-          </div>
-          <div className="actions">
-            <button>📞</button>
-            <button onClick={() => setShowChat(true)}>💬</button>
-          </div>
+        ))}
+      </div>
+      <div className="order-total">
+        <strong>Total: ₹{orderData.total}</strong>
+      </div>
+    </div>
+  );
+
+  return (
+    <div className="track-order-page">
+      {/* Header */}
+      <div className="track-header">
+        <button className="back-btn" onClick={() => navigate(-1)}>
+          ←
+        </button>
+        <h2>Track Order</h2>
+      </div>
+
+      {/* Mobile Layout */}
+      <div className="mobile-layout">
+        {/* Map Section */}
+        <div className="map-container">
+          <div ref={mapRef} className="map"></div>
         </div>
         
-        <div className="order-btns">
-          <button className="cancel" onClick={() => confirm('Are you sure you want to cancel this order?') && alert('Order cancelled')}>Cancel Order</button>
-          <button className="confirm" onClick={() => alert('Order confirmed!')}>Accept / Confirm</button>
+        {/* Bottom Sheet */}
+        <div className="bottom-sheet">
+          <div className="sheet-handle"></div>
+          <StatusCard />
+          <DeliveryBoyCard />
+          <OrderItemsCard />
+        </div>
+      </div>
+
+      {/* Desktop Layout */}
+      <div className="desktop-layout">
+        {/* Map Side */}
+        <div className="map-side">
+          <div ref={mapRef} className="map"></div>
+        </div>
+        
+        {/* Info Side */}
+        <div className="info-side">
+          <StatusCard />
+          <DeliveryBoyCard />
+          <OrderItemsCard />
         </div>
       </div>
     </div>
