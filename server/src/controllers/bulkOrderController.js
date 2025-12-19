@@ -7,7 +7,7 @@ import BulkOrder from '../models/BulkOrder.js';
  */
 export const createBulkOrder = async (req, res) => {
   try {
-    const { name, phone, peopleCount, eventDateTime, address, brandPreference, budgetPerHead } = req.body;
+    const { name, phone, email, peopleCount, eventDateTime, address, brandPreference, budgetPerHead, notes } = req.body;
 
     // Validation
     if (!name || !phone || !peopleCount || !eventDateTime || !address) {
@@ -21,11 +21,13 @@ export const createBulkOrder = async (req, res) => {
     const bulkOrder = await BulkOrder.create({
       name,
       phone,
+      email,
       peopleCount,
       eventDateTime,
       address,
       brandPreference,
       budgetPerHead,
+      notes,
       status: 'PENDING',
       isBulk: true,
     });
