@@ -10,16 +10,14 @@ export default function TrackOrderPage() {
   // Order status state - TODO: Replace with backend-driven status updates
   const [orderStatus, setOrderStatus] = useState('out_for_delivery');
   
-  // Static order data - TODO: Fetch from backend API
   const [orderData] = useState({
-    id: orderId || 'ORD123456',
+    _id: orderId || 'ORD123456',
     items: [
-      { id: 1, name: 'Margherita Pizza', quantity: 1, price: 299, image: '/api/placeholder/60/60' },
-      { id: 2, name: 'Garlic Bread', quantity: 2, price: 149, image: '/api/placeholder/60/60' }
+      { name: 'Chicken Biryani', qty: 2, price: 350 },
+      { name: 'Paneer Butter Masala', qty: 1, price: 280 },
+      { name: 'Garlic Naan', qty: 3, price: 60 }
     ],
-    total: 448,
-    restaurant: { name: 'Pizza Palace', address: 'FC Road, Pune' },
-    deliveryAddress: 'Koregaon Park, Pune'
+    total: 1040
   });
   
   // Static delivery boy data - TODO: Populate from backend order assignment API
@@ -100,7 +98,7 @@ export default function TrackOrderPage() {
           {config.icon}
         </div>
         <div className="status-text">
-          <h3>Order #{orderData.id}</h3>
+          <h3>Order #{orderData._id}</h3>
           <p>{config.text}</p>
         </div>
       </div>
@@ -139,12 +137,12 @@ export default function TrackOrderPage() {
     <div className="order-items-card">
       <h4>Order Items</h4>
       <div className="items-list">
-        {orderData.items.map(item => (
-          <div key={item.id} className="order-item">
-            <img src={item.image} alt={item.name} className="item-image" />
+        {orderData.items.map((item, index) => (
+          <div key={index} className="order-item">
+            <img src="/api/placeholder/60/60" alt={item.name} className="item-image" />
             <div className="item-details">
               <h5>{item.name}</h5>
-              <p>Qty: {item.quantity}</p>
+              <p>Qty: {item.qty}</p>
             </div>
             <div className="item-price">
               ₹{item.price}
