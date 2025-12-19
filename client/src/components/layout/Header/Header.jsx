@@ -232,6 +232,20 @@ function Header() {
               aria-haspopup="true"
               aria-expanded={dealsOpen}
               aria-label="Deals and offers menu"
+              style={{
+                color: isScrolled || isDashboard || isHome ? '#ffffff' : '#000000',
+                textShadow: 'none'
+              }}
+              onMouseEnter={(e) => {
+                if (!isScrolled && !isDashboard && !isHome) {
+                  e.target.style.color = '#000000';
+                  e.target.style.textShadow = 'none';
+                }
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.color = isScrolled || isDashboard || isHome ? '#ffffff' : '#000000';
+                e.target.style.textShadow = 'none';
+              }}
             >
               Deals <span className="ec-caret" aria-hidden="true">▾</span>
             </button>

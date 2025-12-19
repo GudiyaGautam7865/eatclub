@@ -9,9 +9,12 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
     email: '',
     vehicleType: 'BIKE',
     vehicleNumber: '',
+    profileImage: null,
     password: '',
-    confirmPassword: '',
+    confirmPassword: ''
   });
+
+  const [imagePreview, setImagePreview] = useState(null);
 
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -30,6 +33,31 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
         [name]: ''
       }));
     }
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData(prev => ({
+        ...prev,
+        profileImage: file
+      }));
+      
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setFormData(prev => ({
+      ...prev,
+      profileImage: null
+    }));
+    setImagePreview(null);
   };
 
   const validateForm = () => {
@@ -55,14 +83,14 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
       newErrors.vehicleNumber = 'Vehicle number is required';
     }
 
-    if (!formData.password) {
+    if (!formData.password.trim()) {
       newErrors.password = 'Password is required';
     } else if (formData.password.length < 6) {
       newErrors.password = 'Password must be at least 6 characters';
     }
 
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm password';
+    if (!formData.confirmPassword.trim()) {
+      newErrors.confirmPassword = 'Confirm password is required';
     } else if (formData.password !== formData.confirmPassword) {
       newErrors.confirmPassword = 'Passwords do not match';
     }
@@ -117,11 +145,12 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
       email: '',
       vehicleType: 'BIKE',
       vehicleNumber: '',
+      profileImage: null,
       password: '',
-      confirmPassword: '',
+      confirmPassword: ''
     });
     setErrors({});
-    setSuccessMessage('');
+    setImagePreview(null);
     onClose();
   };
 
@@ -177,8 +206,33 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
               />
               {errors.email && <span className="error-message">{errors.email}</span>}
             </div>
+           <div className="form-group">
+              <label className="form-label">Password *</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleInputChange}
+                className={`form-input ${errors.password ? 'error' : ''}`}
+                placeholder="Enter password"
+              />
+              {errors.password && <span className="error-message">{errors.password}</span>}
+            </div>
 
             <div className="form-group">
+              <label className="form-label">Confirm Password *</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleInputChange}
+                className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
+                placeholder="Confirm password"/>
+              {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
+            </div>
+          </div>
+
+            <div className="form-vehicle">
               <label className="form-label">Vehicle Type</label>
               <select
                 name="vehicleType"
@@ -207,32 +261,26 @@ export default function AddDeliveryBoyModal({ isOpen, onClose, onAdd }) {
             </div>
 
             <div className="form-group">
-              <label className="form-label">Password *</label>
-              <input
-                type="password"
-                name="password"
-                value={formData.password}
-                onChange={handleInputChange}
-                className={`form-input ${errors.password ? 'error' : ''}`}
-                placeholder="Enter password (min 6 characters)"
-              />
-              {errors.password && <span className="error-message">{errors.password}</span>}
+              <label className="form-label">Profile Image</label>
+              <div className="image-upload-container">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="file-input"
+                />
+                {imagePreview && (
+                  <div className="image-preview">
+                    <img src={imagePreview} alt="Profile preview" className="preview-image" />
+                    <button type="button" className="remove-image-btn" onClick={removeImage}>
+                      Remove
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
 
-            <div className="form-group">
-              <label className="form-label">Confirm Password *</label>
-              <input
-                type="password"
-                name="confirmPassword"
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-                className={`form-input ${errors.confirmPassword ? 'error' : ''}`}
-                placeholder="Re-enter password"
-              />
-              {errors.confirmPassword && <span className="error-message">{errors.confirmPassword}</span>}
-            </div>
-
-          </div>
+            
 
           {successMessage && (
             <div className="success-message" style={{ color: 'green', padding: '10px', marginTop: '10px', background: '#d4edda', borderRadius: '4px' }}>
