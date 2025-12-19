@@ -89,7 +89,8 @@ export default function PartyOrderPage() {
       setTimeout(() => setSuccessMessage(""), 5000);
     } catch (error) {
       console.error("Error creating bulk order:", error);
-      setErrorMessage("Failed to submit bulk order. Please try again.");
+      const errorMsg = error.message || "Failed to submit bulk order. Please try again.";
+      setErrorMessage(errorMsg);
     }
   };
 
@@ -207,6 +208,7 @@ export default function PartyOrderPage() {
               placeholder="Budget Per Head (₹)"
               value={formData.budgetPerHead}
               onChange={handleInputChange}
+              min="0"
             />
 
             <textarea
