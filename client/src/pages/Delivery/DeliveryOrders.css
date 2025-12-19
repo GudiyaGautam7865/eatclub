@@ -1,0 +1,140 @@
+.delivery-orders {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.orders-header {
+  margin-bottom: 24px;
+}
+
+.orders-header h1 {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+  color: #333;
+  font-weight: 700;
+}
+
+.orders-header p {
+  margin: 0;
+  color: #666;
+  font-size: 16px;
+}
+
+.orders-filters {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #fff;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  min-width: fit-content;
+}
+
+.filter-btn:hover {
+  border-color: #ff6b35;
+  background: #fff3f0;
+}
+
+.filter-btn.active {
+  background: #ff6b35;
+  border-color: #ff6b35;
+  color: white;
+}
+
+.filter-label {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.filter-count {
+  background: rgba(0, 0, 0, 0.1);
+  color: inherit;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 20px;
+  text-align: center;
+}
+
+.filter-btn.active .filter-count {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.orders-list {
+  margin-top: 24px;
+}
+
+.no-orders {
+  text-align: center;
+  padding: 60px 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.no-orders-icon {
+  font-size: 64px;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.no-orders h3 {
+  margin: 0 0 8px 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.no-orders p {
+  margin: 0;
+  color: #666;
+  font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .orders-header h1 {
+    font-size: 24px;
+  }
+  
+  .orders-filters {
+    gap: 8px;
+  }
+  
+  .filter-btn {
+    padding: 10px 14px;
+  }
+  
+  .filter-label {
+    font-size: 13px;
+  }
+  
+  .no-orders {
+    padding: 40px 16px;
+  }
+  
+  .no-orders-icon {
+    font-size: 48px;
+  }
+}
+
+@media (max-width: 480px) {
+  .orders-filters {
+    margin-left: -12px;
+    margin-right: -12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

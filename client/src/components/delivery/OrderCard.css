@@ -1,0 +1,200 @@
+.order-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.order-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.order-id {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.order-status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.order-details {
+  margin-bottom: 20px;
+}
+
+.customer-info {
+  margin-bottom: 16px;
+}
+
+.customer-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.customer-info p {
+  margin: 0;
+  color: #666;
+  font-size: 14px;
+}
+
+.restaurant-info {
+  margin-bottom: 16px;
+}
+
+.location-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.location-item:last-child {
+  margin-bottom: 0;
+}
+
+.location-icon {
+  font-size: 16px;
+  margin-top: 2px;
+}
+
+.location-item div strong {
+  display: block;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 2px;
+}
+
+.location-item div p {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.order-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payment-badge {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.payment-badge.online {
+  background: #e8f5e8;
+  color: #4caf50;
+}
+
+.payment-badge.cod {
+  background: #fff3e0;
+  color: #ff9800;
+}
+
+.order-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+}
+
+.order-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.btn-reject,
+.btn-accept,
+.btn-update-status {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+}
+
+.btn-reject {
+  background: #ffebee;
+  color: #f44336;
+}
+
+.btn-reject:hover {
+  background: #f44336;
+  color: white;
+}
+
+.btn-accept {
+  background: #ff6b35;
+  color: white;
+}
+
+.btn-accept:hover {
+  background: #e55a2b;
+}
+
+.btn-update-status {
+  background: #2196f3;
+  color: white;
+}
+
+.btn-update-status:hover {
+  background: #1976d2;
+}
+
+.delivered-badge {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  background: #e8f5e8;
+  color: #4caf50;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .order-card {
+    padding: 16px;
+  }
+  
+  .order-actions {
+    flex-direction: column;
+  }
+  
+  .btn-reject,
+  .btn-accept,
+  .btn-update-status {
+    width: 100%;
+  }
+  
+  .location-item {
+    gap: 8px;
+  }
+  
+  .location-icon {
+    font-size: 14px;
+  }
+}
