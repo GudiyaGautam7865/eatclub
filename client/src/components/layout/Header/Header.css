@@ -445,7 +445,7 @@
     margin-top: var(--ec-spacing-md);
     background-color: var(--ec-bg-white);
     border: 1px solid var(--ec-border);
-    box-shadow: var(--ec-shadow-lg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: var(--ec-spacing-sm) 0;
     border-radius: 8px;
     min-width: 180px;
@@ -471,6 +471,14 @@
     font-weight: 600 !important;
 }
 
+.ec-deals-menu .ec-deals-item:hover {
+    background-color: var(--ec-bg-light) !important;
+    color: var(--ec-text-dark) !important;
+    text-shadow: none !important;
+    transform: translateX(4px) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
 .ec-deals-item {
     display: block;
     padding: var(--ec-spacing-md) var(--ec-spacing-lg);
@@ -479,14 +487,17 @@
     font-size: 14px;
     font-weight: 600;
     text-shadow: none;
-    transition: color var(--ec-transition-base),
-                background-color var(--ec-transition-base);
+    transition: all var(--ec-transition-base);
+    border-radius: 6px;
+    margin: 2px 8px;
 }
 
 .ec-deals-item:hover {
     background-color: var(--ec-bg-light);
-    color: #000000;
+    color: var(--ec-text-dark);
     text-shadow: none;
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .ec-deals-item:focus-visible {
@@ -653,13 +664,13 @@
     border-color: rgba(0,0,0,0.12) !important;
 }
 
-/* Make signup text red in header (non-scrolled) */
+/* Make signup text white in header */
 .ec-header .ec-signup-button {
-    color: #dc2626 !important;
+    color: white !important;
 }
 
 .ec-header .ec-signup-button:hover {
-    color: #dc2626 !important;
+    color: white !important;
 }
 
 /* Keep hover white when header is scrolled, or on dashboard/homepage */
@@ -693,17 +704,17 @@
     background-color: transparent !important;
 }
 
-/* Force signup text red even when header is scrolled/dashboard/homepage */
+/* Keep signup text white even when header is scrolled/dashboard/homepage */
 .ec-header.scrolled .ec-signup-button,
 .ec-header.dashboard .ec-signup-button,
 .ec-header.homepage .ec-signup-button {
-    color: #dc2626 !important;
+    color: white !important;
 }
 
 .ec-header.scrolled .ec-signup-button:hover,
 .ec-header.dashboard .ec-signup-button:hover,
 .ec-header.homepage .ec-signup-button:hover {
-    color: #dc2626 !important;
+    color: white !important;
 }
 
 .ec-signup-button:hover {
@@ -783,7 +794,7 @@
     min-width: 200px;
     z-index: var(--ec-z-dropdown);
     animation: slideDownSmooth 200ms cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: none !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
     /* Ensure items stack vertically */
     display: flex;
@@ -800,14 +811,21 @@
     text-decoration: none;
     font-size: 14px;
     font-weight: 400;
-    transition: color var(--ec-transition-base),
-                background-color var(--ec-transition-base);
+    transition: all var(--ec-transition-base);
     text-shadow: none !important;
+    border-radius: 6px;
+    margin: 2px 8px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
 }
 
 .ec-profile-item:hover {
     background-color: var(--ec-bg-light);
-    color: var(--ec-primary);
+    color: var(--ec-text-dark) !important;
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .ec-profile-item:focus-visible {
@@ -822,7 +840,9 @@
 
 .ec-profile-item.ec-signout:hover {
     background-color: #fee2e2;
-    color: #9b1c1c;
+    color: #9b1c1c !important;
+    transform: translateX(4px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .ec-profile-divider {
