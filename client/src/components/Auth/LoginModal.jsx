@@ -41,40 +41,49 @@ function LoginModal({ isOpen, onClose, onSwitchToSignup }) {
   setError('');
 
   try {
-   // ADMIN LOGIN BY EMAIL
-if (formData.email === "admin@gmail.com") {
-  const res = await fetch("http://localhost:5000/api/admin/auth/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: formData.email,
-      password: formData.password
-    })
-  });
+    // 1️⃣ ADMIN LOGIN BY EMAIL (hardcoded check)
+    if (formData.email === "admin@gmail.com") {
+      const res = await fetch("http://localhost:5000/api/admin/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
 
-  const result = await res.json();
-  console.log("ADMIN LOGIN RESULT:", result);
+      const result = await res.json();
+      console.log("ADMIN LOGIN RESULT:", result);
 
-  if (result.success) {
-  localStorage.setItem("ec_admin_token", result.data.token);
-  localStorage.setItem("adminToken", result.data.token); // add this
-  localStorage.setItem("ec_admin", JSON.stringify(result.data.admin));
-  navigate("/admin");
-  onClose();
-  return;
-} else {
-    setError("Invalid admin credentials");
-    return;
-  }
-}
+      if (result.success) {
+        localStorage.setItem("ec_admin_token", result.data.token);
+        localStorage.setItem("adminToken", result.data.token);
+        localStorage.setItem("ec_admin", JSON.stringify(result.data.admin));
+        navigate("/admin");
+        onClose();
+        return;
+      } else {
+        setError("Invalid admin credentials");
+        return;
+      }
+    }
 
+    // 2️⃣ USER / DELIVERY BOY LOGIN (unified endpoint)
+    const response = await login(formData); // returns { token, role, user }
 
-    // 🔥 2. NORMAL USER LOGIN
-    const response = await login(formData); // now returns data.token + data.user
-
-    if (response.user) {
+    if (response.user && response.role) {
+      // Store user data
       setUser(response.user);
-      navigate('/');
+
+      // Role-based redirection
+      if (response.role === 'DELIVERY_BOY') {
+        navigate('/delivery/dashboard');
+      } else if (response.role === 'ADMIN') {
+        navigate('/admin');
+      } else {
+        navigate('/');
+      }
+
       onClose();
       return;
     }

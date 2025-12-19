@@ -1,10 +1,44 @@
-import React from 'react';
-import { useDelivery } from '../../context/DeliveryContext';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import StatsCard from '../../components/delivery/StatsCard';
 import './DeliveryDashboard.css';
 
 const DeliveryDashboard = () => {
-  const { partner, stats, isOnline, toggleOnlineStatus } = useDelivery();
+  const navigate = useNavigate();
+  const [deliveryBoy, setDeliveryBoy] = useState(null);
+  const [isOnline, setIsOnline] = useState(true);
+  const [stats, setStats] = useState({
+    totalDeliveries: 127,
+    pendingDeliveries: 3,
+    completedToday: 8,
+    earnings: 4250,
+    rating: 4.8,
+  });
+
+  useEffect(() => {
+    // Get delivery boy info from localStorage
+    const userStr = localStorage.getItem('ec_user');
+    if (userStr) {
+      const user = JSON.parse(userStr);
+      if (user.role === 'DELIVERY_BOY') {
+        setDeliveryBoy(user);
+      } else {
+        navigate('/');
+      }
+    } else {
+      navigate('/');
+    }
+  }, [navigate]);
+
+  const toggleOnlineStatus = () => {
+    setIsOnline(!isOnline);
+  };
+
+  if (!deliveryBoy) {
+    return <div style={{ padding: '20px' }}>Loading...</div>;
+  }
+
+  const partner = { name: deliveryBoy.name };
 
   return (
     <div className="delivery-dashboard">

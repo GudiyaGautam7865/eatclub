@@ -117,8 +117,11 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // Attempt to find user by email in users collection
-    let user = await User.findOne({ email }).select('+password');
+    // Normalize email: lowercase and trim
+    const normalizedEmail = email.toLowerCase().trim();
+
+    // Check User in Users collection (USER, DELIVERY_BOY, or ADMIN roles)
+    let user = await User.findOne({ email: normalizedEmail }).select('+password');
     
     if (user) {
       // User found - verify password
@@ -129,42 +132,62 @@ export const loginUser = async (req, res) => {
         });
       }
 
-      // Check if email is verified
-      if (!user.isEmailVerified) {
+      // For regular users, check if email is verified
+      if (user.role === 'USER' && !user.isEmailVerified) {
         return res.status(401).json({
           success: false,
           message: 'Please verify your email before logging in',
         });
       }
 
+      // Check if account is active (applies to all roles)
+      if (!user.isActive) {
+        return res.status(401).json({
+          success: false,
+          message: 'Your account is inactive. Please contact admin.',
+        });
+      }
+
       // Generate token with role
       const token = generateAccessToken(user._id, user.role);
 
+      // Build response based on role
+      const responseData = {
+        token,
+        role: user.role,
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          role: user.role,
+        },
+      };
+
+      // Add role-specific data
+      if (user.role === 'USER') {
+        responseData.user.phoneNumber = user.phoneNumber;
+        responseData.user.isEmailVerified = user.isEmailVerified;
+      } else if (user.role === 'DELIVERY_BOY') {
+        responseData.user.phone = user.phone;
+        responseData.user.vehicleType = user.vehicleType;
+        responseData.user.deliveryStatus = user.deliveryStatus;
+      }
+
       return res.json({
         success: true,
-        data: {
-          token,
-          user: {
-            id: user._id,
-            name: user.name,
-            email: user.email,
-            phoneNumber: user.phoneNumber,
-            role: user.role,
-            isEmailVerified: user.isEmailVerified,
-          },
-        },
+        data: responseData,
       });
     }
 
-    // User not found - fallback to temporary admin credential check
-    if (email === 'admin@gmail.com' && password === '1260') {
-      // Generate token with admin role (transient admin)
+    // Special case: Hardcoded Admin (for backward compatibility)
+    if (normalizedEmail === 'admin@gmail.com' && password === '1260') {
       const token = generateAccessToken('admin', 'ADMIN');
 
       return res.json({
         success: true,
         data: {
           token,
+          role: 'ADMIN',
           user: {
             id: 'admin',
             email: 'admin@gmail.com',
@@ -174,7 +197,7 @@ export const loginUser = async (req, res) => {
       });
     }
 
-    // Neither user found nor admin credentials match
+    // No match found
     return res.status(401).json({
       success: false,
       message: 'Invalid email or password',
