@@ -451,22 +451,42 @@
     min-width: 180px;
     z-index: var(--ec-z-dropdown);
     animation: slideDownSmooth 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Ensure items are stacked vertically */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+/* Make each item fill menu width */
+.ec-deals-menu .ec-deals-item {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Force deals menu items to be plain black, no shadow and semi-bold */
+.ec-deals-menu .ec-deals-item {
+    color: #000 !important;
+    text-shadow: none !important;
+    font-weight: 600 !important;
 }
 
 .ec-deals-item {
     display: block;
     padding: var(--ec-spacing-md) var(--ec-spacing-lg);
-    color: var(--ec-text-base);
+    color: #000000;
     text-decoration: none;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 600;
+    text-shadow: none;
     transition: color var(--ec-transition-base),
                 background-color var(--ec-transition-base);
 }
 
 .ec-deals-item:hover {
     background-color: var(--ec-bg-light);
-    color: var(--ec-primary);
+    color: #000000;
+    text-shadow: none;
 }
 
 .ec-deals-item:focus-visible {
@@ -1805,16 +1825,18 @@
 }
 
 .ec-header.other-page .ec-deals-menu {
-    background-color: #000;
+    background-color: var(--ec-bg-white);
 }
 
 .ec-header.other-page .ec-deals-item {
-    color: #fff;
+    color: #000;
+    text-shadow: none;
+    font-weight: 600;
 }
 
 .ec-header.other-page .ec-deals-item:hover {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--ec-bg-light);
+    color: #000;
 }
 
 /* FINAL OVERRIDE - Force deals button to stay black on hover */
