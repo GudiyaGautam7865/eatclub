@@ -47,7 +47,7 @@ export default function AdminTopbar({ sidebarCollapsed }) {
           <div className="admin-profile" onClick={handleProfileClick}>
             <div className="profile-avatar">
               <img 
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face" 
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face&dpr=2" 
                 alt="Admin" 
                 onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
               />
