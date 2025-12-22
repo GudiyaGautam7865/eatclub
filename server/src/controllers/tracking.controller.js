@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Order from "../models/Order.js";
+import User from "../models/User.js";
 import { persistOrderLocation } from "../utils/trackingPersist.js";
 
 // 1️⃣ Tracking page load
@@ -284,11 +285,24 @@ export const acceptOrderByDriver = async (req, res) => {
     return res.status(400).json({ success: false, message: "Order already assigned to another driver" });
   }
 
-  // Assign driver
+  // Fetch driver details from User collection
+  const driver = await User.findById(driverId).select('name phoneNumber phone vehicleNumber vehicleType');
+  if (!driver) {
+    return res.status(404).json({ success: false, message: "Driver not found" });
+  }
+
+  console.log(`✅ Driver found:`, {
+    id: driver._id,
+    name: driver.name,
+    phone: driver.phone || driver.phoneNumber,
+    vehicleNumber: driver.vehicleNumber
+  });
+
+  // Assign driver with details from User model
   order.driverId = driverId;
-  order.driverName = req.user.name || req.user.username || 'Driver';
-  order.driverPhone = req.user.phone || req.user.phoneNumber;
-  order.driverVehicleNumber = req.user.vehicleNumber || req.user.vehicle?.number;
+  order.driverName = driver.name || 'Driver';
+  order.driverPhone = driver.phone || driver.phoneNumber;
+  order.driverVehicleNumber = driver.vehicleNumber;
   order.status = "OUT_FOR_DELIVERY";
   order.deliveryStatus = "PICKED_UP";
   
@@ -308,5 +322,62 @@ export const acceptOrderByDriver = async (req, res) => {
 
   await order.save();
 
+  // Emit socket event to notify customer that order was accepted
+  if (req.io) {
+    const socketData = {
+      orderId: orderId.toString(),
+      deliveryBoyId: driverId.toString(),
+      driverName: order.driverName,
+      driverPhone: order.driverPhone,
+      driverVehicleNumber: order.driverVehicleNumber,
+      timestamp: new Date().toISOString()
+    };
+    
+    req.io.to(orderId).emit('orderAccepted', socketData);
+    console.log(`📢 Socket event 'orderAccepted' emitted for order ${orderId} with driver:`, {
+      name: socketData.driverName,
+      phone: socketData.driverPhone,
+      vehicle: socketData.driverVehicleNumber
+    });
+  }
+
   res.json({ success: true, message: "Order accepted successfully", data: order });
+};
+
+// 9️⃣ Get user location for delivery boy
+export const getUserLocationForDriver = async (req, res) => {
+  const { orderId } = req.params;
+  const driverId = req.user && (req.user._id || req.user.id);
+  
+  if (!driverId) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(orderId)) {
+    return res.status(400).json({ success: false, message: "Invalid orderId" });
+  }
+
+  const order = await Order.findById(orderId).select('driverId driverPhone userLocation address user').populate('user', 'name phone phoneNumber');
+  if (!order) {
+    return res.status(404).json({ success: false, message: "Order not found" });
+  }
+
+  // Verify driver is assigned to this order
+  const phone = req.user?.phone || req.user?.phoneNumber;
+  if (order.driverId && driverId && order.driverId.toString() !== driverId.toString()) {
+    return res.status(403).json({ success: false, message: "Not authorized for this order" });
+  }
+  if (!order.driverId && order.driverPhone && phone && order.driverPhone !== phone) {
+    return res.status(403).json({ success: false, message: "Not authorized for this order" });
+  }
+
+  res.json({ 
+    success: true, 
+    data: {
+      userLocation: order.userLocation,
+      deliveryAddress: order.address,
+      customerName: order.user?.name,
+      customerPhone: order.user?.phone || order.user?.phoneNumber
+    }
+  });
 };

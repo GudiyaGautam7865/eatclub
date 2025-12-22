@@ -8,6 +8,7 @@ import {
   updateDeliveryStatus,
   getDriverOrders,
   acceptOrderByDriver,
+  getUserLocationForDriver,
 } from "../controllers/tracking.controller.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 
@@ -28,5 +29,6 @@ router.post("/orders/:orderId/user-location", authMiddleware, updateUserLocation
 router.post("/orders/:orderId/delivery-status", authMiddleware, updateDeliveryStatus);
 router.get("/driver/orders", authMiddleware, getDriverOrders);
 router.post("/driver/orders/:orderId/accept", authMiddleware, acceptOrderByDriver);
+router.get("/driver/orders/:orderId/user-location", authMiddleware, getUserLocationForDriver);
 
 export default router;
