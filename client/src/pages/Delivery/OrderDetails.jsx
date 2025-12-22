@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { io } from 'socket.io-client';
 import { useDelivery } from '../../context/DeliveryContext';
 import { orderStatuses } from '../../mock/delivery/deliveryData';
 import './OrderDetails.css';
@@ -8,8 +9,91 @@ const OrderDetails = () => {
   const { orderId } = useParams();
   const navigate = useNavigate();
   const { ordersList, updateOrderStatus } = useDelivery();
+  const [socket, setSocket] = useState(null);
+  const [watchId, setWatchId] = useState(null);
+  const [isTracking, setIsTracking] = useState(false);
+  const [currentLocation, setCurrentLocation] = useState(null);
   
   const order = ordersList.find(o => o.id === orderId);
+  
+  // Initialize socket and GPS tracking
+  useEffect(() => {
+    const newSocket = io(process.env.NODE_ENV === 'production' ? window.location.origin : 'http://localhost:5000', {
+      reconnection: true,
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      reconnectionAttempts: 5
+    });
+    
+    newSocket.on('connect', () => {
+      console.log('✅ Socket connected for OrderDetails');
+      // Join the order room using orderId
+      newSocket.emit('joinOrderRoom', orderId);
+    });
+    
+    setSocket(newSocket);
+    
+    // Start GPS tracking automatically when accepted
+    if (order && order.status !== 'available' && order.driverId) {
+      startGPSTracking(newSocket);
+    }
+    
+    return () => {
+      // Cleanup: stop tracking and disconnect socket
+      if (watchId) {
+        navigator.geolocation.clearWatch(watchId);
+      }
+      if (newSocket) newSocket.disconnect();
+    };
+  }, [orderId, order?.status, order?.driverId]);
+  
+  // Start GPS tracking
+  const startGPSTracking = (socketInstance) => {
+    if (navigator.geolocation) {
+      const id = navigator.geolocation.watchPosition(
+        (position) => {
+          const location = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+          setCurrentLocation(location);
+          setIsTracking(true);
+          
+          // Emit location update using orderId
+          if (socketInstance && orderId) {
+            socketInstance.emit('deliveryLocationUpdate', {
+              orderId,
+              lat: location.lat,
+              lng: location.lng,
+              timestamp: new Date().toISOString()
+            });
+          }
+        },
+        (error) => {
+          console.warn('⚠️ Geolocation error:', error.message);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 0
+        }
+      );
+      
+      setWatchId(id);
+    } else {
+      console.warn('⚠️ Geolocation not supported');
+    }
+  };
+  
+  // Stop GPS tracking when order is delivered
+  useEffect(() => {
+    if (order?.status === 'delivered' && watchId) {
+      navigator.geolocation.clearWatch(watchId);
+      setWatchId(null);
+      setIsTracking(false);
+      console.log('🛑 GPS tracking stopped - order delivered');
+    }
+  }, [order?.status, watchId]);
   
   if (!order) {
     return (
@@ -28,7 +112,7 @@ const OrderDetails = () => {
   const handleStatusUpdate = (newStatus) => {
     updateOrderStatus(order.id, newStatus);
   };
-  
+
   const getNextStatus = () => {
     switch (order.status) {
       case 'assigned': return 'picked_up';
@@ -78,6 +162,11 @@ const OrderDetails = () => {
             {statusInfo.label}
           </div>
         </div>
+        {isTracking && (
+          <div style={{ marginLeft: 'auto', padding: '10px 15px', backgroundColor: '#10b981', color: 'white', borderRadius: '6px', fontSize: '14px', fontWeight: '500' }}>
+            📍 Live Tracking Active {currentLocation && `(${currentLocation.lat.toFixed(4)}, ${currentLocation.lng.toFixed(4)})`}
+          </div>
+        )}
       </div>
 
       <div className="order-details-content">
