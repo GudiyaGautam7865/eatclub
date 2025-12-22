@@ -51,3 +51,13 @@ export const deleteDeliveryBoy = async (id) => {
   });
   return response;
 };
+
+/**
+ * Get delivery boy details with stats
+ */
+export const getDeliveryBoyDetails = async (id) => {
+  const response = await apiClient(`/delivery-boys/${id}/details`, {
+    method: 'GET',
+  });
+  return response.data;
+};
