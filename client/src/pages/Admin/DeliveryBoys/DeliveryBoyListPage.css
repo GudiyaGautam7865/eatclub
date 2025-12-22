@@ -192,15 +192,19 @@
 
 .search-input-wrapper {
   position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .search-icon {
   position: absolute;
-  left: 16px;
+  left: 14px;
   top: 50%;
   transform: translateY(-50%);
   color: #a0aec0;
-  z-index: 1;
+  z-index: 2;
+  pointer-events: none;
+  flex-shrink: 0;
 }
 
 .search-input {
@@ -213,6 +217,7 @@
   background: #f7fafc;
   transition: all 0.2s ease;
   color: #2d3748;
+  padding-left: 48px;
 }
 
 .search-input:focus {
