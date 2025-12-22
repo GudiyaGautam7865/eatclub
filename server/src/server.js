@@ -12,6 +12,7 @@ import routes from './routes/index.js';
 import authRoutes from './routes/authRoutes.js';
 import adminAuthRoutes from './routes/admin/adminAuthRoutes.js';
 import adminMenuRoutes from './routes/admin/adminMenuRoutes.js';
+import adminCustomerRoutes from './routes/admin/adminCustomerRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import addressRoutes from './routes/addressRoutes.js';
@@ -132,6 +133,7 @@ app.use('/api', routes);
 app.use('/api', authRoutes);  // Auth routes already have /auth prefix inside
 app.use('/api/admin', adminAuthRoutes);
 app.use('/api/admin/menu', adminMenuRoutes);
+app.use('/api/admin/customers', adminCustomerRoutes);
 app.use('/api/menu', baseLimiter, menuRoutes);
 app.use('/api/payment', baseLimiter, paymentRoutes);
 app.use('/api/addresses', addressRoutes);

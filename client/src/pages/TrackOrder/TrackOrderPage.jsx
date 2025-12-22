@@ -84,6 +84,9 @@ export default function TrackOrderPage() {
     DELIVERED: 'Delivered',
   };
 
+  const driverAssignedStatuses = ['ASSIGNED', 'PICKED_UP', 'ON_THE_WAY', 'DELIVERED'];
+  const driverAssigned = driverAssignedStatuses.includes(tracking?.deliveryStatus) && Boolean(tracking?.driver);
+
   const renderStatusCard = () => {
     if (!tracking) return null;
     const config = statusCopy[tracking.status] || statusCopy.PLACED;
@@ -115,7 +118,7 @@ export default function TrackOrderPage() {
   };
 
   const renderDriverCard = () => {
-    if (!tracking?.driver) return null;
+    if (!driverAssigned) return null;
     const driver = tracking.driver;
     return (
       <div className="delivery-boy-card">
