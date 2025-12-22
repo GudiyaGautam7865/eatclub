@@ -8,15 +8,23 @@ import BulkOrder from '../../models/BulkOrder.js';
  */
 export const getAllSingleOrders = async (req, res) => {
   try {
+    // Pagination & projection to reduce payload size on list view
+    const page = Math.max(1, Number(req.query.page || 1));
+    const limit = Math.min(100, Math.max(1, Number(req.query.limit || 50)));
+    const skip = (page - 1) * limit;
+
     const orders = await Order.find({ isBulk: false })
-      .populate('user', 'name email phoneNumber')
-      .populate('driverId', 'name phoneNumber')
+      .select('status deliveryStatus total createdAt user driverId')
       .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
       .lean();
 
     res.status(200).json({
       success: true,
       count: orders.length,
+      page,
+      limit,
       data: orders,
     });
   } catch (error) {
@@ -41,13 +49,22 @@ export const getAllBulkOrders = async (req, res) => {
       return res.status(200).json({ success: true, count: 0, data: [] });
     }
 
+    const page = Math.max(1, Number(req.query.page || 1));
+    const limit = Math.min(100, Math.max(1, Number(req.query.limit || 50)));
+    const skip = (page - 1) * limit;
+
     const bulkOrders = await BulkOrder.find()
+      .select('status peopleCount eventDateTime createdAt name phone')
       .sort({ createdAt: -1 })
+      .skip(skip)
+      .limit(limit)
       .lean();
 
     res.status(200).json({
       success: true,
       count: bulkOrders.length,
+      page,
+      limit,
       data: bulkOrders,
     });
   } catch (error) {
