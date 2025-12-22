@@ -125,7 +125,7 @@ export default function DeliveryBoyDetailsPage() {
   const statusInfo = getStatusBadge(deliveryBoy.status);
 
   return (
-    <div className="delivery-boy-details-page">
+    <div className="delivery-boy-details-page" style={{border: 'none !important', outline: 'none !important', boxShadow: 'none !important'}}>
       {/* Header */}
       <div className="details-header">
         <button 
@@ -148,8 +148,8 @@ export default function DeliveryBoyDetailsPage() {
       </div>
 
       {/* Profile Header */}
-      <div className="profile-header">
-        <div className="profile-main">
+      <div className="profile-header" style={{border: 'none !important', outline: 'none !important', boxShadow: 'none !important'}}>
+        <div className="profile-main" style={{border: 'none !important', outline: 'none !important'}}>
           <div className="profile-image-large">
             <img 
               src={deliveryBoy.profileImage} 
@@ -186,7 +186,7 @@ export default function DeliveryBoyDetailsPage() {
         </div>
       </div>
 
-      <div className="details-content">
+      <div className="details-content" style={{border: 'none', outline: 'none'}}>
         {/* Statistics Cards */}
         <div className="stats-section">
           <DeliveryBoyStatsCard

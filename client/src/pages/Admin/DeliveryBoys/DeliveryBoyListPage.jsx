@@ -153,7 +153,6 @@ export default function DeliveryBoyListPage() {
       </div>
     );
   }
-
   return (
     <div className="delivery-boys-page">
       {/* Page Header */}
@@ -180,7 +179,6 @@ export default function DeliveryBoyListPage() {
           </div>
         </div>
       </div>
-
       {/* Search and Filters */}
       <div className="filters-section">
         <div className="search-and-controls">
@@ -198,31 +196,10 @@ export default function DeliveryBoyListPage() {
               />
             </div>
           </div>
-          
-          <div className="view-controls">
-            <div className="view-toggle">
-              <button 
-                className={`view-toggle-btn ${viewMode === 'grid' ? 'active' : ''}`}
-                onClick={() => setViewMode('grid')}
-                title="Grid View"
-              >
-                ⊞
-              </button>
-              <button 
-                className={`view-toggle-btn ${viewMode === 'list' ? 'active' : ''}`}
-                onClick={() => setViewMode('list')}
-                title="List View"
-              >
-                ☰
-              </button>
-            </div>
-            
-            <button className="add-delivery-boy-btn" onClick={handleAddDeliveryBoy}>
-              + Add Delivery Boy
-            </button>
-          </div>
+          <button className="add-delivery-boy-btn" onClick={handleAddDeliveryBoy}>
+            + Add Delivery Boy
+          </button>
         </div>
-
         <div className="status-tabs">
           {statusTabs.map((tab) => (
             <button
@@ -236,7 +213,6 @@ export default function DeliveryBoyListPage() {
           ))}
         </div>
       </div>
-
       {/* Delivery Boys Grid */}
       <div className="delivery-boys-content">
         {filteredBoys.length === 0 ? (
@@ -251,39 +227,24 @@ export default function DeliveryBoyListPage() {
             </p>
           </div>
         ) : (
-          <div className={`delivery-boys-container ${viewMode}`}>
-            {viewMode === 'grid' ? (
-              <div className="delivery-boys-grid">
-                {filteredBoys.map((deliveryBoy) => (
-                  <DeliveryBoyCard
-                    key={deliveryBoy.id}
-                    deliveryBoy={deliveryBoy}
-                    onDelete={handleDeleteDeliveryBoy}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="delivery-boys-list">
-                <div className="list-header">
-                  <div className="list-header-item">Delivery Boy</div>
-                  <div className="list-header-item">Status</div>
-                  <div className="list-header-item">Statistics</div>
-                  <div className="list-header-item">Vehicle</div>
-                  <div className="list-header-item">Actions</div>
-                </div>
-                {filteredBoys.map((deliveryBoy) => (
-                  <DeliveryBoyListItem
-                    key={deliveryBoy.id}
-                    deliveryBoy={deliveryBoy}
-                    onDelete={handleDeleteDeliveryBoy}
-                  />
-                ))}
-              </div>
-            )}
+          <div className="delivery-boys-list">
+            <div className="list-header">
+              <div className="list-header-item">Delivery Boy</div>
+              <div className="list-header-item">Status</div>
+              <div className="list-header-item">Statistics</div>
+              <div className="list-header-item">Vehicle</div>
+              <div className="list-header-item">Actions</div>
+            </div>
+            {filteredBoys.map((deliveryBoy) => (
+              <DeliveryBoyListItem
+                key={deliveryBoy.id}
+                deliveryBoy={deliveryBoy}
+                onDelete={handleDeleteDeliveryBoy}
+              />
+            ))}
           </div>
         )}
       </div>
-
       {/* Add Delivery Boy Modal */}
       <AddDeliveryBoyModal
         isOpen={showAddModal}
