@@ -14,7 +14,11 @@
     "seed:orders": "node src/seed/seedOrders.js",
     "migrate:test-to-eatclub": "node src/seed/migrateTestToEatclub.js",
     "migrate:menu": "node src/seed/migrateMenuData.js",
-    "migrate:menu:v2": "node src/seed/migrateMenuDataV2.js"
+    "migrate:menu:v2": "node src/seed/migrateMenuDataV2.js",
+    "loadtest": "node scripts/load-test.js",
+    "loadtest:report": "node scripts/load-test-report.js",
+    "analyze-report": "node scripts/analyze-report.js",
+    "test:performance": "node scripts/load-test-report.js && node scripts/analyze-report.js"
   },
   "keywords": [
     "eatclub",
@@ -40,7 +44,11 @@
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^7.0.11",
     "razorpay": "^2.9.6",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "rate-limit-redis": "^4.0.0",
+    "redis": "^4.6.7",
+    "socket.io-client": "^4.8.1",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
