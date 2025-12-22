@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import OrderTracking from '../../components/admin/orders/OrderTracking';
 import CustomerCard from '../../components/admin/orders/CustomerCard';
@@ -75,6 +75,23 @@ export default function OrderDetailsPage() {
     };
   }, [orderId, order?.status]);
 
+  const summary = useMemo(() => {
+    if (!order) {
+      return { itemCount: 0, amount: 0, placedOn: '—', typeLabel: 'Order' };
+    }
+
+    const itemCount = Array.isArray(order.items)
+      ? order.items.reduce((sum, item) => sum + (item.qty || 0), 0)
+      : 0;
+
+    return {
+      itemCount,
+      amount: order.totalAmount,
+      placedOn: order.orderDate ? new Date(order.orderDate).toLocaleString() : '—',
+      typeLabel: order.type === 'bulk' ? 'Bulk Order' : 'Single Order'
+    };
+  }, [order]);
+
   if (!order) {
     return <div className="order-details-loading">Loading order...</div>;
   }
@@ -136,14 +153,15 @@ export default function OrderDetailsPage() {
   const status = order?.status || '';
   const deliveryStatus = order?.deliveryStatus || '';
   const canAccept = status === 'PLACED' || status === 'PAID';
-  const canReject = status !== 'CANCELLED' && status !== 'DELIVERED';
-  const canMarkPreparing = status === 'PLACED' || status === 'PAID';
+  const canReject = !['CANCELLED', 'DELIVERED', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY'].includes(status);
   const canMarkReady = status === 'PREPARING';
   // Only driver can mark delivered - not admin
   const canMarkDelivered = false;
+  const driverAssignedStatuses = ['ASSIGNED', 'PICKED_UP', 'OUT_FOR_DELIVERY', 'DELIVERED'];
+  const driverAssigned = driverAssignedStatuses.includes(deliveryStatus) || Boolean(order?.driverId);
 
   return (
-      <div className="order-details-page">
+    <div className="order-details-page">
       <div className="order-details-top-bar">
         <button className="back-button" onClick={() => navigate('/admin/orders')}>
           ← Back to Orders
@@ -155,8 +173,13 @@ export default function OrderDetailsPage() {
 
       <div className="order-details-header">
         <div className="order-title-group">
+          <div className="eyebrow">{summary.typeLabel}</div>
           <h1>Order {order.id}</h1>
-          <span className="order-type-badge">{order.type} order</span>
+          <div className="order-meta-row">
+            <div className="order-meta-chip">Placed {summary.placedOn}</div>
+            <div className="order-meta-chip">{summary.itemCount} items</div>
+            <div className="order-meta-chip">Amount ₹{summary.amount}</div>
+          </div>
         </div>
         <div className="status-badges">
           <span className={`order-status-badge ${order.status ? order.status.toLowerCase() : ''}`}>
@@ -170,24 +193,16 @@ export default function OrderDetailsPage() {
         </div>
       </div>
 
-      <div className="order-actions-bar">
-        <div className="action-buttons">
-          <button disabled={!canAccept || actionLoading} onClick={() => handleStatusChange('PREPARING')}>Accept</button>
-          <button disabled={!canReject || actionLoading} onClick={() => handleStatusChange('CANCELLED')}>Reject</button>
-          <button disabled={!canMarkPreparing || actionLoading} onClick={() => handleStatusChange('PREPARING')}>Mark Preparing</button>
-          <button disabled={!canMarkReady || actionLoading} onClick={() => handleStatusChange('READY_FOR_PICKUP')}>Mark Ready</button>
-        </div>
-        <div className="action-note" style={{ fontSize: '12px', color: '#666', marginTop: '8px' }}>
-          💡 Driver will mark order as delivered
-        </div>
-
-        {actionMessage && <div className="action-message">{actionMessage}</div>}
-      </div>
-
-      <div className="order-details-grid">
-        <div className="order-details-left">
+      <div className="order-details-layout">
+        <div className="order-main-column">
           <div className="order-section">
-            <h2>Order Items</h2>
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">Items & Billing</p>
+                <h2>Order Items</h2>
+              </div>
+              <div className="pill">₹{order.totalAmount}</div>
+            </div>
             <div className="order-items-list">
               {order.items.map((item, idx) => (
                 <div key={idx} className="order-item">
@@ -196,7 +211,7 @@ export default function OrderDetailsPage() {
                     {item.notes && <div className="item-notes">Note: {item.notes}</div>}
                   </div>
                   <div className="item-qty">x{item.qty}</div>
-                  <div className="item-price">₹{item.price * item.qty}</div>
+                  <div className="item-price">₹{(item.price || 0) * (item.qty || 0)}</div>
                 </div>
               ))}
               <div className="order-total">
@@ -206,25 +221,92 @@ export default function OrderDetailsPage() {
             </div>
           </div>
 
-          <CustomerCard customer={{
-            name: order.customerName,
-            phone: order.customerPhone,
-            email: order.customerEmail,
-            address: order.deliveryAddress || {}
-          }} />
+          <div className="order-section">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">Customer</p>
+                <h2>Delivery Details</h2>
+              </div>
+            </div>
+            <CustomerCard customer={{
+              name: order.customerName,
+              phone: order.customerPhone,
+              email: order.customerEmail,
+              address: order.deliveryAddress || {}
+            }} />
+          </div>
 
-          <OrderTracking status={order.status} deliveryStatus={deliveryStatus} orderDate={order.orderDate} history={order.statusHistory} />
+          <div className="order-section">
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">Journey</p>
+                <h2>Status Timeline</h2>
+              </div>
+            </div>
+            <OrderTracking status={order.status} deliveryStatus={deliveryStatus} orderDate={order.orderDate} history={order.statusHistory} />
+          </div>
         </div>
 
-        <div className="order-details-right">
+        <div className="order-side-column">
+          <div className="order-action-panel">
+            <div className="panel-header">
+              <div>
+                <p className="eyebrow">Actions</p>
+                <h3>Order Status</h3>
+              </div>
+              <span className="status-dot" style={{ backgroundColor: getStatusColor(order.status) }} />
+            </div>
+            <div className="action-buttons-grid">
+              <button
+                className="action-btn primary"
+                disabled={!canAccept || actionLoading}
+                onClick={() => handleStatusChange('PREPARING')}
+                title={!canAccept ? 'Only new orders can be accepted' : 'Accept and start preparing'}
+              >
+                Accept
+              </button>
+              <button
+                className="action-btn danger"
+                disabled={!canReject || actionLoading}
+                onClick={() => handleStatusChange('CANCELLED')}
+                title={!canReject ? 'Order already closed' : 'Cancel this order'}
+              >
+                Reject
+              </button>
+              <button
+                className="action-btn success"
+                disabled={!canMarkReady || actionLoading}
+                onClick={() => handleStatusChange('READY_FOR_PICKUP')}
+                title={!canMarkReady ? 'Available after preparing' : 'Mark ready for pickup'}
+              >
+                Mark Ready
+              </button>
+            </div>
+            <div className="action-note">Driver will mark as delivered in the field app.</div>
+            {actionMessage && <div className="action-message">{actionMessage}</div>}
+          </div>
+
+          {driverAssigned && (
+            <DriverCard driver={{
+              name: order.driverName,
+              phone: order.driverPhone,
+              id: order.driverId
+            }} />
+          )}
+
           <div className="order-section map-section">
-            <h2>Delivery Route</h2>
+            <div className="section-heading">
+              <div>
+                <p className="eyebrow">Route</p>
+                <h2>Delivery Path</h2>
+              </div>
+            </div>
             <div className="map-placeholder">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d248849.886539092!2d77.49085452026243!3d12.953945613752363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0xf8dfc3e8517e4fe0!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1234567890"
                 width="100%"
-                height="300"
-                style={{ border: 0, borderRadius: '8px' }}
+                height="250"
+                style={{ border: 0, borderRadius: '12px' }}
                 allowFullScreen=""
                 loading="lazy"
               ></iframe>
@@ -240,14 +322,6 @@ export default function OrderDetailsPage() {
               </div>
             </div>
           </div>
-
-          {order.status !== 'CANCELLED' && (
-            <DriverCard driver={{
-              name: order.driverName,
-              phone: order.driverPhone,
-              id: order.driverId
-            }} />
-          )}
         </div>
       </div>
     </div>
