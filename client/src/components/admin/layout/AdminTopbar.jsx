@@ -26,7 +26,7 @@ export default function AdminTopbar({ sidebarCollapsed }) {
               </svg>
               <input
                 type="text"
-                placeholder="Search here..."
+                placeholder="      Search here..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="search-input"

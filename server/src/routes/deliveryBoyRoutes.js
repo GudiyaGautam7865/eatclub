@@ -3,6 +3,7 @@ import {
   createDeliveryBoy,
   getAllDeliveryBoys,
   getDeliveryBoyById,
+  getDeliveryBoyDetails,
   updateDeliveryBoyStatus,
   deleteDeliveryBoy,
 } from '../controllers/deliveryBoyController.js';
@@ -13,6 +14,7 @@ const router = express.Router();
 // Admin routes (protected)
 router.post('/', protect, createDeliveryBoy);
 router.get('/', protect, getAllDeliveryBoys);
+router.get('/:id/details', protect, getDeliveryBoyDetails);
 router.get('/:id', protect, getDeliveryBoyById);
 router.patch('/:id/status', protect, updateDeliveryBoyStatus);
 router.delete('/:id', protect, deleteDeliveryBoy);
