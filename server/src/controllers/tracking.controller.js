@@ -290,3 +290,41 @@ export const acceptOrderByDriver = async (req, res) => {
 
   res.json({ success: true, message: "Order accepted successfully", data: order });
 };
+
+// 9️⃣ Get user location for delivery boy
+export const getUserLocationForDriver = async (req, res) => {
+  const { orderId } = req.params;
+  const driverId = req.user && (req.user._id || req.user.id);
+  
+  if (!driverId) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+
+  if (!mongoose.Types.ObjectId.isValid(orderId)) {
+    return res.status(400).json({ success: false, message: "Invalid orderId" });
+  }
+
+  const order = await Order.findById(orderId).select('driverId driverPhone userLocation address user').populate('user', 'name phone phoneNumber');
+  if (!order) {
+    return res.status(404).json({ success: false, message: "Order not found" });
+  }
+
+  // Verify driver is assigned to this order
+  const phone = req.user?.phone || req.user?.phoneNumber;
+  if (order.driverId && driverId && order.driverId.toString() !== driverId.toString()) {
+    return res.status(403).json({ success: false, message: "Not authorized for this order" });
+  }
+  if (!order.driverId && order.driverPhone && phone && order.driverPhone !== phone) {
+    return res.status(403).json({ success: false, message: "Not authorized for this order" });
+  }
+
+  res.json({ 
+    success: true, 
+    data: {
+      userLocation: order.userLocation,
+      deliveryAddress: order.address,
+      customerName: order.user?.name,
+      customerPhone: order.user?.phone || order.user?.phoneNumber
+    }
+  });
+};
