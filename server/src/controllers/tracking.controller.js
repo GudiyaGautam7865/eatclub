@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Order from "../models/Order.js";
+import { persistOrderLocation } from "../utils/trackingPersist.js";
 
 // 1️⃣ Tracking page load
 export const getTrackingDetails = async (req, res) => {
@@ -69,7 +70,8 @@ export const updateOrderLocation = async (req, res) => {
     return res.status(400).json({ success: false, message: "Invalid orderId" });
   }
 
-  const order = await Order.findById(orderId);
+  // Minimize DB reads: authorize based on stored fields when available with lean lookup
+  const order = await Order.findById(orderId).select("driverId driverPhone").lean();
   if (!order) {
     return res.status(404).json({ success: false, message: "Order not found" });
   }
@@ -83,8 +85,11 @@ export const updateOrderLocation = async (req, res) => {
     return res.status(403).json({ success: false, message: "Not authorized to update this order" });
   }
 
-  order.currentLocation = { lat, lng, updatedAt: new Date() };
-  await order.save();
+  // Persist only if throttling allows (shared utility ensures no duplicate writes vs socket)
+  const result = await persistOrderLocation(orderId, Number(lat), Number(lng));
+  if (!result.persisted) {
+    return res.json({ success: true, message: "Location update accepted" });
+  }
 
   res.json({ success: true, message: "Location updated" });
 };
@@ -120,6 +125,11 @@ export const assignDelivery = async (req, res) => {
     timestamp: new Date(),
     note: 'Driver assigned',
   });
+  // Bound status history to avoid unbounded growth
+  const MAX_HISTORY = Number(process.env.ORDER_STATUS_HISTORY_MAX || 200);
+  if (order.statusHistory.length > MAX_HISTORY) {
+    order.statusHistory = order.statusHistory.slice(-MAX_HISTORY);
+  }
 
   await order.save();
 
@@ -135,13 +145,15 @@ export const updateUserLocation = async (req, res) => {
     return res.status(400).json({ success: false, message: "Invalid orderId" });
   }
 
-  const order = await Order.findById(orderId);
+  const order = await Order.findById(orderId).select('_id').lean();
   if (!order) {
     return res.status(404).json({ success: false, message: "Order not found" });
   }
 
-  order.userLocation = { lat, lng };
-  await order.save();
+  await Order.updateOne(
+    { _id: orderId },
+    { $set: { userLocation: { lat: Number(lat), lng: Number(lng) } } }
+  );
 
   res.json({ success: true, message: "User location updated" });
 };
@@ -199,6 +211,10 @@ export const updateDeliveryStatus = async (req, res) => {
     timestamp: new Date(),
     note: 'Delivery status updated',
   });
+  const MAX_HISTORY = Number(process.env.ORDER_STATUS_HISTORY_MAX || 200);
+  if (order.statusHistory.length > MAX_HISTORY) {
+    order.statusHistory = order.statusHistory.slice(-MAX_HISTORY);
+  }
 
   await order.save();
 
@@ -285,6 +301,10 @@ export const acceptOrderByDriver = async (req, res) => {
     timestamp: new Date(),
     note: 'Order accepted by driver',
   });
+  const MAX_HISTORY = Number(process.env.ORDER_STATUS_HISTORY_MAX || 200);
+  if (order.statusHistory.length > MAX_HISTORY) {
+    order.statusHistory = order.statusHistory.slice(-MAX_HISTORY);
+  }
 
   await order.save();
 
