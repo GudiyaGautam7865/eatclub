@@ -20,20 +20,22 @@
 
 .item-image-container {
   position: relative;
-  height: 280px;
+  height: 250px;
   overflow: hidden;
   background-color: #f5f5f5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 12px 12px 0 0;
 }
 
 .item-image {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover;
+  width: 85% !important;
+  height: 85% !important;
+  object-fit: cover !important;
   object-position: center;
   transition: transform 0.3s ease;
+  display: block !important;
+  border-radius: 12px 12px 0 0;
+  min-width: 100%;
+  min-height: 100%;
 }
 
 .item-card:hover .item-image {
@@ -263,7 +265,7 @@
 /* Responsive Design */
 @media (max-width: 768px) {
   .item-image-container {
-    height: 200px;
+    height: 250px;
   }
   
   .item-content {
@@ -281,7 +283,7 @@
 
 @media (max-width: 480px) {
   .item-image-container {
-    height: 160px;
+    height: 200px;
   }
   
   .item-content {
