@@ -5,6 +5,16 @@ export default function OrderTracking({ status, deliveryStatus, orderDate, histo
   const normalizedStatus = (status || '').toUpperCase();
   const normalizedDeliveryStatus = (deliveryStatus || '').toUpperCase();
 
+  const formatTimestamp = (ts) => {
+    if (!ts) return '';
+    const d = new Date(ts);
+    const diffMinutes = Math.max(0, Math.round((Date.now() - d.getTime()) / 60000));
+    const rel = diffMinutes >= 60
+      ? `${Math.floor(diffMinutes / 60)}h ${diffMinutes % 60}m ago`
+      : `${diffMinutes}m ago`;
+    return `${d.toLocaleString()} (${rel})`;
+  };
+
   const steps = [
     { key: 'PLACED', label: 'Order Placed', icon: '📝' },
     { key: 'PREPARING', label: 'Preparing', icon: '👨‍🍳' },
@@ -54,15 +64,26 @@ export default function OrderTracking({ status, deliveryStatus, orderDate, histo
 
       {Array.isArray(history) && history.length > 0 && (
         <div className="tracking-history">
-          <h3>History</h3>
-          <ul>
-            {history.map((h, idx) => (
-              <li key={`${h.timestamp || idx}-${idx}`}>
-                <span className="history-time">{h.timestamp ? new Date(h.timestamp).toLocaleString() : ''}</span>
-                <span className="history-status">{[h.status, h.deliveryStatus].filter(Boolean).join(' / ')}</span>
-                {h.note && <span className="history-note">{h.note}</span>}
-              </li>
-            ))}
+          <div className="history-header">
+            <h3>History</h3>
+            <span className="history-count">{history.length}</span>
+          </div>
+          <ul className="history-list">
+            {history.map((h, idx) => {
+              const label = [h.status, h.deliveryStatus].filter(Boolean).join(' / ') || 'Updated';
+              return (
+                <li key={`${h.timestamp || idx}-${idx}`} className="history-item">
+                  <div className="history-dot" />
+                  <div className="history-body">
+                    <div className="history-top">
+                      <span className="history-status">{label}</span>
+                      <span className="history-time">{formatTimestamp(h.timestamp)}</span>
+                    </div>
+                    {h.note && <div className="history-note">{h.note}</div>}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}

@@ -42,6 +42,7 @@ import ReviewsPage from "../pages/Admin/Reviews/ReviewsPage";
 import DeliveryBoyListPage from "../pages/Admin/DeliveryBoys/DeliveryBoyListPage";
 import DeliveryBoyDetailsPage from "../pages/Admin/DeliveryBoys/DeliveryBoyDetailsPage";
 import MessagesPage from "../pages/Admin/Messages/MessagesPage";
+import CustomersListPage from "../pages/Admin/CustomersListPage";
 import CustomerDetailPage from "../pages/Admin/CustomerDetail/CustomerDetailPage";
 
 // Admin Protected Route
@@ -121,7 +122,8 @@ function AppRoutes() {
         </Route>
 
         <Route path="messages" element={<MessagesPage />} />
-        <Route path="customer-detail" element={<CustomerDetailPage />} />
+        <Route path="customer-detail" element={<CustomersListPage />} />
+        <Route path="customer-detail/:customerId" element={<CustomerDetailPage />} />
       </Route>
 
       {/* Delivery layout routes */}

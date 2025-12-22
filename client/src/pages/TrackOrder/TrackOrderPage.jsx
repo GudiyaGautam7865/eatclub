@@ -4,6 +4,9 @@ import { io } from 'socket.io-client';
 import { getOrderTracking } from '../../services/ordersService';
 import Toast from '../../components/common/Toast';
 import './TrackOrderPage.css';
+import 'leaflet/dist/leaflet.css';
+import { MapContainer, TileLayer, CircleMarker, Polyline, Tooltip, useMap } from 'react-leaflet';
+import L from 'leaflet';
 
 export default function TrackOrderPage() {
   const navigate = useNavigate();
@@ -65,15 +68,9 @@ export default function TrackOrderPage() {
 
     load();
 
-    // Auto-refresh every 10 seconds for real-time updates
-    const interval = setInterval(() => {
-      if (!loading) {
-        load();
-      }
-    }, 10000);
-
-    return () => clearInterval(interval);
-  }, [orderId, prevDeliveryStatus]);
+    // Auto-refresh disabled per request
+    return () => {};
+  }, [orderId]);
 
   // Initialize Socket.IO connection for live tracking
   useEffect(() => {
@@ -185,6 +182,47 @@ export default function TrackOrderPage() {
     };
   }, [orderId]);
 
+  // Try to use browser geolocation to show user's current position on the map
+  useEffect(() => {
+    let geoWatchId = null;
+    if (typeof window !== 'undefined' && 'geolocation' in navigator) {
+      try {
+        navigator.geolocation.getCurrentPosition(
+          ({ coords }) => {
+            setTracking(prev => prev ? {
+              ...prev,
+              userLocation: {
+                lat: coords.latitude,
+                lng: coords.longitude,
+                updatedAt: new Date().toISOString()
+              }
+            } : prev);
+          },
+          () => {},
+          { enableHighAccuracy: true, timeout: 8000, maximumAge: 10000 }
+        );
+
+        geoWatchId = navigator.geolocation.watchPosition(
+          ({ coords }) => {
+            setTracking(prev => prev ? {
+              ...prev,
+              userLocation: {
+                lat: coords.latitude,
+                lng: coords.longitude,
+                updatedAt: new Date().toISOString()
+              }
+            } : prev);
+          },
+          () => {},
+          { enableHighAccuracy: true, timeout: 8000, maximumAge: 10000 }
+        );
+      } catch {}
+    }
+    return () => {
+      if (geoWatchId) navigator.geolocation.clearWatch(geoWatchId);
+    };
+  }, []);
+
   const statusCopy = {
     PLACED: { text: 'Order placed', icon: '📝', color: '#3b82f6' },
     PAID: { text: 'Payment confirmed', icon: '💳', color: '#2563eb' },
@@ -200,6 +238,21 @@ export default function TrackOrderPage() {
     PICKED_UP: 'Picked up',
     ON_THE_WAY: 'On the way',
     DELIVERED: 'Delivered',
+  };
+
+  const driverAssignedStatuses = ['ASSIGNED', 'PICKED_UP', 'ON_THE_WAY', 'DELIVERED'];
+  const driverAssigned = driverAssignedStatuses.includes(tracking?.deliveryStatus) && Boolean(tracking?.driver);
+
+  // Helper component to fit bounds to both markers when available
+  const FitBounds = ({ positions }) => {
+    const map = useMap();
+    useEffect(() => {
+      if (positions && positions.length > 0) {
+        const bounds = L.latLngBounds(positions);
+        map.fitBounds(bounds, { padding: [30, 30] });
+      }
+    }, [positions, map]);
+    return null;
   };
 
   const renderStatusCard = () => {
@@ -233,21 +286,7 @@ export default function TrackOrderPage() {
   };
 
   const renderDriverCard = () => {
-    if (!tracking?.driver) {
-      return (
-        <div className="delivery-boy-card">
-          <div className="delivery-boy-info">
-            <div className="delivery-boy-avatar">
-              <span>🚴</span>
-            </div>
-            <div className="delivery-boy-details">
-              <h4>Assigning driver...</h4>
-              <p>Waiting for driver to accept</p>
-            </div>
-          </div>
-        </div>
-      );
-    }
+    if (!driverAssigned) return null;
     const driver = tracking.driver;
     return (
       <div className="delivery-boy-card">
@@ -335,40 +374,48 @@ export default function TrackOrderPage() {
   // Use live delivery location if available, otherwise use current location from DB
   const deliveryBoyLocation = liveDeliveryLocation || tracking?.currentLocation;
   
-  // Build map URL with distinct markers for user (red/home) and delivery boy (blue/bike)
-  let mapSrc = '';
   const userLat = tracking?.userLocation?.lat;
   const userLng = tracking?.userLocation?.lng;
   const driverLat = deliveryBoyLocation?.lat;
   const driverLng = deliveryBoyLocation?.lng;
-  
-  // Create markers string with color coding: user=red, driver=blue
-  let markers = [];
-  if (userLat && userLng) {
-    markers.push(`${userLat},${userLng},red-marker`); // Red for customer
-  }
-  if (driverLat && driverLng) {
-    markers.push(`${driverLat},${driverLng},blue-marker`); // Blue for delivery boy
-  }
-  
-  if (markers.length > 0) {
-    // Calculate bounding box that includes all markers
-    const lats = [userLat, driverLat].filter(Boolean);
-    const lngs = [userLng, driverLng].filter(Boolean);
-    const minLat = Math.min(...lats);
-    const maxLat = Math.max(...lats);
-    const minLng = Math.min(...lngs);
-    const maxLng = Math.max(...lngs);
-    const padding = 0.02;
-    const bbox = `${minLng - padding},${minLat - padding},${maxLng + padding},${maxLat + padding}`;
-    
-    // Build URL with multiple markers
-    const markerParams = markers.map((m, i) => `&marker=${m.split(',').slice(0, 2).join(',')}`).join('');
-    mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik${markerParams}`;
-  } else {
-    // Fallback - show India
-    mapSrc = 'https://www.openstreetmap.org/export/embed.html?bbox=68,6,98,37&layer=mapnik';
-  }
+
+  // Render a live Leaflet map with two markers and a connecting line
+  const renderLiveMap = () => {
+    const userPos = userLat && userLng ? [userLat, userLng] : null;
+    const driverPos = driverLat && driverLng ? [driverLat, driverLng] : null;
+    const center = driverPos || userPos || [20.0, 77.0]; // Fallback center (India)
+
+    const positions = [];
+    if (userPos) positions.push(userPos);
+    if (driverPos) positions.push(driverPos);
+
+    return (
+      <MapContainer center={center} zoom={13} style={{ height: '100%', width: '100%' }} scrollWheelZoom>
+        <TileLayer
+          attribution="&copy; OpenStreetMap contributors"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
+
+        {userPos && (
+          <CircleMarker center={userPos} radius={10} color="#ef4444" fillColor="#ef4444" fillOpacity={0.9}>
+            <Tooltip direction="top" offset={[0, -10]} opacity={1}>You</Tooltip>
+          </CircleMarker>
+        )}
+
+        {driverPos && (
+          <CircleMarker center={driverPos} radius={10} color="#3b82f6" fillColor="#3b82f6" fillOpacity={0.9}>
+            <Tooltip direction="top" offset={[0, -10]} opacity={1}>Delivery Boy</Tooltip>
+          </CircleMarker>
+        )}
+
+        {userPos && driverPos && (
+          <Polyline positions={[userPos, driverPos]} color="#10b981" weight={4} opacity={0.8} />
+        )}
+
+        <FitBounds positions={positions} />
+      </MapContainer>
+    );
+  };
 
   return (
     <>
@@ -414,14 +461,7 @@ export default function TrackOrderPage() {
             </div>
           )}
           <div className="map live-map">
-            <iframe
-              title="Order Map"
-              src={mapSrc}
-              style={{ border: 0, width: '100%', height: '100%' }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            {renderLiveMap()}
           </div>
         </div>
         
@@ -440,14 +480,7 @@ export default function TrackOrderPage() {
         {/* Map Side */}
         <div className="map-side">
           <div className="map live-map">
-            <iframe
-              title="Order Map"
-              src={mapSrc}
-              style={{ border: 0, width: '100%', height: '100%' }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
+            {renderLiveMap()}
           </div>
         </div>
         
