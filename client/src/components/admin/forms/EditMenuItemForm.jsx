@@ -125,6 +125,7 @@ export default function EditMenuItemModal({
   return (
  <div className="modal-overlay">
   <div className="modal-box animate-scale">
+    <button className="close-btn" onClick={() => onClose(false)}>×</button>
     <h2>Edit Menu Item</h2>
 
     <label>Name</label>
