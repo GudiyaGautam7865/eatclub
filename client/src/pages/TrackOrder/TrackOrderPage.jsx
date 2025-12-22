@@ -30,6 +30,8 @@ export default function TrackOrderPage() {
           placedAt: data.orderDetails?.placedAt || null,
           deliveryAddress: data.deliveryAddress || {},
           statusHistory: Array.isArray(data.statusHistory) ? data.statusHistory : [],
+          userLocation: data.userLocation || null,
+          currentLocation: data.currentLocation || null,
         };
 
         // Show toast notification when delivery status changes
@@ -184,6 +186,15 @@ export default function TrackOrderPage() {
   if (loading) return <div className="track-order-page"><div className="track-header"><button className="back-btn" onClick={() => navigate(-1)}>←</button><h2>Track Order</h2></div><div className="track-loading">Loading...</div></div>;
   if (error) return <div className="track-order-page"><div className="track-header"><button className="back-btn" onClick={() => navigate(-1)}>←</button><h2>Track Order</h2></div><div className="track-error">{error}</div></div>;
 
+  const mapPoint = tracking?.currentLocation || tracking?.userLocation || null;
+  const hasCoords = mapPoint?.lat && mapPoint?.lng;
+  const bboxPad = 0.01;
+  const bbox = hasCoords
+    ? `${mapPoint.lng - bboxPad},${mapPoint.lat - bboxPad},${mapPoint.lng + bboxPad},${mapPoint.lat + bboxPad}`
+    : '68,6,98,37'; // India-ish fallback
+  const marker = hasCoords ? `&marker=${mapPoint.lat},${mapPoint.lng}` : '';
+  const mapSrc = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik${marker}`;
+
   return (
     <>
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} />}
@@ -199,12 +210,15 @@ export default function TrackOrderPage() {
       <div className="mobile-layout">
         {/* Map Section */}
         <div className="map-container">
-          <div className="map map-placeholder">
-            <div className="map-placeholder-content">
-              <span className="map-icon">🗺️</span>
-              <p>Map View</p>
-              <small>Live tracking coming soon</small>
-            </div>
+          <div className="map live-map">
+            <iframe
+              title="Order Map"
+              src={mapSrc}
+              style={{ border: 0, width: '100%', height: '100%' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
         
@@ -222,12 +236,15 @@ export default function TrackOrderPage() {
       <div className="desktop-layout">
         {/* Map Side */}
         <div className="map-side">
-          <div className="map map-placeholder">
-            <div className="map-placeholder-content">
-              <span className="map-icon">🗺️</span>
-              <p>Map View</p>
-              <small>Live tracking coming soon</small>
-            </div>
+          <div className="map live-map">
+            <iframe
+              title="Order Map"
+              src={mapSrc}
+              style={{ border: 0, width: '100%', height: '100%' }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
           </div>
         </div>
         
