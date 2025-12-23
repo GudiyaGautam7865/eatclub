@@ -292,6 +292,11 @@
   color: #2e7d32;
 }
 
+.profile-info-badge.inactive {
+  background: #fff4e5;
+  color: #d35400;
+}
+
 .permissions-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
