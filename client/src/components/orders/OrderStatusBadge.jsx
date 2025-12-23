@@ -1,8 +1,14 @@
 import React from 'react';
 
 const STATUS_CONFIG = {
-  PLACED: { label: 'Placed', key: 'placed' },
+  REQUESTED: { label: 'Requested', key: 'requested' },
+  REJECTED: { label: 'Rejected', key: 'rejected' },
+  ACCEPTED: { label: 'Accepted', key: 'accepted' },
+  PAYMENT_PENDING: { label: 'Payment Pending', key: 'payment-pending' },
   PAID: { label: 'Paid', key: 'paid' },
+  SCHEDULED: { label: 'Scheduled', key: 'scheduled' },
+  ASSIGNED: { label: 'Assigned', key: 'assigned' },
+  PLACED: { label: 'Placed', key: 'placed' },
   PREPARING: { label: 'Preparing', key: 'preparing' },
   READY_FOR_PICKUP: { label: 'Ready for pickup', key: 'ready' },
   OUT_FOR_DELIVERY: { label: 'Out for delivery', key: 'out-for-delivery' },

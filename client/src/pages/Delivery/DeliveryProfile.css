@@ -1,4 +1,4 @@
-.delivery-profile {
+.db-delivery-profile {
   max-width: 1000px;
   margin: 0 auto;
   background: #f8fafc;
@@ -11,7 +11,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.profile-header {
+.db-profile-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
   border-radius: 16px;
   padding: 32px;
@@ -31,7 +31,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.profile-avatar {
+.db-profile-avatar {
   position: relative;
   z-index: 2;
   flex-shrink: 0;
@@ -44,7 +44,7 @@
   background: #f3f4f6;
 }
 
-.profile-avatar img {
+.db-profile-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -53,13 +53,13 @@
   left: 0;
 }
 
-.online-indicator {
+.db-online-indicator {
   position: absolute;
   bottom: 8px;
   right: 8px;
 }
 
-.status-dot {
+.db-status-dot {
   width: 20px;
   height: 20px;
   border-radius: 50%;
@@ -67,34 +67,34 @@
   display: block;
 }
 
-.status-dot.online {
+.db-status-dot.online {
   background: #4caf50;
 }
 
-.status-dot.offline {
+.db-status-dot.offline {
   background: #f44336;
 }
 
-.profile-info {
+.db-profile-info {
   flex: 1;
   position: relative;
   z-index: 2;
 }
 
-.profile-info h1 {
+.db-profile-info h1 {
   margin: 0 0 8px 0;
   font-size: 28px;
   color: white;
   font-weight: 700;
 }
 
-.partner-id {
+.db-partner-id {
   margin: 0 0 12px 0;
   color: rgba(255, 255, 255, 0.8);
   font-size: 14px;
 }
 
-.rating-badge {
+.db-rating-badge {
   background: rgba(255, 255, 255, 0.2);
   color: white;
   padding: 8px 16px;
@@ -106,7 +106,7 @@
   border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
-.edit-profile-btn {
+.db-edit-profile-btn {
   background: rgba(255, 255, 255, 0.2);
   color: white;
   border: 1px solid rgba(255, 255, 255, 0.3);
@@ -121,12 +121,12 @@
   z-index: 2;
 }
 
-.edit-profile-btn:hover {
+.db-edit-profile-btn:hover {
   background: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
 }
 
-.profile-stats {
+.db-profile-stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
@@ -139,7 +139,7 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-.stat-card {
+.db-stat-card {
   background: linear-gradient(135deg, #ffffff, #f8fafc);
   border-radius: 12px;
   padding: 20px;
@@ -151,12 +151,12 @@
   border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-.stat-card:hover {
+.db-stat-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-.stat-icon {
+.db-stat-icon {
   font-size: 24px;
   width: 48px;
   height: 48px;
@@ -168,25 +168,25 @@
   justify-content: center;
 }
 
-.stat-info {
+.db-stat-info {
   display: flex;
   flex-direction: column;
 }
 
-.stat-value {
+.db-stat-value {
   font-size: 18px;
   font-weight: 700;
   color: #1f2937;
   margin-bottom: 2px;
 }
 
-.stat-label {
+.db-stat-label {
   font-size: 12px;
   color: #6b7280;
   text-transform: uppercase;
 }
 
-.profile-details {
+.db-profile-details {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
@@ -194,7 +194,7 @@
   animation: slideUp 0.8s ease-out 0.4s both;
 }
 
-.details-section {
+.db-details-section {
   background: linear-gradient(135deg, #ffffff, #f8fafc);
   border-radius: 12px;
   padding: 24px;
@@ -203,38 +203,38 @@
   transition: all 0.2s ease;
 }
 
-.details-section:hover {
+.db-details-section:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-.details-section h3 {
+.db-details-section h3 {
   margin: 0 0 20px 0;
   font-size: 18px;
   color: #1f2937;
   font-weight: 600;
 }
 
-.details-form {
+.db-details-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.form-group {
+.db-form-group {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.form-group label {
+.db-form-group label {
   font-size: 14px;
   color: #6b7280;
   font-weight: 500;
 }
 
-.form-group input,
-.form-group select {
+.db-form-group input,
+.db-form-group select {
   padding: 12px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -242,28 +242,28 @@
   transition: border-color 0.2s ease;
 }
 
-.form-group input:focus,
-.form-group select:focus {
+.db-form-group input:focus,
+.db-form-group select:focus {
   outline: none;
   border-color: #ff6b35;
 }
 
-.form-value {
+.db-form-value {
   padding: 12px 0;
   font-size: 14px;
   color: #1f2937;
   border-bottom: 1px solid #f3f4f6;
 }
 
-.form-actions {
+.db-form-actions {
   display: flex;
   gap: 12px;
   margin-bottom: 24px;
   justify-content: center;
 }
 
-.save-btn,
-.cancel-btn {
+.db-save-btn,
+.db-cancel-btn {
   padding: 12px 24px;
   border: none;
   border-radius: 8px;
@@ -273,33 +273,33 @@
   transition: all 0.2s ease;
 }
 
-.save-btn {
+.db-save-btn {
   background: #6366f1;
   color: white;
 }
 
-.save-btn:hover {
+.db-save-btn:hover {
   background: #5b21b6;
 }
 
-.cancel-btn {
+.db-cancel-btn {
   background: #f8fafc;
   color: #6b7280;
 }
 
-.cancel-btn:hover {
+.db-cancel-btn:hover {
   background: #e0e0e0;
 }
 
-.profile-actions {
+.db-profile-actions {
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 24px;
   animation: slideUp 0.8s ease-out 0.5s both;
 }
 
-.action-section,
-.logout-section {
+.db-action-section,
+.db-logout-section {
   background: linear-gradient(135deg, #ffffff, #f8fafc);
   border-radius: 12px;
   padding: 24px;
@@ -308,26 +308,26 @@
   transition: all 0.2s ease;
 }
 
-.action-section:hover,
-.logout-section:hover {
+.db-action-section:hover,
+.db-logout-section:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-.action-section h3 {
+.db-action-section h3 {
   margin: 0 0 20px 0;
   font-size: 18px;
   color: #1f2937;
   font-weight: 600;
 }
 
-.action-buttons {
+.db-action-buttons {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.action-btn {
+.db-action-btn {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -340,30 +340,30 @@
   text-align: left;
 }
 
-.action-btn:hover {
+.db-action-btn:hover {
   background: #ffffff;
   border-color: #cbd5e1;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.action-icon {
+.db-action-icon {
   font-size: 18px;
 }
 
-.action-btn span:last-child {
+.db-action-btn span:last-child {
   font-size: 14px;
   font-weight: 500;
   color: #374151;
 }
 
-.logout-section {
+.db-logout-section {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.logout-btn {
+.db-logout-btn {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -382,12 +382,12 @@
   bottom: 20px;
 }
 
-.logout-btn:hover {
+.db-logout-btn:hover {
   background: #d32f2f;
   transform: translateY(-1px);
 }
 
-.logout-icon {
+.db-logout-icon {
   font-size: 18px;
 }
 
@@ -558,12 +558,12 @@
 }
 /* Better Mobile Responsive */
 @media (max-width: 768px) {
-  .delivery-profile {
+  .db-delivery-profile {
     max-width: 100%;
     padding: 0 8px;
   }
   
-  .delivery-profile-header {
+  .db-delivery-profile-header {
     margin: 12px 0 20px 0;
     padding: 20px 16px;
     border-radius: 12px;
@@ -572,70 +572,70 @@
     gap: 16px;
   }
   
-  .delivery-profile-info h1 {
+  .db-delivery-profile-info h1 {
     font-size: 22px;
   }
   
-  .profile-stats {
+  .db-profile-stats {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     margin-bottom: 20px;
   }
   
-  .stat-card {
+  .db-stat-card {
     padding: 16px 12px;
     text-align: center;
   }
   
-  .profile-details {
+  .db-profile-details {
     grid-template-columns: 1fr;
     gap: 16px;
   }
   
-  .details-section {
+  .db-details-section {
     padding: 20px 16px;
   }
   
-  .profile-actions {
+  .db-profile-actions {
     grid-template-columns: 1fr;
     gap: 16px;
   }
   
-  .action-section,
-  .logout-section {
+  .db-action-section,
+  .db-logout-section {
     padding: 20px 16px;
   }
 }
 
 @media (max-width: 480px) {
-  .delivery-profile {
+  .db-delivery-profile {
     padding: 0 4px;
   }
   
-  .delivery-profile-header {
+  .db-delivery-profile-header {
     padding: 16px 12px;
     margin: 8px 0 16px 0;
   }
   
-  .delivery-profile-info h1 {
+  .db-delivery-profile-info h1 {
     font-size: 20px;
   }
   
-  .profile-stats {
+  .db-profile-stats {
     grid-template-columns: 1fr;
     gap: 10px;
   }
   
-  .stat-card {
+  .db-stat-card {
     padding: 14px 10px;
   }
   
-  .details-section {
+  .db-details-section {
     padding: 16px 12px;
   }
   
-  .action-section,
-  .logout-section {
+  .db-action-section,
+  .db-logout-section {
     padding: 16px 12px;
   }
 }

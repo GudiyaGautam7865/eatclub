@@ -94,6 +94,25 @@ const userSchema = new mongoose.Schema(
       type: Date,
       select: false,
     },
+    // Admin profile update fields
+    pendingEmail: {
+      type: String,
+      lowercase: true,
+      trim: true,
+      select: false,
+    },
+    emailChangeCode: {
+      type: String,
+      select: false,
+    },
+    emailChangeExpires: {
+      type: Date,
+      select: false,
+    },
+    avatar: {
+      type: String,
+      trim: true,
+    },
   },
   { timestamps: true }
 );

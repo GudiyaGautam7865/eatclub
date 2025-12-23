@@ -93,8 +93,12 @@ export default function OrdersPage() {
     setFilteredOrders(filtered);
   };
 
-  const handleOrderClick = (orderId) => {
-    navigate(`/admin/orders/${orderId}`);
+  const handleOrderClick = (orderId, orderType) => {
+    if (orderType === 'bulk') {
+      navigate(`/admin/orders/bulk/${orderId}`);
+    } else {
+      navigate(`/admin/orders/${orderId}`);
+    }
   };
 
   if (loading) {
@@ -131,14 +135,14 @@ export default function OrdersPage() {
             <OrdersGridCard
               key={order.id}
               order={order}
-              onClick={() => handleOrderClick(order.id)}
+              onClick={() => handleOrderClick(order.id, order.type)}
             />
           ))}
         </div>
       ) : (
         <OrdersTable
           orders={filteredOrders}
-          onRowClick={handleOrderClick}
+          onRowClick={(orderId, orderType) => handleOrderClick(orderId, orderType)}
         />
       )}
 

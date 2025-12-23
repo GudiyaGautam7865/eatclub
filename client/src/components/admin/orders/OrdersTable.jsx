@@ -33,7 +33,7 @@ export default function OrdersTable({ orders, onRowClick }) {
         </thead>
         <tbody>
           {orders.map(order => (
-            <tr key={order.id} onClick={() => onRowClick(order.id)}>
+            <tr key={order.id} onClick={() => onRowClick(order.id, order.type)}>
               <td className="order-id-cell">{order.id}</td>
               <td><span className="type-badge">{(order.type || '').toString().toUpperCase()}</span></td>
               <td>{order.customerName}</td>

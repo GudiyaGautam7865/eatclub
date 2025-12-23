@@ -4,11 +4,15 @@ import {
   getOrdersByStatus,
   getRevenueAnalytics
 } from '../../controllers/admin/adminStatsController.js';
+import { authMiddleware } from '../../middleware/authMiddleware.js';
+import { adminMiddleware } from '../../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
-// Stats routes - no auth required for read-only dashboard data
-// (Frontend protects these routes with AdminProtectedRoute)
+// Protect stats routes at API layer as well
+router.use(authMiddleware);
+router.use(adminMiddleware);
+
 router.get('/dashboard', getDashboardStats);
 router.get('/orders-by-status', getOrdersByStatus);
 router.get('/revenue-analytics', getRevenueAnalytics);

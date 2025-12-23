@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./PartyOrderPage.css";
 import { createBulkOrder } from "../../services/bulkOrdersService";
 
 export default function PartyOrderPage() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -54,25 +56,42 @@ export default function PartyOrderPage() {
     }
 
     try {
-      // Create bulk order
+      const eventDate = new Date(formData.eventDateTime);
+      const scheduledDate = eventDate.toISOString().split('T')[0];
+      const scheduledTime = eventDate.toTimeString().slice(0, 5);
+
+      // Build items description (NO PRICE - admin will set it)
+      const itemsDescription = [];
+      if (formData.brandPreference) {
+        itemsDescription.push(`Preferred Brand: ${formData.brandPreference}`);
+      }
+      if (formData.budgetPerHead) {
+        itemsDescription.push(`Budget per person: ₹${formData.budgetPerHead}`);
+      }
+      
       const orderData = {
-        name: formData.name,
-        phone: formData.phone,
-        email: formData.email,
-        peopleCount: formData.peopleCount,
-        eventDateTime: formData.eventDateTime,
-        address: formData.address,
-        brandPreference: formData.brandPreference,
-        budgetPerHead: formData.budgetPerHead,
-        notes: formData.notes,
+        eventName: `${formData.name}'s Event`,
+        eventType: 'Party',
+        peopleCount: parseInt(formData.peopleCount),
+        scheduledDate,
+        scheduledTime,
+        items: [{
+          name: itemsDescription.length > 0 ? itemsDescription.join(', ') : 'Bulk Order Items',
+          qty: parseInt(formData.peopleCount),
+          price: 0,  // Price will be set by admin
+        }],
+        address: {
+          line1: formData.address,
+          city: '',
+          pincode: '',
+        },
+        specialInstructions: `Contact: ${formData.phone}${formData.email ? ', Email: ' + formData.email : ''}${formData.notes ? '. Notes: ' + formData.notes : ''}`,
       };
 
       await createBulkOrder(orderData);
 
-      // Show success message
-      setSuccessMessage("Your bulk order request has been submitted successfully! Our team will reach out to you shortly.");
+      setSuccessMessage("Your bulk order request has been submitted successfully! Our team will review and confirm pricing within 24 hours.");
 
-      // Clear form
       setFormData({
         name: "",
         phone: "",
@@ -85,8 +104,9 @@ export default function PartyOrderPage() {
         notes: "",
       });
 
-      // Clear success message after 5 seconds
-      setTimeout(() => setSuccessMessage(""), 5000);
+      setTimeout(() => {
+        navigate('/orders');
+      }, 2000);
     } catch (error) {
       console.error("Error creating bulk order:", error);
       const errorMsg = error.message || "Failed to submit bulk order. Please try again.";

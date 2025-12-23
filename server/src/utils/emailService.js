@@ -65,3 +65,26 @@ export const sendDeliveryBoyCredentials = async (email, password, name) => {
 
   await transporter.sendMail(mailOptions);
 };
+
+export const sendAdminEmailVerification = async (code) => {
+  const adminEmail = process.env.ADMIN_VERIFICATION_EMAIL || 'vivekjangam73@gmail.com';
+  
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: adminEmail,
+    subject: 'Admin Email Change Verification - EatClub',
+    html: `
+      <h2>Admin Email Change Verification</h2>
+      <p>A request has been made to change the admin email address.</p>
+      <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center;">
+        <p style="margin: 0 0 10px 0; font-size: 14px; color: #666;">Your verification code is:</p>
+        <h1 style="margin: 0; color: #667eea; font-size: 36px; letter-spacing: 8px;">${code}</h1>
+      </div>
+      <p style="color: #666;">This code expires in 10 minutes.</p>
+      <hr style="margin: 20px 0;" />
+      <p style="color: #999; font-size: 12px;">If you did not request this change, please ignore this email.</p>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
+};

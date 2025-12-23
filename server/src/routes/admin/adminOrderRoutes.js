@@ -5,16 +5,18 @@ import {
   updateOrderStatus,
   updateBulkOrderStatus,
   getOrderById,
+  approveBulkOrder,
+  rejectBulkOrder,
 } from '../../controllers/admin/adminOrderController.js';
 import { authMiddleware } from '../../middleware/authMiddleware.js';
-// import { adminMiddleware } from '../../middleware/adminMiddleware.js'; // TEMP: Disabled for testing
+import { adminMiddleware } from '../../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
 // 🔴 DEVELOPMENT ONLY: Admin middleware temporarily disabled for testing
 // TODO: Re-enable before production
 router.use(authMiddleware);
-// router.use(adminMiddleware);
+router.use(adminMiddleware);
 
 // GET /api/admin/orders/single - Get all single orders
 router.get('/single', getAllSingleOrders);
@@ -24,6 +26,12 @@ router.get('/bulk', getAllBulkOrders);
 
 // PATCH /api/admin/orders/bulk/:id/status - Update bulk order status
 router.patch('/bulk/:id/status', updateBulkOrderStatus);
+
+// POST /api/admin/orders/bulk/:id/approve - Approve bulk order
+router.post('/bulk/:id/approve', approveBulkOrder);
+
+// POST /api/admin/orders/bulk/:id/reject - Reject bulk order
+router.post('/bulk/:id/reject', rejectBulkOrder);
 
 // PATCH /api/admin/orders/:id/status - Update single order status
 router.patch('/:id/status', updateOrderStatus);

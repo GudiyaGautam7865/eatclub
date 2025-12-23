@@ -83,9 +83,9 @@ const DeliveryProfile = () => {
   ];
 
   return (
-    <div className="delivery-profile">
-      <div className="delivery-profile-header">
-        <div className="delivery-profile-avatar">
+    <div className="db-delivery-profile">
+      <div className="db-delivery-profile-header">
+        <div className="db-delivery-profile-avatar">
           <img 
             src={partner.profilePhoto} 
             alt={partner.name}
@@ -95,39 +95,39 @@ const DeliveryProfile = () => {
           />
         </div>
         
-        <div className="delivery-profile-info">
+        <div className="db-delivery-profile-info">
           <h1>{partner.name}</h1>
-          <p className="delivery-partner-id">ID: {partner.id}</p>
-          <div className="delivery-rating-badge">
+          <p className="db-delivery-partner-id">ID: {partner.id}</p>
+          <div className="db-delivery-rating-badge">
             ⭐ {partner.rating} Rating
           </div>
         </div>
 
         <button 
-          className="delivery-edit-profile-btn"
+          className="db-delivery-edit-profile-btn"
           onClick={() => setIsEditing(!isEditing)}
         >
           {isEditing ? 'Cancel' : 'Edit Profile'}
         </button>
       </div>
 
-      <div className="profile-stats">
+      <div className="db-profile-stats">
         {profileStats.map((stat, index) => (
-          <div key={index} className="stat-card">
-            <span className="stat-icon">{stat.icon}</span>
-            <div className="stat-info">
-              <span className="stat-value">{stat.value}</span>
-              <span className="stat-label">{stat.label}</span>
+          <div key={index} className="db-stat-card">
+            <span className="db-stat-icon">{stat.icon}</span>
+            <div className="db-stat-info">
+              <span className="db-stat-value">{stat.value}</span>
+              <span className="db-stat-label">{stat.label}</span>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="profile-details">
-        <div className="details-section">
+      <div className="db-profile-details">
+        <div className="db-details-section">
           <h3>Personal Information</h3>
-          <div className="details-form">
-            <div className="form-group">
+          <div className="db-details-form">
+            <div className="db-form-group">
               <label>Full Name</label>
               {isEditing ? (
                 <input
@@ -137,11 +137,11 @@ const DeliveryProfile = () => {
                   onChange={handleInputChange}
                 />
               ) : (
-                <span className="form-value">{partner.name}</span>
+                <span className="db-form-value">{partner.name}</span>
               )}
             </div>
 
-            <div className="form-group">
+            <div className="db-form-group">
               <label>Phone Number</label>
               {isEditing ? (
                 <input
@@ -151,11 +151,11 @@ const DeliveryProfile = () => {
                   onChange={handleInputChange}
                 />
               ) : (
-                <span className="form-value">{partner.phone}</span>
+                <span className="db-form-value">{partner.phone}</span>
               )}
             </div>
 
-            <div className="form-group">
+            <div className="db-form-group">
               <label>Email Address</label>
               {isEditing ? (
                 <input
@@ -165,16 +165,16 @@ const DeliveryProfile = () => {
                   onChange={handleInputChange}
                 />
               ) : (
-                <span className="form-value">{partner.email}</span>
+                <span className="db-form-value">{partner.email}</span>
               )}
             </div>
           </div>
         </div>
 
-        <div className="details-section">
+        <div className="db-details-section">
           <h3>Vehicle Information</h3>
-          <div className="details-form">
-            <div className="form-group">
+          <div className="db-details-form">
+            <div className="db-form-group">
               <label>Vehicle Type</label>
               {isEditing ? (
                 <select
@@ -188,11 +188,11 @@ const DeliveryProfile = () => {
                   <option value="Car">Car</option>
                 </select>
               ) : (
-                <span className="form-value">{partner.vehicleType}</span>
+                <span className="db-form-value">{partner.vehicleType}</span>
               )}
             </div>
 
-            <div className="form-group">
+            <div className="db-form-group">
               <label>Vehicle Number</label>
               {isEditing ? (
                 <input
@@ -202,7 +202,7 @@ const DeliveryProfile = () => {
                   onChange={handleInputChange}
                 />
               ) : (
-                <span className="form-value">{partner.vehicleNumber}</span>
+                <span className="db-form-value">{partner.vehicleNumber}</span>
               )}
             </div>
           </div>
@@ -210,42 +210,42 @@ const DeliveryProfile = () => {
       </div>
 
       {isEditing && (
-        <div className="form-actions">
-          <button className="save-btn" onClick={handleSave}>
+        <div className="db-form-actions">
+          <button className="db-save-btn" onClick={handleSave}>
             Save Changes
           </button>
-          <button className="cancel-btn" onClick={() => setIsEditing(false)}>
+          <button className="db-cancel-btn" onClick={() => setIsEditing(false)}>
             Cancel
           </button>
         </div>
       )}
 
-      <div className="profile-actions">
-        <div className="action-section">
+      <div className="db-profile-actions">
+        <div className="db-action-section">
           <h3>Account Actions</h3>
-          <div className="action-buttons">
-            <button className="action-btn">
-              <span className="action-icon">📱</span>
+          <div className="db-action-buttons">
+            <button className="db-action-btn">
+              <span className="db-action-icon">📱</span>
               <span>Contact Support</span>
             </button>
-            <button className="action-btn">
-              <span className="action-icon">📋</span>
+            <button className="db-action-btn">
+              <span className="db-action-icon">📋</span>
               <span>Terms & Conditions</span>
             </button>
-            <button className="action-btn">
-              <span className="action-icon">🔒</span>
+            <button className="db-action-btn">
+              <span className="db-action-icon">🔒</span>
               <span>Privacy Policy</span>
             </button>
-            <button className="action-btn">
-              <span className="action-icon">ℹ️</span>
+            <button className="db-action-btn">
+              <span className="db-action-icon">ℹ️</span>
               <span>About App</span>
             </button>
           </div>
         </div>
 
-        <div className="logout-section">
-          <button className="logout-btn" onClick={handleLogout}>
-            <span className="logout-icon">🚪</span>
+        <div className="db-logout-section">
+          <button className="db-logout-btn" onClick={handleLogout}>
+            <span className="db-logout-icon">🚪</span>
             <span>Logout</span>
           </button>
         </div>

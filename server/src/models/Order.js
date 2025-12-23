@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const orderItemSchema = new mongoose.Schema({
   menuItemId: {
     type: String,
-    required: true,
+    required: false,
   },
   name: {
     type: String,
@@ -34,7 +34,7 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['PLACED', 'ACCEPTED', 'PAID', 'PREPARING', 'READY', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
+      enum: ['REQUESTED', 'REJECTED', 'ACCEPTED', 'PAYMENT_PENDING', 'PAID', 'SCHEDULED', 'ASSIGNED', 'PLACED', 'PREPARING', 'READY', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
       default: 'PLACED',
     },
     acceptedAt: {
@@ -87,6 +87,34 @@ const orderSchema = new mongoose.Schema(
         default: Date.now,
       },
     },
+    orderType: {
+      type: String,
+      enum: ['SINGLE', 'BULK'],
+      default: 'SINGLE',
+    },
+    bulkDetails: {
+      eventName: String,
+      eventType: String,
+      peopleCount: Number,
+      scheduledDate: Date,
+      scheduledTime: String,
+      discount: Number,
+      discountReason: String,
+      subtotal: Number,
+      additionalCharges: {
+        packaging: { type: Number, default: 0 },
+        delivery: { type: Number, default: 0 },
+        service: { type: Number, default: 0 },
+      },
+      adminNotes: String,
+      specialInstructions: String,
+      assignedDeliveryBoy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'DeliveryBoy',
+      },
+      deliveryBoyName: String,
+      deliveryBoyPhone: String,
+    },
     isBulk: {
       type: Boolean,
       default: false,
@@ -123,7 +151,7 @@ const orderSchema = new mongoose.Schema(
       {
         status: {
           type: String,
-          enum: ['PLACED', 'ACCEPTED', 'PAID', 'PREPARING', 'READY', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
+          enum: ['REQUESTED', 'REJECTED', 'ACCEPTED', 'PAYMENT_PENDING', 'PAID', 'SCHEDULED', 'ASSIGNED', 'PLACED', 'PREPARING', 'READY', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
         },
         deliveryStatus: {
           type: String,

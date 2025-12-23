@@ -14,7 +14,9 @@ export const getAllSingleOrders = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const orders = await Order.find({ isBulk: false })
-      .select('status deliveryStatus total createdAt user driverId')
+      .select('status deliveryStatus total createdAt user driverId items address payment isBulk')
+      .populate('user', 'name email phoneNumber')
+      .populate('driverId', 'name phoneNumber')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
@@ -54,7 +56,7 @@ export const getAllBulkOrders = async (req, res) => {
     const skip = (page - 1) * limit;
 
     const bulkOrders = await BulkOrder.find()
-      .select('status peopleCount eventDateTime createdAt name phone')
+      .select('status peopleCount eventDateTime createdAt name phone email address total items isBulk')
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit)
@@ -206,7 +208,10 @@ export const getOrderById = async (req, res) => {
     }
 
     // Fallback to bulk orders
-    const bulkOrder = await BulkOrder.findById(id).lean();
+    const bulkOrder = await BulkOrder.findById(id)
+      .populate('user', 'name email phoneNumber')
+      .populate('approvedBy', 'name email')
+      .lean();
     if (bulkOrder) {
       return res.status(200).json({ success: true, data: bulkOrder });
     }
@@ -215,5 +220,96 @@ export const getOrderById = async (req, res) => {
   } catch (error) {
     console.error('Get order by id error:', error);
     return res.status(500).json({ success: false, message: 'Failed to fetch order', error: error.message });
+  }
+};
+
+/**
+ * Approve bulk order
+ * POST /api/admin/orders/bulk/:id/approve
+ * @access Private/Admin
+ */
+export const approveBulkOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { totalAmount, perHeadPrice, discount, notes } = req.body;
+
+    const bulkOrder = await BulkOrder.findById(id);
+    if (!bulkOrder) {
+      return res.status(404).json({ success: false, message: 'Bulk order not found' });
+    }
+
+    if (bulkOrder.approvalStatus !== 'PENDING') {
+      return res.status(400).json({ 
+        success: false, 
+        message: `Bulk order already ${bulkOrder.approvalStatus.toLowerCase()}` 
+      });
+    }
+
+    bulkOrder.approvalStatus = 'APPROVED';
+    bulkOrder.status = 'PAYMENT_PENDING';
+    bulkOrder.approvedBy = req.user.id;
+    bulkOrder.approvedAt = new Date();
+    bulkOrder.customPricing = {
+      totalAmount: totalAmount || 0,
+      perHeadPrice: perHeadPrice || 0,
+      discount: discount || 0,
+      notes: notes || '',
+    };
+
+    await bulkOrder.save();
+
+    return res.json({
+      success: true,
+      message: 'Bulk order approved successfully',
+      data: bulkOrder,
+    });
+  } catch (error) {
+    console.error('Approve bulk order error:', error);
+    return res.status(500).json({ success: false, message: 'Failed to approve bulk order', error: error.message });
+  }
+};
+
+/**
+ * Reject bulk order
+ * POST /api/admin/orders/bulk/:id/reject
+ * @access Private/Admin
+ */
+export const rejectBulkOrder = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { reason } = req.body;
+
+    if (!reason || !reason.trim()) {
+      return res.status(400).json({ success: false, message: 'Rejection reason is required' });
+    }
+
+    const bulkOrder = await BulkOrder.findById(id);
+    if (!bulkOrder) {
+      return res.status(404).json({ success: false, message: 'Bulk order not found' });
+    }
+
+    if (bulkOrder.approvalStatus !== 'PENDING') {
+      return res.status(400).json({ 
+        success: false, 
+        message: `Bulk order already ${bulkOrder.approvalStatus.toLowerCase()}` 
+      });
+    }
+
+    bulkOrder.approvalStatus = 'REJECTED';
+    bulkOrder.status = 'REJECTED';
+    bulkOrder.rejectionReason = reason;
+    bulkOrder.approvedBy = req.user.id;
+    bulkOrder.approvedAt = new Date();
+
+    await bulkOrder.save();
+
+    return res.json({
+      success: true,
+      message: 'Bulk order rejected',
+      data: bulkOrder,
+    });
+  } catch (error) {
+    console.error('Reject bulk order error:', error);
+    return res.status(500).json({ success: false, message: 'Failed to reject bulk order', error: error.message });
   }
 };

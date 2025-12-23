@@ -17,6 +17,8 @@ import MenuPage from "../pages/Menu/MenuPage";
 import FoodDetailPage from "../pages/Food/FoodDetailPage";
 import ManageOrdersPage from "../pages/ManageOrders/ManageOrdersPage";
 import TrackOrderPage from "../pages/TrackOrder/TrackOrderPage";
+import BulkOrderRequest from "../pages/BulkOrder/BulkOrderRequest";
+import BulkOrderDetail from "../pages/BulkOrder/BulkOrderDetail";
 import DeliveryApp from "../pages/DeliveryApp/DeliveryApp";
 import ProfilePage from "../pages/Profile/ProfilePage";
 import CreditsPage from "../pages/Profile/CreditsPage";
@@ -35,7 +37,7 @@ import AddMenuItemPage from "../pages/Admin/Menu/AddMenuItemPage";
 import MenuItemsListPage from "../pages/Admin/Menu/MenuItemsListPage";
 import SingleOrdersPage from "../pages/Admin/Orders/SingleOrdersPage";
 import BulkOrdersPage from "../pages/Admin/Orders/BulkOrdersPage";
-import BulkOrderDetailsPage from "../pages/Admin/Orders/BulkOrderDetailsPage";
+import BulkOrderDetailsAdminPage from "../pages/Admin/Orders/BulkOrderDetailsAdminPage";
 import OrdersPage from "../pages/Admin/OrdersPage";
 import OrderDetailsPage from "../pages/Admin/OrderDetailsPage";
 import MenuDetailPage from "../pages/Admin/MenuDetailPage";
@@ -69,9 +71,12 @@ function AppRoutes() {
         <Route path="/membership" element={<MembershipPage />} />
         <Route path="/refer" element={<ReferPage />} />
         <Route path="/manage_orders" element={<ManageOrdersPage />} />
+        <Route path="/orders" element={<ManageOrdersPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/offers" element={<OffersPage />} />
         <Route path="/party_order" element={<PartyOrderPage />} />
+        <Route path="/bulk-order-request" element={<BulkOrderRequest />} />
+        <Route path="/bulk-orders/:id" element={<BulkOrderDetail />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/food/:foodId" element={<FoodDetailPage />} />
         <Route path="/track-order/:orderId" element={<TrackOrderPage />} />
@@ -118,7 +123,7 @@ function AppRoutes() {
           <Route path=":orderId" element={<OrderDetailsPage />} />
           <Route path="single" element={<SingleOrdersPage />} />
           <Route path="bulk" element={<BulkOrdersPage />} />
-          <Route path="bulk/:orderId" element={<BulkOrderDetailsPage />} />
+          <Route path="bulk/:orderId" element={<BulkOrderDetailsAdminPage />} />
         </Route>
 
         <Route path="reviews" element={<ReviewsPage />} />

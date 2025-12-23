@@ -11,6 +11,7 @@ import {
   getUserLocationForDriver,
 } from "../controllers/tracking.controller.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
+import { adminMiddleware } from "../middleware/adminMiddleware.js";
 
 const router = express.Router();
 
@@ -24,7 +25,8 @@ router.options("*", (req, res) => {
 router.get("/orders/:orderId/tracking", getTrackingDetails);
 router.get("/orders/:orderId/location", getOrderLocation);
 router.post("/orders/:orderId/location", authMiddleware, updateOrderLocation);
-router.post("/orders/:orderId/assign-delivery", authMiddleware, assignDelivery);
+// Assigning delivery is an admin-only action
+router.post("/orders/:orderId/assign-delivery", authMiddleware, adminMiddleware, assignDelivery);
 router.post("/orders/:orderId/user-location", authMiddleware, updateUserLocation);
 router.post("/orders/:orderId/delivery-status", authMiddleware, updateDeliveryStatus);
 router.get("/driver/orders", authMiddleware, getDriverOrders);
