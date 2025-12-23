@@ -137,39 +137,18 @@ export default function PartyOrderPage() {
             />
 
             <div className="party-radio-group">
-              <label>No. of People</label>
-              <div>
-                <label>
-                  <input
-                    type="radio"
-                    name="peopleCount"
-                    value="20-40"
-                    checked={formData.peopleCount === "20-40"}
-                    onChange={handleInputChange}
-                  />{" "}
-                  20–40
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="peopleCount"
-                    value="40-60"
-                    checked={formData.peopleCount === "40-60"}
-                    onChange={handleInputChange}
-                  />{" "}
-                  40–60
-                </label>
-                <label>
-                  <input
-                    type="radio"
-                    name="peopleCount"
-                    value="60+"
-                    checked={formData.peopleCount === "60+"}
-                    onChange={handleInputChange}
-                  />{" "}
-                  60+
-                </label>
-              </div>
+              <label htmlFor="peopleCount">No. of People</label>
+              <input
+                className="party-form-field"
+                type="number"
+                name="peopleCount"
+                id="peopleCount"
+                placeholder="Enter number of people"
+                min="1"
+                value={formData.peopleCount}
+                onChange={handleInputChange}
+                required
+              />
             </div>
 
             <input

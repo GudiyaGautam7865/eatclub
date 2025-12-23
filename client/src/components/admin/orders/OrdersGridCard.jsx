@@ -19,7 +19,7 @@ export default function OrdersGridCard({ order = {}, onClick }) {
     <div className="order-grid-card" onClick={onClick}>
       <div className="order-card-header">
         <span className="order-id">{order.id}</span>
-        <span className="order-type-badge">{order.type}</span>
+        <span className="order-type-badge">{(order.type || '').toString().toUpperCase()}</span>
       </div>
 
       <div className="order-card-status" style={{ backgroundColor: getStatusColor(order.status) }}>
@@ -37,6 +37,9 @@ export default function OrdersGridCard({ order = {}, onClick }) {
 
       <div className="order-card-footer">
         <span className="order-amount">₹{order.totalAmount ?? order.amount ?? '0'}</span>
+        {order.paymentMethod && (
+          <span className="order-payment">{(order.paymentMethod || '').toString().toUpperCase()}</span>
+        )}
         <span className="order-date">{order.orderDate ? new Date(order.orderDate).toLocaleDateString() : '—'}</span>
       </div>
     </div>

@@ -35,6 +35,7 @@ import AddMenuItemPage from "../pages/Admin/Menu/AddMenuItemPage";
 import MenuItemsListPage from "../pages/Admin/Menu/MenuItemsListPage";
 import SingleOrdersPage from "../pages/Admin/Orders/SingleOrdersPage";
 import BulkOrdersPage from "../pages/Admin/Orders/BulkOrdersPage";
+import BulkOrderDetailsPage from "../pages/Admin/Orders/BulkOrderDetailsPage";
 import OrdersPage from "../pages/Admin/OrdersPage";
 import OrderDetailsPage from "../pages/Admin/OrderDetailsPage";
 import MenuDetailPage from "../pages/Admin/MenuDetailPage";
@@ -44,6 +45,7 @@ import DeliveryBoyDetailsPage from "../pages/Admin/DeliveryBoys/DeliveryBoyDetai
 import MessagesPage from "../pages/Admin/Messages/MessagesPage";
 import CustomersListPage from "../pages/Admin/CustomersListPage";
 import CustomerDetailPage from "../pages/Admin/CustomerDetail/CustomerDetailPage";
+import AdminLoginPage from "../pages/Admin/Auth/AdminLoginPage";
 
 // Admin Protected Route
 import AdminProtectedRoute from "../components/admin/AdminProtectedRoute";
@@ -72,6 +74,8 @@ function AppRoutes() {
         <Route path="/food/:foodId" element={<FoodDetailPage />} />
         <Route path="/track-order/:orderId" element={<TrackOrderPage />} />
         <Route path="/delivery-app" element={<DeliveryApp />} />
+        {/* Admin login route (outside protected admin layout) */}
+        <Route path="/admin/login" element={<AdminLoginPage />} />
       </Route>
 
       {/* Profile layout with nested routes */}
@@ -112,6 +116,7 @@ function AppRoutes() {
           <Route path=":orderId" element={<OrderDetailsPage />} />
           <Route path="single" element={<SingleOrdersPage />} />
           <Route path="bulk" element={<BulkOrdersPage />} />
+          <Route path="bulk/:orderId" element={<BulkOrderDetailsPage />} />
         </Route>
 
         <Route path="reviews" element={<ReviewsPage />} />

@@ -1,28 +1,41 @@
 // Admin Authentication Service (Frontend Only - No Backend Calls)
+import apiClient from './apiClient.js';
 
 const ADMIN_AUTH_KEY = 'isAdminAuthenticated';
-const ADMIN_CREDENTIALS = {
-  username: 'admin',
-  password: '1260',
-};
 
 /**
- * Login with hard-coded credentials
- * @param {string} username 
+ * Login with backend authentication
+ * @param {string} email 
  * @param {string} password 
- * @returns {Object} { success: boolean, message?: string }
+ * @returns {Object} { success: boolean, message?: string, data?: object }
  */
-export const login = (username, password) => {
-  if (username === ADMIN_CREDENTIALS.username && password === ADMIN_CREDENTIALS.password) {
-    localStorage.setItem(ADMIN_AUTH_KEY, 'true');
-    localStorage.setItem('adminLoginTime', new Date().toISOString());
-    return { success: true };
+export const login = async (email, password) => {
+  try {
+    const response = await apiClient('/admin/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (response.success && response.data) {
+      // Store token and admin data
+      localStorage.setItem('ec_admin_token', response.data.token);
+      localStorage.setItem('ec_user', JSON.stringify(response.data.admin));
+      localStorage.setItem(ADMIN_AUTH_KEY, 'true');
+      localStorage.setItem('adminLoginTime', new Date().toISOString());
+      
+      return { success: true, data: response.data };
+    }
+
+    return {
+      success: false,
+      message: response.message || 'Login failed',
+    };
+  } catch (error) {
+    return {
+      success: false,
+      message: error.message || 'Invalid credentials',
+    };
   }
-  
-  return { 
-    success: false, 
-    message: 'Invalid username or password' 
-  };
 };
 
 /**
@@ -31,6 +44,8 @@ export const login = (username, password) => {
 export const logout = () => {
   localStorage.removeItem(ADMIN_AUTH_KEY);
   localStorage.removeItem('adminLoginTime');
+  localStorage.removeItem('ec_admin_token');
+  localStorage.removeItem('ec_user');
 };
 
 /**

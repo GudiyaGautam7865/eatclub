@@ -1,10 +1,36 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../../../context/UserContext';
 import './AdminTopbar.css';
 
 export default function AdminTopbar({ sidebarCollapsed }) {
   const navigate = useNavigate();
+  const { user } = useUserContext();
   const [searchQuery, setSearchQuery] = useState('');
+  const [profile, setProfile] = useState({ name: 'Admin', role: 'Administrator', avatarUrl: '' });
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    try {
+      const storedRaw = localStorage.getItem('ec_user');
+      const stored = storedRaw ? JSON.parse(storedRaw) : null;
+      const candidate = user?.role === 'ADMIN' ? user : stored?.role === 'ADMIN' ? stored : user || stored || {};
+      setProfile({
+        name: candidate.name || candidate.username || 'Admin',
+        role: candidate.role === 'ADMIN' ? 'Administrator' : candidate.role || 'Admin',
+        avatarUrl: candidate.avatar || candidate.avatarUrl || candidate.profileImage || candidate.image || candidate.photoUrl || '',
+      });
+    } catch {
+      setProfile((prev) => ({ ...prev, name: user?.name || prev.name }));
+    }
+  }, [user]);
+
+  const initials = (profile.name || 'A')
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((p) => p[0].toUpperCase())
+    .join('') || 'A';
 
   const handleProfileClick = () => {
     navigate('/admin/profile');
@@ -21,7 +47,7 @@ export default function AdminTopbar({ sidebarCollapsed }) {
         <div className="admin-topbar-search">
           <form className="search-form" onSubmit={handleSearch}>
             <div className="search-input-wrapper">
-              <svg className="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <svg className="search-icon" width="20" height="20" viewBox="10 10 24 24" fill="none">
                 <path d="M21 21L16.514 16.506L21 21ZM19 10.5C19 15.194 15.194 19 10.5 19C5.806 19 2 15.194 2 10.5C2 5.806 5.806 2 10.5 2C15.194 2 19 5.806 19 10.5Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
               <input
@@ -46,16 +72,19 @@ export default function AdminTopbar({ sidebarCollapsed }) {
           
           <div className="admin-profile" onClick={handleProfileClick}>
             <div className="profile-avatar">
-              <img 
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face&dpr=2" 
-                alt="Admin" 
-                onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex'; }}
-              />
-              <div className="profile-avatar-fallback">A</div>
+              {profile.avatarUrl && imageError ? (
+                <img 
+                  src={profile.avatarUrl}
+                  alt={profile.name}
+                  onError={() => setImageError(true)}
+                />
+              ) : (
+                <div className="profile-avatar-fallback">{initials}</div>
+              )}
             </div>
             <div className="profile-info">
-              <div className="profile-name">John Doe</div>
-              <div className="profile-role">Administrator</div>
+              <div className="profile-name">{profile.name}</div>
+              <div className="profile-role">{profile.role || 'Admin'}</div>
             </div>
             <svg className="profile-dropdown-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
               <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

@@ -22,17 +22,19 @@ export default function AdminLoginPage() {
     setError('');
     setIsLoading(true);
 
-    // Simulate slight delay for better UX
-    setTimeout(() => {
-      const result = login(username, password);
+    try {
+      const result = await login(username, password);
 
       if (result.success) {
         navigate('/admin/dashboard', { replace: true });
       } else {
-        setError(result.message);
+        setError(result.message || 'Login failed');
         setIsLoading(false);
       }
-    }, 500);
+    } catch (err) {
+      setError('An error occurred during login');
+      setIsLoading(false);
+    }
   };
 
   return (
