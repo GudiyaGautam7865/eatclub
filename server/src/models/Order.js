@@ -34,8 +34,12 @@ const orderSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['PLACED', 'PAID', 'PREPARING', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
+      enum: ['PLACED', 'ACCEPTED', 'PAID', 'PREPARING', 'READY', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
       default: 'PLACED',
+    },
+    acceptedAt: {
+      type: Date,
+      default: null,
     },
     deliveryStatus: {
       type: String,
@@ -49,6 +53,11 @@ const orderSchema = new mongoose.Schema(
         default: 'COD',
       },
       txId: String,
+    },
+    paymentStatus: {
+      type: String,
+      enum: ['PENDING', 'PAID', 'FAILED', 'REFUNDED', null],
+      default: null,
     },
     address: {
       line1: {
@@ -82,11 +91,39 @@ const orderSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // Cancellation fields
+    cancelledBy: {
+      type: String,
+      enum: ['USER', 'ADMIN', 'RESTAURANT', null],
+      default: null,
+    },
+    cancelledAt: {
+      type: Date,
+      default: null,
+    },
+    cancelReason: {
+      type: String,
+      default: null,
+    },
+    // Refund fields
+    refundPercentage: {
+      type: Number,
+      default: 0,
+    },
+    refundAmount: {
+      type: Number,
+      default: 0,
+    },
+    refundStatus: {
+      type: String,
+      enum: ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED', null],
+      default: null,
+    },
     statusHistory: [
       {
         status: {
           type: String,
-          enum: ['PLACED', 'PAID', 'PREPARING', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
+          enum: ['PLACED', 'ACCEPTED', 'PAID', 'PREPARING', 'READY', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY', 'DELIVERED', 'CANCELLED'],
         },
         deliveryStatus: {
           type: String,

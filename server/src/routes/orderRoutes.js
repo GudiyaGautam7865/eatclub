@@ -1,5 +1,5 @@
 import express from 'express';
-import { createOrder, getUserOrders } from '../controllers/orderController.js';
+import { createOrder, getUserOrders, cancelOrder } from '../controllers/orderController.js';
 import { authMiddleware } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
@@ -13,5 +13,8 @@ router.post('/', createOrder);
 
 // GET /api/orders/my - Get user's orders
 router.get('/my', getUserOrders);
+
+// POST /api/orders/:orderId/cancel - Cancel an order
+router.post('/:orderId/cancel', cancelOrder);
 
 export default router;
