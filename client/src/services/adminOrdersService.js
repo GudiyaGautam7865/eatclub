@@ -4,9 +4,13 @@ import apiClient from './apiClient.js';
  * Get all single orders (admin)
  * @returns {Array} Array of single orders
  */
-export async function getAdminSingleOrders() {
+export async function getAdminSingleOrders(params = {}) {
   try {
-    const response = await apiClient('/admin/orders/single', {
+    const query = new URLSearchParams({
+      page: params.page || 1,
+      limit: params.limit || 50,
+    }).toString();
+    const response = await apiClient(`/admin/orders/single?${query}`, {
       method: 'GET',
     });
     return response.data || [];
@@ -20,9 +24,13 @@ export async function getAdminSingleOrders() {
  * Get all bulk orders (admin)
  * @returns {Array} Array of bulk orders
  */
-export async function getAdminBulkOrders() {
+export async function getAdminBulkOrders(params = {}) {
   try {
-    const response = await apiClient('/admin/orders/bulk', {
+    const query = new URLSearchParams({
+      page: params.page || 1,
+      limit: params.limit || 50,
+    }).toString();
+    const response = await apiClient(`/admin/orders/bulk?${query}`, {
       method: 'GET',
     });
     return response.data || [];
@@ -105,6 +113,32 @@ export async function getAdminOrderById(orderId) {
     return response.data || response;
   } catch (error) {
     console.error('Get admin order by id error:', error);
+    throw error;
+  }
+}
+
+export async function approveBulkOrder(orderId, pricingData) {
+  try {
+    const response = await apiClient(`/admin/orders/bulk/${orderId}/approve`, {
+      method: 'POST',
+      body: JSON.stringify(pricingData),
+    });
+    return response.data || response;
+  } catch (error) {
+    console.error('Approve bulk order error:', error);
+    throw error;
+  }
+}
+
+export async function rejectBulkOrder(orderId, reason) {
+  try {
+    const response = await apiClient(`/admin/orders/bulk/${orderId}/reject`, {
+      method: 'POST',
+      body: JSON.stringify({ reason }),
+    });
+    return response.data || response;
+  } catch (error) {
+    console.error('Reject bulk order error:', error);
     throw error;
   }
 }

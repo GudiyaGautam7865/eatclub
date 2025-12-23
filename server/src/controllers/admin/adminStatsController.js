@@ -8,6 +8,10 @@ export const getDashboardStats = async (req, res) => {
     const now = new Date();
     const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const clientIp = (req.headers['x-forwarded-for'] || req.ip || req.socket?.remoteAddress || '')
+      .toString()
+      .split(',')[0]
+      .trim() || 'Unknown';
 
     // Total Orders
     const totalOrders = await Order.countDocuments();
@@ -163,6 +167,12 @@ export const getDashboardStats = async (req, res) => {
       });
     }
 
+    const requestMeta = {
+      serverTime: new Date(),
+      clientIp,
+      userAgent: req.headers['user-agent'] || 'Unknown',
+    };
+
     res.json({
       success: true,
       data: {
@@ -191,7 +201,8 @@ export const getDashboardStats = async (req, res) => {
           revenue: item.revenue
         })),
         ordersByStatus,
-        weeklyData
+        weeklyData,
+        requestMeta
       }
     });
   } catch (error) {

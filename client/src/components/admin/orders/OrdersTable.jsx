@@ -26,25 +26,27 @@ export default function OrdersTable({ orders, onRowClick }) {
             <th>Phone</th>
             <th>Items</th>
             <th>Amount</th>
+            <th>Payment</th>
             <th>Status</th>
             <th>Date</th>
           </tr>
         </thead>
         <tbody>
           {orders.map(order => (
-            <tr key={order.id} onClick={() => onRowClick(order.id)}>
+            <tr key={order.id} onClick={() => onRowClick(order.id, order.type)}>
               <td className="order-id-cell">{order.id}</td>
-              <td><span className="type-badge">{order.type}</span></td>
+              <td><span className="type-badge">{(order.type || '').toString().toUpperCase()}</span></td>
               <td>{order.customerName}</td>
               <td>{order.customerPhone}</td>
-              <td>{order.items.length}</td>
+              <td>{Array.isArray(order.items) ? order.items.length : (order.itemCount ?? 0)}</td>
               <td className="amount-cell">₹{order.totalAmount}</td>
+              <td><span className="payment-badge">{(order.paymentMethod || 'COD').toString().toUpperCase()}</span></td>
               <td>
                 <span className="status-badge" style={{ backgroundColor: getStatusColor(order.status) }}>
-                  {order.status}
+                  {(order.status || '').toString().toUpperCase()}
                 </span>
               </td>
-              <td>{new Date(order.orderDate).toLocaleDateString()}</td>
+              <td>{order.orderDate ? new Date(order.orderDate).toLocaleDateString() : '—'}</td>
             </tr>
           ))}
         </tbody>

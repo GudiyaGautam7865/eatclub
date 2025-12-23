@@ -18,43 +18,52 @@ export default function DeliveryBoyDetailsPage() {
         setError(null);
         const response = await getDeliveryBoyDetails(id);
         
-        // Transform the API response to match the component's data structure
+        // Transform the API response to match the component's data structure using real fields
+        const sumWeeklyEarnings = (weeks) => {
+          if (!Array.isArray(weeks)) return 0;
+          return weeks.reduce((sum, w) => sum + (typeof w === 'number' ? w : (w.amount ?? w.total ?? 0)), 0);
+        };
+
         const transformedData = {
-          id: response.profile.id,
-          name: response.profile.name,
-          phone: response.profile.phone,
-          email: response.profile.email,
-          vehicleType: response.profile.vehicleType,
-          vehicleNumber: response.profile.vehicleNumber,
-          status: response.profile.deliveryStatus,
-          rating: parseFloat(response.stats.averageRating),
-          totalDeliveries: response.stats.totalDeliveries,
-          totalEarnings: response.stats.totalEarnings,
-          currentMonthEarnings: response.stats.totalEarnings, // Can be calculated from weeklyEarnings
-          currentMonthDeliveries: response.stats.completedDeliveries,
-          joinedDate: new Date(response.profile.joiningDate).toLocaleDateString(),
-          lastActive: new Date().toISOString(),
-          address: 'N/A', // Add to backend if needed
-          emergencyContact: 'N/A', // Add to backend if needed
-          recentOrders: response.recentOrders.map(order => ({
-            id: order.orderId,
-            customer: order.customerName,
-            restaurant: order.restaurantName,
+          id: response?.profile?.id,
+          name: response?.profile?.name,
+          phone: response?.profile?.phone,
+          email: response?.profile?.email,
+          vehicleType: response?.profile?.vehicleType,
+          vehicleNumber: response?.profile?.vehicleNumber,
+          status: response?.profile?.deliveryStatus,
+          rating: Number(response?.stats?.averageRating ?? response?.performance?.averageRating ?? 0),
+          totalDeliveries: Number(response?.stats?.totalDeliveries ?? 0),
+          totalEarnings: Number(response?.stats?.totalEarnings ?? 0),
+          currentMonthEarnings: Number(
+            response?.stats?.currentMonthEarnings ?? sumWeeklyEarnings(response?.weeklyEarnings)
+          ),
+          currentMonthDeliveries: Number(response?.stats?.currentMonthDeliveries ?? 0),
+          joinedDate: response?.profile?.joiningDate ? new Date(response.profile.joiningDate).toLocaleDateString() : '—',
+          lastActive: response?.profile?.lastActive ?? response?.lastActive ?? null,
+          address: response?.profile?.address ?? response?.profile?.currentAddress ?? '—',
+          emergencyContact: response?.profile?.emergencyContact ?? '—',
+          recentOrders: Array.isArray(response?.recentOrders) ? response.recentOrders.map(order => ({
+            id: order.orderId ?? order.id,
+            customer: order.customerName ?? order.customer,
+            restaurant: order.restaurantName ?? order.restaurant,
             status: order.status,
-            amount: order.amount,
+            amount: Number(order.amount ?? 0),
             address: order.address,
-            time: formatTimeAgo(new Date(order.orderDate)),
+            time: order.orderDate ? formatTimeAgo(new Date(order.orderDate)) : '—',
             orderDate: order.orderDate,
             deliveredAt: order.deliveredAt
-          })),
-          weeklyEarnings: response.weeklyEarnings,
+          })) : [],
+          weeklyEarnings: response?.weeklyEarnings ?? [],
           performance: {
-            onTimeDeliveries: parseFloat(response.performance.onTimeDeliveryRate),
-            averageDeliveryTime: 28, // Add to backend if tracking
-            customerRatings: parseFloat(response.performance.averageRating),
-            totalRatings: response.performance.totalRatings,
-            totalDistance: response.performance.totalDistance
-          }
+            onTimeDeliveries: Number(response?.performance?.onTimeDeliveryRate ?? 0),
+            averageDeliveryTime: Number(response?.performance?.averageDeliveryTime ?? 0) || null,
+            customerRatings: Number(response?.performance?.averageRating ?? response?.stats?.averageRating ?? 0),
+            totalRatings: Number(response?.performance?.totalRatings ?? 0),
+            totalDistance: Number(response?.performance?.totalDistance ?? 0),
+            ratingBreakdown: response?.performance?.ratingBreakdown ?? null
+          },
+          pendingPayout: Number(response?.stats?.pendingPayout ?? 0)
         };
 
         setDeliveryBoy(transformedData);
@@ -167,7 +176,9 @@ export default function DeliveryBoyDetailsPage() {
           <div className="stat-content">
             <p className="stat-label">Total Deliveries</p>
             <h3 className="stat-value">{deliveryBoy.totalDeliveries.toLocaleString()}</h3>
-            <p className="stat-change">+{deliveryBoy.currentMonthDeliveries} this month</p>
+            {deliveryBoy.currentMonthDeliveries > 0 && (
+              <p className="stat-change">+{deliveryBoy.currentMonthDeliveries} this month</p>
+            )}
           </div>
         </div>
         <div className="stat-card">
@@ -182,8 +193,7 @@ export default function DeliveryBoyDetailsPage() {
           <div className="stat-icon">⚡</div>
           <div className="stat-content">
             <p className="stat-label">Avg. Delivery Time</p>
-            <h3 className="stat-value">{deliveryBoy.performance.averageDeliveryTime} min</h3>
-            <p className="stat-change success">12% faster than average</p>
+            <h3 className="stat-value">{deliveryBoy.performance.averageDeliveryTime ? `${deliveryBoy.performance.averageDeliveryTime} min` : '—'}</h3>
           </div>
         </div>
         <div className="stat-card">
@@ -191,7 +201,6 @@ export default function DeliveryBoyDetailsPage() {
           <div className="stat-content">
             <p className="stat-label">On-Time Rate</p>
             <h3 className="stat-value">{deliveryBoy.performance.onTimeDeliveries}%</h3>
-            <p className="stat-change success">Excellent performance</p>
           </div>
         </div>
       </div>
@@ -322,10 +331,12 @@ export default function DeliveryBoyDetailsPage() {
                   <span className="earnings-label">Average per Delivery</span>
                   <span className="earnings-value">₹{Math.round(deliveryBoy.totalEarnings / deliveryBoy.totalDeliveries)}</span>
                 </div>
-                <div className="earnings-row">
-                  <span className="earnings-label">Pending Payout</span>
-                  <span className="earnings-value pending">₹2,450</span>
-                </div>
+                {deliveryBoy.pendingPayout > 0 && (
+                  <div className="earnings-row">
+                    <span className="earnings-label">Pending Payout</span>
+                    <span className="earnings-value pending">₹{deliveryBoy.pendingPayout.toLocaleString()}</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -341,36 +352,26 @@ export default function DeliveryBoyDetailsPage() {
                 </div>
                 <p className="db-metric-value">{deliveryBoy.performance.onTimeDeliveries}%</p>
               </div>
-              <div className="db-metric-card">
-                <h4 className="db-metric-title">Customer Ratings</h4>
-                <div className="db-rating-breakdown">
-                  <div className="db-rating-bar">
-                    <span>5 ⭐</span>
-                    <div className="db-bar"><div className="db-fill" style={{ width: '75%' }}></div></div>
-                    <span>75%</span>
-                  </div>
-                  <div className="db-rating-bar">
-                    <span>4 ⭐</span>
-                    <div className="db-bar"><div className="db-fill" style={{ width: '20%' }}></div></div>
-                    <span>20%</span>
-                  </div>
-                  <div className="db-rating-bar">
-                    <span>3 ⭐</span>
-                    <div className="db-bar"><div className="db-fill" style={{ width: '4%' }}></div></div>
-                    <span>4%</span>
-                  </div>
-                  <div className="db-rating-bar">
-                    <span>2 ⭐</span>
-                    <div className="db-bar"><div className="db-fill" style={{ width: '1%' }}></div></div>
-                    <span>1%</span>
-                  </div>
-                  <div className="db-rating-bar">
-                    <span>1 ⭐</span>
-                    <div className="db-bar"><div className="db-fill" style={{ width: '0%' }}></div></div>
-                    <span>0%</span>
+              {deliveryBoy.performance.ratingBreakdown && (
+                <div className="db-metric-card">
+                  <h4 className="db-metric-title">Customer Ratings</h4>
+                  <div className="db-rating-breakdown">
+                    {[5,4,3,2,1].map((star) => {
+                      const percent = Number(
+                        deliveryBoy.performance.ratingBreakdown[star] ??
+                        deliveryBoy.performance.ratingBreakdown[String(star)] ?? 0
+                      );
+                      return (
+                        <div className="db-rating-bar" key={star}>
+                          <span>{star} ⭐</span>
+                          <div className="db-bar"><div className="db-fill" style={{ width: `${percent}%` }}></div></div>
+                          <span>{percent}%</span>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         )}

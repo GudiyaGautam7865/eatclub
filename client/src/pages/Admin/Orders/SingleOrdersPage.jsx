@@ -1,18 +1,39 @@
 import React, { useState, useEffect } from 'react';
 import OrdersTable from '../../../components/admin/tables/OrdersTable';
-import { getSingleOrders } from '../../../services/singleOrdersService';
+import { getAdminSingleOrders } from '../../../services/adminOrdersService';
 import './SingleOrdersPage.css';
 
 export default function SingleOrdersPage() {
   const [orders, setOrders] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(20);
+  const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterDate, setFilterDate] = useState('all');
 
-  // Load orders from localStorage on mount
+  // Load orders from admin API
   useEffect(() => {
-    const loadedOrders = getSingleOrders();
-    setOrders(loadedOrders);
-  }, []);
+    const load = async () => {
+      try {
+        setLoading(true);
+        const data = await getAdminSingleOrders({ page, limit: pageSize });
+        // data is an array of orders with limited fields; normalize for table
+        const mapped = (Array.isArray(data) ? data : []).map(o => ({
+          id: o._id || o.id,
+          totalAmount: o.total ?? o.amount ?? 0,
+          items: Array.isArray(o.items) ? o.items : [],
+          itemsCount: Array.isArray(o.items) ? o.items.reduce((sum, i) => sum + (i.qty || i.quantity || 0), 0) : (o.itemsCount ?? 0),
+          paymentMethod: (o.payment && o.payment.method ? o.payment.method : 'COD'),
+          date: o.createdAt || o.orderDate || o.date,
+          status: (o.status || '').toUpperCase(),
+        }));
+        setOrders(mapped);
+      } finally {
+        setLoading(false);
+      }
+    };
+    load();
+  }, [page, pageSize]);
 
   // Filter orders based on status
   const filteredOrders = orders.filter((order) => {
@@ -32,6 +53,13 @@ export default function SingleOrdersPage() {
     }
 
     return true;
+  });
+
+  // Simple sorting: newest first
+  const sortedOrders = [...filteredOrders].sort((a, b) => {
+    const ad = a.date ? new Date(a.date).getTime() : 0;
+    const bd = b.date ? new Date(b.date).getTime() : 0;
+    return bd - ad;
   });
 
   // Calculate statistics
@@ -109,10 +137,14 @@ export default function SingleOrdersPage() {
       </div>
 
       {/* Table */}
-      <OrdersTable type="single" orders={filteredOrders} />
+      {loading ? (
+        <div className="single-orders-empty">Loading orders…</div>
+      ) : (
+        <OrdersTable type="single" orders={sortedOrders} />
+      )}
 
       {/* Empty State */}
-      {filteredOrders.length === 0 && (
+      {!loading && sortedOrders.length === 0 && (
         <div className="single-orders-empty">
           <p>No orders found. Orders placed by users will appear here.</p>
         </div>

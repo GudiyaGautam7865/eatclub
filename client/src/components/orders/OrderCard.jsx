@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import OrderStatusBadge from './OrderStatusBadge';
 import CancelOrderModal from './CancelOrderModal';
 import { cancelOrder as cancelOrderAPI } from '../../services/ordersService';
+import { getOrderTypeBadge } from '../../utils/orderUtils';
 import './OrderCard.css';
 
 function formatDateTime(isoString) {
@@ -38,19 +39,28 @@ export default function OrderCard({ order, onOrderUpdate }) {
     acceptedAt,
     refundStatus,
     refundAmount,
+    orderType,
+    bulkDetails,
   } = order;
 
+  const isBulk = orderType === 'BULK';
+  const typeBadge = getOrderTypeBadge(orderType);
+
   const isOngoing =
-    status === 'PLACED' || status === 'ACCEPTED' || status === 'PREPARING' || 
-    status === 'READY' || status === 'OUT_FOR_DELIVERY' || status === 'PAID';
+    status === 'REQUESTED' || status === 'ACCEPTED' || status === 'PAYMENT_PENDING' || 
+    status === 'PAID' || status === 'SCHEDULED' || status === 'ASSIGNED' ||
+    status === 'PLACED' || status === 'PREPARING' || 
+    status === 'READY' || status === 'OUT_FOR_DELIVERY';
   const isDelivered = status === 'DELIVERED';
-  const isCancelled = status === 'CANCELLED';
+  const isCancelled = status === 'CANCELLED' || status === 'REJECTED';
 
   // Determine date/time string
   const dateTimeString = isDelivered
     ? `Delivered on ${formatDateTime(deliveredAt)}`
     : isCancelled
-    ? `Cancelled on ${formatDateTime(order.cancelledAt || placedAt)}`
+    ? `${status === 'REJECTED' ? 'Rejected' : 'Cancelled'} on ${formatDateTime(order.cancelledAt || placedAt)}`
+    : isBulk && bulkDetails?.scheduledDate
+    ? `Scheduled: ${new Date(bulkDetails.scheduledDate).toLocaleDateString()}`
     : `Placed on ${formatDateTime(placedAt)}`;
 
   const handleCancelClick = () => {
@@ -88,13 +98,36 @@ export default function OrderCard({ order, onOrderUpdate }) {
   };
 
   return (
-    <div className="order-card">
+    <div className="order-card" onClick={() => {
+      if (isBulk) {
+        navigate(`/bulk-orders/${id}`);
+      } else {
+        navigate(`/track-order/${id}`);
+      }
+    }} style={{ cursor: 'pointer' }}>
       {/* Top Row */}
       <div className="order-card-top">
-        <h3 className="order-card-restaurant">{restaurantName}</h3>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <h3 className="order-card-restaurant">{restaurantName}</h3>
+          <span 
+            className="order-type-badge" 
+            style={{ 
+              background: typeBadge.bg, 
+              color: typeBadge.color,
+              padding: '4px 10px',
+              borderRadius: '12px',
+              fontSize: '11px',
+              fontWeight: '600'
+            }}
+          >
+            {typeBadge.icon} {typeBadge.label}
+          </span>
+        </div>
         <div className="order-card-top-right">
           <OrderStatusBadge status={status} />
-          <span className="order-card-amount">₹{totalAmount}</span>
+          <span className="order-card-amount">
+            {(isBulk && status === 'REQUESTED') || totalAmount === 0 ? 'Pricing Pending' : status === 'PAYMENT_PENDING' ? 'Pending' : `₹${totalAmount}`}
+          </span>
         </div>
       </div>
 
@@ -120,32 +153,49 @@ export default function OrderCard({ order, onOrderUpdate }) {
       </div>
 
       {/* Actions */}
-      <div className="order-card-actions">
-        {isOngoing && !isCancelled && (
+      <div className="order-card-actions" onClick={(e) => e.stopPropagation()}>
+        {isOngoing && !isCancelled && !isBulk && (
           <>
             <button 
               className="order-btn-primary"
-              onClick={() => navigate(`/track-order/${id}`)}
+              onClick={(e) => {
+                e.stopPropagation();
+                navigate(`/track-order/${id}`);
+              }}
             >
               Track Order
             </button>
             <button 
               className="order-btn-secondary"
-              onClick={handleCancelClick}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleCancelClick();
+              }}
               disabled={cancelling}
             >
               {cancelling ? 'Cancelling...' : 'Cancel Order'}
             </button>
           </>
         )}
-        {isDelivered && (
+        {isBulk && (
+          <button 
+            className="order-btn-primary"
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/bulk-orders/${id}`);
+            }}
+          >
+            View Details
+          </button>
+        )}
+        {isDelivered && !isBulk && (
           <>
             <button className="order-btn-primary">Reorder</button>
             <button className="order-btn-secondary">View Invoice</button>
             <button className="order-btn-text">Need help?</button>
           </>
         )}
-        {isCancelled && (
+        {isCancelled && !isBulk && (
           <button className="order-btn-primary">Order Again</button>
         )}
       </div>

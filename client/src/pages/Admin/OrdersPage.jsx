@@ -30,12 +30,13 @@ export default function OrdersPage() {
         return {
           id: order._id || order.id || '',
           type: typeof order.isBulk === 'boolean' ? (order.isBulk ? 'bulk' : 'single') : (isBulkFallback ? 'bulk' : 'single'),
-          customerName: order.address?.name || order.customerName || order.user?.name || '—',
-          customerPhone: order.address?.phone || order.customerPhone || order.user?.phone || '—',
+          customerName: order.name || order.user?.name || order.address?.name || order.customerName || '—',
+          customerPhone: order.phone || order.user?.phoneNumber || order.user?.phone || order.address?.phone || order.customerPhone || '—',
           orderDate: order.createdAt || order.orderDate || order.date || null,
           totalAmount: order.total ?? order.amount ?? 0,
           items: Array.isArray(order.items) ? order.items : (order.itemsList || []),
           status: (order.status || '').toUpperCase(),
+          paymentMethod: (order.payment && order.payment.method ? order.payment.method : null),
           raw: order,
         };
       };
@@ -92,8 +93,12 @@ export default function OrdersPage() {
     setFilteredOrders(filtered);
   };
 
-  const handleOrderClick = (orderId) => {
-    navigate(`/admin/orders/${orderId}`);
+  const handleOrderClick = (orderId, orderType) => {
+    if (orderType === 'bulk') {
+      navigate(`/admin/orders/bulk/${orderId}`);
+    } else {
+      navigate(`/admin/orders/${orderId}`);
+    }
   };
 
   if (loading) {
@@ -130,14 +135,14 @@ export default function OrdersPage() {
             <OrdersGridCard
               key={order.id}
               order={order}
-              onClick={() => handleOrderClick(order.id)}
+              onClick={() => handleOrderClick(order.id, order.type)}
             />
           ))}
         </div>
       ) : (
         <OrdersTable
           orders={filteredOrders}
-          onRowClick={handleOrderClick}
+          onRowClick={(orderId, orderType) => handleOrderClick(orderId, orderType)}
         />
       )}
 

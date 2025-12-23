@@ -27,15 +27,15 @@
   font-size: 1.1rem;
 }
 
-.edit-btn {
-  background-color: #fff;
-  color: #000;
-  border: none;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin: 70px;
+.edit-btn  {
+  background-color: #fff !important;
+  color: #000 !important;
+  border: none !important;
+  border-radius: 4px  !important;
+  font-weight: bold !important;
+  cursor: pointer !important;
+  transition: background-color 0.3s !important;
+  margin: 70px 0 0 20px !important;
 }
 
 .edit-btn:hover {

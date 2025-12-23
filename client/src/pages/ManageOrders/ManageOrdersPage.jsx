@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OrderCard from '../../components/orders/OrderCard';
 import { getOrders, getMyOrders } from '../../services/ordersService.js';
+import { getUserBulkOrders } from '../../services/bulkOrdersService.js';
+import { getOrderTypeBadge } from '../../utils/orderUtils.js';
 import './ManageOrdersPage.css';
 
 function EmptyState({ activeTab }) {
@@ -34,7 +36,10 @@ export default function ManageOrdersPage() {
   const [orders, setOrders] = useState([]);
 
   const mapOrder = (o) => {
-    const itemSummary = Array.isArray(o.items)
+    const isBulk = o.orderType === 'BULK' || o.isBulk;
+    const itemSummary = isBulk && o.bulkDetails
+      ? `${o.bulkDetails.peopleCount} people • ${o.bulkDetails.eventName || 'Event'}`
+      : Array.isArray(o.items)
       ? o.items.map(i => `${i.qty}x ${i.name}`).join(', ')
       : '';
     const addressShort = o?.address?.line1
@@ -43,7 +48,7 @@ export default function ManageOrdersPage() {
     const statusNormalized = (o.status || '').toUpperCase();
     return {
       id: o._id || o.id,
-      restaurantName: 'EatClub',
+      restaurantName: isBulk ? (o.bulkDetails?.eventType || 'Bulk Order') : 'EatClub',
       status: statusNormalized,
       deliveryStatus: (o.deliveryStatus || '').toUpperCase(),
       totalAmount: o.total,
@@ -55,6 +60,8 @@ export default function ManageOrdersPage() {
       paymentStatus: o.paymentStatus,
       refundStatus: o.refundStatus,
       refundAmount: o.refundAmount,
+      orderType: o.orderType || (o.isBulk ? 'BULK' : 'SINGLE'),
+      bulkDetails: o.bulkDetails,
     };
   };
 
@@ -62,16 +69,21 @@ export default function ManageOrdersPage() {
   const loadOrders = async () => {
     try {
       setLoading(true);
-      const remote = await getMyOrders();
-      if (Array.isArray(remote)) {
-        setOrders(remote.map(mapOrder));
-      } else if (Array.isArray(remote?.data)) {
-        setOrders(remote.data.map(mapOrder));
-      } else {
-        setOrders([]);
-      }
+      const [singleOrders, bulkOrders] = await Promise.all([
+        getMyOrders().catch(() => []),
+        getUserBulkOrders().catch(() => [])
+      ]);
+      
+      const single = Array.isArray(singleOrders) ? singleOrders : (singleOrders?.data || []);
+      const bulk = Array.isArray(bulkOrders) ? bulkOrders : (bulkOrders?.data || []);
+      
+      const allOrders = [
+        ...single.map(o => ({ ...o, orderType: o.orderType || 'SINGLE' })),
+        ...bulk.map(o => ({ ...o, orderType: o.orderType || 'BULK' }))
+      ].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      
+      setOrders(allOrders.map(mapOrder));
     } catch (err) {
-      // fallback to local orders store for development
       const local = getOrders();
       setOrders(local);
     } finally {
@@ -84,7 +96,7 @@ export default function ManageOrdersPage() {
   }, []);
 
   // Filter orders
-  const ongoingStatuses = ['PLACED', 'ACCEPTED', 'PAID', 'PREPARING', 'READY', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY'];
+  const ongoingStatuses = ['REQUESTED', 'ACCEPTED', 'PAYMENT_PENDING', 'PAID', 'SCHEDULED', 'ASSIGNED', 'PLACED', 'PREPARING', 'READY', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY'];
   const ongoingOrders = orders.filter((order) =>
     ongoingStatuses.includes(order.status)
   );

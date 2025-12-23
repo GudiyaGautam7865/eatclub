@@ -1,4 +1,5 @@
 import Order from '../models/Order.js';
+import { ORDER_STATUS, ORDER_TYPE } from '../constants/orderStatus.js';
 
 /**
  * Create a new order
@@ -36,6 +37,7 @@ export const createOrder = async (req, res) => {
 
     const order = await Order.create({
       user: (req.user && (req.user.id || req.user._id)) || userFromBody,
+      orderType: ORDER_TYPE.SINGLE,
       items,
       total,
       status,

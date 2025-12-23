@@ -14,12 +14,122 @@
   background: #fff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  padding: 10px 16px;
+.db-order-details {
+.order-details-header {
+.db-order-details-header {
+.back-btn {
+.db-back-btn {
+.order-info {
+.db-order-info {
+.order-info h1 {
+.db-order-info h1 {
+.order-status-badge {
+.db-order-status-badge {
+.order-status-badge.assigned { background: #fbbf24; color: #78350f; }
+.db-order-status-badge.db-assigned { background: #fbbf24; color: #78350f; }
+.order-status-badge.picked_up { background: #38bdf8; color: #0b4f6c; }
+.db-order-status-badge.db-picked_up { background: #38bdf8; color: #0b4f6c; }
+.order-status-badge.on_the_way { background: #c4b5fd; color: #5b21b6; }
+.db-order-status-badge.db-on_the_way { background: #c4b5fd; color: #5b21b6; }
+.order-status-badge.delivered { background: #34d399; color: #065f46; }
+.db-order-status-badge.db-delivered { background: #34d399; color: #065f46; }
+.order-status-badge.cancelled { background: #e5e7eb; color: #4b5563; }
+.db-order-status-badge.db-cancelled { background: #e5e7eb; color: #4b5563; }
   cursor: pointer;
   font-size: 14px;
   color: #666;
   transition: all 0.2s ease;
 }
+.order-details-content {
+.db-order-details-content {
+.main-content {
+.db-main-content {
+.customer-section h3,
+.db-customer-section h3,
+.locations-section h3,
+.db-locations-section h3,
+.order-items-section h3 {
+.db-order-items-section h3 {
+.info-card {
+.db-info-card {
+.customer-info h4 {
+.db-customer-info h4 {
+.customer-info p {
+.db-customer-info p {
+.call-btn {
+.db-call-btn {
+.call-btn.small {
+.db-call-btn.db-small {
+.map-btn {
+.db-map-btn {
+.map-btn.small {
+.db-map-btn.db-small {
+.locations-section {
+.db-locations-section {
+.location-card {
+.db-location-card {
+.location-card.pickup {
+.db-location-card.db-pickup {
+.location-card.delivery {
+.db-location-card.db-delivery {
+.location-header {
+.db-location-header {
+.location-icon {
+.db-location-icon {
+.restaurant-name {
+.db-restaurant-name {
+.customer-name {
+.db-customer-name {
+.address {
+.db-address {
+.location-actions {
+.db-location-actions {
+.order-items-section {
+.db-order-items-section {
+.items-list {
+.db-items-list {
+.item-row {
+.db-item-row {
+.item-info {
+.db-item-info {
+.item-name {
+.db-item-name {
+.item-qty {
+.db-item-qty {
+.item-price {
+.db-item-price {
+.sidebar {
+.db-sidebar {
+.order-summary {
+.db-order-summary {
+.order-summary h3 {
+.db-order-summary h3 {
+.summary-row {
+.db-summary-row {
+.summary-row.total {
+.db-summary-row.db-total {
+.payment-mode {
+.db-payment-mode {
+.payment-badge {
+.db-payment-badge {
+.payment-badge.online {
+.db-payment-badge.db-online {
+.payment-badge.cod {
+.db-payment-badge.db-cod {
+.action-section {
+.db-action-section {
+.primary-action-btn {
+.db-primary-action-btn {
+.completed-section {
+.db-completed-section {
+.completed-badge {
+.db-completed-badge {
+.order-not-found {
+.db-order-not-found {
+.order-not-found h2 {
+.db-order-not-found h2 {
+.order-not-found button {
+.db-order-not-found button {
 
 .back-btn:hover {
   background: #f5f5f5;
@@ -48,6 +158,34 @@
 }
 
 .order-status-badge.assigned { background: #fbbf24; color: #78350f; }
+@media (max-width: 768px) {
+  .db-order-details-content {
+    grid-template-columns: 1fr;
+  }
+  
+  .db-order-details-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .db-order-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .db-location-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .db-call-btn.db-small,
+  .db-map-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
 .order-status-badge.picked_up { background: #38bdf8; color: #0b4f6c; }
 .order-status-badge.on_the_way { background: #c4b5fd; color: #5b21b6; }
 .order-status-badge.delivered { background: #34d399; color: #065f46; }
@@ -67,6 +205,25 @@
 
 .customer-section h3,
 .locations-section h3,
+@media (max-width: 480px) {
+  .db-info-card {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+  
+  .db-call-btn {
+    width: 100%;
+  }
+  
+  .db-address {
+    padding-left: 0;
+  }
+  
+  .db-location-actions {
+    padding-left: 0;
+  }
+}
 .order-items-section h3 {
   margin: 0 0 16px 0;
   font-size: 18px;

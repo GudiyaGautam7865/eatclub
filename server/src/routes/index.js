@@ -2,8 +2,10 @@ import express from 'express';
 import orderRoutes from './orderRoutes.js';
 import bulkOrderRoutes from './bulkOrderRoutes.js';
 import adminOrderRoutes from './admin/adminOrderRoutes.js';
+import adminBulkOrderRoutes from './admin/bulkOrderRoutes.js';
 import adminStatsRoutes from './admin/adminStatsRoutes.js';
 import restaurantRoutes from './restaurantRoutes.js';
+import { adminMiddleware } from '../middleware/adminMiddleware.js';
 
 const router = express.Router();
 
@@ -11,6 +13,7 @@ const router = express.Router();
 router.use('/orders', orderRoutes);
 router.use('/bulk-orders', bulkOrderRoutes);
 router.use('/admin/orders', adminOrderRoutes);
+router.use('/admin/bulk-orders', adminMiddleware, adminBulkOrderRoutes);
 router.use('/admin/stats', adminStatsRoutes);
 router.use('/', restaurantRoutes);
 
