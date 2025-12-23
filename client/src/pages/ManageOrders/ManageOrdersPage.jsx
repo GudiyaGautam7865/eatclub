@@ -51,34 +51,40 @@ export default function ManageOrdersPage() {
       placedAt: o.createdAt,
       deliveredAt: o.status === 'DELIVERED' ? o.updatedAt : null,
       addressShort,
+      acceptedAt: o.acceptedAt,
+      paymentStatus: o.paymentStatus,
+      refundStatus: o.refundStatus,
+      refundAmount: o.refundAmount,
     };
   };
 
   // Load orders from backend; fall back to local store if needed
-  useEffect(() => {
-    (async () => {
-      try {
-        setLoading(true);
-        const remote = await getMyOrders();
-        if (Array.isArray(remote)) {
-          setOrders(remote.map(mapOrder));
-        } else if (Array.isArray(remote?.data)) {
-          setOrders(remote.data.map(mapOrder));
-        } else {
-          setOrders([]);
-        }
-      } catch (err) {
-        // fallback to local orders store for development
-        const local = getOrders();
-        setOrders(local);
-      } finally {
-        setLoading(false);
+  const loadOrders = async () => {
+    try {
+      setLoading(true);
+      const remote = await getMyOrders();
+      if (Array.isArray(remote)) {
+        setOrders(remote.map(mapOrder));
+      } else if (Array.isArray(remote?.data)) {
+        setOrders(remote.data.map(mapOrder));
+      } else {
+        setOrders([]);
       }
-    })();
+    } catch (err) {
+      // fallback to local orders store for development
+      const local = getOrders();
+      setOrders(local);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadOrders();
   }, []);
 
   // Filter orders
-  const ongoingStatuses = ['PLACED', 'PAID', 'PREPARING', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY'];
+  const ongoingStatuses = ['PLACED', 'ACCEPTED', 'PAID', 'PREPARING', 'READY', 'READY_FOR_PICKUP', 'OUT_FOR_DELIVERY'];
   const ongoingOrders = orders.filter((order) =>
     ongoingStatuses.includes(order.status)
   );
@@ -124,7 +130,7 @@ export default function ManageOrdersPage() {
         ) : (
           <div className="mo-orders-list">
             {displayOrders.map((order) => (
-              <OrderCard key={order.id} order={order} />
+              <OrderCard key={order.id} order={order} onOrderUpdate={loadOrders} />
             ))}
           </div>
         )}

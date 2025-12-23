@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../services/authService';
 import './DeliveryProfile.css';
+import './DeliveryProfileHeader.css';
 
 const DeliveryProfile = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const DeliveryProfile = () => {
           totalDeliveries: 127,
           joinedDate: new Date('2024-01-01'),
           isOnline: true,
-          profilePhoto: `https://via.placeholder.com/100/ff6b35/ffffff?text=${user.name.charAt(0)}`,
+          profilePhoto: `https://ui-avatars.com/api/?name=${encodeURIComponent(user.name)}&background=6366f1&color=fff&size=100`,
         };
         setPartner(partnerData);
         setFormData({
@@ -83,30 +84,27 @@ const DeliveryProfile = () => {
 
   return (
     <div className="delivery-profile">
-      <div className="profile-header">
-        <div className="profile-avatar">
+      <div className="delivery-profile-header">
+        <div className="delivery-profile-avatar">
           <img 
             src={partner.profilePhoto} 
             alt={partner.name}
             onError={(e) => {
-              e.target.src = 'https://via.placeholder.com/100/ff6b35/ffffff?text=' + partner.name.charAt(0);
+              e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(partner.name)}&background=6366f1&color=fff&size=100`;
             }}
           />
-          <div className="online-indicator">
-            <span className={`status-dot ${partner.isOnline ? 'online' : 'offline'}`}></span>
-          </div>
         </div>
         
-        <div className="profile-info">
+        <div className="delivery-profile-info">
           <h1>{partner.name}</h1>
-          <p className="partner-id">ID: {partner.id}</p>
-          <div className="rating-badge">
+          <p className="delivery-partner-id">ID: {partner.id}</p>
+          <div className="delivery-rating-badge">
             ⭐ {partner.rating} Rating
           </div>
         </div>
 
         <button 
-          className="edit-profile-btn"
+          className="delivery-edit-profile-btn"
           onClick={() => setIsEditing(!isEditing)}
         >
           {isEditing ? 'Cancel' : 'Edit Profile'}

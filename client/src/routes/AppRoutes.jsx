@@ -56,6 +56,8 @@ import DeliveryOrders from "../pages/Delivery/DeliveryOrders";
 import OrderDetails from "../pages/Delivery/OrderDetails";
 import DeliveryEarnings from "../pages/Delivery/DeliveryEarnings";
 import DeliveryProfile from "../pages/Delivery/DeliveryProfile";
+import DeliverySearch from "../pages/Delivery/DeliverySearch";
+import DeliveryNotifications from "../pages/Delivery/DeliveryNotifications";
 
 
 function AppRoutes() {
@@ -139,6 +141,8 @@ function AppRoutes() {
         <Route path="orders/:orderId" element={<OrderDetails />} />
         <Route path="earnings" element={<DeliveryEarnings />} />
         <Route path="profile" element={<DeliveryProfile />} />
+        <Route path="search" element={<DeliverySearch />} />
+        <Route path="notifications" element={<DeliveryNotifications />} />
       </Route>
 
       {/* 404 */}

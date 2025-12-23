@@ -97,6 +97,25 @@ export const getOrderTracking = async (orderId) => {
   }
 };
 
+/**
+ * Cancel an order
+ * @param {string} orderId - Order ID to cancel
+ * @param {string} cancelReason - Optional reason for cancellation
+ * @returns {Object} Response with success status and refund details
+ */
+export const cancelOrder = async (orderId, cancelReason = '') => {
+  try {
+    const response = await apiClient(`/orders/${orderId}/cancel`, {
+      method: 'POST',
+      body: JSON.stringify({ cancelReason }),
+    });
+    return response;
+  } catch (error) {
+    console.error('Cancel order error:', error);
+    throw error;
+  }
+};
+
 export default {
   createOrderFromCart,
   getMyOrders,
@@ -104,4 +123,5 @@ export default {
   addOrder,
   clearOrders,
   getOrderTracking,
+  cancelOrder,
 };
