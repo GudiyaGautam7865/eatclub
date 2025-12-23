@@ -44,7 +44,7 @@ const DeliveryDashboard = () => {
     <div className="delivery-dashboard">
       <div className="dashboard-header">
         <div className="welcome-section">
-          <h1>Welcome back, {partner.name}!</h1>
+          <h1>Welcome back, {partner.name}</h1>
           <p>Here's your delivery summary for today</p>
         </div>
         
@@ -68,7 +68,7 @@ const DeliveryDashboard = () => {
           title="Total Deliveries"
           value={stats.totalDeliveries}
           icon="📦"
-          color="#2196f3"
+          color="#6366f1"
           subtitle="Today"
         />
         
@@ -76,23 +76,23 @@ const DeliveryDashboard = () => {
           title="Pending Orders"
           value={stats.pendingDeliveries}
           icon="⏳"
-          color="#ff9800"
+          color="#f59e0b"
           subtitle="Awaiting pickup"
         />
         
         <StatsCard
           title="Completed"
-          value={stats.completedDeliveries}
+          value={stats.completedToday}
           icon="✅"
-          color="#4caf50"
+          color="#10b981"
           subtitle="Successfully delivered"
         />
         
         <StatsCard
           title="Earnings Today"
-          value={`₹${stats.earningsToday}`}
+          value={`₹${stats.earnings}`}
           icon="💰"
-          color="#9c27b0"
+          color="#8b5cf6"
           subtitle="Total earned"
         />
       </div>
@@ -103,15 +103,15 @@ const DeliveryDashboard = () => {
           <div className="performance-stats">
             <div className="perf-item">
               <span className="perf-label">Distance Covered</span>
-              <span className="perf-value">{stats.totalDistance} km</span>
+              <span className="perf-value">45.2 km</span>
             </div>
             <div className="perf-item">
               <span className="perf-label">Average Rating</span>
-              <span className="perf-value">⭐ {partner.rating}</span>
+              <span className="perf-value">⭐ {stats.rating}</span>
             </div>
             <div className="perf-item">
               <span className="perf-label">Total Deliveries</span>
-              <span className="perf-value">{partner.totalDeliveries}</span>
+              <span className="perf-value">{stats.totalDeliveries}</span>
             </div>
           </div>
         </div>
@@ -119,17 +119,17 @@ const DeliveryDashboard = () => {
         <div className="quick-actions">
           <h3>Quick Actions</h3>
           <div className="action-buttons">
-            <button className="action-btn">
-              <span className="action-icon">📱</span>
+            <button className="action-btn support">
+              <span className="action-icon">📞</span>
               <span>Contact Support</span>
             </button>
-            <button className="action-btn">
-              <span className="action-icon">🗺️</span>
-              <span>View Map</span>
+            <button className="action-btn orders">
+              <span className="action-icon">📋</span>
+              <span>View Orders</span>
             </button>
-            <button className="action-btn">
+            <button className="action-btn earnings">
               <span className="action-icon">📊</span>
-              <span>View Reports</span>
+              <span>View Earnings</span>
             </button>
           </div>
         </div>
